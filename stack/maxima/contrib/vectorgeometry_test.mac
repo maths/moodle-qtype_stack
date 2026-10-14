@@ -27,7 +27,7 @@ load("vectorgeometry.mac");
 
 s_test_case(linear_combinationp(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),true);
 s_test_case(linear_combinationp(matrix([1+t+s],[2+t],[3+t+s])),true);
-s_test_case(linear_combinationp(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1)),true);
+s_test_case(linear_combinationp(column_vector(1,2,3) + t*column_vector(1,1,1) + s*column_vector(1,0,1)),true);
 s_test_case(linear_combinationp(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s^2*matrix([1],[0],[1])),false);
 
 _test_paramvec: matrix([t+3*s-4],[2*t+5]);
@@ -36,8 +36,8 @@ s_test_case(constant_term(matrix([1, 2+a], [b, 4])), matrix([1,2],[0,4]));
 s_test_case_simp(constant_term(2*x-3*y+z-1), -1);
 s_test_case_simp(constant_term(2*x-3*y+z-1, [y]), -(3*y)-1);
 s_test_case_simp(constant_term(a*b*c-1), -1);
-s_test_case_simp(constant_term(c(2*x-3, y)), matrix([-3], [0]));
-s_test_case_simp(constant_term(r(2*x-3, y)), matrix([-3, 0]));
+s_test_case_simp(constant_term(column_vector(2*x-3, y)), matrix([-3], [0]));
+s_test_case_simp(constant_term(row_vector(2*x-3, y)), matrix([-3, 0]));
 s_test_case_simp(constant_term(_test_paramvec), matrix([-4],[5]));
 s_test_case_simp(constant_term(_test_paramvec, [s]), matrix([3*s-4],[5]));
 
@@ -53,16 +53,16 @@ s_test_case_simp(vector_parametric_parts(matrix([b^2-4],[5])), [matrix([null]),[
 s_test_case_simp(vector_parametric_parts(matrix([b^2-4],[5]), [b]), [matrix([b^2-4],[5]),[],[]]);
 s_test_case_simp(vector_parametric_parts(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s*matrix([1],[0],[1])),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
 s_test_case(vector_parametric_parts(matrix([1+t+s],[2+t],[3+t+s])),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
-s_test_case(vector_parametric_parts(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1)),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
+s_test_case(vector_parametric_parts(column_vector(1,2,3) + t*column_vector(1,1,1) + s*column_vector(1,0,1)),[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]);
 s_test_case(vector_parametric_parts(matrix([1],[2],[3]) + t*matrix([1],[1],[1]) + s^2*matrix([1],[0],[1])),[matrix([null]),[],[s,t]]);
 
 make_multsgn("dot");
 s_test_case(vector_parametric_display([matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]+s\\cdot \\left[\\begin{array}{c} 1 \\\\ 0 \\\\ 1 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right]");
 s_test_case(vector_parametric_display(vector_parametric_parts(matrix([1+t+s],[2+t],[3+t+s]))),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]+s\\cdot \\left[\\begin{array}{c} 1 \\\\ 0 \\\\ 1 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right]");
-s_test_case(vector_parametric_display(vector_parametric_parts(c(1,2,3))),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]");
-s_test_case(vector_parametric_display(vector_parametric_parts(c(1,2,3) + t*c(2,3,4))),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 2 \\\\ 3 \\\\ 4 \\end{array}\\right]");
-s_test_case(vector_parametric_display(vector_parametric_parts(t*c(2,3,4))),"t\\cdot \\left[\\begin{array}{c} 2 \\\\ 3 \\\\ 4 \\end{array}\\right]");
-s_test_case(vector_parametric_display(vector_parametric_parts(t*c(2,3,4) + s*c(3,4,5))),"s\\cdot \\left[\\begin{array}{c} 3 \\\\ 4 \\\\ 5 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 2 \\\\ 3 \\\\ 4 \\end{array}\\right]");
+s_test_case(vector_parametric_display(vector_parametric_parts(column_vector(1,2,3))),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]");
+s_test_case(vector_parametric_display(vector_parametric_parts(column_vector(1,2,3) + t*column_vector(2,3,4))),"\\left[\\begin{array}{c} 1 \\\\ 2 \\\\ 3 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 2 \\\\ 3 \\\\ 4 \\end{array}\\right]");
+s_test_case(vector_parametric_display(vector_parametric_parts(t*column_vector(2,3,4))),"t\\cdot \\left[\\begin{array}{c} 2 \\\\ 3 \\\\ 4 \\end{array}\\right]");
+s_test_case(vector_parametric_display(vector_parametric_parts(t*column_vector(2,3,4) + s*column_vector(3,4,5))),"s\\cdot \\left[\\begin{array}{c} 3 \\\\ 4 \\\\ 5 \\end{array}\\right]+t\\cdot \\left[\\begin{array}{c} 2 \\\\ 3 \\\\ 4 \\end{array}\\right]");
 
 s_test_case(point_in_affine_spacep(matrix([1],[1]),[matrix([0],[1]),[matrix([1],[-1])]]),false);
 s_test_case(point_in_affine_spacep(matrix([1],[1]),[matrix([0],[1]),[matrix([1],[-1])],[t]]),false);

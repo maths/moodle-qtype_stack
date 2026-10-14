@@ -6,8 +6,7 @@ Their [generated reference](../../CAS/Library/linearalgebra/index.md) documents 
 [equation-display functions](../../CAS/Library/linearalgebra/display/index.md).
 
 Existing questions can still call `stack_include_contrib("matrix.mac")`. That compatibility file
-retains its historical call to `stack_linear_algebra_declare(true)`, enabling the short `c` and `r`
-vector notation. To use that notation in new questions, make the declaration explicitly.
+continues to enable the convenience aliases described in [Vectors](Vectors.md).
 
 This page gives examples and guidance for using these functions.
 

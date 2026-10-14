@@ -24,7 +24,7 @@
  */
 class stack_varmatrix_input extends stack_input {
     /**
-     * The Maxima constructor generated from the textarea: matrix, c, or r.
+     * The Maxima constructor generated from the textarea: matrix, column_vector, or row_vector.
      *
      * @var string
      */
@@ -55,13 +55,10 @@ class stack_varmatrix_input extends stack_input {
         $cs = stack_ast_container::make_from_teacher_source(
             'block([v:' . $teacheranswer . ', vop], ' .
             'vop:safe_op(v), ' .
-            'if is(vop="c") then [1] ' .
-            'else if is(vop="r") then [2] ' .
-            'else if is(vop="column_vector") then [4] ' .
-            'else if is(vop="row_vector") then [5] ' .
+            'if is(vop="column_vector") then [1] ' .
+            'else if is(vop="row_vector") then [2] ' .
             'else if is(vop="aug_matrix") then cons(3,map(lambda([b], ' .
-            'if safe_op(b)="c" then 1 else if safe_op(b)="r" then 2 ' .
-            'else if safe_op(b)="column_vector" then 4 else if safe_op(b)="row_vector" then 5 ' .
+            'if safe_op(b)="column_vector" then 1 else if safe_op(b)="row_vector" then 2 ' .
             'else 0),args(v))) ' .
             'else [0])'
         );
@@ -76,18 +73,14 @@ class stack_varmatrix_input extends stack_input {
 
         $valuetype = $cs->get_list_element(0, true)->value;
         if ($valuetype === 1) {
-            $this->valuetype = 'c';
-        } else if ($valuetype === 2) {
-            $this->valuetype = 'r';
-        } else if ($valuetype === 4) {
             $this->valuetype = 'column_vector';
-        } else if ($valuetype === 5) {
+        } else if ($valuetype === 2) {
             $this->valuetype = 'row_vector';
         } else if ($valuetype === 3) {
             $this->valuetype = 'aug_matrix';
             $types = stack_utils::list_to_array($cs->get_value(), false);
             foreach (array_slice($types, 1) as $type) {
-                $this->blocktypes[] = ['matrix', 'c', 'r', 'aug_matrix', 'column_vector', 'row_vector'][(int)$type];
+                $this->blocktypes[] = ['matrix', 'column_vector', 'row_vector', 'aug_matrix'][(int)$type];
             }
             if (count($this->blocktypes) < 2) {
                 $this->errors[] = stack_string('matrixaugmentedshape');
@@ -267,9 +260,9 @@ class stack_varmatrix_input extends stack_input {
             if (trim($sans) === '' && $this->get_extra_option('allowempty')) {
                 return(['EMPTYANSWER']);
             }
-            if (in_array($this->valuetype, ['c', 'r', 'column_vector', 'row_vector'])) {
+            if (in_array($this->valuetype, ['column_vector', 'row_vector'])) {
                 $entries = preg_split('/\s+/', trim($sans), -1, PREG_SPLIT_NO_EMPTY);
-                if (in_array($this->valuetype, ['c', 'column_vector'])) {
+                if ($this->valuetype === 'column_vector') {
                     return array_map(function ($entry) {
                         return [$entry];
                     }, $entries);
@@ -337,10 +330,10 @@ class stack_varmatrix_input extends stack_input {
         if ($contents == ['EMPTYANSWER']) {
             return 'EMPTYANSWER';
         }
-        if (in_array($this->valuetype, ['c', 'column_vector'])) {
+        if ($this->valuetype === 'column_vector') {
             return $this->valuetype . '(' . implode(',', array_column($contents, 0)) . ')';
         }
-        if (in_array($this->valuetype, ['r', 'row_vector'])) {
+        if ($this->valuetype === 'row_vector') {
             return $this->valuetype . '(' . implode(',', $contents[0] ?? []) . ')';
         }
         if ($this->valuetype === 'aug_matrix') {
@@ -354,9 +347,9 @@ class stack_varmatrix_input extends stack_input {
                 $rows = array_map(function ($row) use ($offset, $width) {
                     return array_slice($row, $offset, $width);
                 }, $contents);
-                if (in_array($this->blocktypes[$i], ['c', 'column_vector'])) {
+                if ($this->blocktypes[$i] === 'column_vector') {
                     $blocks[] = $this->blocktypes[$i] . '(' . implode(',', array_column($rows, 0)) . ')';
-                } else if (in_array($this->blocktypes[$i], ['r', 'row_vector'])) {
+                } else if ($this->blocktypes[$i] === 'row_vector') {
                     $blocks[] = $this->blocktypes[$i] . '(' . implode(',', $rows[0]) . ')';
                 } else {
                     $blocks[] = 'matrix(' . implode(',', array_map(function ($row) {
@@ -404,8 +397,8 @@ class stack_varmatrix_input extends stack_input {
         }
         foreach ($this->blocktypes as $i => $type) {
             if (
-                (in_array($type, ['c', 'column_vector']) && $widths[$i] !== 1) ||
-                (in_array($type, ['r', 'row_vector']) && count($contents) !== 1)
+                ($type === 'column_vector' && $widths[$i] !== 1) ||
+                ($type === 'row_vector' && count($contents) !== 1)
             ) {
                 return null;
             }
@@ -429,25 +422,25 @@ class stack_varmatrix_input extends stack_input {
         ) {
             $valid = false;
             $example = [];
-            $onerow = count(array_intersect(['r', 'row_vector'], $this->blocktypes)) > 0;
+            $onerow = in_array('row_vector', $this->blocktypes);
             $blockcount = count($this->blocktypes);
             $rowcount = $onerow ? 1 : 2;
             $widths = [];
             foreach ($this->blocktypes as $i => $type) {
                 $width = strlen((string)($i + 1 + ($rowcount - 1) * $blockcount)) +
-                    (in_array($type, ['c', 'column_vector']) ? 0 : 4);
+                    ($type === 'column_vector' ? 0 : 4);
                 $widths[] = $width;
             }
             for ($row = 0; $row < $rowcount; $row++) {
                 $blocks = [];
                 foreach ($this->blocktypes as $i => $type) {
-                    $entry = ($row * $blockcount + $i + 1) . (in_array($type, ['c', 'column_vector']) ? '' : ' ...');
+                    $entry = ($row * $blockcount + $i + 1) . ($type === 'column_vector' ? '' : ' ...');
                     $blocks[] = str_pad($entry, $widths[$i]);
                 }
                 $example[] = rtrim(implode(' | ', $blocks));
             }
             $errors[] = stack_string('varmatrixaugmentedstructure', implode("\n", $example));
-            if (in_array('matrix', $this->blocktypes) || count(array_intersect(['r', 'row_vector'], $this->blocktypes)) > 0) {
+            if (in_array('matrix', $this->blocktypes) || in_array('row_vector', $this->blocktypes)) {
                 $errors[] = stack_string('varmatrixaugmentedellipsis');
             }
             $errors[] = stack_string($onerow ?
@@ -589,9 +582,10 @@ class stack_varmatrix_input extends stack_input {
             return implode("\n", $rows);
         }
         $operator = strstr($trimmed, '(', true);
-        if (in_array($operator, ['c', 'r', 'column_vector', 'row_vector'])) {
+        // Older saved responses may still use the convenience aliases.
+        if (in_array($operator, ['column_vector', 'row_vector', 'c', 'r'])) {
             $entries = stack_utils::list_to_array('[' . substr($trimmed, strlen($operator) + 1, -1) . ']', false);
-            if (in_array($operator, ['c', 'column_vector'])) {
+            if (in_array($operator, ['column_vector', 'c'])) {
                 $rows = [];
                 foreach ($entries as $entry) {
                     $rows[] = '[' . $entry . ']';

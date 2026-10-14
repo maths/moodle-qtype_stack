@@ -3,7 +3,6 @@
 STACK has a [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/eigenlib.mac) for eigenvector/value functions.  To use this library you must load it into the question variables.
 
 * To use the latest code from github: `stack_include_contrib("eigenlib.mac");`
-* Loading this library automatically declares `stack_linear_algebra_declare(true);` to provide context. See the documentation on the core [linear algebra](Linear_algebra_core.md) for more information. 
 
 This page contains reference documentation on functions in this library.
 

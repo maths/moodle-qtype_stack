@@ -11,24 +11,21 @@ matrices. For example, `column_vector(1)` and `row_vector(1)` remain distinct, a
 convert to `matrix([1])`. Before matrix arithmetic or an answer test that expects matrices,
 convert the student and teacher expressions with `vec_convert`.
 
-The existing short forms `c(1,2,3)` and `r(1,2,3)` are unchanged. Their vector display still
-requires `stack_linear_algebra_declare(true)` in the question variables, either directly or
-through a contributed library. The long forms do not require this declaration. Different
-constructor spellings have different operators; use `vec_convert` to compare their components.
+For convenience, `c(...)` and `r(...)` are aliases for column and row vectors. Enable them by
+adding `stack_linear_algebra_declare(true)` to the question variables. For example, `c(1,2,3)`
+then evaluates to `column_vector(1,2,3)`. Contributed libraries that previously enabled this
+notation continue to enable the aliases for existing questions.
 
-Both matrix input types accept all four forms as model answers and preserve the chosen
-constructor in student responses. The fixed grid infers its dimensions from the answer. The
-variable-size input accepts whitespace-separated components without fixing their number.
-Vector blocks can also be used in augmented matrix inputs.
+Both matrix input types accept vector model answers and return the corresponding vector values.
+The fixed grid infers its dimensions from the answer. The variable-size input accepts
+whitespace-separated components without fixing their number. Vector blocks can also be used in
+augmented matrix inputs.
 
-* `vec_convert(ex)` attempts to convert `column_vector`, `row_vector`, `c` and `r` into matrices.
-  If the terms do not conform, the original expression is returned.
-* `vec_convertedp(ex)` checks that none of these four constructors remains. Use it to check
-  that an earlier conversion succeeded before continuing a PRT.
-* `un_vec_convert(ex)` converts a row or column matrix back to the legacy `r(...)` or `c(...)` form.
-
-The empty expressions `row_vector()` and `column_vector()` retain their operators, but conversion
-to native matrices inherits Maxima's empty-matrix limitations. Matrix inputs require nonempty shapes.
+* `vec_convert(ex)` converts vector expressions into matrices. If the terms do not conform,
+  the original expression is returned.
+* `vec_convertedp(ex)` checks that no vector constructor remains. Use it to check that an
+  earlier conversion succeeded before continuing a PRT.
+* `un_vec_convert(ex)` converts a row or column matrix to vector notation.
 
 ## Vectors as single entities
 

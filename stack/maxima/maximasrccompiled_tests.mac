@@ -387,9 +387,9 @@ s_test_case(simp):=is(orthogonal_columnsp(matrix([1,1],[1,-1])/sqrt(2)) = true)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:58",5)$
 s_test_case(simp):=is(orthogonal_columnsp(1) = false)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:59",6)$
-s_test_case(simp):=is(orthogonal_columnsp([c(1,0),c(0,1)]) = true)$
+s_test_case(simp):=is(orthogonal_columnsp([column_vector(1,0),column_vector(0,1)]) = true)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:60",7)$
-s_test_case(simp):=is(orthogonal_columnsp([c(1,0),c(0,1,0)]) = false)$
+s_test_case(simp):=is(orthogonal_columnsp([column_vector(1,0),column_vector(0,1,0)]) = false)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:61",8)$
 s_test_case(simp):=is(orthogonal_columnsp(ident(2)) = true)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:62",9)$
@@ -417,9 +417,9 @@ s_test_case(simp):=is(orthonormal_columnsp(ev(matrix([1,1],[1,-1])/sqrt(2),simp)
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:94",20)$
 s_test_case(simp):=is(orthonormal_columnsp(1) = false)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:95",21)$
-s_test_case(simp):=is(orthonormal_columnsp([c(1,0),c(0,1)]) = true)$
+s_test_case(simp):=is(orthonormal_columnsp([column_vector(1,0),column_vector(0,1)]) = true)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:96",22)$
-s_test_case(simp):=is(orthonormal_columnsp([c(1,0),c(0,1,0)]) = false)$
+s_test_case(simp):=is(orthonormal_columnsp([column_vector(1,0),column_vector(0,1,0)]) = false)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:97",23)$
 s_test_case(simp):=is(orthonormal_columnsp(ident(2)) = true)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:98",24)$
@@ -445,7 +445,7 @@ s_test_case(simp):=block([M:"untouched",checkmat:"untouched"],orthogonal_columns
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:123",34)$
 s_test_case(simp):=block([M:"untouched",checkmat:"untouched"],orthonormal_columnsp(ident(2)),is(M = "untouched" and checkmat = "untouched"))$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:125",35)$
-s_test_case(simp):=is(orth_matrixp([c(1,0),c(0,1)]) = false)$
+s_test_case(simp):=is(orth_matrixp([column_vector(1,0),column_vector(0,1)]) = false)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:127",36)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1,0],[0,0])) = true)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:128",37)$
@@ -461,7 +461,7 @@ s_test_case(simp):=is(col_vecp(matrix([1],[2])) = true)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:37",1)$
 s_test_case(simp):=is(col_vecp(matrix([1,2])) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:38",2)$
-s_test_case(simp):=is(col_vecp(c(1,2)) = false)$
+s_test_case(simp):=is(col_vecp(column_vector(1,2)) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:39",3)$
 s_test_case(simp):=is(col_vecp(matrix([a])) = true)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:40",4)$
@@ -473,13 +473,13 @@ s_test_case(simp):=is(col_vecp(matrix()) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:43",7)$
 s_test_case(simp):=is(col_vecp(matrix([])) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:44",8)$
-s_test_case(simp):=is(col_vecp(vec_convert(c(1,2))) = true)$
+s_test_case(simp):=is(col_vecp(vec_convert(column_vector(1,2))) = true)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:45",9)$
 s_test_case(simp):=is(row_vecp(matrix([1],[2])) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:67",10)$
 s_test_case(simp):=is(row_vecp(matrix([1,2])) = true)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:68",11)$
-s_test_case(simp):=is(row_vecp(r(1,2)) = false)$
+s_test_case(simp):=is(row_vecp(row_vector(1,2)) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:69",12)$
 s_test_case(simp):=is(row_vecp(matrix([a])) = true)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:70",13)$
@@ -491,13 +491,13 @@ s_test_case(simp):=is(row_vecp(matrix()) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:73",16)$
 s_test_case(simp):=is(row_vecp(matrix([])) = true)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:74",17)$
-s_test_case(simp):=is(row_vecp(vec_convert(r(1,2))) = true)$
+s_test_case(simp):=is(row_vecp(vec_convert(row_vector(1,2))) = true)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:75",18)$
 s_test_case(simp):=is(vectorp(matrix([1],[2])) = true)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:92",19)$
 s_test_case(simp):=is(vectorp(matrix([1,2])) = true)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:93",20)$
-s_test_case(simp):=is(vectorp(c(1,2)) = false)$
+s_test_case(simp):=is(vectorp(column_vector(1,2)) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:94",21)$
 s_test_case(simp):=is(vectorp(matrix([a])) = true)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:95",22)$
@@ -505,7 +505,7 @@ s_test_case(simp):=is(vectorp(matrix([1,2],[3,4])) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:96",23)$
 s_test_case(simp):=is(vectorp([1,2]) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:97",24)$
-s_test_case(simp):=is(vectorp(r(1,2)) = false)$
+s_test_case(simp):=is(vectorp(row_vector(1,2)) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:98",25)$
 s_test_case(simp):=is(vectorp(matrix()) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:99",26)$
@@ -583,7 +583,7 @@ s_test_case(simp):=is(triup(1) = false)$
 s_exec_test("linearalgebra/predicates/triangular_predicates.mac:63",10)$
 s_test_case(simp):=is(triup([1,2]) = false)$
 s_exec_test("linearalgebra/predicates/triangular_predicates.mac:64",11)$
-s_test_case(simp):=is(triup(c(1,2)) = false)$
+s_test_case(simp):=is(triup(column_vector(1,2)) = false)$
 s_exec_test("linearalgebra/predicates/triangular_predicates.mac:65",12)$
 s_test_case(simp):=is(triup(matrix([x])) = true)$
 s_exec_test("linearalgebra/predicates/triangular_predicates.mac:66",13)$
@@ -625,7 +625,7 @@ s_test_case(simp):=is(trilp(1) = false)$
 s_exec_test("linearalgebra/predicates/triangular_predicates.mac:120",31)$
 s_test_case(simp):=is(trilp([1,2]) = false)$
 s_exec_test("linearalgebra/predicates/triangular_predicates.mac:121",32)$
-s_test_case(simp):=is(trilp(r(1,2)) = false)$
+s_test_case(simp):=is(trilp(row_vector(1,2)) = false)$
 s_exec_test("linearalgebra/predicates/triangular_predicates.mac:122",33)$
 s_test_case(simp):=is(trilp(matrix([x])) = true)$
 s_exec_test("linearalgebra/predicates/triangular_predicates.mac:123",34)$
@@ -646,59 +646,73 @@ s_exec_test("linearalgebra/predicates/triangular_predicates.mac:130",41)$
 s_test_case(simp):=is(trilp(matrix([0,0],[1,0])) = true)$
 s_exec_test("linearalgebra/predicates/triangular_predicates.mac:131",42)$
 s_test_case(simp):=is(safe_op(row_vector(1,2)) = "row_vector")$
-s_exec_test("linearalgebra/vectors/constructors.mac:45",1)$
+s_exec_test("linearalgebra/vectors/constructors.mac:33",1)$
 s_test_case(simp):=is(safe_op(column_vector(1,2)) = "column_vector")$
-s_exec_test("linearalgebra/vectors/constructors.mac:46",2)$
+s_exec_test("linearalgebra/vectors/constructors.mac:34",2)$
 s_test_case(simp):=is(args(row_vector(a,b)) = [a,b])$
-s_exec_test("linearalgebra/vectors/constructors.mac:47",3)$
+s_exec_test("linearalgebra/vectors/constructors.mac:35",3)$
 s_test_case(simp):=is(args(column_vector(a,b)) = [a,b])$
-s_exec_test("linearalgebra/vectors/constructors.mac:48",4)$
+s_exec_test("linearalgebra/vectors/constructors.mac:36",4)$
 s_test_case(simp):=nonscalarp(row_vector(a,b))$
-s_exec_test("linearalgebra/vectors/constructors.mac:49",5)$
+s_exec_test("linearalgebra/vectors/constructors.mac:37",5)$
 s_test_case(simp):=nonscalarp(column_vector(a,b))$
-s_exec_test("linearalgebra/vectors/constructors.mac:50",6)$
+s_exec_test("linearalgebra/vectors/constructors.mac:38",6)$
 s_test_case(simp):=is(vec_convert(row_vector(1,2,3)) = matrix([1,2,3]))$
-s_exec_test("linearalgebra/vectors/constructors.mac:51",7)$
+s_exec_test("linearalgebra/vectors/constructors.mac:39",7)$
 s_test_case(simp):=is(vec_convert(column_vector(1,2,3)) = matrix([1],[2],[3]))$
-s_exec_test("linearalgebra/vectors/constructors.mac:52",8)$
-s_test_case(simp):=is(vec_convert(row_vector(a,b)) = vec_convert(r(a,b)))$
-s_exec_test("linearalgebra/vectors/constructors.mac:53",9)$
-s_test_case(simp):=is(vec_convert(column_vector(a,b)) = vec_convert(c(a,b)))$
-s_exec_test("linearalgebra/vectors/constructors.mac:54",10)$
+s_exec_test("linearalgebra/vectors/constructors.mac:40",8)$
+s_test_case(simp):=block([],local(c,r),stack_linear_algebra_declare(true),is(r(a,b) = row_vector(a,b)))$
+s_exec_test("linearalgebra/vectors/constructors.mac:41",9)$
+s_test_case(simp):=block([],local(c,r),stack_linear_algebra_declare(true),is(c(a,b) = column_vector(a,b)))$
+s_exec_test("linearalgebra/vectors/constructors.mac:42",10)$
 s_test_case(simp):=is(vec_convert([column_vector(a),row_vector(b)]) = [matrix([a]),matrix([b])])$
-s_exec_test("linearalgebra/vectors/constructors.mac:55",11)$
+s_exec_test("linearalgebra/vectors/constructors.mac:43",11)$
 s_test_case(simp):=is(vec_convert(column_vector(1,2)+column_vector(3,4)) = matrix([1],[2])+matrix([3],[4]))$
-s_exec_test("linearalgebra/vectors/constructors.mac:56",12)$
+s_exec_test("linearalgebra/vectors/constructors.mac:44",12)$
 s_test_case(simp):=is(vec_convertedp(column_vector(a,b)) = false)$
-s_exec_test("linearalgebra/vectors/constructors.mac:57",13)$
+s_exec_test("linearalgebra/vectors/constructors.mac:45",13)$
 s_test_case(simp):=is(vec_convertedp(row_vector(a,b)) = false)$
-s_exec_test("linearalgebra/vectors/constructors.mac:58",14)$
+s_exec_test("linearalgebra/vectors/constructors.mac:46",14)$
 s_test_case(simp):=is(vec_convertedp([column_vector(a),row_vector(b)]) = false)$
-s_exec_test("linearalgebra/vectors/constructors.mac:59",15)$
+s_exec_test("linearalgebra/vectors/constructors.mac:47",15)$
 s_test_case(simp):=vec_convertedp(vec_convert(column_vector(a,b)))$
-s_exec_test("linearalgebra/vectors/constructors.mac:60",16)$
+s_exec_test("linearalgebra/vectors/constructors.mac:48",16)$
 s_test_case(simp):=is(convert_to_colvec(column_vector(a,b)) = matrix([a],[b]))$
-s_exec_test("linearalgebra/vectors/constructors.mac:61",17)$
+s_exec_test("linearalgebra/vectors/constructors.mac:49",17)$
 s_test_case(simp):=is(cols_to_matrix([column_vector(1,0),column_vector(0,1)]) = ident(2))$
-s_exec_test("linearalgebra/vectors/constructors.mac:62",18)$
+s_exec_test("linearalgebra/vectors/constructors.mac:50",18)$
 s_test_case(simp):=is(de_aug(aug(matrix([1],[2]),column_vector(3,4))) = matrix([1,3],[2,4]))$
-s_exec_test("linearalgebra/vectors/constructors.mac:63",19)$
+s_exec_test("linearalgebra/vectors/constructors.mac:51",19)$
 s_test_case(simp):=is(tex1(row_vector(a,b)) = tex1(matrix([a,b])))$
-s_exec_test("linearalgebra/vectors/constructors.mac:64",20)$
+s_exec_test("linearalgebra/vectors/constructors.mac:52",20)$
 s_test_case(simp):=is(tex1(column_vector(a,b)) = tex1(matrix([a],[b])))$
-s_exec_test("linearalgebra/vectors/constructors.mac:65",21)$
+s_exec_test("linearalgebra/vectors/constructors.mac:53",21)$
 s_test_case(simp):=block([lmxchar:"("],is(tex1(row_vector(a,b)) = tex1(matrix([a,b]))))$
-s_exec_test("linearalgebra/vectors/constructors.mac:66",22)$
+s_exec_test("linearalgebra/vectors/constructors.mac:54",22)$
 s_test_case(simp):=block([lmxchar:"{"],is(tex1(column_vector(a,b)) = tex1(matrix([a],[b]))))$
-s_exec_test("linearalgebra/vectors/constructors.mac:67",23)$
+s_exec_test("linearalgebra/vectors/constructors.mac:55",23)$
 s_test_case(simp):=is(args(column_vector()) = []) and is(safe_op(column_vector()) = "column_vector")$
-s_exec_test("linearalgebra/vectors/constructors.mac:68",24)$
+s_exec_test("linearalgebra/vectors/constructors.mac:56",24)$
 s_test_case(simp):=is(args(row_vector()) = []) and is(safe_op(row_vector()) = "row_vector")$
-s_exec_test("linearalgebra/vectors/constructors.mac:69",25)$
-s_test_case(simp):=is(un_vec_convert(matrix([1,2])) = r(1,2))$
-s_exec_test("linearalgebra/vectors/constructors.mac:70",26)$
-s_test_case(simp):=is(un_vec_convert(matrix([1],[2])) = c(1,2))$
-s_exec_test("linearalgebra/vectors/constructors.mac:71",27)$
+s_exec_test("linearalgebra/vectors/constructors.mac:57",25)$
+s_test_case(simp):=is(un_vec_convert(matrix([1,2])) = row_vector(1,2))$
+s_exec_test("linearalgebra/vectors/constructors.mac:58",26)$
+s_test_case(simp):=is(un_vec_convert(matrix([1],[2])) = column_vector(1,2))$
+s_exec_test("linearalgebra/vectors/constructors.mac:59",27)$
+s_test_case(simp):=block([],local(c,r),stack_linear_algebra_declare(true),is(safe_op(c(1)) = "column_vector"))$
+s_exec_test("linearalgebra/vectors/constructors.mac:60",28)$
+s_test_case(simp):=block([],local(c,r),stack_linear_algebra_declare(true),is(safe_op(r(1)) = "row_vector"))$
+s_exec_test("linearalgebra/vectors/constructors.mac:61",29)$
+s_test_case(simp):=block([],local(c,r),stack_linear_algebra_declare(true),is(c() = column_vector()) and is(r() = row_vector()))$
+s_exec_test("linearalgebra/vectors/constructors.mac:62",30)$
+s_test_case(simp):=block([],local(c,r),stack_linear_algebra_declare(true),is(tex1(c(a,b)) = tex1(column_vector(a,b))))$
+s_exec_test("linearalgebra/vectors/constructors.mac:63",31)$
+s_test_case(simp):=block([],local(c,r),stack_linear_algebra_declare(true),is(tex1(r(a,b)) = tex1(row_vector(a,b))))$
+s_exec_test("linearalgebra/vectors/constructors.mac:64",32)$
+s_test_case(simp):=is(safe_op(c(1,2)) = "c") and is(safe_op(r(1,2)) = "r")$
+s_exec_test("linearalgebra/vectors/constructors.mac:65",33)$
+s_test_case(simp):=is(vec_convert(c(1,2)) = c(1,2))$
+s_exec_test("linearalgebra/vectors/constructors.mac:66",34)$
 s_test_case(simp):=is(stack_unit_si_to_si_base(2000*g) = 2*kg)$
 s_exec_test("stackunits/stack_unit_si_to_si_base.mac:66",1)$
 s_test_case(simp):=is(stack_unit_si_to_si_base(stackunits(1000,g)) = stackunits(1,kg))$

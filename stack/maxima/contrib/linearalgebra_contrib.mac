@@ -28,16 +28,14 @@
 /* Provides convenience functions for column and row vectors for student input */
 /*******************************************************************************/
 
+declare([row_vector,column_vector],nonscalar)$
+texput(row_vector,lambda([ex],stack_matrix_disp(matrix(args(ex)))))$
+texput(column_vector,lambda([ex],stack_matrix_disp(transpose(matrix(args(ex))))))$
+
 stack_linear_algebra_declare(mode) := block(
-  texput(c,
-    lambda([ex], stack_matrix_disp(transpose(matrix(args(ex)))))
-  ),
- texput(r,
-    lambda([ex], stack_matrix_disp(matrix(args(ex))))
-  ),
-  /* We can't have declarations like this in the STACK core. It will cause problems with existing questions! */
-  declare([c,r],nonscalar),
-  return(true)
+  c([entries]) := apply('column_vector, entries),
+  r([entries]) := apply('row_vector, entries),
+  true
 )$
 stack_linear_algebra_declare(true);
 
@@ -45,8 +43,7 @@ stack_linear_algebra_declare(true);
 /* for significant contributions to this work in 2024 */
 
 /**
- * Converts column_vector, row_vector and the legacy c/r notation into matrices.
- * c and r can be found in certain contrib libraries (such as vectorspaces.mac) to enable students to input vectors simply.
+ * Converts column_vector and row_vector expressions into matrices.
  * Works on entire expressions.
  * Returns expression unchanged if simp:true and matrices do not conform.
  * 
@@ -55,24 +52,23 @@ stack_linear_algebra_declare(true);
  */
 vec_convert(ex):= block([ex2],
   ex2: errcatch(ev(ex,
-      c = lambda([[ex]],transpose(matrix(ex))), r = lambda([[ex]],matrix(ex)),
       column_vector = lambda([[ex]],transpose(matrix(ex))), row_vector = lambda([[ex]],matrix(ex)))),
   if emptyp(ex2) then return(ex) else return(first(ex2))
 );
 
 /**
- * Given a row or column vector, convert it to c() or r() form.
+ * Convert a row or column matrix to vector notation.
  * Intended to create model answers in instances where students
- * are expected to use these convenience functions.
+ * are expected to enter vector expressions.
  * Does not loop through an expression, will only work on vectors
  * as individual objects. 
  *
  * @param[matrix] ex A vector; i.e. a 1xN or Mx1 matrix
- * @return[expression] That vector as a c() or r() vector
+ * @return[expression] A column_vector or row_vector expression
  */
 un_vec_convert(ex):= block([],
-  if col_vecp(ex) then ex: apply(c,list_matrix_entries(ex)) else
-  if row_vecp(ex) then ex: apply(r,list_matrix_entries(ex)),
+  if col_vecp(ex) then ex: apply('column_vector,list_matrix_entries(ex)) else
+  if row_vecp(ex) then ex: apply('row_vector,list_matrix_entries(ex)),
   return(ex)
 );
 
@@ -88,7 +84,7 @@ un_vec_convert(ex):= block([],
  */
 vec_convertedp(ex):= block([ex_ops],
   ex_ops: get_ops(ex),
-  not (member(c,ex_ops) or member(r,ex_ops) or member(column_vector,ex_ops) or member(row_vector,ex_ops))
+  not (member(column_vector,ex_ops) or member(row_vector,ex_ops))
 );
 
 /** 

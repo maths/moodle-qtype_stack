@@ -1,0 +1,131 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/* Thank you to Georg Osang of IDEMS International
+   for significant contributions to this work in 2024. */
+
+/**
+ * Return `true` when every entry below the main diagonal of a Maxima matrix
+ * is recognised as zero by `is`. The matrix may be rectangular; use `squarep`
+ * as well if a square upper triangular matrix is required.
+ *
+ * For example, `triup(matrix([a,b,c],[0,d,e]))` is `true`.
+ * Diagonal entries may be zero or symbolic, so this does not test invertibility
+ * or row echelon form. Use `trilp` to check the other triangular part.
+ *
+ * Non-matrix arguments, including lists and inert `c`/`r` expressions, return
+ * `false`. With no entries to reject, `matrix()`, `matrix([])` and
+ * `matrix([],[])` return `true`.
+ *
+ * The simplification mode matters: `triup(matrix([1,0],[1-1,1]))` returns `false`
+ * with `simp:false` and `true` with `simp:true`. Simplify the matrix first if
+ * algebraically zero expressions should be accepted.
+ *
+ * @param[expression] M, the object whose triangular structure is checked.
+ * @return[boolean] whether every entry below the diagonal is recognised as zero.
+ */
+triup(M):= block([tri,imax,jmax,ii,jj],
+  if not(matrixp(M)) then return(false),
+  tri: true,
+  [imax, jmax]: ev(matrix_size(M),simp),
+  if is(imax=1) then return(true),
+  for ii: 2 thru imax while tri do block(
+    ii: ev(ii,simp),
+    for jj: 1 thru ev(min(ii-1,jmax),simp) while tri do block(
+      jj: ev(jj,simp),
+      if not(is(M[ii,jj]=0)) then tri: false
+    )
+  ),
+  return(tri)
+);
+
+s_test_case(simp) := is(triup(ident(5))=true)$
+s_test_case(simp) := is(triup(zeromatrix(5,4))=true)$
+s_test_case(simp) := is(triup(matrix([1,2,3],[4,5,6],[7,8,9]))=false)$
+s_test_case(simp) := is(triup(matrix([1,2,3],[0,5,6],[0,0,9]))=true)$
+s_test_case(simp) := is(triup(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12]))=false)$
+s_test_case(simp) := is(triup(matrix([1,2,3],[0,5,6],[0,0,9],[0,0,0]))=true)$
+s_test_case(simp) := is(triup(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10]))=false)$
+s_test_case(simp) := is(triup(matrix([1,2,3,4],[0,5,6,7],[0,0,9,10]))=true)$
+s_test_case(simp) := is(triup(matrix([1,2,3,4,5,6,7,8,9]))=true)$
+s_test_case(simp) := is(triup(1)=false)$
+s_test_case(simp) := is(triup([1,2])=false)$
+s_test_case(simp) := is(triup(c(1,2))=false)$
+s_test_case(simp) := is(triup(matrix([x]))=true)$
+s_test_case(simp) := is(triup(matrix())=true)$
+s_test_case(simp) := is(triup(matrix([]))=true)$
+s_test_case(simp) := is(triup(matrix([],[]))=true)$
+s_test_case(simp) := is(triup(matrix([a,b,c],[0,d,e]))=true)$
+s_test_case(simp) := is(triup(matrix([1,0],[x,1]))=false)$
+s_test_case(simp) := is(triup(matrix([1,0],[1-1,1]))=simp)$
+s_test_case(simp) := is(triup(matrix([1],[2]))=false)$
+s_test_case(simp) := is(triup(matrix([0,1],[0,2]))=true)$
+
+/**
+ * Return `true` when every entry above the main diagonal of a Maxima matrix
+ * is recognised as zero by `is`. The matrix may be rectangular; use `squarep`
+ * as well if a square lower triangular matrix is required.
+ *
+ * For example, `trilp(matrix([a,0],[b,c],[d,e]))` is `true`.
+ * Diagonal entries may be zero or symbolic, so this does not test invertibility
+ * or row echelon form. Use `triup` to check the other triangular part.
+ *
+ * Non-matrix arguments, including lists and inert `c`/`r` expressions, return
+ * `false`. With no entries to reject, `matrix()`, `matrix([])` and
+ * `matrix([],[])` return `true`.
+ *
+ * The simplification mode matters: `trilp(matrix([1,1-1],[0,1]))` returns `false`
+ * with `simp:false` and `true` with `simp:true`. Simplify the matrix first if
+ * algebraically zero expressions should be accepted.
+ *
+ * @param[expression] M, the object whose triangular structure is checked.
+ * @return[boolean] whether every entry above the diagonal is recognised as zero.
+ */
+trilp(M):= block([tri,imax,jmax,ii,jj],
+  if not(matrixp(M)) then return(false),
+  tri: true,
+  [imax, jmax]: ev(matrix_size(M),simp),
+  if is(jmax=1) then return(true),
+  for jj: 2 thru jmax while tri do block(
+    jj: ev(jj,simp),
+    for ii: 1 thru ev(min(jj-1,imax),simp) while tri do block(
+      ii: ev(ii,simp),
+      if not(is(M[ii,jj]=0)) then tri: false
+    )
+  ),
+  return(tri)
+);
+
+s_test_case(simp) := is(trilp(ident(5))=true)$
+s_test_case(simp) := is(trilp(zeromatrix(5,4))=true)$
+s_test_case(simp) := is(trilp(matrix([1,2,3],[4,5,6],[7,8,9]))=false)$
+s_test_case(simp) := is(trilp(matrix([1,0,0],[4,5,0],[7,8,9]))=true)$
+s_test_case(simp) := is(trilp(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12]))=false)$
+s_test_case(simp) := is(trilp(matrix([1,0,0],[4,5,0],[7,8,9],[10,11,12]))=true)$
+s_test_case(simp) := is(trilp(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10]))=false)$
+s_test_case(simp) := is(trilp(matrix([1,0,0,0],[4,5,0,0],[7,8,9,0]))=true)$
+s_test_case(simp) := is(trilp(transpose([1,2,3,4,5,6,7,8,9]))=true)$
+s_test_case(simp) := is(trilp(1)=false)$
+s_test_case(simp) := is(trilp([1,2])=false)$
+s_test_case(simp) := is(trilp(r(1,2))=false)$
+s_test_case(simp) := is(trilp(matrix([x]))=true)$
+s_test_case(simp) := is(trilp(matrix())=true)$
+s_test_case(simp) := is(trilp(matrix([]))=true)$
+s_test_case(simp) := is(trilp(matrix([],[]))=true)$
+s_test_case(simp) := is(trilp(matrix([a,0],[b,c],[d,e]))=true)$
+s_test_case(simp) := is(trilp(matrix([1,x],[0,1]))=false)$
+s_test_case(simp) := is(trilp(matrix([1,1-1],[0,1]))=simp)$
+s_test_case(simp) := is(trilp(matrix([1,2]))=false)$
+s_test_case(simp) := is(trilp(matrix([0,0],[1,0]))=true)$

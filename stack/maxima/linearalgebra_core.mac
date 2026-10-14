@@ -84,74 +84,7 @@ vec_convertedp(ex):= block([ex_ops],
   if member(c,ex_ops) or member(r,ex_ops) then return(false) else return(true)
 );
 
-/** 
- * Predicate for determining whether a given object is an Mx1 matrix (a column vector)
- * Note: does not consider c a column vector. Use vec_convert before col_vecp.
- *
- * @param[expression] ex An object that may be a matrix
- * @return[boolean] Is the object an Mx1 matrix?
- */
-col_vecp(ex):= block(
-  if not(matrixp(ex)) then return(false)
-  else return(is(second(matrix_size(ex))=1))
-);
-
-/** 
- * Predicate for determining whether a given object is a 1xN matrix (a row vector)
- * Note: does not consider r a row vector. Use vec_convert before row_vecp.
- *
- * @param[expression] ex An object that may be a matrix
- * @return[boolean] Is the object a 1xN matrix?
- */
-row_vecp(ex):= block(
-  if not(matrixp(ex)) then return(false)
-  else return(is(first(matrix_size(ex))=1))
-);
-
-/** 
- * Predicate for determining whether a given object is a vector
- * Note: does not consider c or r a vector. Use vec_convert before vectorp.
- *
- * @param[expression] ex An object that may be a matrix
- * @return[boolean] Is the object a 1xN or Mx1 matrix?
- */
-vectorp(ex):= col_vecp(ex) or row_vecp(ex);
-
-/** 
- * Predicate to determine whether a matrix is diagonal.
- * i.e. Is every off-diagonal entry equal to 0?
- *
- * @param[matrix] M An mxn matrix
- * @return[boolean] Is this matrix diagonal?
- */
-diagp(M):= block([dia,imax,jmax,ii,jj],
-  if not(matrixp(M)) then return(false),
-  dia: true,
-  [imax, jmax]: ev(matrix_size(M),simp),
-  for ii: 1 thru imax while dia do block(
-    ii: ev(ii,simp),
-    for jj: 1 thru jmax while dia do block(
-      jj: ev(jj,simp),
-      if not(is(ii=jj)) and not(is(M[ii,jj]=0)) then dia: false
-    )
-  ),
-  return(dia)
-);
-
-/** 
- * Is a given object a square matrix?
- * i.e. Does the matrix have the same number of rows as columns?
- *
- * @param[matrix] M a matrix
- * @return[boolean] Is M a square matrix?
- */
-squarep(M):= block([isSquare],
-  isSquare: false,
-  if matrixp(M) then block(
-    if is(apply("=", matrix_size(M))) then isSquare: true
-  ),
-  return(isSquare)
-);
+/* Shape predicates are defined in maximasrc/linearalgebra/predicates. */
 
 /*********************************************************************************/
 /* Functions to convert objects into standard forms                              */

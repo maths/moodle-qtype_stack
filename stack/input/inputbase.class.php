@@ -54,6 +54,11 @@ abstract class stack_input {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const GRAMMAR_FIX_FUNCTIONS = 16;
 
+    /** Whether the constructor is still setting the initial parameters.
+     * @var bool
+     */
+    private $initialising = false;
+
     /**
      * @var string the name of the input.
      * This name has two functions
@@ -143,9 +148,6 @@ abstract class stack_input {
      * @var bool.
      */
     protected $runtime = true;
-
-    /** @var bool whether the constructor is still setting the initial parameters. */
-    private $initialising = false;
 
     /**
      * Filters to apply for display in validate_contents

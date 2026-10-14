@@ -19,8 +19,9 @@ One option is to have each component of this answer have its own answer box, wit
 Another option is to ask the student to type in their answer using matrix notation. Students tend to find this cumbersome, and the answer boxes need to be quite large to fit the whole answer.
 
 The examples below use `c(...)`, the convenience alias for `column_vector(...)`, so a student can
-enter the expression as `c(1,2) + t*c(3,4)`. Loading `vectorgeometry.mac` enables the vector aliases;
-they can also be enabled with `stack_linear_algebra_declare(true)` in the question variables.
+enter the expression as `c(1,2) + t*c(3,4)`. Loading `vectorgeometry.mac` enables the vector aliases.
+Question authors can also enable them by adding `stack_linear_algebra_declare(true)` to the
+question variables.
 See [Vectors](Vectors.md) for how to convert vector notation before grading.
 
 ## Converting from parametric form to vector form

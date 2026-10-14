@@ -24,10 +24,10 @@ The following functions have the optional argument `sp`. If this argument is omi
 
 ## Equivalence functions
 
-* `lin_indp(ex)` is a predicate function that tests whether a set of vectors is linearly independent. It can take many forms of input (see `cols_to_matrix` in the [core linear algebra documentation](Linear_algebra_core.md)). If given a matrix, it tests whether it has full column rank.
+* `lin_indp(ex)` is a predicate function that tests whether a set of vectors is linearly independent. It can take many forms of input (see `cols_to_matrix` in the [core linear algebra documentation](Linear_algebra_core.md)). If given a matrix, it tests whether it has full column rank. The empty set (`[]`, `{}`, `ntuple()` or `span()`) is linearly independent, since it is a basis of \(\{0\}\).
 * `row_equivp(ex,ta)` checks whether matrix `ex` is row equivalent to matrix `ta`. Literally, this checks whether the row-reduced echelon form of each matrix are exactly equal.
 * `col_equivp(ex,ta)` does the same for column equivalence.
-* `subspace_equivp(ex,ta)` checks whether two collections of column vectors span the same subspace. i.e. Is each element of `ex` linearly dependent on `ta` and vice versa? Like `lin_indp(ex)`, this function accepts many forms of input. It does not check whether each set of vectors is linearly independent. To check whether two bases are equivalent, use this function in conjunction with `lin_indp`.
+* `subspace_equivp(ex,ta)` checks whether two collections of column vectors span the same subspace. i.e. Is each element of `ex` linearly dependent on `ta` and vice versa? Like `lin_indp(ex)`, this function accepts many forms of input. It does not check whether each set of vectors is linearly independent. To check whether two bases are equivalent, use this function in conjunction with `lin_indp`. The empty set spans \(\{0\}\), so it is equivalent to another empty set or to any collection of zero vectors.
 
 ## Manipulating subspaces
 

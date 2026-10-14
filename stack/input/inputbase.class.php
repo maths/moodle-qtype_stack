@@ -54,6 +54,11 @@ abstract class stack_input {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const GRAMMAR_FIX_FUNCTIONS = 16;
 
+    /** Whether the constructor is still setting the initial parameters.
+     * @var bool
+     */
+    private $initialising = false;
+
     /**
      * @var string the name of the input.
      * This name has two functions
@@ -172,6 +177,7 @@ abstract class stack_input {
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
         $this->runtime = $runtime;
+        $this->initialising = true;
         $class = get_class($this);
         foreach ($class::get_parameters_defaults() as $name => $value) {
             $this->set_parameter($name, $value);
@@ -196,6 +202,7 @@ abstract class stack_input {
             }
         }
 
+        $this->initialising = false;
         $this->internal_construct();
     }
 
@@ -539,7 +546,9 @@ abstract class stack_input {
         if ($parameter == 'insertStars') {
             $this->parameters['grammarAutofixes'] = stack_input_factory::convert_legacy_insert_stars($value);
         }
-        $this->internal_construct();
+        if (!$this->initialising) {
+            $this->internal_construct();
+        }
     }
 
     /**

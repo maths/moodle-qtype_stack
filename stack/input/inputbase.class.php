@@ -299,6 +299,12 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'realnum':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
+                    }
+                    break;
+
                 case 'hideanswer':
                     if (!(is_bool($arg))) {
                         $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
@@ -1273,6 +1279,15 @@ abstract class stack_input {
             );
         }
 
+        if (array_key_exists('realnum', $this->extraoptions) && $this->extraoptions['realnum']) {
+            $additionalvars['realnum'] = stack_ast_container::make_from_teacher_source(
+                'real_numberp(' . $this->name . ')',
+                '',
+                new stack_cas_security(),
+                []
+            );
+        }
+
         if (array_key_exists('rationalized', $this->extraoptions) && $this->extraoptions['rationalized']) {
             $additionalvars['rationalized'] = stack_ast_container::make_from_teacher_source(
                 'rationalized(' . $this->name . ')',
@@ -1480,6 +1495,15 @@ abstract class stack_input {
             if ($this->extraoptions['rationalnum'] && $rn->get_value() == 'false') {
                 $valid = false;
                 $errors[] = stack_string('numericalinputmustrational');
+            }
+        }
+
+        if (array_key_exists('realnum', $additionalvars)) {
+            $rn = $additionalvars['realnum'];
+            // Only when valid so far: a variable has already been reported by "novars".
+            if ($valid && $this->extraoptions['realnum'] && $rn->get_value() !== 'true') {
+                $valid = false;
+                $errors[] = stack_string('numericalinputmustreal');
             }
         }
 

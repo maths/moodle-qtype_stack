@@ -31,6 +31,8 @@ The "Extra options" field on the input must be a comma separated list of the fol
 
 `rationalnum`:  requires the student's answer to be a rational number (i.e. a fraction), as judged by STACK's `rational_numberp` predicate.  Integers are excluded here!
 
+`realnum`:  requires the student's answer to be a real number, as judged by STACK's `real_numberp` predicate.  E.g. `sqrt(2)`, `pi`, `-3/4` and `0.5` are valid, but `i`, `2+3*i` and `sqrt(-4)` are invalid.  By default the numerical input accepts complex numbers.
+
 `rationalized`:  requires the denominator of any fractions in the student's answer to be free of surds and \(i\), as judged by STACK's `rationalized` function.
 
 `mindp:n`: requires the student to type in `n` or more decimal places.

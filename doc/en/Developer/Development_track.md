@@ -9,15 +9,10 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
 
-1. Add [metadata](../Authoring/Metadata.md) to STACK questions.  (Issue #1711).
-2. Update to version 2.5.1 of ASCIIMath (May 2026)
-3. Add in errors to the free text input, using stdin/stdout/stderr as a model for filter/extractor functions.
-4. Refactor display of matrices so that brackets for `matrix`, `c` and `r` can be controlled in a consistent manner by the question wide `matrixparens` option.  See also Issue #1848.  Thanks to Oleksandr Kulkov for these contributions.
-5. Add in augmented matrix grids for fixed [matrix inputs](../Authoring/Inputs/Matrix_input.md). (Issue #1850).
-6. `stackjson_parse()` parses in one pass, so its time grows linearly with the length of the JSON (it was quadratic: about 1 s for the state of a moderate JSXGraph sketch, called again in every PRT). The result no longer depends on `simp`, a number at the top level is parsed, and malformed input gives `und`.  (Issue #1898).
-
-4. Count authoring failures as XML import errors so Stop on error rejects invalid uploads before writes.
-   Explicit repair imports retain broken diagnostics without changing Moodle version status.
+* Move the [matrix library](../Topics/Linear_algebra/Matrix_library.md) into core STACK, with generated
+   documentation and tests. The contributed package remains available for older STACK installations.
+* Support augmented model answers in fixed and variable-size [matrix inputs](../Authoring/Inputs/Matrix_input.md). (Issue #1850).
+* `stackjson_parse()` parses in one pass, so its time grows linearly with the length of the JSON (it was quadratic: about 1 s for the state of a moderate JSXGraph sketch, called again in every PRT). The result no longer depends on `simp`, a number at the top level is parsed, and malformed input gives `und`.  (Issue #1898).
 
 ## Better testing
 

@@ -3,11 +3,12 @@
 STACK extends Maxima's functionality with a number of very useful functions for manipulating matrices.
 The functions documented here are loaded by default and are available in every question. 
 
-A key feature are convenience functions `c` and `r` which convert their arguments into column and row matrices respectively.
+Use [`column_vector` and `row_vector`](../../CAS/Library/linearalgebra/vectors/index.md) for vector notation.
+They display as vectors without a declaration and retain their operators until converted to matrices.
 
-* `stack_linear_algebra_declare(true)` Provides a linear algebra context, including TeX support for `c` and `r`.
-* `vec_convert(ex)` Converts `c` and `r` convenience functions into matrices.
-* `un_vec_convert(ex)` Given a row or column vector, convert it to `c()` or `r()` form.
+* `stack_linear_algebra_declare(true)` Enables convenience aliases for entering vectors.
+* `vec_convert(ex)` Converts vector expressions into matrices.
+* `un_vec_convert(ex)` Converts a row or column matrix to vector notation.
 
 For more detail, see the page on [Vectors](Vectors.md).
 
@@ -22,7 +23,7 @@ The generated [shape-predicate reference](../../CAS/Library/linearalgebra/predic
 documents [`col_vecp`](../../CAS/Library/linearalgebra/predicates/index.md#col_vecp),
 [`row_vecp`](../../CAS/Library/linearalgebra/predicates/index.md#row_vecp) and
 [`vectorp`](../../CAS/Library/linearalgebra/predicates/index.md#vectorp), including examples,
-the distinction from inert `c`/`r` notation, and empty and 1-by-1 matrix cases.
+the distinction from inert vector notation, and empty and 1-by-1 matrix cases.
 
 ## Predicate functions for matrices
 
@@ -84,8 +85,8 @@ Another advantage of this function is the ability to return an un-simplified ver
 Several contrib libraries rely on either a list of lists or a matrix as a "canonical form" when analysing vector spaces etc. There are several functions included in core STACK to allow for these transformations between forms. For more details see [linearalgebra_core.mac](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/linearalgebra_core.mac)
 
 * `matrix_to_cols(M)` Takes a matrix and returns a list of its column vectors.
-* `make_list_of_lists(ex)` Takes a collection (a list, set, ntuple, span, matrix) of vectors (as lists, matrices, sets, ntuples, `c` or `r`) and returns a list of lists
+* `make_list_of_lists(ex)` Takes a collection (a list, set, ntuple, span, matrix) of vectors (as lists, matrices, sets, ntuples, vector expressions) and returns a list of lists
   * If given a matrix, it returns a list of its column vectors, which are given as lists.
-* `convert_to_colvec(ex)` Tries to convert a given object, e.g. list, matrix, `c` or `r`, ntuples, etc. to a column vector. Returns `matrix([null])` if input is invalid.
+* `convert_to_colvec(ex)` Tries to convert a given object, e.g. list, matrix, vector expressions, ntuples, etc. to a column vector. Returns `matrix([null])` if input is invalid.
 * `cols_to_matrix(L)` Tries to create a matrix with a given list of columns. The columns can be a variety of different objects determined by `convert_to_colvec`. Returns `matrix([null])` if input is invalid.
 * `cols_to_cols(L)` Tries to convert a collection of potential columns to a list of Maxima matrices. Returns `[]` if input is invalid.

@@ -3,7 +3,6 @@
 STACK has a [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/vectorgeometry.mac) for vector geometry functions.  To use this library you must load it into the question variables.
 
 * To use the latest code from github: `stack_include_contrib("vectorgeometry.mac");`
-* Loading this library automatically declares `stack_linear_algebra_declare(true);` to provide context.
 
 This page contains reference documentation on functions in this library.
 
@@ -19,7 +18,11 @@ One option is to have each component of this answer have its own answer box, wit
 
 Another option is to ask the student to type in their answer using matrix notation. Students tend to find this cumbersome, and the answer boxes need to be quite large to fit the whole answer.
 
-`vectorgeometry.mac` supports `c()` and `r()` notation, which allows a student to type in the above function as `c(1,2) + t*c(3,4)`. Including this library will provide this functionality. See [Vectors](Vectors.md) for more information about post-processing answers of this form. 
+The examples below use `c(...)`, the convenience alias for `column_vector(...)`, so a student can
+enter the expression as `c(1,2) + t*c(3,4)`. Loading `vectorgeometry.mac` enables the vector aliases.
+Question authors can also enable them by adding `stack_linear_algebra_declare(true)` to the
+question variables.
+See [Vectors](Vectors.md) for how to convert vector notation before grading.
 
 ## Converting from parametric form to vector form
 
@@ -73,13 +76,13 @@ But, solve can throw errors when we have dependent equations (as we might well d
 ### Is an expression in the expected form?
 `linear_combinationp(ex)` is a predicate function that tests whether a given input `ex` is exactly a linear combination of column vectors with a linear offset.
 
-This function is specifically expecting something of the form \(\underline{\mathbf{r}}_0 + t_1\underline{\mathbf{d}}_1 + t_2\underline{\mathbf{d}}_2 + \dots + t_n\underline{\mathbf{d}}_n\), and can handle either `c` or `matrix` notation (not `r`). It is primarily useful as a sanity check before running the functions below. It will reject any expression with non-linear terms, and respects declarations like `declare(k,constant)`.
+This function is specifically expecting something of the form \(\underline{\mathbf{r}}_0 + t_1\underline{\mathbf{d}}_1 + t_2\underline{\mathbf{d}}_2 + \dots + t_n\underline{\mathbf{d}}_n\), and can handle either `column_vector` or `matrix` notation. It is primarily useful as a sanity check before running the functions below. It will reject any expression with non-linear terms, and respects declarations like `declare(k,constant)`.
 
 * `linear_combinationp(c(1,2) + t*c(3,4))` returns `true`
 * `linear_combinationp(c(1,2) + t^2*c(3,4))` returns `false`
 * `linear_combinationp(c(1,2) + t*c(k,4))` returns `false`
 * `linear_combinationp(c(1,k) + t*c(3,4))` returns `true`, because the expression is interpreted as `c(1,0) + k*c(0,1) + t*c(3,4)`
-* `(declare(k, constant), linear_combinationp(c(1,2) + t*c(k,4))` returns `true`.
+* `(declare(k, constant), linear_combinationp(c(1,2) + t*c(k,4)))` returns `true`.
 
 ### Extracting the components of a vector parametric expression
 

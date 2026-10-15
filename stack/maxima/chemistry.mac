@@ -228,7 +228,7 @@ stack_chemistry_declare(ex) := block(
     ["Ti", "Titan"],
     ["V",  "Vanadium"],
     ["Cr", "Chrom"],
-    ["Mn", "Mang an"],
+    ["Mn", "Mangan"],
     ["Fe", "Eisen"],
     ["Co", "Kobalt"],
     ["Ni", "Nickel"],
@@ -313,14 +313,15 @@ stack_chemistry_declare(ex) := block(
     ["Bh", "Bohrium"],
     ["Hs", "Hassium"],
     ["Mt", "Meitnerium"],
-    ["Rg", "Darmstadtium"],
-    ["Cn", "Roentgenium"],
-    ["Nh", "Copernicium"],
-    ["Fl", "Nihonium"],
-    ["Mc", "Flerovium"],
-    ["Lv", "Moscovium"],
-    ["Ts", "Livermorium"],
-    ["Og", "Tennessine"]
+    ["Ds", "Darmstadtium"],
+    ["Rg", "Roentgenium"],
+    ["Cn", "Copernicium"],
+    ["Nh", "Nihonium"],
+    ["Fl", "Flerovium"],
+    ["Mc", "Moscovium"],
+    ["Lv", "Livermorium"],
+    ["Ts", "Tenness"],
+    ["Og", "Oganesson"]
   ]],
   ["fi", [
     ["H",  "vety"],
@@ -432,14 +433,15 @@ stack_chemistry_declare(ex) := block(
     ["Bh", "bohrium"],
     ["Hs", "hassium"],
     ["Mt", "meitnerium"],
-    ["Rg", "darmstadtium"],
-    ["Cn", sconcat("r", unicode(246), "ntgenium")],
-    ["Nh", "kopernikium"],
-    ["Fl", "nihonium"],
-    ["Mc", "flerovium"],
-    ["Lv", "moskovium"],
-    ["Ts", "livermorium"],
-    ["Og", "tennessiini"]]
+    ["Ds", "darmstadtium"],
+    ["Rg", sconcat("r", unicode(246), "ntgenium")],
+    ["Cn", "kopernikium"],
+    ["Nh", "nihonium"],
+    ["Fl", "flerovium"],
+    ["Mc", "moskovium"],
+    ["Lv", "livermorium"],
+    ["Ts", "tennessiini"],
+    ["Og", "oganesson"]]
   ]
 ]
 )$

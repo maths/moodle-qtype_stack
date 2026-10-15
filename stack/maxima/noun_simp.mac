@@ -72,7 +72,6 @@ load("noun_arith.lisp");
 /* (3) */
 declare("nouneq", commutative);
 declare("nouneq", lassociative);
-declare("nouneq", rassociative);
 
 verb_arith(ex) := block([a],
     /* Better display for -x, etc. */

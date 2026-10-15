@@ -39,13 +39,138 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_matrix_input
  */
 final class input_matrix_test extends qtype_stack_testcase {
+    public function test_augmented_matrix_roundtrip(): void {
+        $options = new stack_options();
+        $model = 'aug_matrix(matrix([1,2],[3,4]),c(5,6))';
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer($model);
+        $contents = [['1', '2', '5'], ['3', '4', '6']];
+        $this->assertEmpty($el->get_errors());
+        $this->assertSame($model, $el->contents_to_maxima($contents));
+        $response = $el->maxima_to_response_array($model);
+        $this->assertSame($contents, $el->response_to_contents($response));
+        $data = $el->render_api_data(null);
+        $this->assertSame('aug_matrix', $data['casValueType']);
+        $this->assertSame([['type' => 'matrix', 'columns' => 2], ['type' => 'c', 'columns' => 1]], $data['blocks']);
+        $blank = new stack_input_state(stack_input::BLANK, [], '', '', '', '', '');
+        $html = $el->render($blank, 'ans1', false, null);
+        $this->assertSame(2, substr_count($html, 'class="stack-matrix-column-separator"'));
+        $this->assertSame(6, substr_count($html, 'type="text"'));
+        $this->assertStringContainsString('readonly="readonly"', $el->render($blank, 'ans1', true, null));
+        $state = $el->validate_student_response($response, $options, $model, new stack_cas_security());
+        $this->assertContains($state->status, [stack_input::VALID, stack_input::SCORE]);
+        $this->assertSame($model, $state->contentsmodified);
+        $this->assertStringContainsString('\\left|', $state->contentsdisplayed);
+        $this->assertStringNotContainsString('aug\\_matrix', $state->contentsdisplayed);
+        $response['ans1_sub_0_0'] = '';
+        $state = $el->validate_student_response($response, $options, $model, new stack_cas_security());
+        $this->assertSame(stack_input::INVALID, $state->status);
+    }
+
+    public function test_augmented_matrix_multiple_blocks_and_reset(): void {
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options());
+        $model = 'aug_matrix(r(1,2),r(3),r(4,5))';
+        $el->adapt_to_model_answer($model);
+        $this->assertSame($model, $el->contents_to_maxima([['1', '2', '3', '4', '5']]));
+        $this->assertCount(3, $el->render_api_data(null)['blocks']);
+        foreach ([
+            ['c(1,2)', [['1'], ['2']], 'c'],
+            ['r(1,2)', [['1', '2']], 'r'],
+            ['matrix([1,2])', [['1', '2']], 'matrix'],
+        ] as [$ordinarymodel, $contents, $type]) {
+            $el->adapt_to_model_answer($model);
+            $el->adapt_to_model_answer($ordinarymodel);
+            $this->assertEmpty($el->get_errors());
+            $this->assertSame($ordinarymodel, $el->contents_to_maxima($contents));
+            $data = $el->render_api_data(null);
+            $this->assertSame($type, $data['casValueType']);
+            $this->assertArrayNotHasKey('blocks', $data);
+            $html = $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
+                'ans1', false, null);
+            $this->assertStringNotContainsString('stack-matrix-column-separator', $html);
+        }
+    }
+
+    public function test_augmented_matrix_invalid_shapes(): void {
+        foreach (
+                ['aug_matrix(matrix([1]),matrix([2],[3]))',
+                'aug_matrix(matrix([1]))', 'aug_matrix(matrix([1]),matrix([]))'] as $model
+            ) {
+                $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options());
+                $el->adapt_to_model_answer($model);
+                $this->assertNotEmpty($el->get_errors(), $model);
+        }
+    }
+
+    /**
+     * Matrix delimiters and their accessible names for ordinary, vector and augmented values.
+     *
+     * @return array of test cases.
+     */
+    public static function bracket_accessibility_provider(): array {
+        $brackets = [
+            'square' => ['[', 'Left square bracket', 'Right square bracket'],
+            'round' => ['(', 'Left parenthesis', 'Right parenthesis'],
+            'curly' => ['{', 'Left curly bracket', 'Right curly bracket'],
+            'vertical bars' => ['|', 'Left vertical bar', 'Right vertical bar'],
+            'none' => ['', null, null],
+        ];
+        $cases = [];
+        foreach ($brackets as $label => $bracket) {
+            foreach (['matrix([1])', 'c(1,2)', 'r(1,2)', 'aug_matrix(matrix([1,2]),c(3))'] as $model) {
+                $cases[$label . ' ' . $model] = array_merge($bracket, [$model]);
+            }
+        }
+        return $cases;
+    }
+
+    /**
+     * Test that every matrix value type retains the configured accessible delimiters.
+     *
+     * @dataProvider bracket_accessibility_provider
+     *
+     * @param string $matrixparens the configured matrix delimiter.
+     * @param string|null $leftlabel the expected left label, or null for no delimiter.
+     * @param string|null $rightlabel the expected right label, or null for no delimiter.
+     * @param string $model the instantiated model answer.
+     */
+    public function test_render_bracket_accessibility(
+        string $matrixparens,
+        ?string $leftlabel,
+        ?string $rightlabel,
+        string $model
+    ): void {
+        $options = new stack_options();
+        $options->set_option('matrixparens', $matrixparens);
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer($model);
+        $html = $el->render(
+            new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
+            'ans1',
+            false,
+            null
+        );
+
+        if ($leftlabel === null) {
+            $this->assertStringNotContainsString('matrixbracketaccessibility', $html);
+            return;
+        }
+
+        $left = '<span class="matrixbracketaccessibility" role="math" aria-label="' . $leftlabel . '"></span>';
+        $right = '<span class="matrixbracketaccessibility" role="math" aria-label="' . $rightlabel . '"></span>';
+        $this->assertStringContainsString($left . '<table', $html);
+        $this->assertStringContainsString('</table>' . $right, $html);
+    }
+
     public function test_render_blank(): void {
 
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
         $this->assertEquals(
-            '<div class="matrixsquarebrackets"><table class="matrixtable" id="ans1_container" ' .
+            '<div class="matrixsquarebrackets">' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Left square bracket"></span>' .
+                '<table class="matrixtable" id="ans1_container" ' .
                 'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody>' .
                 '<tr><td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="" size="5" ' .
@@ -67,7 +192,8 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<td><input type="text" id="ans1_sub_1_2" name="ans1_sub_1_2" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
                     'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
-                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Right square bracket"></span></div>',
             $el->render(
                 new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                 'ans1',
@@ -122,7 +248,9 @@ final class input_matrix_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
         $el->adapt_to_model_answer('matrix([1,0],[0,1])');
         $this->assertEquals(
-            '<div class="matrixsquarebrackets"><table class="matrixtable" id="ans1_container" ' .
+            '<div class="matrixsquarebrackets">' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Left square bracket"></span>' .
+                '<table class="matrixtable" id="ans1_container" ' .
                 'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
                 '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="a" size="5" ' .
@@ -138,7 +266,8 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="d" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
                     'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
-                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Right square bracket"></span></div>',
             $el->render(
                 new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                 'ans1',
@@ -155,7 +284,9 @@ final class input_matrix_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', 'matrix([a,b], [?,d])');
         $el->adapt_to_model_answer('matrix([1,0],[0,1])');
         $this->assertEquals(
-            '<div class="matrixsquarebrackets"><table class="matrixtable" id="ans1_container" ' .
+            '<div class="matrixsquarebrackets">' .
+            '<span class="matrixbracketaccessibility" role="math" aria-label="Left square bracket"></span>' .
+            '<table class="matrixtable" id="ans1_container" ' .
             'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
             '<td style="padding-top: 0.5em">&nbsp;</td>' .
             '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="a" size="5" ' .
@@ -171,7 +302,8 @@ final class input_matrix_test extends qtype_stack_testcase {
             '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="d" size="5" ' .
                 'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
                 'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
-            '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+            '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>' .
+            '<span class="matrixbracketaccessibility" role="math" aria-label="Right square bracket"></span></div>',
             $el->render(
                 new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                 'ans1',
@@ -189,7 +321,9 @@ final class input_matrix_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
         $el->adapt_to_model_answer('matrix([1,0],[0,1])');
         $this->assertEquals(
-            '<div class="matrixroundbrackets"><table class="matrixtable" id="ans1_container" ' .
+            '<div class="matrixroundbrackets">' .
+            '<span class="matrixbracketaccessibility" role="math" aria-label="Left parenthesis"></span>' .
+            '<table class="matrixtable" id="ans1_container" ' .
             'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
             '<td style="padding-top: 0.5em">&nbsp;</td>' .
             '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="a" size="5" ' .
@@ -205,7 +339,8 @@ final class input_matrix_test extends qtype_stack_testcase {
             '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="d" size="5" ' .
                 'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
                 'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
-            '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+            '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>' .
+            '<span class="matrixbracketaccessibility" role="math" aria-label="Right parenthesis"></span></div>',
             $el->render(
                 new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                 'ans1',
@@ -223,7 +358,9 @@ final class input_matrix_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxAttribute', '1');
         $el->adapt_to_model_answer('matrix([1,0],[0,1])');
         $this->assertEquals(
-            '<div class="matrixsquarebrackets"><table class="matrixtable" id="ans1_container" ' .
+            '<div class="matrixsquarebrackets">' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Left square bracket"></span>' .
+                '<table class="matrixtable" id="ans1_container" ' .
                 'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
                 '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" placeholder="a" size="5" ' .
@@ -239,7 +376,8 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" placeholder="d" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
                     'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
-                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Right square bracket"></span></div>',
             $el->render(
                 new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                 'ans1',
@@ -255,7 +393,9 @@ final class input_matrix_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
         $this->assertEquals(
-            '<div class="matrixsquarebrackets"><table class="matrixtable" id="ans1_container" ' .
+            '<div class="matrixsquarebrackets">' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Left square bracket"></span>' .
+                '<table class="matrixtable" id="ans1_container" ' .
                 'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
                 '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="" size="5" ' .
@@ -271,7 +411,8 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
                     'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
-                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Right square bracket"></span></div>',
             $el->render(
                 new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                 'ans1',
@@ -313,6 +454,95 @@ final class input_matrix_test extends qtype_stack_testcase {
             $state->contentsdisplayed
         );
         $this->assertEquals('\( \left[ a , b \right]\) ', $state->lvars);
+    }
+
+    public function test_column_vector_model_answer(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'v', $options);
+        $el->adapt_to_model_answer('c(1,2,3)');
+
+        $api = $el->render_api_data('c(1,2,3)');
+        $this->assertEquals(1, $api['width']);
+        $this->assertEquals(3, $api['height']);
+        $this->assertEquals('c', $api['casValueType']);
+
+        $html = $el->render(
+            new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
+            'ans1',
+            false,
+            null
+        );
+        $this->assertStringContainsString(
+            '<div class="matrixsquarebrackets" data-stack-input-value-type="c">',
+            $html
+        );
+        $this->assertStringContainsString('data-stack-input-type="matrix"', $html);
+
+        $inputvals = [
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_1_0' => 'a',
+            'ans1_sub_2_0' => 'a+b',
+        ];
+        $state = $el->validate_student_response($inputvals, $options, 'c(1,2,3)', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('c(1,a,a+b)', $state->contentsmodified);
+        $this->assertEquals([
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_1_0' => '2',
+            'ans1_sub_2_0' => '3',
+            'ans1_val' => 'c(1,2,3)',
+        ], $el->maxima_to_response_array('c(1,2,3)'));
+    }
+
+    public function test_row_vector_model_answer(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'v', $options);
+        $el->adapt_to_model_answer('r(1,2,3)');
+
+        $api = $el->render_api_data('r(1,2,3)');
+        $this->assertEquals(3, $api['width']);
+        $this->assertEquals(1, $api['height']);
+        $this->assertEquals('r', $api['casValueType']);
+
+        $inputvals = [
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_0_1' => 'a',
+            'ans1_sub_0_2' => 'a+b',
+        ];
+        $state = $el->validate_student_response($inputvals, $options, 'r(1,2,3)', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('r(1,a,a+b)', $state->contentsmodified);
+        $this->assertEquals([
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_0_1' => '2',
+            'ans1_sub_0_2' => '3',
+            'ans1_val' => 'r(1,2,3)',
+        ], $el->maxima_to_response_array('r(1,2,3)'));
+    }
+
+    public function test_generated_vector_constructor_can_be_forbidden(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'v', $options);
+        $el->set_parameter('forbidWords', 'c, sin');
+        $el->set_parameter('sameType', false);
+        $el->adapt_to_model_answer('c(1,2)');
+
+        $state = $el->validate_student_response([
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_1_0' => '2',
+        ], $options, 'c(1,2)', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('c(1,2)', $state->contentsmodified);
+
+        $state = $el->validate_student_response([
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_1_0' => 'c(2,3)',
+        ], $options, 'c(1,2)', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('forbiddenFunction', $state->note);
     }
 
     public function test_validate_student_response_decimals(): void {
@@ -363,7 +593,9 @@ final class input_matrix_test extends qtype_stack_testcase {
         );
         $this->assertEquals('', $state->lvars);
         $this->assertEquals(
-            '<div class="matrixroundbrackets"><table class="matrixtable" id="ans1_container" ' .
+            '<div class="matrixroundbrackets">' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Left parenthesis"></span>' .
+                '<table class="matrixtable" id="ans1_container" ' .
                 'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
                 '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="1" size="5" ' .
@@ -379,7 +611,8 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="5" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
                     'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
-                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Right parenthesis"></span></div>',
             $el->render($state, 'ans1', false, null)
         );
     }
@@ -406,7 +639,9 @@ final class input_matrix_test extends qtype_stack_testcase {
         );
         $this->assertEquals('', $state->lvars);
         $this->assertEquals(
-            '<div class="matrixsquarebrackets"><table class="matrixtable" id="ans1_container" ' .
+            '<div class="matrixsquarebrackets">' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Left square bracket"></span>' .
+                '<table class="matrixtable" id="ans1_container" ' .
                 'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
                 '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="1" size="5" ' .
@@ -422,9 +657,36 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="5" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
                     'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
-                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+                '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Right square bracket"></span></div>',
             $el->render($state, 'ans1', false, null)
         );
+    }
+
+    public function test_validate_student_response_valid_curly(): void {
+
+        $options = new stack_options();
+        $options->set_option('matrixparens', '{');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer('matrix([1,2],[3,4])');
+        $inputvals = [
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_0_1' => '2',
+            'ans1_sub_1_0' => '4',
+            'ans1_sub_1_1' => '5',
+        ];
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2],[3,4])', new stack_cas_security());
+
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals(
+            '\[ \left\{\begin{array}{cc} 1 & 2 \\\\ 4 & 5 \end{array}\right\} \]',
+            $state->contentsdisplayed
+        );
+        $this->assertStringStartsWith(
+            '<div class="matrixcurlybrackets">',
+            $el->render($state, 'ans1', false, null)
+        );
+        $this->assertEquals('matrixcurlybrackets', $el->render_api_data('matrix([1,2],[4,5])')['matrixbrackets']);
     }
 
     public function test_validate_student_response_invalid_one_blank(): void {
@@ -581,9 +843,12 @@ final class input_matrix_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('matrix', 'ans1', 'x^2', $options);
         $el->set_parameter('options', 'allowempty');
         $this->assertEquals(
-            '<div class="matrixsquarebrackets"><table class="matrixtable" id="stack1__ans1_container" ' .
+            '<div class="matrixsquarebrackets">' .
+                '<span class="matrixbracketaccessibility" role="math" aria-label="Left square bracket"></span>' .
+                '<table class="matrixtable" id="stack1__ans1_container" ' .
                 'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody></tbody>' .
-                '</table></div>',
+                '</table><span class="matrixbracketaccessibility" role="math" ' .
+                'aria-label="Right square bracket"></span></div>',
             $el->render(
                 new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                 'stack1__ans1',

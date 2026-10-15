@@ -6,6 +6,14 @@ This input type _requires_ the student to type in a number of some kind.
 
 * Any expression with a variable will be rejected as invalid.
 
+Variables are checked after the student's answer has been simplified, whatever the simplification setting of the question or the input.  This is by design: an expression which simplifies to a number represents that number.  So `t` is invalid, but `0*t`, `t-t` and `1+0*x` are valid.
+
+If you need to reject every expression which contains a variable, even one which cancels, use a [bespoke validator](../../CAS/Validator.md).  Validators are executed with `simp:false`, so `listofvars` sees the variables as the student typed them, e.g.
+
+    validate_novars(ex) := if listofvars(ex) = [] then "" else "Type a number, without any variables.";
+
+with the extra option `validator:validate_novars`.
+
 While variable names are forbidden, by default function names are not forbidden.  `sin(pi/2)` represents a number.  If you actually want the student to type in `1` you need to forbid `sin` in the normal way using the forbidden words.
 
 This input type will preserve trailing zeros in a student's answer.  For example, `0.00100` will keep the two trailing zeros. By default Maxima removes these, and these will also be removed in the algebraic input.
@@ -22,6 +30,8 @@ The "Extra options" field on the input must be a comma separated list of the fol
 `intnum`:  requires the student's answer to be an explicit integer.  E.g. `6` is valid, but `2*3`, `12/2` etc. are invalid.
 
 `rationalnum`:  requires the student's answer to be a rational number (i.e. a fraction), as judged by STACK's `rational_numberp` predicate.  Integers are excluded here!
+
+`realnum`:  requires the student's answer to be a real number, as judged by STACK's `real_numberp` predicate.  E.g. `sqrt(2)`, `pi`, `-3/4` and `0.5` are valid, but `i`, `2+3*i` and `sqrt(-4)` are invalid.  By default the numerical input accepts complex numbers.
 
 `rationalized`:  requires the denominator of any fractions in the student's answer to be free of surds and \(i\), as judged by STACK's `rationalized` function.
 

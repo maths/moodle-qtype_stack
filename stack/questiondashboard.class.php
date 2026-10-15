@@ -107,6 +107,7 @@ class stack_question_dashboard {
         $output->questionnote = stack_ouput_castext($this->question->get_question_summary());
         $output->questionvariablevalues = $this->question->get_question_session_keyval_representation();
         $output->upgradeerrors = $this->question->validate_against_stackversion($this->context);
+        $output->hasrandomvariants = $this->question->has_random_variants() ? true : false;
 
         // Display a representation of the PRT for offline use.
         $offlinemaxima = [];

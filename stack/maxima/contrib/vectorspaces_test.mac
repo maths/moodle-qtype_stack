@@ -77,6 +77,14 @@ s_test_case(lin_indp({c(1,2,3),c(4,5,6)}), true);
 s_test_case(lin_indp([matrix([1],[2],[3]),matrix([4],[5],[6])]), true);
 s_test_case(lin_indp([r(1,2,3),r(4,5,6)]), false);
 s_test_case(lin_indp([c(1,2,3),c(4,5)]), false);
+/* The empty set is linearly independent and spans {0}. */
+s_test_case(lin_indp([]), true);
+s_test_case(lin_indp({}), true);
+s_test_case(lin_indp(span()), true);
+s_test_case(lin_indp(ntuple()), true);
+s_test_case(lin_indp(make_list_of_lists({})), true);
+s_test_case(lin_indp([c(0,0,0)]), false);
+s_test_case(lin_indp(1), false);
 
 s_test_case(row_equivp(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1,0,-1],[0,1,2],[0,0,0])),true);
 s_test_case(row_equivp(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1,0,-1],[0,1,2])),false);
@@ -104,6 +112,19 @@ s_test_case(subspace_equivp(matrix([2],[4]), [c(1,2), c(2,4)]), true);
 s_test_case(subspace_equivp(matrix([2],[4]), [c(1,2), c(2,4,3)]), false);
 s_test_case(subspace_equivp(matrix([1, -1], [-1, 0], [0, 1]), {c(0, -1, 1), c(2, -1, -1)}), true);
 s_test_case(subspace_equivp(matrix([2],[4]), matrix([1],[2],[3])), false);
+/* The empty set spans {0}. */
+s_test_case(subspace_equivp([], {}), true);
+s_test_case(subspace_equivp({}, span()), true);
+s_test_case(subspace_equivp(ntuple(), [c(0,0)]), true);
+s_test_case(subspace_equivp(ntuple(), [c(1,0)]), false);
+s_test_case(subspace_equivp({}, [c(0,0,0)]), true);
+s_test_case(subspace_equivp([[0,0],[0,0]], []), true);
+s_test_case(subspace_equivp({}, matrix([0],[0])), true);
+s_test_case(subspace_equivp({}, [c(1,0)]), false);
+s_test_case(subspace_equivp([c(1,0)], {}), false);
+s_test_case(subspace_equivp({}, matrix([1,0],[0,0])), false);
+s_test_case(subspace_equivp({}, 1), false);
+s_test_case(subspace_equivp(1, []), false);
 
 s_test_case(remove_dep(matrix([0,0])),[]);
 s_test_case(remove_dep([[1,0],[0,1],[1,1]]),[[1,0],[0,1]]);

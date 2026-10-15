@@ -9,7 +9,10 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
 
-1. Remove all "cte" code from Maxima - mostly install.
+* Move the [matrix library](../Topics/Linear_algebra/Matrix_library.md) into core STACK, with generated
+   documentation and tests. The contributed package remains available for older STACK installations.
+* Support augmented model answers in fixed and variable-size [matrix inputs](../Authoring/Inputs/Matrix_input.md). (Issue #1850).
+* `stackjson_parse()` parses in one pass, so its time grows linearly with the length of the JSON (it was quadratic: about 1 s for the state of a moderate JSXGraph sketch, called again in every PRT). The result no longer depends on `simp`, a number at the top level is parsed, and malformed input gives `und`.  (Issue #1898).
 
 ## Better testing
 
@@ -51,7 +54,7 @@ These include meta plugins like
 2. DONE: Error messages for unknown filter/extractor names! (To help authors....)
 3. Write an AsciiMath to Maxima parser to ensure the `lastblock` and `lastexpr` extractors create correct syntax for the input.  Note math.js already has the necessary _parser_ so de-pasting the ast creates by math.js is the first line of attack here.  See calculator.js filter for an example of traversing this tree.
 4. Add options to calculator blocks for degrees, and to support physics with scientific units (which math.js supports).
-
+ 
 ## Future equivalence reasoning development track.
 
 1. Allow bespoke validation (actually quite difficult).

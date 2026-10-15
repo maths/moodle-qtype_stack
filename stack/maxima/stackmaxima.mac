@@ -880,7 +880,10 @@ stack_matrix_pairs:[ ["[", "[", "]"], ["(", "(", ")"], ["\{", "\\{", "\\}"], ["{
 stack_matrix_col(ex):=simplode(maplist(lambda([ex], "c"), first(args(ex))))$
 
 stack_matrix_disp(m):= block([ret, lp, rp, parens],
-  if not(matrixp(m)) then error("stack_matrix_disp: argument must be a matrix."),
+  /* An unevaluated matrix(...) whose arguments are not lists, e.g. matrix(w) in the body
+     of a lambda, is displayed as a function call.  See issue #1912. */
+  if not(matrixp(m)) then
+    return(sconcat("{\\rm matrix}\\left(", simplode(map('tex1, args(m)), " , "), "\\right)")),
   if not(stringp(lmxchar)) then error("stack_matrix_disp requires lmxchar to be a string. "),
   parens: sublist(stack_matrix_pairs, lambda([ex], is(first(ex)=lmxchar))),
   if emptyp(parens) then error(concat("stack_matrix_disp: cannot display matrices with parentheses ", string(lmxchar))),
@@ -1045,7 +1048,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /* Check for box.  */
     plotbox:sublist(ra, lambda([ex], if listp(ex) then is(first(ex) = box) else false)),
     if emptyp(plotbox) then plotbox:true else block(
-            ra:delete(first(plotbox), ra), 
+            ra:delete(first(plotbox), ra),
             if not(second(first(plotbox))) then plotbox:false
         ),
     /* For new versions. */
@@ -1140,7 +1143,7 @@ set output ", afn),
     if plotgrid2d and MAXIMA_VERSION_NUM>34 then
         ral: append(ral, [grid2d]),
     /* Add in the command for the nobox. */
-    if not(plotbox) then if MAXIMA_VERSION_NUM>47 then 
+    if not(plotbox) then if MAXIMA_VERSION_NUM>47 then
         ral:append(ral, [nobox]) else ral:append(ral, [[box,false]]),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
@@ -3564,4 +3567,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2026080600$
+stackmaximaversion:2026082600$

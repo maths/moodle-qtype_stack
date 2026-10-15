@@ -134,11 +134,10 @@ stack_unit_si_present(value,target) := block([conversionfactor, va, vb, simp, be
 )$
 
 /* Splits off the units from the end of a product. */
-stackunits_make(ex) := block([oldsimp, exn, exu, exl],
+stackunits_make(ex) := block([simp:simp, exn, exu, exl],
   if (debug) then (print("stackunits_make: "), print(ex)),
   if not(member('units, features)) then
     stack_unit_si_declare(true),
-  oldsimp:simp,
   simp:false,
   /* If we have only a number then return it, with a placeholder for units. */
   if simp_numberp(float(ex)) then return(stackunits(ex, NULLUNITS)),
@@ -179,7 +178,6 @@ stackunits_make(ex) := block([oldsimp, exn, exu, exl],
     return(stackunits(ex, NULLUNITS)),
   exu:sublist(args(exn), lambda([ex2], not(stackunits_make_p(ex2)))),
   exn:sublist(args(exn), lambda([ex2], stackunits_make_p(ex2))),
-  simp:oldsimp,
   if (debug) then (print("stackunits_make: expressions split as"), print(exn), print(exu)),
   /* Flag up if we genuinely have no numbers. */
   if is_simp(emptyp(exn)) then

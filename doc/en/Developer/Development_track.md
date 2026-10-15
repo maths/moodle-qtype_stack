@@ -7,7 +7,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.15.0
 
-Issues with [github milestone 4.15.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
+Issues with [github milestone 4.15.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.15.0) include
 
 ## Better testing
 

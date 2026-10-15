@@ -38,6 +38,11 @@ jobs:
             maxima: 'GCL'
             moodle-app: false
           - php: '8.4'
+            moodle-branch: 'MOODLE_503_STABLE'
+            database: 'pgsql'
+            maxima: 'SBCL'
+            moodle-app: true
+          - php: '8.4'
             moodle-branch: 'MOODLE_502_STABLE'
             database: 'pgsql'
             maxima: 'SBCL'
@@ -208,7 +213,6 @@ jobs:
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE",     "db");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",         "");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",        "0");'
-          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CI_LIGHT",            "1");'
 
           #cat ${{ github.workspace }}/moodle/config.php
 

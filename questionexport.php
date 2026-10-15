@@ -86,5 +86,4 @@ $outputdata->general->sesskey = sesskey();
 $outputdata->uploadresult = $uploadresult;
 
 echo $OUTPUT->render_from_template('qtype_stack/questionexport', $outputdata);
-
 echo $OUTPUT->footer();

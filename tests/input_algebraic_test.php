@@ -73,7 +73,6 @@ final class input_algebraic_test extends qtype_stack_testcase {
 
     public function test_render_blank_allowempty(): void {
 
-        $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'ans1', 'x^2');
         $el->set_parameter('options', 'allowempty');
         $this->assertEquals(

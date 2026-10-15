@@ -79,6 +79,14 @@ require_once('questiondisplayoptions.php');
  */
 
 /**
+ * This function returns the version number of the current Moodle.
+ */
+function stack_determine_moodle_version() {
+    $v = get_config('moodle');
+    return($v->branch);
+}
+
+/**
  * This answers the question whether the currently active user is
  * able to edit this question. Basically, editing user.
  *
@@ -177,30 +185,6 @@ function stack_castext_file_filter(string $castext, array $identifiers): string 
 }
 
 /**
- * This function returns the version number of the current Moodle.
- */
-function stack_determine_moodle_version() {
-    $v = get_config('moodle');
-    return($v->branch);
-}
-
-/**
- * This function returns fully defined URL for a file present in
- * the `corsscripts` directory. Either mapped through logic that
- * modifies headers or a direct link.
- */
-function stack_cors_link(string $filename): string {
-    if (get_config('qtype_stack', 'stackapi')) {
-        return '/cors.php?name=' . $filename;
-    } else {
-        return (new moodle_url(
-            '/question/type/stack/corsscripts/cors.php',
-            ['name' => $filename]
-        ))->out(false);
-    }
-}
-
-/**
  * Gets the URL used for MathJax, might be VLE local.
  */
 function stack_get_mathjax_url(): string {
@@ -276,6 +260,22 @@ function question_display_options() {
     $options->flags = question_display_options::HIDDEN;
     $options->suppressruntestslink = true;
     return $options;
+}
+
+/**
+ * This function returns fully defined URL for a file present in
+ * the `corsscripts` directory. Either mapped through logic that
+ * modifies headers or a direct link.
+ */
+function stack_cors_link(string $filename): string {
+    if (get_config('qtype_stack', 'stackapi')) {
+        return '/cors.php?name=' . $filename;
+    } else {
+        return (new moodle_url(
+            '/question/type/stack/corsscripts/cors.php',
+            ['name' => $filename]
+            ))->out(false);
+    }
 }
 
 /*

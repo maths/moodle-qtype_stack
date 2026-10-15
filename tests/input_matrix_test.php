@@ -73,11 +73,13 @@ final class input_matrix_test extends qtype_stack_testcase {
         $el->adapt_to_model_answer($model);
         $this->assertSame($model, $el->contents_to_maxima([['1', '2', '3', '4', '5']]));
         $this->assertCount(3, $el->render_api_data(null)['blocks']);
-        foreach ([
-            ['c(1,2)', [['1'], ['2']], 'c'],
-            ['r(1,2)', [['1', '2']], 'r'],
-            ['matrix([1,2])', [['1', '2']], 'matrix'],
-        ] as [$ordinarymodel, $contents, $type]) {
+        foreach (
+                [
+                    ['c(1,2)', [['1'], ['2']], 'c'],
+                    ['r(1,2)', [['1', '2']], 'r'],
+                    ['matrix([1,2])', [['1', '2']], 'matrix'],
+                ] as [$ordinarymodel, $contents, $type]
+        ) {
             $el->adapt_to_model_answer($model);
             $el->adapt_to_model_answer($ordinarymodel);
             $this->assertEmpty($el->get_errors());
@@ -85,8 +87,13 @@ final class input_matrix_test extends qtype_stack_testcase {
             $data = $el->render_api_data(null);
             $this->assertSame($type, $data['casValueType']);
             $this->assertArrayNotHasKey('blocks', $data);
-            $html = $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
-                'ans1', false, null);
+            $html = $el->render(
+                new stack_input_state(
+                    stack_input::BLANK, [], '', '', '', '', ''),
+                    'ans1',
+                    false,
+                    null
+                );
             $this->assertStringNotContainsString('stack-matrix-column-separator', $html);
         }
     }

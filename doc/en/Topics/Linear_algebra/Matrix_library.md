@@ -9,6 +9,11 @@ Existing questions can still call `stack_include_contrib("matrix.mac")`. That co
 retains its historical call to `stack_linear_algebra_declare(true)`, enabling the short `c` and `r`
 vector notation. To use that notation in new questions, make the declaration explicitly.
 
+`stack_include_contrib("matrix.mac")` downloads the package from STACK's `master` branch, including
+on older installations, so it also retains the function definitions. The package is generated from
+the maintained core sources. To use the shipped copy instead, question authors can call
+`stack_include("contribl://matrix.mac")`.
+
 This page gives examples and guidance for using these functions.
 
 ## Working with matrices

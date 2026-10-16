@@ -138,6 +138,11 @@
             "description":"Answer tests for specific subject situations."
             },
             {
+            "file":"LLM_authoring.md",
+            "title":"Authoring STACK questions with an LLM - STACK Documentation",
+            "description":"Guidance on how to use LLMs for authoring STACK questions."
+            },
+            {
             "file":"Rule_based.md",
             "title":"Rule-based tests - STACK Documentation",
             "description":"STACK can test expressions belong to the same bespoke equivalence class."

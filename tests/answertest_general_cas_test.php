@@ -535,10 +535,10 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(stack_maxima_translate($fb), $at->get_at_feedback());
 
         if ($this->adapt_to_new_maxima('5.48.0')) {
-            $fbt = 'The entries underlined in red below are those that are incorrect. ' .
+            $fbt = 'Your answer is shown below, possibly simplified. Incorrect entries are underlined in red. ' .
                 '\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
         } else {
-            $fbt = 'The entries underlined in red below are those that are incorrect. ' .
+            $fbt = 'Your answer is shown below, possibly simplified. Incorrect entries are underlined in red. ' .
                 '\[ \left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
         }
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());

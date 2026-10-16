@@ -26,22 +26,10 @@
 
 stack_linear_algebra_declare(mode) := block(
   texput(c,
-    lambda([ex], block([ns,str,ii],
-      ns: args(ex),
-      str: ["\\begin{bmatrix} "],
-      for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " \\\\ "])),
-      str[length(str)]: " \\end{bmatrix}",
-      simplode(str)
-    ))
+    lambda([ex], stack_matrix_disp(transpose(matrix(args(ex)))))
   ),
  texput(r,
-    lambda([ex], block([ns,str,ii],
-      ns: args(ex),
-      str: ["\\begin{bmatrix} "],
-      for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " & "])),
-      str[length(str)]: " \\end{bmatrix}",
-      simplode(str)
-    ))
+    lambda([ex], stack_matrix_disp(matrix(args(ex))))
   ),
   /* We can't have declarations like this in the STACK core. It will cause problems with existing questions! */
   declare([c,r],nonscalar),
@@ -96,74 +84,7 @@ vec_convertedp(ex):= block([ex_ops],
   if member(c,ex_ops) or member(r,ex_ops) then return(false) else return(true)
 );
 
-/** 
- * Predicate for determining whether a given object is an Mx1 matrix (a column vector)
- * Note: does not consider c a column vector. Use vec_convert before col_vecp.
- *
- * @param[expression] ex An object that may be a matrix
- * @return[boolean] Is the object an Mx1 matrix?
- */
-col_vecp(ex):= block(
-  if not(matrixp(ex)) then return(false)
-  else return(is(second(matrix_size(ex))=1))
-);
-
-/** 
- * Predicate for determining whether a given object is a 1xN matrix (a row vector)
- * Note: does not consider r a row vector. Use vec_convert before row_vecp.
- *
- * @param[expression] ex An object that may be a matrix
- * @return[boolean] Is the object a 1xN matrix?
- */
-row_vecp(ex):= block(
-  if not(matrixp(ex)) then return(false)
-  else return(is(first(matrix_size(ex))=1))
-);
-
-/** 
- * Predicate for determining whether a given object is a vector
- * Note: does not consider c or r a vector. Use vec_convert before vectorp.
- *
- * @param[expression] ex An object that may be a matrix
- * @return[boolean] Is the object a 1xN or Mx1 matrix?
- */
-vectorp(ex):= col_vecp(ex) or row_vecp(ex);
-
-/** 
- * Predicate to determine whether a matrix is diagonal.
- * i.e. Is every off-diagonal entry equal to 0?
- *
- * @param[matrix] M An mxn matrix
- * @return[boolean] Is this matrix diagonal?
- */
-diagp(M):= block([dia,imax,jmax,ii,jj],
-  if not(matrixp(M)) then return(false),
-  dia: true,
-  [imax, jmax]: ev(matrix_size(M),simp),
-  for ii: 1 thru imax while dia do block(
-    ii: ev(ii,simp),
-    for jj: 1 thru jmax while dia do block(
-      jj: ev(jj,simp),
-      if not(is(ii=jj)) and not(is(M[ii,jj]=0)) then dia: false
-    )
-  ),
-  return(dia)
-);
-
-/** 
- * Is a given object a square matrix?
- * i.e. Does the matrix have the same number of rows as columns?
- *
- * @param[matrix] M a matrix
- * @return[boolean] Is M a square matrix?
- */
-squarep(M):= block([isSquare],
-  isSquare: false,
-  if matrixp(M) then block(
-    if is(apply("=", matrix_size(M))) then isSquare: true
-  ),
-  return(isSquare)
-);
+/* Shape predicates are defined in maximasrc/linearalgebra/predicates. */
 
 /*********************************************************************************/
 /* Functions to convert objects into standard forms                              */
@@ -190,11 +111,12 @@ squarep(M):= block([isSquare],
  */
 make_list_of_lists(ex):= block([_op1],
   _op1:safe_op(ex),
-  if not(member(op1,["[","ntuple","{","span","matrix"])) then return(ex),
+  if not(member(_op1,["[","ntuple","{","span","matrix"])) then return(ex),
   ex:vec_convert(ex),
   if vectorp(ex) then return([list_matrix_entries(ex)]),
-  if is(op1="matrix") then return(args(transpose(ex))),
+  if is(_op1="matrix") then return(args(transpose(ex))),
   ex:args(ex),
+  if emptyp(ex) then return([]),
   if ev(not(some(lambda([ex2], nonscalarp(ex2)), ex)), simp) then return([ex]),
   ex:map(lambda([ex2], if vectorp(ex2) then list_matrix_entries(ex2) else args(ex2)),ex),
   return(ex)
@@ -447,3 +369,44 @@ crossproduct(a,b) := block(
     if (not(is(matrix_size(a)=[3,1])) or not(is(matrix_size(b)=[3,1]))) then error("crossproduct requires 3 by 1 matrices."),
     transpose(matrix([a[2,1]*b[3,1]-a[3,1]*b[2,1],a[3,1]*b[1,1]-a[1,1]*b[3,1],a[1,1]*b[2,1]-a[2,1]*b[1,1]]))
 )$
+
+/*******************************************************************************/
+/* A convenience function for displaying a matrix as an augmented matrix       */
+/*******************************************************************************/
+texput(aug_matrix, lambda([ex],
+  block([exl:map(vec_convert,args(ex)),ii,ss,ll:lmxchar,rr,lmxchar],
+    if is(ll="[") then rr: "]"
+    else if is(ll="(") then rr: ")"
+    else if is(ll="") then (ll: ".", rr: ".")
+    else if is(ll="{") then (ll: "\\{", rr: "\\}")
+    else if is(ll="|") then rr: "|",
+    lmxchar: "",
+    ss: ["\\left",ll,tex1(exl[1])],
+    for ii: 2 thru length(exl) do block(
+      ii: ev(ii,simp),
+      ss: append(ss, ["\\left|",tex1(exl[ii]),"\\right."])
+    ),
+    ss: append(ss, ["\\right",rr]),
+    return(simplode(ss))
+  )
+));
+
+/**
+ * Converts a matrix to an aug_matrix
+ * aug_matrix is an inert function that is used for displaying a matrix as an augmented matrix
+ * To convert back, use de_aug
+ *
+ * @param[matrix] M The matrix or matrices you would like to display as an augmented matrix
+ * @return[aug_matrix] An augmented matrix
+ */
+aug([M]):= if is(length(M)=1) then apply(aug_matrix,[submatrix(first(M),second(matrix_size(first(M)))),col(first(M),second(matrix_size(first(M))))]) else apply(aug_matrix,M);
+
+/**
+ * Converts an aug_matrix to a matrix
+ * aug_matrix is an inert function that is used for displaying a matrix as an augmented matrix
+ * Note: This always returns a single matrix constructed by concatenating the arguments of the original aug_matrix.
+ *
+ * @param[matrix] M The aug_matrix you would like to treat as a regular matrix
+ * @return[aug_matrix] A matrix
+ */
+de_aug(M):= apply(addcol, map(vec_convert,args(M)));

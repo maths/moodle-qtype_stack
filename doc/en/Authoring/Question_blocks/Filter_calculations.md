@@ -27,6 +27,8 @@ or, if using the AsciiMath filter
 
 While just `{@3*31@}` will be replaced within the text (and probably looks OK as numbers within text), it won't be within a mathematics environment.  (Experienced castext users might not have noticed that when rendering castext server-side we auto-detect if a calculation is within a mathematics environment, and if not we ensure it's inline mathematics. This auto-detection does not happen here!)
 
+ Set `errors="false"` in the filter block parameters to hide error messages.
+
 ### `calculation` filter
 
 The `calculation` filter provides only basic calculator functions, including support for statistics.  This is the intended filter for student use.

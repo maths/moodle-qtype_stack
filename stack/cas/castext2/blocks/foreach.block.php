@@ -53,7 +53,7 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
                 $internal[] = $c;
             }
         }
-        // The actual body is a singel statement updateing a total output variable.
+        // The actual body is a single statement updating a total output variable.
         $body = null;
         // We try to keep things simpler if we know the result is nice and flat.
         if ($flat) {
@@ -160,10 +160,27 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
 
             $ev = stack_ast_container::make_from_teacher_source($this->params[array_keys($this->params)[0]]);
             $ast = $ev->get_commentles_primary_statement();
-            $r->arguments[] = new MP_Loop($body, [
-                new MP_LoopBit('for', new MP_Identifier(array_keys($this->params)[0])),
-                new MP_LoopBit('in', new MP_FunctionCall(new MP_Identifier('listify'), [$ast])),
-            ]);
+            $r->arguments[] = new MP_If(
+                                    [
+                                        new MP_FunctionCall(
+                                            new MP_Identifier('emptyp'),
+                                            [new MP_FunctionCall(new MP_Identifier('listify'), [$ast])]
+                                        )
+                                    ],
+                                    [
+                                        new MP_FunctionCall(
+                                            new MP_Identifier('return'),
+                                            [new MP_String('')]
+                                            ),
+                                        new MP_Loop(
+                                            $body,
+                                            [
+                                            new MP_LoopBit('for', new MP_Identifier(array_keys($this->params)[0])),
+                                            new MP_LoopBit('in', new MP_FunctionCall(new MP_Identifier('listify'), [$ast])),
+                                            ]
+                                        )
+                                    ]
+                              );
         }
 
         $r->arguments[]  = new MP_Identifier('__ct2_foreach___tmp');

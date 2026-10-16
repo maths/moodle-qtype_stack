@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Add description here!
+ * Helper functions needed throughout the codebase.
  * @package    qtype_stack
  * @copyright  2024 University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -34,6 +34,30 @@ class stack_exception extends moodle_exception {
     public function __construct($error) {
         parent::__construct('exceptionmessage', 'qtype_stack', '', $error);
     }
+}
+
+/**
+ * Get version number and question id of the latest version of a question.
+ * @param mixed $questionid
+ * @return array
+ */
+function get_latest_question_version($questionid) {
+    // We should always run tests on the latest version of the question.
+    // This means we can refresh/reload the page even if the question has been edited and saved in another window.
+    // When we click "edit question" button we automatically jump to the last version, and don't edit this version.
+    $params = ['questionid' => $questionid];
+    $query = 'SELECT qv.questionid, qv.version, qv.questionbankentryid FROM {question_versions} qv
+                    WHERE qv.questionbankentryid = (SELECT questionbankentryid FROM {question_versions}
+                                    WHERE questionid = :questionid)
+                    ORDER BY qv.version DESC';
+    global $DB;
+    $result = $DB->get_records_sql($query, $params);
+    $versions = [];
+    foreach ($result as $current) {
+        $versions[$current->version] = $current->questionid;
+    }
+    $result = reset($result);
+    return [$result->version, $result->questionid, $result->questionbankentryid, $versions];
 }
 
 /**
@@ -60,6 +84,36 @@ function stack_ouput_castext($castext) {
  */
 function stack_string($key, $a = null) {
     return stack_maths::process_lang_string(get_string($key, 'qtype_stack', $a));
+}
+
+/**
+ * Students may not input strings containing specific LaTeX
+ * i.e. no math-modes due to us being unable to decide if it is safe.
+ */
+function stack_string_sanitise($str) {
+    $str = str_replace('\\[', '\\&#8203;[', $str);
+    $str = str_replace('\\]', '\\&#8203;]', $str);
+    $str = str_replace('\\(', '\\&#8203;(', $str);
+    $str = str_replace('\\)', '\\&#8203;)', $str);
+    $str = str_replace('$$', '$&#8203;$', $str);
+    // Also any script tags need to be disabled.
+    $str = str_ireplace('<script', '&lt;&#8203;script', $str);
+    $str = str_ireplace('</script>', '&lt;&#8203;/script&gt;', $str);
+    $str = str_ireplace('<iframe', '&lt;&#8203;iframe', $str);
+    $str = str_ireplace('</iframe>', '&lt;&#8203;/iframe&gt;', $str);
+    $str = str_ireplace('<style', '&lt;&#8203;style', $str);
+    $str = str_ireplace('</style>', '&lt;&#8203;/style&gt;', $str);
+    $str = str_ireplace('<div', '&lt;&#8203;div', $str);
+    $str = str_ireplace('</div>', '&lt;&#8203;/div&gt;', $str);
+    $str = str_ireplace('/>', '/&gt;', $str);
+    $str = str_ireplace('</', '&lt;/', $str);
+    $str = str_ireplace('<!--', '&lt;!--', $str);
+    $str = str_ireplace('-->', '--&gt;', $str);
+
+    $pat = ['/(on)([a-z]+[\s]*)(=)/i', '/(href)([\s]*)(=)/i', '/(src)([\s]*)(=)/i'];
+    $rep = ['on&#0;$2&#0;&#61;', 'href&#0;$2&#61;', 'src&#0;$2&#61;'];
+    $str = preg_replace($pat, $rep, $str);
+    return $str;
 }
 
 /**
@@ -176,44 +230,17 @@ function stack_maxima_translate($rawfeedback) {
     }
 }
 
-// phpcs:ignore moodle.Commenting.MissingDocblock.Function
+/**
+ * Santise the output, E.g. '>' -> '&gt;'.
+ * @param string $str
+ * @return string
+ */
 function stack_maxima_format_casstring($str) {
-    // Santise the output, E.g. '>' -> '&gt;'.
     $str = stack_string_sanitise($str);
     $str = str_replace('[[syntaxexamplehighlight]', '<span class="stacksyntaxexamplehighlight">', $str);
     $str = str_replace('[syntaxexamplehighlight]]', '</span>', $str);
 
     return html_writer::tag('span', $str, ['class' => 'stacksyntaxexample']);
-}
-
-// phpcs:ignore moodle.Commenting.MissingDocblock.Function
-function stack_string_sanitise($str) {
-    // Students may not input strings containing specific LaTeX
-    // i.e. no math-modes due to us being unable to decide if
-    // it is safe.
-    $str = str_replace('\\[', '\\&#8203;[', $str);
-    $str = str_replace('\\]', '\\&#8203;]', $str);
-    $str = str_replace('\\(', '\\&#8203;(', $str);
-    $str = str_replace('\\)', '\\&#8203;)', $str);
-    $str = str_replace('$$', '$&#8203;$', $str);
-    // Also any script tags need to be disabled.
-    $str = str_ireplace('<script', '&lt;&#8203;script', $str);
-    $str = str_ireplace('</script>', '&lt;&#8203;/script&gt;', $str);
-    $str = str_ireplace('<iframe', '&lt;&#8203;iframe', $str);
-    $str = str_ireplace('</iframe>', '&lt;&#8203;/iframe&gt;', $str);
-    $str = str_ireplace('<style', '&lt;&#8203;style', $str);
-    $str = str_ireplace('</style>', '&lt;&#8203;/style&gt;', $str);
-    $str = str_ireplace('<div', '&lt;&#8203;div', $str);
-    $str = str_ireplace('</div>', '&lt;&#8203;/div&gt;', $str);
-    $str = str_ireplace('/>', '/&gt;', $str);
-    $str = str_ireplace('</', '&lt;/', $str);
-    $str = str_ireplace('<!--', '&lt;!--', $str);
-    $str = str_ireplace('-->', '--&gt;', $str);
-
-    $pat = ['/(on)([a-z]+[ ]*)(=)/i', '/(href)([ ]*)(=)/i', '/(src)([ ]*)(=)/i'];
-    $rep = ['on&#0;$2&#0;&#61;', 'href&#0;$2&#61;', 'src&#0;$2&#61;'];
-    $str = preg_replace($pat, $rep, $str);
-    return $str;
 }
 
 /**
@@ -288,25 +315,19 @@ class stack_outofcontext_process {
 }
 
 /**
- * Get version number and question id of the latest version of a question.
- * @param mixed $questionid
- * @return array
+ * Get the base URL for the plot.php script.
+ * @return string
  */
-function get_latest_question_version($questionid) {
-    // We should always run tests on the latest version of the question.
-    // This means we can refresh/reload the page even if the question has been edited and saved in another window.
-    // When we click "edit question" button we automatically jump to the last version, and don't edit this version.
-    $params = ['questionid' => $questionid];
-    $query = 'SELECT qv.questionid, qv.version, qv.questionbankentryid FROM {question_versions} qv
-                    WHERE qv.questionbankentryid = (SELECT questionbankentryid FROM {question_versions}
-                                    WHERE questionid = :questionid)
-                    ORDER BY qv.version DESC';
-    global $DB;
-    $result = $DB->get_records_sql($query, $params);
-    $versions = [];
-    foreach ($result as $current) {
-        $versions[$current->version] = $current->questionid;
-    }
-    $result = reset($result);
-    return [$result->version, $result->questionid, $result->questionbankentryid, $versions];
+function stack_plot_url_base() {
+    global $CFG;
+    return $CFG->wwwroot . '/question/type/stack/plot.php/';
+}
+
+/**
+ * Get the directory path for the corsscripts directory.
+ * @return string
+ */
+function stack_cors_scripts_dir() {
+    global $CFG;
+    return $CFG->dirroot . '/question/type/stack/corsscripts/';
 }

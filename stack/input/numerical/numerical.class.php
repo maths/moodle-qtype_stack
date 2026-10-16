@@ -40,6 +40,8 @@ class stack_numerical_input extends stack_input {
         'intnum' => false,
         // Is the demoninator of any fractions in the student's answer to be free of surds?
         'rationalnum' => false,
+        // Is a student required to type in a real number?
+        'realnum' => false,
         'rationalized' => false,
         // Require min/max number of decimal places?
         'mindp' => false,

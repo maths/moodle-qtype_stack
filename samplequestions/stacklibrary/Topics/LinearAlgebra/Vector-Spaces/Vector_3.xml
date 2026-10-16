@@ -5,7 +5,7 @@
       <text>Vector_3</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Let \({\bf v_{1}}\), \({\bf v_2}\), \({\bf v_3}\) be the following vectors: <br /> \[ {\bf v_{1}} = {@v1@},\quad {\bf v_{2}} = {@v2@},\quad {\bf v_{3}} = {@v3@}. \] <br /> Find the values for \(\lambda_1\) and \(\lambda_2\) such that <br /> \[{\bf v_3} = \lambda_1 {\bf v_1} + \lambda_2 {\bf v_2} .\] <br /> If such values do not exist, enter zero for both entries. \(\lambda_1\) = [[input:ans1]] \(\lambda_2\) = [[input:ans2]] [[validation:ans1]] [[validation:ans2]]</p>]]></text>
+      <text><![CDATA[<p>Let \({\bf v_{1}}\), \({\bf v_2}\), \({\bf v_3}\) be the following vectors: <br /> \[ {\bf v_{1}} = {@v1@},\quad {\bf v_{2}} = {@v2@},\quad {\bf v_{3}} = {@v3@}. \] <br /> Find the values for \(\lambda_1\) and \(\lambda_2\) such that <br /> \[{\bf v_3} = \lambda_1 {\bf v_1} + \lambda_2 {\bf v_2} .\] <br /> If such values do not exist, enter <code>null</code> for both entries. \(\lambda_1\) = [[input:ans1]] \(\lambda_2\) = [[input:ans2]] [[validation:ans1]] [[validation:ans2]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[<p>If \[{\bf v_3} = \lambda_1 {\bf v_1} + \lambda_2 {\bf v_2},\] we have 3 equations in 2 unknowns. <br />For there to be a solution for \(\lambda_1\) and \(\lambda_2\) the vectors \({\bf v_1},{\bf v_2}\) and \({\bf v_3}\) must be linearly dependent. <br /> This requires the determinant of the matrix of vectors to be zero. <br /> The matrix is \[{@matrixv312@}\] with a determinant of \( {@detmatrix@}\) <br /> Therefore the vectors are not linearly dependent and there is no solution for \(\lambda_1\) and \(\lambda_2\)</p>]]></text>
@@ -31,7 +31,7 @@
  n2:rand(9)+1;
  v3:ev(n1*v1+n2*v2);
  v3[2,1]:v3[2,1]+1;
- correctanswer:[0,0];
+ correctanswer:[null,null];
  matrixv312:matrix([v1[1,1],v2[1,1],v3[1,1]],[v1[2,1],v2[2,1],v3[2,1]],[v1[3,1],v2[3,1],v3[3,1]]);
  detmatrix:determinant(matrixv312);</text>
     </questionvariables>
@@ -55,6 +55,10 @@
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+     {"author":[{"firstName":"","lastName":"","institution":"Unknown - Legacy question","year":"2025"}],"language":["en"],"isPartOf":"STACK Library","license":"cc-sa-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

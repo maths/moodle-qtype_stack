@@ -43,7 +43,7 @@ eigenvectorp(v,M,[L]):= block([],
   if not(col_vecp(v)) then return(false),
   if ev(zeromatrixp(v),simp) then return(false),
   if is(second(matrix_size(M))#first(matrix_size(v))) then return(false),
-  if not(emptyp(L)) then return(ev(is(M.v=first(L)*v),expand,simp)),
+  if not(emptyp(L)) then return(is(ev(zeromatrixp(ratsimp(radcan(M.v-first(L)*v))),simp))),
   return(is(rank(ev(addcol(M.v, v),simp))=1) and is(rank(v)=1))
 );
 

@@ -73,7 +73,6 @@ final class input_algebraic_test extends qtype_stack_testcase {
 
     public function test_render_blank_allowempty(): void {
 
-        $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'ans1', 'x^2');
         $el->set_parameter('options', 'allowempty');
         $this->assertEquals(
@@ -245,6 +244,22 @@ final class input_algebraic_test extends qtype_stack_testcase {
         );
         $this->assertEquals('Your answer contains question mark characters, ?, which are not permitted in answers.  ' .
             'You should replace these with a specific value.', $state->errors);
+    }
+
+    /**
+     * Explicit custom validation replaces the generated feedback, including an empty override.
+     */
+    public function test_replace_validation_tags_custom_feedback(): void {
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x');
+        $state = new stack_input_state(stack_input::BLANK, [], '', '', '', '', '');
+        $custom = '<em>Custom validation feedback</em>';
+        $html = $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]', $custom);
+        $this->assertSame('<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive">' .
+                $custom . '</div>', $html);
+        $this->assertSame(
+            '<div class="stackinputfeedback standard empty" id="sans1_val" aria-live="assertive"></div>',
+            $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]', '')
+        );
     }
 
     public function test_validate_student_response_algebraic_1(): void {

@@ -541,6 +541,19 @@ final class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Foreach edge case with empty set.
+     * @covers \qtype_stack\stack_cas_castext2_foreach
+     */
+    public function test_blocks_foreach_5(): void {
+
+        $input = '[[ foreach foo="a"]] {@first(a)@}, [[/foreach]]';
+        $preamble = ['a:[]'];
+        $output = '';
+        $options = new stack_options(['simplify' => false]);
+        $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
+    }
+
+    /**
      * Block-system "comment"-block, functional requirements:
      *  1. Comments out itself and contents.
      *  2. Even if contents are invalid or incomplete.

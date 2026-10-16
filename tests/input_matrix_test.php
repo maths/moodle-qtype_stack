@@ -88,12 +88,11 @@ final class input_matrix_test extends qtype_stack_testcase {
             $this->assertSame($type, $data['casValueType']);
             $this->assertArrayNotHasKey('blocks', $data);
             $html = $el->render(
-                new stack_input_state(
-                    stack_input::BLANK, [], '', '', '', '', ''),
-                    'ans1',
-                    false,
-                    null
-                );
+                new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
+                'ans1',
+                false,
+                null
+            );
             $this->assertStringNotContainsString('stack-matrix-column-separator', $html);
         }
     }

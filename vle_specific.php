@@ -274,7 +274,7 @@ function stack_cors_link(string $filename): string {
         return (new moodle_url(
             '/question/type/stack/corsscripts/cors.php',
             ['name' => $filename]
-            ))->out(false);
+        ))->out(false);
     }
 }
 

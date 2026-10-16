@@ -256,8 +256,10 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $html = $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]', $custom);
         $this->assertSame('<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive">' .
                 $custom . '</div>', $html);
-        $this->assertSame('<div class="stackinputfeedback standard empty" id="sans1_val" aria-live="assertive"></div>',
-                $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]', ''));
+        $this->assertSame(
+            '<div class="stackinputfeedback standard empty" id="sans1_val" aria-live="assertive"></div>',
+            $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]', '')
+        );
     }
 
     public function test_validate_student_response_algebraic_1(): void {

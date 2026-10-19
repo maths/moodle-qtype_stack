@@ -1668,7 +1668,7 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
     )$
 
 /* An answer test based on two sets for SA and SB. */
-ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAl, SBl, ZM],
+ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAl, SBl, ZM, ZN],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Get sizes of sets. */
     SAl:ev(cardinality(SA), simp),
@@ -1682,11 +1682,25 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAl, SBl, ZM],
 
     if (subsetp(SA, SB) and subsetp(SB, SA)) then
         return([true, true, AnswerNote, FeedBack]),
+    /* Elements which differ structurally may still be algebraically equivalent, e.g. 1/2+sqrt(5)/2 and (1+sqrt(5))/2.
+       So match the remaining elements one by one, in both directions. */
+    ZM:setify(sublist(listify(setdifference(SA, SB)), lambda([ex], not(ATSet_memberp(ex, SB))))),
+    ZN:sublist(listify(setdifference(SB, SA)), lambda([ex], not(ATSet_memberp(ex, SA)))),
+    if (emptyp(ZM) and emptyp(ZN)) then
+        return([true, true, AnswerNote, FeedBack]),
     /* Can we give feedback on which are wrong ? */
-    ZM:setdifference(SA, SB),
     if not(emptyp(ZM)) then
       FeedBack:StackAddFeedback("", "ATSet_wrongentries", stack_disp(ZM, "d")),
     return([true, false, StackAddNote("", "ATSet_wrongentries"), FeedBack])
+)$
+
+/* Is the expression ex algebraically equivalent to an element of the set S?  Only expressions are compared. */
+ATSet_memberp(ex, S) := block([ret],
+    ret:false,
+    if not(expressionp(ex)) then return(false),
+    for el in listify(S) while not(ret) do
+        if expressionp(el) and algebraic_equivalence(ex, el) then ret:true,
+    return(ret)
 )$
 
 /* Note, this test (ATSets not ATSet as above) gives much more detailed feedback

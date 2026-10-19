@@ -350,15 +350,14 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=2}', 0, 'ATSet_wrongentries.', ''],
         ['AlgEquiv', '', '{x-1=0,x>1 and 5>x}', '{x>1 and x<3,x=1}', 0, 'ATSet_wrongentries.', ''],
         [
-            'AlgEquiv', '', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', -3, 'ATSet_wrongentries.',
-            'Equivalence for elements of sets is different from expressions: see docs.',
+            'AlgEquiv', '', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', 1, '',
+            'Elements of sets which are expressions are compared with algebraic_equivalence: see docs.',
         ],
         [
             'AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -3,
             'ATSet_wrongentries.', '',
         ],
-        // Without sets the following examples should be equal.
-        ['AlgEquiv', '', '{5/4*%e^(%i*%pi/6)}', '{5*sqrt(3)/8+5/8*%i}', -3, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{5/4*%e^(%i*%pi/6)}', '{5*sqrt(3)/8+5/8*%i}', 1, '', ''],
         ['AlgEquiv', '', 'map(expand,{5/4*%e^(%i*%pi/6)})', '{5*sqrt(3)/8+5/8*%i}', 1, '', ''],
         ['AlgEquiv', '', 'ratsimp({5/4*%e^(%i*%pi/6)})', 'ratsimp({5*sqrt(3)/8+5/8*%i})', 1, '', ''],
 
@@ -374,10 +373,16 @@ class stack_answertest_test_data {
             'AlgEquiv', '', 'ev(radcan((n+1)^((n+2)/(n+1))/(n+2)),radexpand:all,simp)',
             'ev(radcan(1/(n+2)*((n+1)^(1/(n+1)))^(n+2)),radexpand:all,simp)', 1, '', '',
         ],
-        // We don't simplify here.
-        ['AlgEquiv', '', '{(2-2^(5/2))/2,(2^(5/2)+2)/2}', '{1-2^(3/2),2^(3/2)+1}', 0, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{(2-2^(5/2))/2,(2^(5/2)+2)/2}', '{1-2^(3/2),2^(3/2)+1}', 1, '', ''],
         ['AlgEquiv', '', 'ev(radcan({(2-2^(5/2))/2,(2^(5/2)+2)/2}),simp)', '{1-2^(3/2),2^(3/2)+1}', 1, '', ''],
-        ['AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', 0, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', 1, '', ''],
+        ['AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^5999}', 0, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{1/2+sqrt(5)/2,1/2-sqrt(5)/2}', '{(1+sqrt(5))/2,(1-sqrt(5))/2}', 1, '', ''],
+        ['AlgEquiv', '', '{2/(sqrt(5)-1),-2/(1+sqrt(5))}', '{(1+sqrt(5))/2,(1-sqrt(5))/2}', 1, '', ''],
+        // Two forms of one element: the sizes match, but the second element of the teacher's set is missing.
+        ['AlgEquiv', '', '{1/2+sqrt(5)/2,(1+sqrt(5))/2}', '{(1+sqrt(5))/2,(1-sqrt(5))/2}', 0, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{-4*(1+%i),-4+4*%i,3}', '{-4-4*%i,-4+4*%i,3}', 1, '', ''],
+        ['AlgEquiv', '', '{-4*(1+%i),-4+4*%i,2}', '{-4-4*%i,-4+4*%i,3}', 0, 'ATSet_wrongentries.', ''],
         [
             'AlgEquiv', '', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}',
             1, '', '',

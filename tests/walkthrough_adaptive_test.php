@@ -5010,7 +5010,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $ia = '{4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)}';
         $this->process_submission(['ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1]);
         $expected = 'Seed: 1; ans1: {4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)} [score]; ans: # = 0 | ' .
-            'ATSets_wrongentries. ATSets_missingentries. | ans-0-F | ATSet_wrongsz. | ans-1-F | ATSet_wrongsz. | ans-2-F';
+            'ATSets_wrongentries. ATSets_missingentries. | ans-0-F | ATSets_missingentries. | ans-1-F | ' .
+            'ATSets_missingentries. | ans-2-F';
         $this->check_response_summary($expected);
 
         $this->check_current_mark(0.3);

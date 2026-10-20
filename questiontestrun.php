@@ -134,6 +134,7 @@ $initialdata->general = new Stdclass();
 
 // Create default test if requested and save it to the question.
 if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit && $question->inputs !== []) {
+    require_sesskey();
     $initialdata->general->testcreated = $dashboard->create_default_test();
 } else {
     $initialdata->general->testcreated = false;
@@ -266,7 +267,7 @@ foreach ($initialdata->tests->results as $key => $result) {
     $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key]));
     $testconfirmlink = new moodle_url(
         '/question/type/stack/questiontestedit.php',
-        array_merge($urlparams, ['testcase' => $key, 'confirmthistestcase' => true])
+        array_merge($urlparams, ['testcase' => $key, 'confirmthistestcase' => true, 'sesskey' => $sesskey])
     );
     $testdeletelink = new moodle_url('/question/type/stack/questiontestdelete.php', array_merge($urlparams, ['testcase' => $key]));
     $test->editlink = $testeditlink->out();

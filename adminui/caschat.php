@@ -111,6 +111,7 @@ if (!optional_param('initialise', '', PARAM_RAW)) {
 $savedb = false;
 $savedmsg = '';
 if (trim(optional_param('action', '', PARAM_RAW)) == trim(stack_string('savechat'))) {
+    require_sesskey();
     $savedb = true;
 }
 
@@ -315,6 +316,8 @@ if ($pslash) {
     $fout .= html_writer::empty_tag('input', ['type' => 'checkbox', 'name' => 'pslash']);
 }
 $fout .= html_writer::end_tag('p');
+
+$fout .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]);
 
 echo html_writer::tag('form', $fout, ['method' => 'post']);
 

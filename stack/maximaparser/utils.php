@@ -397,8 +397,8 @@ class maxima_parser_utils {
                                 }
 
                                 $match = [];
-                                if (strpos($lib, 'genmanifest:')) {
-                                    $libname = ' genmanifest' . $includecount . '/' . $i;
+                                if (strpos($lib, 'genmanifest:') === 0) {
+                                    $libname = ' genmanifest' . $includecount . '_' . $i;
                                     if (isset($root->position['requires-addr-libnames'][$lib])) {
                                         // Lets avoid regeneration of the same thing if we can.
                                         $libname = $root->position['requires-addr-libnames'][$lib];
@@ -509,6 +509,7 @@ class maxima_parser_utils {
                                 // This is the root node, which has the comments and statements as its items.
                                 // We do include even the comments, maybe in the future they include annotations.
                                 $node->parentnode->parentnode->items = $replacement;
+                                $root->position['requires-loaded'] = $loaded;
                                 return false;
                             } else {
                                 // The libraries should always have been parsed already...
@@ -517,7 +518,6 @@ class maxima_parser_utils {
                                 return true;
                             }
 
-                            $root->position['requires-loaded'] = $loaded;
                         } else {
                             $node->name->value = 'failed_stack_require';
                             $errors[] = 'stack_require-statements may not have evaluation-flags.';

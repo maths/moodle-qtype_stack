@@ -49,6 +49,45 @@ use stack_ast_container;
 final class stack_require_test extends qtype_stack_testcase {
 
     /**
+     * A generated manifest must include transitive local dependencies.
+     */
+    public function test_generated_manifest_dependencies(): void {
+        $address = 'genmanifest: generated-dependencies.mac';
+        stack_cas_contrib_library_tools::generate_manifest($address, null, [
+            'generated-dependencies.mac' => 'require_value:2; require_a(x):=x+require_value; ' .
+                'require_b(x):=2*require_a(x);',
+        ]);
+        $kv = new stack_cas_keyval('stack_require("' . $address . '", ["require_b"]);');
+        $this->assertTrue($kv->get_valid(), implode(', ', $kv->get_errors()));
+        $session = $kv->get_session();
+        $result = stack_ast_container::make_from_teacher_source('require_b(1)');
+        $session->add_statement($result);
+        $session->instantiate();
+        $this->assertEquals('6', $result->get_value());
+    }
+
+    /**
+     * Later require statements must not reset an already loaded dependency.
+     */
+    public function test_repeated_require_preserves_dependency(): void {
+        $address = 'genmanifest: repeated-dependencies.mac';
+        stack_cas_contrib_library_tools::generate_manifest($address, null, [
+            'repeated-dependencies.mac' => 'require_value:2; require_a(x):=x+require_value; ' .
+                'require_b(x):=2*require_a(x);',
+        ]);
+        $kv = new stack_cas_keyval(
+            'stack_require("' . $address . '", ["require_a"]); require_value:5; ' .
+            'stack_require("' . $address . '", ["require_b"]);'
+        );
+        $this->assertTrue($kv->get_valid(), implode(', ', $kv->get_errors()));
+        $session = $kv->get_session();
+        $result = stack_ast_container::make_from_teacher_source('require_b(1)');
+        $session->add_statement($result);
+        $session->instantiate();
+        $this->assertEquals('12', $result->get_value());
+    }
+
+    /**
      * Loads the special lib1 and lib2 manifests from the special places.
      */
     public function get_manifests(): array {

@@ -60,7 +60,7 @@ A filter is specified with a `[[filter]]` child block inside the `[[ascii]]` blo
 
 #### `markdown-math` filter
 
-This is the default behaviour. If you do not specify a filter then `[[filter type="markdown-math" tansforms="aligneq"/]]` will be used.
+This is the default behaviour. If you do not specify a filter then `[[filter type="markdown-math" transforms="aligneq"/]]` will be used.
 
 The `markdown-math` filter processes the student's text as markdown and renders mathematical content. The following rendering rules are applied to recognized token types:
 

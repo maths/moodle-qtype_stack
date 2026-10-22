@@ -2,7 +2,7 @@
 
 Many STACK authors are using LLMs/AI to assist with question writing.  
 
-In the autumn of 2026 we published a case study [From print to interactive: an SMP A-level textbook built in STACK with AI agents](https://stack-assessment.org/CaseStudies/2026/SMP_Textbook/) describing sucess in generatins a complete mathematics textbook using Claude.
+In the autumn of 2026 we published a case study [From print to interactive: an SMP A-level textbook built in STACK with AI agents](https://stack-assessment.org/CaseStudies/2026/SMP_Textbook/) describing success in generating a complete mathematics textbook using Claude.
 
 ## Why STACK is still a useful tool
 
@@ -17,7 +17,7 @@ Just as MCQ is still needed, STACK will retain an important place in the educati
 
 ## Workflows for STACK question generation
 
-To help question authors make the best out of STACK and its features, we have produced a basic "stack-essentials" file designed to help LLM agents write questions to a basic standard.  See `agents/stack_essentials.md`
+To help question authors make the best out of STACK and its features, we have produced a basic "stack_essentials" file designed to help LLM agents write questions to a basic standard.  See `agents/stack_essentials.md`
 
 
 

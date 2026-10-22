@@ -4,5 +4,5 @@ This repository contains STACK, an open-source computer-aided assessment system 
 
 ## STACK question authoring
 
-When creating, editing, reviewing or debugging a STACK question, read and follow `agents/stack_essentials.md` before proceeding. This document defines the essential requirements for authoring valid, robust and testable STACK questions.:
+When creating, editing, reviewing or debugging a STACK question, read and follow `agents/stack_essentials.md` before proceeding. This document defines the essential requirements for authoring valid, robust and testable STACK questions.
 

@@ -493,7 +493,8 @@ class stack_bulk_tester {
             return;
         }
 
-        $validationproblems = $question->validate_for_bulk($context);
+        $validationproblems = trim($question->validate_for_bulk($context) . ' ' .
+            $question->validate_stackversion_newer());
         $questionproblems = ($validationproblems) ? [$validationproblems] : [];
         if (!empty($questionproblems)) {
             $results['failingvalidation'][$questionid] = $questionnamelink . ' ' . $validationproblems;

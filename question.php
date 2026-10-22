@@ -1757,8 +1757,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
-     * This function is called by the bulk testing script on upgrade.
-     * This checks if questions use features which have changed.
+     * Check this question for features which STACK no longer supports.
+     *
+     * Called by the question dashboard, the bulk tester, the API's test route and cli/bulkseed.php.
+     * Any message returned is an upgrade error, and the bulk tester and the API then skip the
+     * question tests.  Problems which should not stop testing belong in validate_for_bulk.
+     *
+     * @param object $context the question's context, used to check its files.
+     * @return string the upgrade errors, or '' if there are none.
      */
     public function validate_against_stackversion($context) {
         $errors = [];
@@ -1766,12 +1772,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             'questiontext', 'questionnote', 'questiondescription',
             'specificfeedback', 'generalfeedback',
         ];
-        $qfields = array_merge($castextfields, ['questionvariables']);
 
+        // Every question must record the version of STACK it was last edited with.
+        // For the checks below, a missing stamp counts as older than every version.
+        if (!ctype_digit(trim((string) $this->stackversion))) {
+            $errors[] = stack_string('stackversionmissing', s((string) $this->stackversion));
+        }
         $stackversion = (int) $this->stackversion;
 
-        // Things no longer allowed in questions.
-        // Use 'datespecific' => true for checks which are only done on older questions.
+        // Things no longer allowed in questions.  Each 'pat' is a Maxima name, matched as a whole name,
+        // so logbase does not match logbasesimp.
+        // Use 'datespecific' => true for checks which are only done on questions last edited before 'ver',
+        // because the name is valid again in newer questions.
         $patterns = [
             ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd', 'datespecific' => true],
             ['pat' => 'texdecorate', 'ver' => 2018080600],
@@ -1780,32 +1792,20 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             ['pat' => 'proof_parsons_interpret', 'ver' => 2024092500, 'alt' => 'parsons_decode'],
             ['pat' => 'linearalgebra_contrib', 'ver' => 2025022400, 'alt' => 'stack_linear_algebra_declare(true)'],
         ];
+        $tocheck = $this->get_upgrade_check_fields();
         foreach ($patterns as $checkpat) {
-            if ($stackversion < $checkpat['ver'] || !array_key_exists('datespecific', $checkpat)) {
-                foreach ($qfields as $field) {
-                    if (strstr($this->$field ?? '', $checkpat['pat'])) {
-                        $a = ['pat' => $checkpat['pat'], 'ver' => $checkpat['ver'], 'qfield' => stack_string($field)];
-                        $err = stack_string('stackversionerror', $a);
-                        if (array_key_exists('alt', $checkpat)) {
-                            $err .= ' ' . stack_string('stackversionerroralt', $checkpat['alt']);
-                        }
-                        $errors[] = $err;
+            if (array_key_exists('datespecific', $checkpat) && $stackversion >= $checkpat['ver']) {
+                continue;
+            }
+            $regex = '/(?<![A-Za-z0-9_])' . preg_quote($checkpat['pat'], '/') . '(?![A-Za-z0-9_])/';
+            foreach ($tocheck as $qfield => $text) {
+                if (preg_match($regex, $text)) {
+                    $a = ['pat' => $checkpat['pat'], 'ver' => $checkpat['ver'], 'qfield' => $qfield];
+                    $err = stack_string('stackversionerror', $a);
+                    if (array_key_exists('alt', $checkpat)) {
+                        $err .= ' ' . stack_string('stackversionerroralt', $checkpat['alt']);
                     }
-                }
-                // Look inside the PRT feedback variables.  Should probably check the feedback as well.
-                foreach ($this->prts as $name => $prt) {
-                    $kv = $prt->get_feedbackvariables_keyvals();
-                    if (strstr($kv, $checkpat['pat'])) {
-                        $a = [
-                            'pat' => $checkpat['pat'], 'ver' => $checkpat['ver'],
-                            'qfield' => stack_string('feedbackvariables') . ' (' . $name . ')',
-                        ];
-                        $err = stack_string('stackversionerror', $a);
-                        if (array_key_exists('alt', $checkpat)) {
-                            $err .= ' ' . stack_string('stackversionerroralt', $checkpat['alt']);
-                        }
-                        $errors[] = $err;
-                    }
+                    $errors[] = $err;
                 }
             }
         }
@@ -1833,7 +1833,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Only checking against pre-JSXGraph questions as multiline
         // comments still valid there.
         // TO-DO Should this be here or in the validate_for_bulk function?
-        if ($stackversion < '2018073000') {
+        if ($stackversion < 2018073000) {
             $pat = '~/\*.*?\*/~s';
             foreach ($castextfields as $field) {
                 if (preg_match($pat, $this->$field ?? '')) {
@@ -1869,6 +1869,73 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         return implode(' ', $errors);
+    }
+
+    /**
+     * Every field of this question which can use a Maxima name, for validate_against_stackversion.
+     * From CAS text, only the CAS code is returned, so a name mentioned in prose is not matched.
+     *
+     * @return array field name, as shown to the teacher => its text.
+     */
+    private function get_upgrade_check_fields(): array {
+        $fields = [];
+        $castextfields = [
+            'questiontext', 'questionnote', 'questiondescription',
+            'specificfeedback', 'generalfeedback',
+        ];
+        foreach ($castextfields as $field) {
+            $fields[stack_string($field)] = $this->get_castext_code($this->$field ?? '');
+        }
+        $fields[stack_string('questionvariables')] = $this->questionvariables ?? '';
+        foreach ($this->prts as $name => $prt) {
+            $fields[stack_string('feedbackvariables') . ' (' . $name . ')'] = $prt->get_feedbackvariables_keyvals();
+            foreach ($prt->get_nodes() as $key => $node) {
+                $nodename = $name . '-' . ($key + 1);
+                $fields[stack_string('sans') . ' (' . $nodename . ')'] = $node->sans ?? '';
+                $fields[stack_string('tans') . ' (' . $nodename . ')'] = $node->tans ?? '';
+                $fields[stack_string('stackversionnodefeedback', $nodename)] =
+                    $this->get_castext_code(($node->truefeedback ?? '') . ' ' . ($node->falsefeedback ?? ''));
+            }
+        }
+        foreach ($this->inputs as $name => $input) {
+            $fields[stack_string('teacheranswer') . ' (' . $name . ')'] = $input->get_teacher_answer() ?? '';
+        }
+        return $fields;
+    }
+
+    /**
+     * The CAS code in a CAS text, one statement per line: the {@...@} and {#...#} injections
+     * and the CAS attributes of blocks such as [[if test="..."]], but not prose or comments.
+     *
+     * @param string $castext the CAS text.
+     * @return string the CAS code, or the whole text if it does not parse.
+     */
+    private function get_castext_code(string $castext): string {
+        try {
+            $code = [];
+            foreach (castext2_parser_utils::get_casstrings($castext) as $cs) {
+                $code[] = $cs->get_inputform();
+            }
+            return implode("\n", $code);
+        } catch (Throwable $e) {
+            return $castext;
+        }
+    }
+
+    /**
+     * Warn when this question was last edited with a newer STACK than this site's.
+     *
+     * Many such questions use no new features and work here, so this is a warning only:
+     * it must never stop a question's tests from running.
+     *
+     * @return string the warning, or '' if there is none.
+     */
+    public function validate_stackversion_newer(): string {
+        $siteversion = (int) get_config('qtype_stack', 'version');
+        if ($siteversion > 0 && (int) $this->stackversion > $siteversion) {
+            return stack_string('stackversionnewer', ['question' => $this->stackversion, 'site' => $siteversion]);
+        }
+        return '';
     }
 
     /**

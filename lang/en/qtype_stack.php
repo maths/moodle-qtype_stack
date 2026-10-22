@@ -56,9 +56,12 @@ $string['stack:exporttoexternallibraries'] = 'Allow export to external libraries
 // Versions of STACK.
 $string['stackversionedited']     = 'This question was authored with STACK version {$a}.';
 $string['stackversionnow']        = 'The current version of STACK is {$a}.';
-$string['stackversionnone']       = 'This question has not been edited since question variant numbering was introduced in STACK 4.2.  Please review your question carefully.';
+$string['stackversionmissing']    = 'This question does not have a valid STACK version number (found "{$a}").  Every question must record the version of STACK it was last edited with, a number such as 2026101500.  Save the question in the editing form, or set the stackversion field in its XML.';
+$string['stackversionnone']       = 'This question does not record the version of STACK it was last edited with.  It may not have been edited since STACK 4.2, or it was imported without one.  Please review your question carefully.';
 $string['stackversionerror']      = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
 $string['stackversionerroralt']   = 'An alternative is {$a}.';
+$string['stackversionnewer']       = 'This question was authored with STACK version {$a->question}, which is newer than the version of STACK on this site ({$a->site}).  It may use features this site does not have.';
+$string['stackversionnodefeedback'] = 'Feedback of node {$a}';
 $string['stackversionmulerror']   = 'This question has an input which uses the "mul" option, which is not supported after STACK version 4.2.  Please edit this question.';
 $string['stackversionregexp']     = 'The RegExp answer test is not supported after STACK version 4.3.  Please use the new SRegExp instead.';
 $string['stackfilesizeerror']      = 'One or more files (e.g. images) is more than 1MB in size.';

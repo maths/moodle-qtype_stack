@@ -21,7 +21,7 @@ By substituting this back into \((a+b)^2\) and removing any constant factors we 
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>v:rand([x,y,z,t]);

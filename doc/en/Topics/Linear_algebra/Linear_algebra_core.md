@@ -11,8 +11,9 @@ A key feature are convenience functions `c` and `r` which convert their argument
 
 For more detail, see the page on [Vectors](Vectors.md).
 
-In STACK 4.9.0 this functionality was moved into the core of STACK.  For earlier versions of STACK
-you can use the [latest code from github](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/linearalgebra_contrib.mac): `stack_include_contrib("linearalgebra_contrib.mac");`
+In STACK 4.9.0 this functionality was moved into the core of STACK.  Do not include `linearalgebra_contrib.mac` in questions for STACK 4.9.0 or later: the question dashboard and the bulk tester report it as an upgrade error, and the bulk tester does not run the question's tests.  Use `stack_linear_algebra_declare(true)` instead, or one of the linear algebra libraries which declare it.
+
+Only for a site running a version of STACK before 4.9.0, you can use the [latest code from github](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/linearalgebra_contrib.mac): `stack_include_contrib("linearalgebra_contrib.mac");`.  Remove it when the site is upgraded.
 
 ## Predicate functions for vectors
 

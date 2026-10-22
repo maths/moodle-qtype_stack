@@ -19,7 +19,7 @@ There is no need to expand the compond term \({@y+k1@}\) as you can treat it as 
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>k1:rand(8)+1;

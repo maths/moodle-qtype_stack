@@ -155,10 +155,6 @@ This question is included as a [sample question](../../STACK_question_admin/Libr
 
 Find a vector parametric equation for the plane that goes through \(\mathcal{P}_1\), \(\mathcal{P}_2\) and \(\mathcal{P}_3\). Our answer will be \(\mathbf{r} = \mathcal{P}_1 + t\cdot \left(\mathcal{P}_2 - \mathcal{P}_1\right) + s\cdot \left(\mathcal{P}_3 - \mathcal{P}_1\right)\), but the student could very reasonably choose any of the three points as their linear offset (or others!), and can construct alternative direction vectors and use different parameter names. In the question variables we can include: 
 
-    /* Can be deleted if using STACK 4.9.0 or later: */
-    stack_include_contrib("linearalgebra_contrib.mac");
-    %_stack_preamble_end;
-    
     stack_include_contrib("vectorgeometry.mac")
     
     p1: transpose(rand_selection([-4,-3,-2,-1,0,1,2,3,4],3));

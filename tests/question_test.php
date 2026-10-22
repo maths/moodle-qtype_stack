@@ -24,6 +24,7 @@ use question_attempt_step;
 use question_state;
 use qbehaviour_adaptivemultipart_part_result;
 use question_classified_response;
+use stack_input_factory;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -326,5 +327,99 @@ final class question_test extends qtype_stack_testcase {
             . 'which is not supported after STACK version 4.2.  Please edit this question.';
 
             $this->assertEquals($expected, $q->validate_against_stackversion(context_system::instance()));
+    }
+
+    public function test_question_addrow_new_stamp(): void {
+
+        // The addrow check is date specific: a question last edited after 2018060601 may use addrow.
+        $q = test_question_maker::make_question('stack', 'addrow');
+        $q->stackversion = '2018060601';
+        $expected = 'This question uses texdecorate in the Question variables, which changed in STACK version ' .
+             '2018080600 and is no longer supported.';
+
+        $this->assertEquals($expected, $q->validate_against_stackversion(context_system::instance()));
+    }
+
+    public function test_question_addrow_missing_stamp(): void {
+
+        // A missing stamp is an error, and counts as older than every version.
+        $q = test_question_maker::make_question('stack', 'addrow');
+        $q->stackversion = null;
+        $errors = $q->validate_against_stackversion(context_system::instance());
+        $this->assertStringStartsWith('This question does not have a valid STACK version number (found "").', $errors);
+        $this->assertStringContainsString('This question uses addrow in the Question variables', $errors);
+    }
+
+    public function test_question_bad_stamp(): void {
+
+        $q = test_question_maker::make_question('stack', 'test2');
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
+
+        foreach (['', ' ', '4.13.1', 'v2026080600'] as $stamp) {
+            $q->stackversion = $stamp;
+            $this->assertStringStartsWith('This question does not have a valid STACK version number',
+                $q->validate_against_stackversion(context_system::instance()));
+        }
+    }
+
+    public function test_question_addrow_other_fields(): void {
+
+        // The fixture uses addrow in the feedback variables.  Add it to a node's TAns and an input's teacher answer.
+        $q = test_question_maker::make_question('stack', 'addrow');
+        $q->questionvariables = 'm:matrix([1,2],[3,4]);';
+        $nodes = $q->prts['firsttree']->get_nodes();
+        $nodes[0]->tans = 'addrow(m,1,1,1)';
+        $q->prts['firsttree']->set_nodes($nodes);
+        $q->inputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'addrow(m,1,1,1)');
+        $expected = '';
+        foreach (['Feedback variables (firsttree)', 'TAns (firsttree-1)', 'Teacher answer (ans1)'] as $field) {
+            $expected .= 'This question uses addrow in the ' . $field . ', which changed in STACK version ' .
+                '2018060601 and is no longer supported. An alternative is rowadd. ';
+        }
+        $expected = trim($expected);
+
+        $this->assertEquals($expected, $q->validate_against_stackversion(context_system::instance()));
+    }
+
+    public function test_question_logbase_whole_name(): void {
+
+        $q = test_question_maker::make_question('stack', 'test2');
+        $q->questionvariables = 'p:lg(27,3);q:ev(p,lg=logbasesimp);';
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
+
+        $q->questionvariables = 'p:logbase(27,3);';
+        $expected = 'This question uses logbase in the Question variables, which changed in STACK version ' .
+             '2019031300 and is no longer supported. An alternative is lg.';
+        $this->assertEquals($expected, $q->validate_against_stackversion(context_system::instance()));
+    }
+
+    public function test_question_logbase_castext(): void {
+
+        // In CAS text only the CAS code is checked, not prose or comments.
+        $q = test_question_maker::make_question('stack', 'test2');
+        $q->generalfeedback = '<p>We used to write logbase, now we write lg.</p>[[comment]]logbase(27,3)[[/comment]]';
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
+
+        $expected = 'This question uses logbase in the General feedback, which changed in STACK version ' .
+             '2019031300 and is no longer supported. An alternative is lg.';
+        $q->generalfeedback = '<p>So \\(\\log_3(27) = {@logbase(27,3)@}\\).</p>';
+        $this->assertEquals($expected, $q->validate_against_stackversion(context_system::instance()));
+
+        $q->generalfeedback = '[[if test="is(logbase(27,3)=3)"]]<p>Yes.</p>[[/if]]';
+        $this->assertEquals($expected, $q->validate_against_stackversion(context_system::instance()));
+    }
+
+    public function test_question_newer_stamp(): void {
+
+        $q = test_question_maker::make_question('stack', 'test2');
+        $q->stackversion = (string) ((int) get_config('qtype_stack', 'version') + 1);
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
+        $this->assertStringNotContainsString('which is newer than the version of STACK on this site',
+            $q->validate_for_bulk(context_system::instance()));
+        $this->assertStringContainsString('which is newer than the version of STACK on this site',
+            $q->validate_stackversion_newer());
+
+        $q->stackversion = get_config('qtype_stack', 'version');
+        $this->assertEquals('', $q->validate_stackversion_newer());
     }
 }

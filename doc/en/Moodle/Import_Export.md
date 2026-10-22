@@ -12,6 +12,23 @@ Choose "Moodle XML format" and the question bank category you wish to import you
 
 STACK also comes with a large [question bank](Question_bank.md).
 
+## The STACK version stamp
+
+Every STACK question stores the version of the STACK plug-in last used to edit it, in the `<stackversion>` field of the Moodle XML.
+
+    <stackversion><text>2026080600</text></stackversion>
+
+This is the plug-in's version number, not the release name: `2026080600` is STACK 4.13.1.  The [STACK version map](../Installation/STACK_versions.md) gives the number for each release.
+
+* Saving a question in Moodle's edit form stamps it with the version of STACK on the site.
+* Importing a question keeps whatever the XML file says.  If the file has no `<stackversion>`, the question is stored without one.
+
+Every question must have a version number.  A question without one, or with something other than a number such as `2026080600`, has an upgrade error: the question dashboard reports it, and the bulk tester and the API's test route do not run the question's tests.  To fix it, save the question in the editing form.
+
+If you write or edit Moodle XML outside Moodle, set `<stackversion>` to the version of STACK on the site the question is written for.  Do not copy the value from another question.
+
+The stamp is a record, and does not change how the question runs: STACK always uses the code installed on the site.  The question dashboard shows the stamp beside the site's current version, and the [bulk tester](../STACK_question_admin/Bulk_testing.md) uses it to decide which upgrade checks apply to older questions.
+
 ## Exporting STACK questions
 
 There are two ways to export STACK questions.

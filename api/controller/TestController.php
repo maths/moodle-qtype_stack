@@ -102,6 +102,8 @@ class TestController {
             $response->getBody()->write(json_encode($testresponse));
             return $response->withHeader('Content-Type', 'application/json');
         }
+        // A newer stamp is only a warning: the tests still run.
+        $testresponse->warnings = $question->validate_stackversion_newer();
 
         // Create test results for each deployed seed. If no random variants, then use 'noseed' as
         // array index.

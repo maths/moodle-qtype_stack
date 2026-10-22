@@ -27,7 +27,7 @@ Now you have an equation for \(x\).</text>
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>ta:sqrt(y^2-z^2);</text>

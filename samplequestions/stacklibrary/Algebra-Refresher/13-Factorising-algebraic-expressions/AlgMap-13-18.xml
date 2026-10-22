@@ -22,7 +22,7 @@ Be sure to then substitute \(u={@v^2@}\) back to give your factored form in term
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>v:rand([x,y,z,t]);

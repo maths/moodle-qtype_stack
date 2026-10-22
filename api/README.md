@@ -176,6 +176,7 @@ The test route returns the following fields:
 - string: `name`: The name of the question.
 - string: `messages`: Question level error messages.
 - boolean: `isupgradeerror`: Are there any issues related to questions being non-compliant with a STACK upgrade?
+- string: `warnings`: Question level warnings which did not stop the tests, for example a question last edited with a newer version of STACK than the API's.
 - boolean: `isgeneralfeedback`: Does the question have general feedback?
 - boolean: `isdeployedseeds`: Does the question have deployed seeds?
 - boolean: `israndomvariants`: Does the question use random variants?

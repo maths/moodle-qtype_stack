@@ -182,6 +182,8 @@ require_login();
                 resultHtml += (json.israndomvariants && json.isdeployedseeds) ? '</div>' : '';  // Close div for seeds.
                 // Display question level messages. (Upgrade errors).
                 resultHtml += (json.messages) ? '<p class="feedback failed">' + json.messages + '</p>' : '';
+                // Display question level warnings, which did not stop the tests.
+                resultHtml += (json.warnings) ? '<p class="feedback">' + json.warnings + '</p>' : '';
                 resultDiv.innerHTML = resultHtml;
                 // Append result to correct div then sort questions by name. (Calls are async so we may not
                 // get the results back in the correct order).

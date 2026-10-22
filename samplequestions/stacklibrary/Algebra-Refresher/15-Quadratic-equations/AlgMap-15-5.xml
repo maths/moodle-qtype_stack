@@ -65,7 +65,7 @@ Therefore \( {@v@} = {@ta1@}\) or \( {@v@} = {@ta2@}\) and so the solution set i
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>v:rand([x,y,z,t]);

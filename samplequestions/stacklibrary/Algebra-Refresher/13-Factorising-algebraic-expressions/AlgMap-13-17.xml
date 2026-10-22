@@ -23,7 +23,7 @@ which is now clearly a difference of two squares. So factorising gives:
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>ta:factor((a+b)^2-(a+c)^2);</text>

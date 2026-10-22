@@ -3,7 +3,7 @@
 This file contains a mapping between the Moodle plugin version number and STACK release name.
 To be used for communication. 
 
-To generate a row for this table, use the command `cli/getversionstring.php`, remeber to do that
+To generate a row for this table, use the command `cli/getversionstring.php`, remember to do that
 when releasing.
 
 

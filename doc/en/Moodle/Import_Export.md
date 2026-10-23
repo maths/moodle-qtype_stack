@@ -29,6 +29,12 @@ If you write or edit Moodle XML outside Moodle, set `<stackversion>` to the vers
 
 The stamp is a record, and does not change how the question runs: STACK always uses the code installed on the site.  The question dashboard shows the stamp beside the site's current version, and the [bulk tester](../STACK_question_admin/Bulk_testing.md) uses it to decide which upgrade checks apply to older questions.
 
+## Writing Moodle XML outside Moodle
+
+Most elements of a STACK question's XML are optional.  On import, an omitted element takes a default value.  Some defaults are fixed in the code, for example a penalty of `0.1`.  Others come from the site's STACK settings, for example the input box size and whether an input must be validated before it is marked.  A site administrator can change these, so the same file can behave differently on two sites.  Write out every element the question depends on.  A question exported from Moodle lists every element.
+
+The question's name, and the name of every input, PRT and PRT node, must be present.  Wrap any HTML in `<![CDATA[ ... ]]>`.  The file `agents/stack_essentials.md` in the STACK source gives a minimal complete question and the rules for writing one.
+
 ## Exporting STACK questions
 
 There are two ways to export STACK questions.

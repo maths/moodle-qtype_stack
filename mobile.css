@@ -161,7 +161,7 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
 }
 
 .que.stack div.matrixcurlybrackets {
-    --stack-curly-bracket: url(pix/curlybracket.svg);
+    --stack-curly-bracket: url('../pix/curlybracket.svg');
     position: relative;
     display: inline-block;
     /*rtl:ignore*/

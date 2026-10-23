@@ -61,14 +61,13 @@ Unless you want to discuss something confidential with the developers, please do
   * You should have now created a `goemaxima:2024072400-dev` image locally.
 * Temporarily update STACK API locally:
   * Update maxima image in STACK API to `goemaxima:2024072400-dev` in `docker-compose.dev.yml`.
-  * Update `stackmaximaversion` and `version` in `config.php` for the API to e.g. 2024072400.
+  * The API reads `stackmaximaversion` and `version` from `stack/maxima/stackmaxima.mac` and `version.php`, so `config.php` does not need them.
 * `docker compose -f docker-compose.dev.yml up`
 
 ### Version numbers
 
  * version.php
  * stackmaxima.mac
- * Update version numbers in the API in anticipation of a new Goemaxima image `api/config_samples.txt`
  * Update Goemaxima docker image versions in `api/docker/docker-compose.dev.yml` and  `api/docker/docker-compose.yml`
    E.g. see `https://hub.docker.com/r/mathinstitut/goemaxima` for latest versions.
 
@@ -97,5 +96,7 @@ E.g. "v4.10.0".
 
 ### 4. Releasing a new version of the API to take advantage of the new release
 
-Prompt to update Geomaxima image.
+* Prompt to update the Goemaxima image, `mathinstitut/goemaxima:VERSION-latest`, where `VERSION` is `$plugin->version`.
+* Pushing the release tag runs the GitHub workflow `publish_api_image`, which builds the API image from the tag and publishes it as `stackmaths/stackapi:VERSION-latest`.  Check the workflow succeeded and the image is on [Docker Hub](https://hub.docker.com/r/stackmaths/stackapi).  It needs the repository secrets `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`.  To publish an image for an earlier release, run the workflow by hand with that release's tag.
+* Users need both images with the same `VERSION`: one API image for every release keeps the API usable whichever release a site runs.
 

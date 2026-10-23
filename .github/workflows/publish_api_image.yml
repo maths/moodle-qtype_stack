@@ -1,0 +1,40 @@
+name: publish_api_image
+# Build the STACK API Docker image for a release and publish it to Docker Hub as
+# stackmaths/stackapi:<version>-latest, where <version> is $plugin->version in version.php.
+# Needs the repository secrets DOCKERHUB_USERNAME and DOCKERHUB_TOKEN.
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Release tag to build, e.g. v4.13.1'
+        required: true
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Read the STACK version number
+        id: version
+        run: |
+          version=$(sed -n 's/^\$plugin->version *= *\([0-9]*\);.*/\1/p' version.php)
+          test -n "$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      # The build needs a config.php. The API reads the version numbers from the code itself.
+      - run: cp api/config_sample.txt api/config.php
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: api/docker/Dockerfile
+          target: production
+          platforms: linux/amd64
+          push: true
+          tags: stackmaths/stackapi:${{ steps.version.outputs.version }}-latest

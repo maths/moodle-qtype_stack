@@ -94,10 +94,11 @@ $CFG->inputcheckanswertype = 1;
 $CFG->inputmustverify = 1;
 $CFG->inputshowvalidation = 1;
 
-// Stackmaximaversion and version must match. Set
-// them to the version of goemaxima in docker-compose.
-$CFG->stackmaximaversion = "2026101500";
-$CFG->version = "2026101500";
+// The API reads the STACK version and the Maxima libraries version from the code it runs
+// (version.php and stack/maxima/stackmaxima.mac). Use the goemaxima image with the same version.
+// Set these only to override them.
+// $CFG->stackmaximaversion = "2026101500";
+// $CFG->version = "2026101500";
 
 // This is an optional api identifier. In production, this should match stackmaths/stackapi version
 // in docker-compose.yml. Whatever is set here will be output by the render route. Output defaults to

@@ -51,6 +51,8 @@ On the STACK question dashboard is a link _"Send general feedback to the CAS"_. 
 
 A Moodle administrator can bulk-test all of the questions tests within a particular course, or across the whole site by following the links on the STACK admin page.  It is useful to do this after upgrading the STACK code on the server to identify any test cases which have changed.
 
+Question tests can also be run outside Moodle, through the [STACK API](../Installation/API.md).  The route `POST /test` takes the Moodle XML of a single question and runs its tests on every deployed variant, in seconds and without importing anything.  This is very useful when writing or editing Moodle XML directly, for example with an authoring tool.  Use the API version which matches your site's version of STACK, and run the tests on your site as well before students use the question.
+
 Test cases can include a meaningful description of up to 255 characters.  This field is a simple string, and is not castext.
 
 ## Answer note expectation construction

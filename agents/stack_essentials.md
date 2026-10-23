@@ -238,6 +238,43 @@ different variants, but each one must be checked. For each seed:
 Replace any seed that fails. A question without randomisation needs no
 deployed seed.
 
+### Run the tests through the STACK API
+
+Strongly recommended: run every question's tests through the STACK API while
+writing it, before it goes near a live site. The API is STACK's own code as a
+stateless web service, published as Docker images (`stackmaths/stackapi`, with
+`mathinstitut/goemaxima` for Maxima). It needs no Moodle, no database and no
+import, and answers in seconds, so it fits the loop of edit, test, fix.
+
+**Match the version.** The API must run the target site's STACK version, the
+same number as `<stackversion>`: the `goemaxima` image with that tag, for
+example `mathinstitut/goemaxima:2026080600-latest`, and a `stackapi` image of
+the same release. A different version tests different code. If every question
+fails with "The version of the STACK-Maxima libraries being used ... does not
+match what is expected", the images and the API's configuration disagree.
+Setting up the API, including building a `stackapi` image for a release that
+has none published, is in `agents/stack_api.md`.
+
+**Call the test route.** `POST /test` with a JSON body holding one question:
+
+    {"questionDefinition": "<quiz><question type=\"stack\">...</question></quiz>"}
+
+The API takes exactly one question per request, so split a file of several.
+Then check:
+
+- `messages` and `isupgradeerror`: a question-level error, such as a missing
+  or invalid `<stackversion>`, or a question marked broken. No tests run.
+- `results`: one entry per deployed seed, each with `passes`, `fails`,
+  `messages` and an `outcomes` entry per test. A failing test's `reason` says
+  which of score, penalty and answer note did not match.
+- An empty `results` is not a pass. A randomised question with no deployed
+  seeds is not tested at all.
+
+**It is not the final gate.** The API fills omitted elements from its own
+defaults, not a site's settings, and a site may have plugins or settings the
+API does not. Before a question is used, run its tests on the target site too:
+on the question dashboard, or with the bulk tester.
+
 ### Stamp the target STACK version
 
 Every STACK question's `<stackversion>` is the version number of STACK on the

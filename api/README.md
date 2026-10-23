@@ -409,7 +409,9 @@ At this point a user should just need a working Docker setup and an up-to-date `
 
 This will download the goemaxima and stack-api images and run the containers in an enclosing container. Obviously, config will be the same as for whoever built the stack-api Docker image.
 
-Version numbers will need to match the latest STACK release in `docker-compose.dev.yml`, `docker-compose.yml`, `config_sample.txt` and `config.php`. **(Remember: config.php needs updated locally before building.)**
+The goemaxima image in `docker-compose.dev.yml` and `docker-compose.yml` must have the same version number as the STACK code, `$plugin->version` in `version.php`. The API reads its own version numbers from the code (`version.php` and `stack/maxima/stackmaxima.mac`), so `config.php` only needs them to override that. The build needs an `api/config.php`: copy `config_sample.txt` if you have none.
+
+A GitHub workflow, `.github/workflows/publish_api_image.yml`, builds and publishes `stackmaths/stackapi:<version>-latest` when a release tag is pushed.
 
 Pre-built API images are available on Docker Hub at `stackmaths/stackapi`.
 

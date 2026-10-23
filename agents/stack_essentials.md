@@ -50,6 +50,11 @@ ta1: n*x^(n-1);</text>
         <falseanswernote>prt1-1-F</falseanswernote>
       </node>
     </prt>
+    <deployedseed>1</deployedseed>
+    <deployedseed>2</deployedseed>
+    <deployedseed>3</deployedseed>
+    <deployedseed>10</deployedseed>
+    <deployedseed>17</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput><name>ans1</name><value>ta1</value></testinput>
@@ -114,13 +119,9 @@ as `rand()`, the note must not be empty (`questionnotempty`). It names the
 variant, so it must show every random value: two deployed variants with the
 same note are reported as duplicates. An omitted note becomes `{@ta1@}`.
 
-**Tests.** Each `<qtest>` gives a `<value>` for every input, a Maxima
-expression which may use the question variables, and for every PRT an
-`<expected>` score, penalty and answer note. The expected note is, at its
-simplest, the note of the last branch taken. Give all three: an omitted note defaults to `1-0-T`,
-which never matches. An empty score and penalty with the note `NULL` expect the
-PRT not to be evaluated, for example because an input is invalid. A wrong
-answer's expected penalty is the question's `<penalty>`.
+**Tests and deployed seeds.** Each `<qtest>` gives a `<testinput>` for every
+input and an `<expected>` result for every PRT; each `<deployedseed>` is one
+deployed variant. What to put in them is in the next two sections.
 
 **Defaults.** An omitted element takes a default from one of two places. Some
 are fixed in the code: `<defaultgrade>` 1 (0 for a question with no inputs),
@@ -132,6 +133,110 @@ site's STACK settings (`get_config('qtype_stack', ...)`, defaults in
 can change these, so the same file may behave differently on two sites. Write
 an element whenever the question depends on its value. A question exported
 from Moodle lists every element.
+
+### Test every question
+
+Every question with an input must have question tests. STACK runs every test
+on every deployed variant: on the question dashboard, when variants are
+deployed, in the bulk tester after an upgrade, and through the API. Without
+tests the marking is unchecked, and a broken question looks the same as a
+working one. A question with no inputs has no PRTs and needs no tests.
+
+**Which tests.** At least:
+
+- the teacher's answer, scoring full marks on every PRT;
+- a wrong answer, scoring 0, which proves the PRT does not accept everything;
+- with several inputs, a mixed case: some parts right and some wrong;
+- one test for each route through each PRT, not just each leaf: every
+  diagnostic node needs a test that reaches it;
+- an invalid input, wherever one is likely or the question relies on its own
+  validation.
+
+**Test inputs.** A `<value>` is a Maxima expression evaluated in the context of
+the question variables, so it follows the random values. It is evaluated with
+`simp:false`, whatever the question's setting: wrap it in `ev(..., simp)` to
+simplify it. A variable named in a test must be defined in the question
+variables; feedback variables are not in scope.
+
+- Build wrong answers from the teacher's answer, such as `ta1 + 1`, not from
+  independent values, which on some seed may equal the right answer.
+- Check that every wrong answer is wrong, and every diagnostic is reachable, on
+  every deployed variant. On some seeds a misconception can give the right
+  answer.
+- Where the teacher's answer is derived from other question variables, build
+  the correct test from that derivation too, not only from `ta1`, so that a
+  mistake in `ta1` is caught.
+- For a dropdown or radio input the value must be one of the options, for
+  example `first(mcq_correct(ta1))`. For checkboxes use `mcq_correct(ta1)`.
+
+**Expected score and penalty.** `<expectedscore>` is the raw score the PRT
+returns, between 0 and 1, not its contribution to the question's mark.
+`<expectedpenalty>` is 0 for a correct answer and normally the question's
+`<penalty>` for a wrong one. Write both. A blank penalty means the question's
+penalty, and -1 for either field skips the check, which tests nothing.
+
+**Expected answer note: the full route.** `<expectedanswernote>` lists the
+answer note of every node the response visits, in order, separated by ` | `:
+
+    <expectedanswernote>prt1-1-F | prt1-2-T</expectedanswernote>
+
+A note naming only the last node passes for every route that ends there, and
+misses a wrongly wired `<truenextnode>` or `<falsenextnode>`. STACK compares
+the expectation with the PRT's actual notes (`test_answer_note()` in
+`stack/questiontestresult.php`):
+
+- the expected notes must appear among the actual notes, in this order, and
+  extra actual notes are ignored;
+- the last expected note must equal the last actual note.
+
+So:
+
+- Write the bare list, which is read as `( ... ]`: start free, end fixed. Do
+  not add `[` at the start. The actual notes include the answer test's own
+  notes whenever it gives one, which depends on the answer and the random
+  values, so a fixed start can pass on one seed and fail on another. The
+  question dashboard's automatic test case writes `[ ... ]` when the response
+  it was built from gave no answer-test note; remove the `[`.
+- Leave out the answer test's own notes (`ATAlgEquiv_...` and so on). They
+  depend on the student's answer, not on the route.
+- `NULL` expects the PRT not to run, for example because an input is invalid.
+  Leave the expected score and penalty blank with it.
+- `prt1-bail` expects the PRT to stop in its feedback variables.
+- Never use `()`, which accepts anything.
+- Notes are compared as exact strings, so each must be distinct within its PRT.
+- Write the route the PRT is designed to take, and let the test confirm it.
+  Never copy the actual notes into the expectation: that records what the PRT
+  does, right or wrong, and tests nothing.
+- Re-check every route whenever a node is added, removed or re-wired.
+
+Before STACK 4.13.0 only the last note was compared. A single note is still
+read that way, so older tests pass; the full route is the form to write now.
+
+### Deploy variants of a randomised question
+
+Deploying variants is strongly recommended for every question whose question
+variables use randomisation. STACK detects this by the use of `rand`,
+`rand_with_prohib` and the like, `multiselqn` or `stack_seed`
+(`random_variants_check()` in `question.php`). Each `<deployedseed>` fixes one
+variant. Students get one of the deployed variants, and every test is run on
+each of them.
+
+Without deployed seeds students may get any variant, including one nobody has
+tested; the bulk tester reports the question, and the API's test route runs no
+tests at all.
+
+How many depends on the question: enough for students to see genuinely
+different variants, but each one must be checked. For each seed:
+
+- its question note must differ from every other deployed seed's, since STACK
+  treats variants with the same note as the same variant;
+- it has no runtime errors and passes every test;
+- it is not degenerate: no zero coefficient that removes a term, no answer of
+  0 or 1 that gives the game away, no coincidence between a misconception and
+  the right answer.
+
+Replace any seed that fails. A question without randomisation needs no
+deployed seed.
 
 ### Stamp the target STACK version
 

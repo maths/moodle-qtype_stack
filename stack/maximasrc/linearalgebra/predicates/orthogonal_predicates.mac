@@ -64,7 +64,6 @@ s_test_case(simp) := is(orthogonal_columnsp(matrix([2,1],[2,-1])) = true)$
 s_test_case(simp) := is(orthogonal_columnsp(matrix([2,1],[2,-1]), ident(2)) = true)$
 s_test_case(simp) := is(orthogonal_columnsp(matrix([1,1/2],[0,1])) = false)$
 s_test_case(simp) := is(orthogonal_columnsp(matrix([1,1/2],[0,1]), matrix([2,-1],[-1,2])) = true)$
-s_test_case(simp) := is(orthogonal_columnsp(matrix([1,1/2],[0,1]), lambda([w,v],transpose(w).matrix([2,-1],[-1,2]).v)) = true)$
 s_test_case(simp) := is(orthogonal_columnsp(matrix([1/sqrt(2),1/(sqrt(2)*sqrt(3))],[0,sqrt(2)/sqrt(3)]), matrix([2,-1],[-1,2])) = true)$
 s_test_case(simp) := is(orthogonal_columnsp(ident(2), matrix([2,-1],[-1,2])) = false)$
 

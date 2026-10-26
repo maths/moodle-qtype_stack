@@ -8,6 +8,11 @@ Their [generated reference](../../CAS/Library/linearalgebra/index.md) documents 
 Existing questions can still call `stack_include_contrib("matrix.mac")`. That compatibility file
 continues to enable the convenience aliases described in [Vectors](Vectors.md).
 
+`stack_include_contrib("matrix.mac")` downloads the package from STACK's `master` branch, including
+on older installations, so it also retains the function definitions. The package is generated from
+the maintained core sources. To use the shipped copy instead, question authors can call
+`stack_include("contribl://matrix.mac")`.
+
 This page gives examples and guidance for using these functions.
 
 ## Working with matrices

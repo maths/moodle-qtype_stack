@@ -191,7 +191,7 @@ class stack_matrix_input extends stack_input {
             $blocks = [];
             $offset = 0;
             foreach ($this->blockwidths as $i => $width) {
-                $rows = array_map(function($row) use ($offset, $width) {
+                $rows = array_map(function ($row) use ($offset, $width) {
                     return array_slice($row, $offset, $width);
                 }, $contents);
                 $blocks[] = $this->array_to_constructor($rows, $this->blocktypes[$i]);
@@ -212,7 +212,7 @@ class stack_matrix_input extends stack_input {
         if ($type === 'row_vector') {
             return $type . '(' . implode(',', $contents[0] ?? []) . ')';
         }
-        $rows = array_map(function($row) {
+        $rows = array_map(function ($row) {
             return '[' . implode(',', $row) . ']';
         }, $contents);
         return 'matrix(' . implode(',', $rows) . ')';
@@ -273,7 +273,7 @@ class stack_matrix_input extends stack_input {
         $value = trim($value);
         $operator = strstr($value, '(', true);
         if (in_array($operator, ['column_vector', 'c'])) {
-            return array_map(function($entry) {
+            return array_map(function ($entry) {
                 return [$entry];
             }, $this->modinput_tokenizer(substr($value, strlen($operator) + 1, -1)));
         }
@@ -281,7 +281,7 @@ class stack_matrix_input extends stack_input {
             return [$this->modinput_tokenizer(substr($value, strlen($operator) + 1, -1))];
         }
         if (substr($value, 0, 7) === 'matrix(') {
-            return array_map(function($row) {
+            return array_map(function ($row) {
                 return $this->modinput_tokenizer(substr(trim($row), 1, -1));
             }, $this->modinput_tokenizer(substr($value, 7, -1)));
         }

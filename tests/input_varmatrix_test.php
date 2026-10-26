@@ -887,7 +887,8 @@ final class input_varmatrix_test extends qtype_stack_testcase {
             );
             $this->assertEquals(stack_input::INVALID, $state->status);
             $this->assertStringContainsString(
-                '<pre class="stacksyntaxexample">' . $pattern . '</pre>', $state->errors
+                '<pre class="stacksyntaxexample">' . $pattern . '</pre>',
+                $state->errors
             );
             $this->assertEquals(
                 strpos($pattern, '...') !== false ? 1 : 0,

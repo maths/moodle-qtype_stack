@@ -237,7 +237,13 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                         $node->items[0]->value === 'demoodle' ||
                         $node->items[0]->value === 'htmlformat')
                 ) {
-                    if ($node->items[0]->value === '%root' && count($node->items) === 2 && $node->items[1] instanceof MP_String && !(isset($node->position['inline-castext']) && $node->position['inline-castext'])) {
+                    if (
+                        $node->items[0]->value === '%root' &&
+                        count($node->items) === 2 &&
+                        $node->items[1] instanceof MP_String &&
+                        !(isset($node->position['inline-castext']) &&
+                        $node->position['inline-castext'])
+                    ) {
                         // A concatenation of a single string, can be removed. If %root and not inline-CASText.
                         $node->parentnode->replace($node, $node->items[1]);
                         return false;

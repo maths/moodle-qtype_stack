@@ -206,6 +206,7 @@ $string['inputtypenumerical'] = 'Numerical';
 $string['inputtypegeogebra'] = 'GeoGebra';
 $string['inputtypeparsons'] = 'Parsons';
 $string['inputtyperepeat'] = 'Repeat';
+$string['repeatinputtypenotsupported'] = 'The input {$a->input} is inside a repeat block, but inputs of type "{$a->type}" cannot be repeated.';
 $string['repeatincompletefield'] = 'Please fill in this field too, or leave the whole row empty.';
 $string['repeatinvalidrows'] = 'Please correct your answer in row(s) {$a}.';
 $string['inputtypefreetext'] = 'Free-text';

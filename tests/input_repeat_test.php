@@ -22,6 +22,7 @@ use stack_input;
 use stack_input_factory;
 use stack_input_state;
 use stack_options;
+use stack_repeat_input;
 use stack_ast_container;
 use stack_cas_session2;
 
@@ -32,6 +33,7 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 require_once(__DIR__ . '/../stack/input/factory.class.php');
+require_once(__DIR__ . '/../stack/input/repeat/repeat.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
@@ -385,6 +387,22 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertEquals('repeat_encode: the second element of your input list must be a list of expressions, ' .
             'giving the values of the repeated inputs.',
             $s1[2]->get_errors());
+    }
+
+    public function test_get_unsupported_inputs(): void {
+
+        $repeatinputs = ['state1' => ['ans1', 'ans2', 'ans3'], 'state2' => ['ans4']];
+        $inputtypes = ['ans1' => 'algebraic', 'ans2' => 'radio', 'ans3' => 'dropdown', 'ans4' => 'matrix',
+            'ans5' => 'checkbox', 'state1' => 'repeat', 'state2' => 'repeat'];
+        // Inputs outside repeat blocks (ans5) may have any type.
+        $this->assertEquals(['ans2' => 'radio', 'ans4' => 'matrix'],
+            stack_repeat_input::get_unsupported_inputs($repeatinputs, $inputtypes));
+
+        $this->assertEquals([], stack_repeat_input::get_unsupported_inputs([], $inputtypes));
+        foreach (['notes', 'checkbox', 'geogebra', 'parsons', 'json', 'repeat'] as $type) {
+            $this->assertEquals(['ans1' => $type],
+                stack_repeat_input::get_unsupported_inputs(['state1' => ['ans1']], ['ans1' => $type]));
+        }
     }
 
     public function test_extract_boolean_and_lines(): void {

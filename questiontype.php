@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/stack/input/factory.class.php');
+require_once(__DIR__ . '/stack/input/repeat/repeat.class.php');
 require_once(__DIR__ . '/stack/answertest/controller.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/castext2/castext2_evaluatable.class.php');
@@ -2499,6 +2500,22 @@ class qtype_stack extends question_type {
             $stackinput = $stackinputfactory->make($inputtype, $inputname, $modelans, null, $parameters, false);
             $stackinput->validate_extra_options();
             $errors[$inputname . 'options'] = $stackinput->get_errors();
+        }
+
+        // Only some types of input can be used inside a repeat block.
+        $inputtypes = [];
+        foreach ($inputs as $inputname => $counts) {
+            if (isset($fromform[$inputname . 'type'])) {
+                $inputtypes[$inputname] = $fromform[$inputname . 'type'];
+            }
+        }
+        $unsupported = stack_repeat_input::get_unsupported_inputs(
+            castext2_parser_utils::get_repeat_inputs($fromform['questiontext']['text']),
+            $inputtypes
+        );
+        foreach ($unsupported as $inputname => $inputtype) {
+            $errors[$inputname . 'type'][] = stack_string('repeatinputtypenotsupported',
+                ['input' => $inputname, 'type' => stack_string('inputtype' . $inputtype)]);
         }
 
         // 3) Validate all prts.

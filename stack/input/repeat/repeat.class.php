@@ -69,6 +69,35 @@ class stack_repeat_input extends stack_json_input {
     }
 
     /**
+     * @var string[] the types of input which can be used inside a [[repeat]] block: those consisting
+     * of a single element with a single value, which are validated and graded automatically.
+     */
+    const SUPPORTED_INPUT_TYPES = [
+        'algebraic', 'boolean', 'dropdown', 'equiv', 'freetext', 'numerical', 'singlechar', 'string',
+        'textarea', 'units', 'varmatrix',
+    ];
+
+    /**
+     * Find the inputs inside repeat blocks whose type cannot be repeated.
+     *
+     * @param array $repeatinputs repeat input name => names of the inputs in its repeat blocks,
+     *      as from castext2_parser_utils::get_repeat_inputs().
+     * @param array $inputtypes input name => input type.
+     * @return array input name => input type, of the inputs which cannot be repeated.
+     */
+    public static function get_unsupported_inputs(array $repeatinputs, array $inputtypes): array {
+        $unsupported = [];
+        foreach ($repeatinputs as $names) {
+            foreach ($names as $name) {
+                if (isset($inputtypes[$name]) && !in_array($inputtypes[$name], self::SUPPORTED_INPUT_TYPES)) {
+                    $unsupported[$name] = $inputtypes[$name];
+                }
+            }
+        }
+        return $unsupported;
+    }
+
+    /**
      * Announces if the input is "simple" or compound.
      */
     public function get_simplicity() {

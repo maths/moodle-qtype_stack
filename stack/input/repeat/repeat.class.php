@@ -189,8 +189,20 @@ class stack_repeat_input extends stack_json_input {
                 if (!is_array($values)) {
                     return null;
                 }
-                foreach ($values as $value) {
-                    if (!is_string($value) && !is_int($value) && !is_float($value)) {
+                foreach ($values as $row => $value) {
+                    if (is_array($value)) {
+                        // A list of lines, e.g. from repeat_encode for a text area, since Maxima strings
+                        // cannot contain a newline.
+                        foreach ($value as $line) {
+                            if (!is_string($line) && !is_int($line) && !is_float($line)) {
+                                return null;
+                            }
+                        }
+                        $values[$row] = implode("\n", $value);
+                    } else if (is_bool($value)) {
+                        // E.g. from repeat_encode for a boolean input.
+                        $values[$row] = $value ? 'true' : 'false';
+                    } else if (!is_string($value) && !is_int($value) && !is_float($value)) {
                         return null;
                     }
                 }

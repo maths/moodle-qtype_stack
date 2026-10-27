@@ -267,10 +267,10 @@ final class input_repeat_test extends qtype_stack_testcase {
         $malformed = [
             '{"data":{"ans1":"x"}}',
             '{"data":{"ans1":{"0":"x"}}}',
-            '{"data":{"ans1":[["x"]]}}',
+            '{"data":{"ans1":[[["x"]]]}}',
+            '{"data":{"ans1":[["x",null]]}}',
             '{"data":{"ans1":[{"a":"x"}]}}',
             '{"data":{"ans1":[null]}}',
-            '{"data":{"ans1":[true]}}',
             '{"data":[1,2]}',
             '{"data":[{"repeat_id":"1"}]}',
             '{"data":[{"repeat_id":"1","inputs":["x"]}]}',
@@ -385,5 +385,30 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertEquals('repeat_encode: the second element of your input list must be a list of expressions, ' .
             'giving the values of the repeated inputs.',
             $s1[2]->get_errors());
+    }
+
+    public function test_extract_boolean_and_lines(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('boolean', 'ans1', 'true');
+        $simpleinputs['ans2'] = stack_input_factory::make('textarea', 'ans2', '[x=1]');
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+
+        // As produced by repeat_encode: a boolean, and a list of lines for a text area.
+        $rawinput = '{"data":{"ans1":[true,false],"ans2":[["x=1","y=2"],"z=3"]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[true,false],repeatedans2:[[x = 1,y = 2],[z = 3]])', $state->contentsmodified);
+
+        // A list may only contain lines, not further lists.
+        $rawinput = '{"data":{"ans1":[true],"ans2":[[["x=1"]]]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertStringContainsString('invalid_json', $state->note);
     }
 }

@@ -73,7 +73,7 @@ class stack_repeat_input extends stack_json_input {
      * of a single element with a single value, which are validated and graded automatically.
      */
     const SUPPORTED_INPUT_TYPES = [
-        'algebraic', 'boolean', 'dropdown', 'equiv', 'freetext', 'numerical', 'singlechar', 'string',
+        'algebraic', 'boolean', 'dropdown', 'equiv', 'freetext', 'numerical', 'radio', 'singlechar', 'string',
         'textarea', 'units', 'varmatrix',
     ];
 

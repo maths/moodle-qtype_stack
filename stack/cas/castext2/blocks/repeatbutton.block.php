@@ -109,16 +109,17 @@ function write_state(state) {
     state_input.dispatchEvent(new Event('change'));
 }
 
-// VLE ids look like "<prefix>_<inputname>" and the prefix contains no "_",
+// VLE field names look like "<prefix>_<inputname>" and the prefix contains no "_",
 // so everything after the first "_" is the input name (which may contain "_").
-function input_name(vleid) {
-    return vleid.substring(vleid.indexOf('_') + 1);
+function input_name(fieldname) {
+    return fieldname.substring(fieldname.indexOf('_') + 1);
 }
 
 // Inputs consisting of a single element can be repeated: text boxes, dropdowns and text areas.
+// So can radio buttons: all the buttons with the same name together are one input.
 function is_repeated_input(el) {
     if (el.tagName === 'INPUT') {
-        return !['hidden', 'radio', 'checkbox', 'button', 'submit'].includes(el.type);
+        return !['hidden', 'checkbox', 'button', 'submit'].includes(el.type);
     }
     return el.tagName === 'SELECT' || el.tagName === 'TEXTAREA';
 }
@@ -135,6 +136,12 @@ function set_initial_value(el, value) {
         });
     } else if (el.tagName === 'TEXTAREA') {
         el.textContent = value;
+    } else if (el.type === 'radio') {
+        if (el.value === value) {
+            el.setAttribute('checked', 'checked');
+        } else {
+            el.removeAttribute('checked');
+        }
     } else {
         el.setAttribute('value', value);
     }
@@ -155,6 +162,8 @@ function make_row(r, n, state) {
     tmp.innerHTML = r.html.split(REPEATINDEX).join(String(n));
     const added = [];
     const valids = Object.values(r.valids);
+    // Old id => new id, to keep labels attached to their elements.
+    const renamed = {};
     tmp.querySelectorAll('[id]').forEach((el) => {
         if (valids.includes(el.id)) {
             // Validation of the repeated fields is filled in by show_feedback(), inside this
@@ -162,14 +171,27 @@ function make_row(r, n, state) {
             el.className = '';
             el.innerHTML = '';
         }
+        let newid = el.id + r.suffix + n;
         if (is_repeated_input(el)) {
-            const name = input_name(el.id);
+            const name = input_name(el.name);
             const values = state.data[name] || [];
             set_initial_value(el, values[n - 1] !== undefined ? String(values[n - 1]) : '');
             el.name = el.name + r.suffix + n;
-            added.push({vlename: name + r.suffix + n, name: name, idx: n - 1});
+            if (el.type === 'radio') {
+                // The VLE finds a group of radio buttons by the id "<name>_1" of its first button.
+                newid = el.name + '_' + el.value;
+            }
+            if (!added.some((entry) => entry.name === name)) {
+                added.push({vlename: name + r.suffix + n, name: name, idx: n - 1});
+            }
         }
-        el.id = el.id + r.suffix + n;
+        renamed[el.id] = newid;
+        el.id = newid;
+    });
+    tmp.querySelectorAll('label[for]').forEach((label) => {
+        if (label.htmlFor in renamed) {
+            label.htmlFor = renamed[label.htmlFor];
+        }
     });
     // The template is not typeset, so let the VLE's maths filter typeset the copy.
     return {html: '<div class="filter_mathjaxloader_equation">' + tmp.innerHTML + '</div>', added: added};
@@ -318,12 +340,12 @@ const ready = Promise.all([
         r.valclass = {};
         r.rows = 0;
         elements.filter(is_repeated_input).forEach((el) => {
-            const name = input_name(el.id);
-            let prefix = el.id.substring(0, el.id.length - name.length);
-            if (el.tagName === 'SELECT' && prefix.startsWith('menu')) {
-                // Moodle prefixes the field name by "menu" to make the id of a select.
-                prefix = prefix.substring(4);
+            const name = input_name(el.name);
+            if (r.inputs.includes(name)) {
+                // Another button of the same group of radio buttons.
+                return;
             }
+            const prefix = el.name.substring(0, el.name.length - name.length);
             r.inputs.push(name);
             state_val_id = prefix + SAVE_STATE + '_val';
             // The [[validation:name]] element of this input, if the template has one.

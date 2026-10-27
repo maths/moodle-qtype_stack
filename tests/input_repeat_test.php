@@ -341,6 +341,31 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertStringContainsString('invalid_json', $state->note);
     }
 
+    public function test_validate_radio(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('radio', 'ans1', '[[max,true],[min,false],[saddle,false]]');
+        $simpleinputs['ans1']->adapt_to_model_answer('[[max,true],[min,false],[saddle,false]]');
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+
+        // Radio buttons send the number of the option, as dropdowns do.
+        $rawinput = '{"data":{"ans1":["3","1"]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[saddle,max])', $state->contentsmodified);
+
+        // The "not answered" button gives an empty value, so that row is ignored.
+        $rawinput = '{"data":{"ans1":["2",""]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[min])', $state->contentsmodified);
+    }
+
     public function test_teacher_answer_display(): void {
 
         $simpleinputs = [];
@@ -392,10 +417,10 @@ final class input_repeat_test extends qtype_stack_testcase {
     public function test_get_unsupported_inputs(): void {
 
         $repeatinputs = ['state1' => ['ans1', 'ans2', 'ans3'], 'state2' => ['ans4']];
-        $inputtypes = ['ans1' => 'algebraic', 'ans2' => 'radio', 'ans3' => 'dropdown', 'ans4' => 'matrix',
+        $inputtypes = ['ans1' => 'algebraic', 'ans2' => 'checkbox', 'ans3' => 'radio', 'ans4' => 'matrix',
             'ans5' => 'checkbox', 'state1' => 'repeat', 'state2' => 'repeat'];
         // Inputs outside repeat blocks (ans5) may have any type.
-        $this->assertEquals(['ans2' => 'radio', 'ans4' => 'matrix'],
+        $this->assertEquals(['ans2' => 'checkbox', 'ans4' => 'matrix'],
             stack_repeat_input::get_unsupported_inputs($repeatinputs, $inputtypes));
 
         $this->assertEquals([], stack_repeat_input::get_unsupported_inputs([], $inputtypes));

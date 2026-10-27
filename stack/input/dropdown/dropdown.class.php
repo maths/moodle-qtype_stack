@@ -466,6 +466,15 @@ class stack_dropdown_input extends stack_input {
     /**
      * This function always returns an array where the key is the key in the ddlvalues.
      */
+    /**
+     * The displays of the options, e.g. to show elsewhere which of them are chosen.
+     * @return array key => display.
+     */
+    public function get_choice_displays(): array {
+        return $this->get_choices();
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function get_choices() {
 
         $values = $this->ddlvalues;

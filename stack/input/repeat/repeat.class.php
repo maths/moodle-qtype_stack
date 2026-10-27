@@ -131,12 +131,19 @@ class stack_repeat_input extends stack_json_input {
     }
 
     /**
-     * Show the lists of values in the teacher's answer, rather than the JSON.
+     * Show the values in the teacher's answer as their inputs would, one row for each row,
+     * rather than the JSON.
      */
     public function get_teacher_answer_display($value, $display) {
         if ($this->get_extra_option('hideanswer')) {
             return '';
         }
+        $table = $this->get_rows_display($value);
+        if ($table !== null) {
+            return stack_string('teacheranswershow_mcq', ['display' => $table]);
+        }
+
+        // The values could not be validated, so just show them.
         $inputs = $this->extract_inputs([$value]);
         if (!$inputs) {
             return parent::get_teacher_answer_display($value, $display);
@@ -165,6 +172,79 @@ class stack_repeat_input extends stack_json_input {
             $display = implode('; ', $rows);
         }
         return stack_string('teacheranswershow_disp', ['display' => $display]);
+    }
+
+    /**
+     * A table with one row for each row of an answer, showing each value as its input would:
+     * the options chosen by their labels, everything else as validated, i.e. typeset.
+     *
+     * @param string $value the answer, e.g. the teacher's answer.
+     * @return string|null the HTML, or null if the answer is not valid.
+     */
+    protected function get_rows_display(string $value): ?string {
+        // Validate a copy, which keeps the validation of the student's answer for the feedback next to the fields.
+        // The teacher's answer is a Maxima string, a student sends the JSON itself.
+        $copy = clone $this;
+        $json = stack_utils::maxima_string_to_php_string($value);
+        $state = $copy->validate_student_response([$this->name => $json], $this->options ?? new stack_options(),
+            $value, new stack_cas_security(), false, null, null, null, $this->seed ?? 0);
+        $inputs = $this->extract_inputs([$value]);
+        if (($state->status !== self::VALID && $state->status !== self::SCORE) || !$inputs) {
+            return null;
+        }
+        $inputs = $this->remove_empty_rows($inputs);
+
+        $rows = [];
+        foreach ($inputs as $values) {
+            $rows = array_merge($rows, array_keys($values));
+        }
+        $rows = array_unique($rows);
+        sort($rows);
+
+        $trs = [];
+        foreach ($rows as $number => $row) {
+            $cells = [html_writer::tag('th', ($number + 1) . '.')];
+            foreach ($inputs as $inputname => $values) {
+                $cells[] = html_writer::tag('td', $this->get_value_display($this->simpleinputs[$inputname],
+                    $values[$row] ?? '', $copy->rowstates[$inputname][$row] ?? null));
+            }
+            $trs[] = html_writer::tag('tr', implode('', $cells));
+        }
+        return html_writer::tag('table', implode('', $trs), ['class' => 'stack-repeat-answer']);
+    }
+
+    /**
+     * The display of one repeated value, as its input would show it.
+     *
+     * @param stack_input $input the repeated input.
+     * @param string|array|stdClass $value the raw value.
+     * @param stack_input_state|null $state its validation.
+     * @return string HTML.
+     */
+    private function get_value_display(stack_input $input, $value, ?stack_input_state $state): string {
+        if ($input instanceof stack_dropdown_input) {
+            // Dropdown, radio and checkbox inputs: the labels of the options chosen.
+            if (is_object($value)) {
+                $keys = array_keys(array_filter((array) $value, function($field) {
+                    return $field !== '';
+                }));
+            } else {
+                $keys = (array) $value;
+            }
+            $choices = $input->get_choice_displays();
+            $labels = [];
+            foreach ($keys as $key) {
+                if (array_key_exists($key, $choices)) {
+                    $labels[] = $choices[$key];
+                }
+            }
+            return implode(', ', $labels);
+        }
+        if ($state === null) {
+            return '';
+        }
+        // The validation typesets the value as displayed maths, inline maths fits a table better.
+        return preg_replace('~^\\\\\[(.*)\\\\\]$~s', '\\\\($1\\\\)', trim($state->contentsdisplayed));
     }
 
     /*

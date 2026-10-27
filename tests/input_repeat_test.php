@@ -409,7 +409,7 @@ final class input_repeat_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $simpleinputs = [];
-        $ta = '[[2,true],[3,false],[5,false]]';
+        $ta = '[[2,true,"by 2"],[3,false,"by 3"],[5,false,"by 5"]]';
         $simpleinputs['ans1'] = stack_input_factory::make('checkbox', 'ans1', $ta);
         $simpleinputs['ans1']->adapt_to_model_answer($ta);
 
@@ -430,7 +430,9 @@ final class input_repeat_test extends qtype_stack_testcase {
             new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('(repeatedans1:[[2,3],[5]])', $state->contentsmodified);
-        $this->assertEquals(stack_string('teacheranswershow_disp', ['display' => '<code>[1, 2], [3]</code>']),
+        // The correct answer shows the labels of the options to tick.
+        $this->assertEquals(stack_string('teacheranswershow_mcq', ['display' => '<table class="stack-repeat-answer">' .
+                '<tr><th>1.</th><td>by 2, by 3</td></tr><tr><th>2.</th><td>by 5</td></tr></table>']),
             $el->get_teacher_answer_display('"{\\"data\\":{\\"ans1\\":[[1,2],[3]]}}"', ''));
 
         // A key which is not one of the options can only come from tampering with the JSON.
@@ -455,15 +457,17 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertTrue($simpleinputs['ans1']->get_extra_option('hideanswer'));
         $this->assertEquals('', $simpleinputs['ans1']->get_teacher_answer_display('x', 'x'));
 
-        // One tuple of values for each row.
-        $this->assertEquals(stack_string('teacheranswershow_disp',
-                ['display' => '<code>(1, x^2)</code>; <code>(2, x^3)</code>']),
+        // A table with one row for each row, showing each value typeset.
+        $this->assertEquals(stack_string('teacheranswershow_mcq', ['display' => '<table class="stack-repeat-answer">' .
+                '<tr><th>1.</th><td>\\( 1 \\)</td><td>\\( x^2 \\)</td></tr>' .
+                '<tr><th>2.</th><td>\\( 2 \\)</td><td>\\( x^3 \\)</td></tr></table>']),
             $el->get_teacher_answer_display('"{\\"data\\":{\\"ans1\\":[1,2],\\"ans2\\":[\\"x^2\\",\\"x^3\\"]}}"', ''));
 
+        // If the values are not valid, they are just shown as they are.
         $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
         $el->add_simple_inputs(['ans1' => $simpleinputs['ans1']]);
-        $this->assertEquals(stack_string('teacheranswershow_disp', ['display' => '<code>1, 2</code>']),
-            $el->get_teacher_answer_display('"{\\"data\\":{\\"ans1\\":[1,2]}}"', ''));
+        $this->assertEquals(stack_string('teacheranswershow_disp', ['display' => '<code>1, x+</code>']),
+            $el->get_teacher_answer_display('"{\\"data\\":{\\"ans1\\":[1,\\"x+\\"]}}"', ''));
     }
 
     public function test_repeat_encode(): void {

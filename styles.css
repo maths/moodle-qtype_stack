@@ -66,6 +66,15 @@ div.stack-hint-content {
 .que.stack .stackinputfeedback:has(> .stack-repeat-feedback):not(:has(.stackinputerror)) {
     display: none;
 }
+/* The correct answer of a repeat input: one row for each row of the repeat blocks. */
+.que.stack .stack-repeat-answer th,
+.que.stack .stack-repeat-answer td {
+    padding: 0.2em 0.6em;
+    vertical-align: middle;
+}
+.que.stack .stack-repeat-answer th {
+    font-weight: normal;
+}
 .que.stack .stackinputfeedback.waiting,
 .que.stack .stackinputfeedback.loading {
     color: #888;

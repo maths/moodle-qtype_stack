@@ -69,12 +69,12 @@ class stack_repeat_input extends stack_json_input {
     }
 
     /**
-     * @var string[] the types of input which can be used inside a [[repeat]] block: those consisting
-     * of a single element with a single value, which are validated and graded automatically.
+     * @var string[] the types of input which can be used inside a [[repeat]] block: those whose
+     * elements the repeat button's JS can copy and connect, which are validated and graded automatically.
      */
     const SUPPORTED_INPUT_TYPES = [
-        'algebraic', 'boolean', 'dropdown', 'equiv', 'freetext', 'matrix', 'numerical', 'radio', 'singlechar', 'string',
-        'textarea', 'units', 'varmatrix',
+        'algebraic', 'boolean', 'checkbox', 'dropdown', 'equiv', 'freetext', 'matrix', 'numerical', 'radio',
+        'singlechar', 'string', 'textarea', 'units', 'varmatrix',
     ];
 
     /**
@@ -140,6 +140,13 @@ class stack_repeat_input extends stack_json_input {
         $inputs = $this->extract_inputs([$value]);
         if (!$inputs) {
             return parent::get_teacher_answer_display($value, $display);
+        }
+        foreach ($inputs as $inputname => $values) {
+            foreach ($values as $row => $value) {
+                if (is_array($value) || is_object($value)) {
+                    $inputs[$inputname][$row] = '[' . implode(', ', (array) $value) . ']';
+                }
+            }
         }
         if (count($inputs) === 1) {
             // One input: just the list of values.
@@ -220,14 +227,14 @@ class stack_repeat_input extends stack_json_input {
                 }
                 foreach ($values as $row => $value) {
                     if (is_array($value)) {
-                        // A list of lines, e.g. from repeat_encode for a text area, since Maxima strings
-                        // cannot contain a newline.
-                        foreach ($value as $line) {
-                            if (!is_string($line) && !is_int($line) && !is_float($line)) {
+                        // A list, e.g. from repeat_encode: the lines of a text area, since Maxima strings
+                        // cannot contain a newline, or the options chosen in a checkbox input.
+                        foreach ($value as $item) {
+                            if (!is_string($item) && !is_int($item) && !is_float($item)) {
                                 return null;
                             }
                         }
-                        $values[$row] = implode("\n", $value);
+                        $values[$row] = array_map('strval', $value);
                     } else if (is_object($value)) {
                         // The fields of an input consisting of several elements, e.g. "sub_0_1" => "2"
                         // for the cells of a matrix.
@@ -240,7 +247,8 @@ class stack_repeat_input extends stack_json_input {
                             }
                             $fields[$key] = (string) $field;
                         }
-                        $values[$row] = $fields;
+                        // Kept as an object, to tell it apart from a list.
+                        $values[$row] = (object) $fields;
                     } else if (is_bool($value)) {
                         // E.g. from repeat_encode for a boolean input.
                         $values[$row] = $value ? 'true' : 'false';
@@ -293,9 +301,9 @@ class stack_repeat_input extends stack_json_input {
      * @return bool
      */
     private function is_blank_value($value): bool {
-        if (is_array($value)) {
-            // The fields of an input consisting of several elements are blank if all of them are.
-            foreach ($value as $field) {
+        if (is_array($value) || is_object($value)) {
+            // A list, or the fields of an input consisting of several elements, is blank if all its items are.
+            foreach ((array) $value as $field) {
                 if (!$this->is_blank_value($field)) {
                     return false;
                 }
@@ -310,18 +318,35 @@ class stack_repeat_input extends stack_json_input {
      *
      * @param stack_input $input the repeated input.
      * @param string $inputname its name.
-     * @param string|array $value a raw value, or the fields of an input consisting of several elements.
+     * @param string|array|stdClass $value a raw value, a list (of lines, or of the keys of fields to set),
+     *      or the fields of an input consisting of several elements.
      * @return array the response, field name => raw value.
      */
     private function value_to_response(stack_input $input, string $inputname, $value): array {
-        if (is_array($value)) {
+        if (is_object($value)) {
+            // The fields of an input consisting of several elements.  An empty field is not sent, as for
+            // a checkbox which is not ticked.
             $response = [];
-            foreach ($value as $key => $field) {
-                $response[$inputname . '_' . $key] = $field;
+            foreach ((array) $value as $key => $field) {
+                if ($field !== '') {
+                    $response[$inputname . '_' . $key] = $field;
+                }
             }
             return $response;
         }
         $fields = array_diff(array_keys($input->get_expected_data()), [$inputname, $inputname . '_val']);
+        if (is_array($value)) {
+            if ($fields) {
+                // The keys of the fields to set, e.g. the options chosen in a checkbox input.
+                $response = [];
+                foreach ($value as $key) {
+                    $response[$inputname . '_' . $key] = $key;
+                }
+                return $response;
+            }
+            // The lines of e.g. a text area.
+            return [$inputname => implode("\n", $value)];
+        }
         if ($fields) {
             // An input with several fields, e.g. a matrix, given a Maxima expression such as
             // "matrix([1,2],[3,4])", e.g. by repeat_encode in the teacher's answer.

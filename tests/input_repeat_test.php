@@ -405,6 +405,43 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertStringContainsString('invalid_json', $state->note);
     }
 
+    public function test_validate_checkbox(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $ta = '[[2,true],[3,false],[5,false]]';
+        $simpleinputs['ans1'] = stack_input_factory::make('checkbox', 'ans1', $ta);
+        $simpleinputs['ans1']->adapt_to_model_answer($ta);
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+
+        // The browser sends the key of each ticked box, and an empty value for the others.
+        // A row with no box ticked is ignored.
+        $rawinput = '{"data":{"ans1":[{"1":"1","2":"2","3":""},{"1":""},{"3":"3"}]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[[2,3],[5]])', $state->contentsmodified);
+
+        // The teacher's answer from repeat_encode has a list of the options to tick in each row.
+        $rawinput = '{"data":{"ans1":[[1,2],[3]]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[[2,3],[5]])', $state->contentsmodified);
+        $this->assertEquals(stack_string('teacheranswershow_disp', ['display' => '<code>[1, 2], [3]</code>']),
+            $el->get_teacher_answer_display('"{\\"data\\":{\\"ans1\\":[[1,2],[3]]}}"', ''));
+
+        // A key which is not one of the options can only come from tampering with the JSON.
+        foreach (['{"data":{"ans1":[{"7":"7"}]}}', '{"data":{"ans1":[{"1":"9"}]}}'] as $rawinput) {
+            $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+                new stack_cas_security());
+            $this->assertEquals(stack_input::INVALID, $state->status, $rawinput);
+            $this->assertStringContainsString('invalid_json', $state->note, $rawinput);
+        }
+    }
+
     public function test_teacher_answer_display(): void {
 
         $simpleinputs = [];
@@ -456,14 +493,14 @@ final class input_repeat_test extends qtype_stack_testcase {
     public function test_get_unsupported_inputs(): void {
 
         $repeatinputs = ['state1' => ['ans1', 'ans2', 'ans3'], 'state2' => ['ans4']];
-        $inputtypes = ['ans1' => 'algebraic', 'ans2' => 'checkbox', 'ans3' => 'radio', 'ans4' => 'notes',
-            'ans5' => 'checkbox', 'state1' => 'repeat', 'state2' => 'repeat'];
+        $inputtypes = ['ans1' => 'algebraic', 'ans2' => 'geogebra', 'ans3' => 'checkbox', 'ans4' => 'notes',
+            'ans5' => 'parsons', 'state1' => 'repeat', 'state2' => 'repeat'];
         // Inputs outside repeat blocks (ans5) may have any type.
-        $this->assertEquals(['ans2' => 'checkbox', 'ans4' => 'notes'],
+        $this->assertEquals(['ans2' => 'geogebra', 'ans4' => 'notes'],
             stack_repeat_input::get_unsupported_inputs($repeatinputs, $inputtypes));
 
         $this->assertEquals([], stack_repeat_input::get_unsupported_inputs([], $inputtypes));
-        foreach (['notes', 'checkbox', 'geogebra', 'parsons', 'json', 'repeat'] as $type) {
+        foreach (['notes', 'geogebra', 'parsons', 'json', 'repeat'] as $type) {
             $this->assertEquals(['ans1' => $type],
                 stack_repeat_input::get_unsupported_inputs(['state1' => ['ans1']], ['ans1' => $type]));
         }

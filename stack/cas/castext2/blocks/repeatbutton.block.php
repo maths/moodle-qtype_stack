@@ -116,21 +116,26 @@ function input_name(fieldname) {
 }
 
 // The repeated input an element belongs to, and for an input consisting of several
-// elements the key of this element's field: the cells of a matrix are "<name>_sub_<i>_<j>".
+// elements the key of this element's field: the cells of a matrix are "<name>_sub_<i>_<j>",
+// the boxes of a checkbox input "<name>_<key>" with value "<key>".
 function input_field(el) {
     const name = input_name(el.name);
     const cell = name.match(/^(.+)_(sub_[0-9]+_[0-9]+)$/);
     if (el.dataset.stackInputType === 'matrix' && cell) {
         return {name: cell[1], key: cell[2]};
     }
+    if (el.type === 'checkbox' && name.endsWith('_' + el.value)) {
+        return {name: name.substring(0, name.length - el.value.length - 1), key: el.value};
+    }
     return {name: name, key: null};
 }
 
 // Inputs consisting of a single element can be repeated: text boxes, dropdowns and text areas.
-// So can radio buttons: all the buttons with the same name together are one input.
+// So can radio buttons: all the buttons with the same name together are one input.  The cells
+// of a matrix and the boxes of a checkbox input are fields of one input, see input_field().
 function is_repeated_input(el) {
     if (el.tagName === 'INPUT') {
-        return !['hidden', 'checkbox', 'button', 'submit'].includes(el.type);
+        return !['hidden', 'button', 'submit'].includes(el.type);
     }
     return el.tagName === 'SELECT' || el.tagName === 'TEXTAREA';
 }
@@ -147,6 +152,13 @@ function set_initial_value(el, value) {
         });
     } else if (el.tagName === 'TEXTAREA') {
         el.textContent = value;
+    } else if (el.type === 'checkbox') {
+        // A ticked box has its key as the value of its field.
+        if (value !== '') {
+            el.setAttribute('checked', 'checked');
+        } else {
+            el.removeAttribute('checked');
+        }
     } else if (el.type === 'radio') {
         if (el.value === value) {
             el.setAttribute('checked', 'checked');
@@ -198,7 +210,8 @@ function make_row(r, n, state) {
                 newid = el.name + '_' + el.value;
             }
             if (!added.some((entry) => entry.vlename === vlename)) {
-                added.push({vlename: vlename, name: field.name, key: field.key, idx: n - 1});
+                added.push({vlename: vlename, name: field.name, key: field.key, idx: n - 1,
+                    checkbox: el.type === 'checkbox'});
             }
         }
         renamed[el.id] = newid;
@@ -232,10 +245,15 @@ function connect_input(entry) {
             } else {
                 // The fields of an input consisting of several elements, e.g. the cells of a matrix.
                 const fields = (rows[entry.idx] && typeof rows[entry.idx] === 'object') ? rows[entry.idx] : {};
-                if ((fields[entry.key] || '') === input.value) {
+                // The VLE reports whether a checkbox is ticked, its field has the key if it is.
+                let value = input.value;
+                if (entry.checkbox) {
+                    value = value === 'true' ? entry.key : '';
+                }
+                if ((fields[entry.key] || '') === value) {
                     return;
                 }
-                fields[entry.key] = input.value;
+                fields[entry.key] = value;
                 rows[entry.idx] = fields;
             }
             write_state(state);

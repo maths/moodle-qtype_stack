@@ -9,7 +9,7 @@
       <text><![CDATA[<p>Solve the equation \(z^4 = 1\). How many solutions are there? Add as many input fields as you need. Enter your solutions in cartesian form.</p>
 <p>
 [[repeat id="1"]]
-\(z_{<repeatindex>} = \) [[input:ans1]] [[validation:ans1]]<br>
+\(z_{[[repeatindex/]]} = \) [[input:ans1]] [[validation:ans1]]<br>
 [[/repeat]]
 [[repeatbutton title="Add another root" repeat_ids="1" save_state="state1" /]]
 [[input:state1]] [[validation:state1]]

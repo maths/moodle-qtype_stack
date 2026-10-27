@@ -21,7 +21,7 @@
 </ul>
 <p>
 [[repeat id="1"]]
-Equation <repeatindex>: [[input:ans3]] [[validation:ans3]]<br>
+Equation [[repeatindex/]]: [[input:ans3]] [[validation:ans3]]<br>
 [[/repeat]]
 [[repeatbutton title="Add another equation" repeat_ids="1" save_state="state1" /]]
 [[input:state1]] [[validation:state1]]

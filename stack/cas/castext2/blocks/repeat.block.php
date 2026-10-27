@@ -106,6 +106,12 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
+        // Children are validated after this block, so let [[repeatindex/]] know where it is.
+        $this->callbackRecurse(function ($node) {
+            if ($node instanceof stack_cas_castext2_repeatindex) {
+                $node->insiderepeat = true;
+            }
+        });
         foreach ($this->children as $item) {
             if ($item->is_interactive()) {
                 $errors[] = new $options['errclass']('Repeat blocks may not contain interactive children.', $options['context'] . '/' .

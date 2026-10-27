@@ -10,7 +10,7 @@
 <p>\[p(x) = {@poly@}.\]</p>
 <p>
 [[repeat id="root"]]
-\(x_<repeatindex> = \) [[input:ans1]] [[validation:ans1]]<br>
+\(x_[[repeatindex/]] = \) [[input:ans1]] [[validation:ans1]]<br>
 [[/repeat]]
 [[repeatbutton title="Add another root" repeat_ids="root" save_state="state1" /]]
 [[input:state1]] [[validation:state1]]

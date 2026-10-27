@@ -138,7 +138,7 @@ Notes and restrictions.
 * Inputs consisting of a single element can be repeated: algebraic, numerical, units, string, singlechar, boolean, dropdown, textarea, equivalence reasoning, varmatrix and free-text inputs.  So can radio and checkbox inputs, where all the buttons or boxes of one input together are a single element, and matrix inputs, e.g. for a list of vectors.  Other inputs, e.g. notes, GeoGebra and Parsons inputs, are not yet supported, and a question with such an input inside a repeat block cannot be saved.  Note that free-text inputs are graded manually by default.
 * Repeat blocks may _not_ contain any other interactive blocks, including nested repeat blocks, JSXGraph, adapt etc.  (This may change in future versions.)
 * Repeat blocks may _not_ be used to add rows (`<tr>`) to a table (`<table>`) which starts outside of the repeat block.  This is due to limitations in the current javascript implementation.  You can put whole tables inside a repeat block, however.
-* Repeat blocks may contain a special tag `<repeatindex>`.  This tag acts as a counter for the block.  Client-side JS replaces this tag with the numerical value of the counter (integer, starting at 1).  It can be used in text and in maths, e.g. `\(x_{<repeatindex>} = \)`; use braces in subscripts, so that e.g. `10` is typeset correctly.  This tag cannot be used inside CAS calculations (e.g. `{@...@}`), which are evaluated _before_ the page is served to the student.  The purpose of this tag is simple enumeration of input boxes, not seeding of complex CAS calculations.
+* Repeat blocks may contain the block `[[repeatindex/]]`.  This block acts as a counter for the block.  Client-side JS replaces it with the numerical value of the counter (integer, starting at 1).  It can be used in text and in maths, e.g. `\(x_{[[repeatindex/]]} = \)`; use braces in subscripts, so that e.g. `10` is typeset correctly.  It may only be used inside a repeat block.  It cannot be used inside CAS calculations (e.g. `{@...@}`), which are evaluated _before_ the page is served to the student.  The purpose of this block is simple enumeration of input boxes, not seeding of complex CAS calculations.  The older tag `<repeatindex>` still works, but some text editors remove or alter it, so use `[[repeatindex/]]` instead.
 * Students cannot remove copies once added.
 
 ### Validation and the student's answer
@@ -157,7 +157,7 @@ STACK's sample question library contains questions similar to this typical examp
 Find all roots of the polynomial \(P(x) = x^3 - x\). Add as many input fields as required.
 
 [[repeat id="1"]]
-\(x_{<repeatindex>} = \) [[input:ans1]] [[validation:ans1]]
+\(x_{[[repeatindex/]]} = \) [[input:ans1]] [[validation:ans1]]
 [[/repeat]]
 [[repeatbutton title="Add another root" repeat_ids="1" save_state="state1" /]]
 [[input:state1]] [[validation:state1]]

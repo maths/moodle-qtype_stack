@@ -115,6 +115,17 @@ function input_name(fieldname) {
     return fieldname.substring(fieldname.indexOf('_') + 1);
 }
 
+// The repeated input an element belongs to, and for an input consisting of several
+// elements the key of this element's field: the cells of a matrix are "<name>_sub_<i>_<j>".
+function input_field(el) {
+    const name = input_name(el.name);
+    const cell = name.match(/^(.+)_(sub_[0-9]+_[0-9]+)$/);
+    if (el.dataset.stackInputType === 'matrix' && cell) {
+        return {name: cell[1], key: cell[2]};
+    }
+    return {name: name, key: null};
+}
+
 // Inputs consisting of a single element can be repeated: text boxes, dropdowns and text areas.
 // So can radio buttons: all the buttons with the same name together are one input.
 function is_repeated_input(el) {
@@ -173,16 +184,21 @@ function make_row(r, n, state) {
         }
         let newid = el.id + r.suffix + n;
         if (is_repeated_input(el)) {
-            const name = input_name(el.name);
-            const values = state.data[name] || [];
-            set_initial_value(el, values[n - 1] !== undefined ? String(values[n - 1]) : '');
+            const field = input_field(el);
+            const values = state.data[field.name] || [];
+            let value = values[n - 1];
+            if (field.key !== null) {
+                value = (value && typeof value === 'object') ? value[field.key] : undefined;
+            }
+            set_initial_value(el, value !== undefined ? String(value) : '');
+            const vlename = input_name(el.name) + r.suffix + n;
             el.name = el.name + r.suffix + n;
             if (el.type === 'radio') {
                 // The VLE finds a group of radio buttons by the id "<name>_1" of its first button.
                 newid = el.name + '_' + el.value;
             }
-            if (!added.some((entry) => entry.name === name)) {
-                added.push({vlename: name + r.suffix + n, name: name, idx: n - 1});
+            if (!added.some((entry) => entry.vlename === vlename)) {
+                added.push({vlename: vlename, name: field.name, key: field.key, idx: n - 1});
             }
         }
         renamed[el.id] = newid;
@@ -204,11 +220,24 @@ function connect_input(entry) {
         const writeback = () => {
             // Re-read the state, other inputs may have changed it in the meantime.
             const state = read_state();
-            if (!state.data || !Array.isArray(state.data[entry.name]) ||
-                    state.data[entry.name][entry.idx] === input.value) {
+            if (!state.data || !Array.isArray(state.data[entry.name])) {
                 return;
             }
-            state.data[entry.name][entry.idx] = input.value;
+            const rows = state.data[entry.name];
+            if (entry.key === null) {
+                if (rows[entry.idx] === input.value) {
+                    return;
+                }
+                rows[entry.idx] = input.value;
+            } else {
+                // The fields of an input consisting of several elements, e.g. the cells of a matrix.
+                const fields = (rows[entry.idx] && typeof rows[entry.idx] === 'object') ? rows[entry.idx] : {};
+                if ((fields[entry.key] || '') === input.value) {
+                    return;
+                }
+                fields[entry.key] = input.value;
+                rows[entry.idx] = fields;
+            }
             write_state(state);
         };
         input.addEventListener('change', writeback);
@@ -340,12 +369,12 @@ const ready = Promise.all([
         r.valclass = {};
         r.rows = 0;
         elements.filter(is_repeated_input).forEach((el) => {
-            const name = input_name(el.name);
+            const name = input_field(el).name;
             if (r.inputs.includes(name)) {
-                // Another button of the same group of radio buttons.
+                // Another button of the same group of radio buttons, or another cell of a matrix.
                 return;
             }
-            const prefix = el.name.substring(0, el.name.length - name.length);
+            const prefix = el.name.substring(0, el.name.indexOf('_') + 1);
             r.inputs.push(name);
             state_val_id = prefix + SAVE_STATE + '_val';
             // The [[validation:name]] element of this input, if the template has one.

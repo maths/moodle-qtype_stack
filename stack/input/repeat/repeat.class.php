@@ -73,7 +73,7 @@ class stack_repeat_input extends stack_json_input {
      * of a single element with a single value, which are validated and graded automatically.
      */
     const SUPPORTED_INPUT_TYPES = [
-        'algebraic', 'boolean', 'dropdown', 'equiv', 'freetext', 'numerical', 'radio', 'singlechar', 'string',
+        'algebraic', 'boolean', 'dropdown', 'equiv', 'freetext', 'matrix', 'numerical', 'radio', 'singlechar', 'string',
         'textarea', 'units', 'varmatrix',
     ];
 
@@ -228,6 +228,19 @@ class stack_repeat_input extends stack_json_input {
                             }
                         }
                         $values[$row] = implode("\n", $value);
+                    } else if (is_object($value)) {
+                        // The fields of an input consisting of several elements, e.g. "sub_0_1" => "2"
+                        // for the cells of a matrix.
+                        $fields = [];
+                        $expected = $input->get_expected_data();
+                        foreach (get_object_vars($value) as $key => $field) {
+                            if ($key === 'val' || !array_key_exists($inputname . '_' . $key, $expected) ||
+                                    (!is_string($field) && !is_int($field) && !is_float($field))) {
+                                return null;
+                            }
+                            $fields[$key] = (string) $field;
+                        }
+                        $values[$row] = $fields;
                     } else if (is_bool($value)) {
                         // E.g. from repeat_encode for a boolean input.
                         $values[$row] = $value ? 'true' : 'false';
@@ -280,7 +293,43 @@ class stack_repeat_input extends stack_json_input {
      * @return bool
      */
     private function is_blank_value($value): bool {
+        if (is_array($value)) {
+            // The fields of an input consisting of several elements are blank if all of them are.
+            foreach ($value as $field) {
+                if (!$this->is_blank_value($field)) {
+                    return false;
+                }
+            }
+            return true;
+        }
         return is_scalar($value) && (trim((string) $value) === '' || $value === 'EMPTYANSWER');
+    }
+
+    /**
+     * The response for validating one repeated value with the repeated input.
+     *
+     * @param stack_input $input the repeated input.
+     * @param string $inputname its name.
+     * @param string|array $value a raw value, or the fields of an input consisting of several elements.
+     * @return array the response, field name => raw value.
+     */
+    private function value_to_response(stack_input $input, string $inputname, $value): array {
+        if (is_array($value)) {
+            $response = [];
+            foreach ($value as $key => $field) {
+                $response[$inputname . '_' . $key] = $field;
+            }
+            return $response;
+        }
+        $fields = array_diff(array_keys($input->get_expected_data()), [$inputname, $inputname . '_val']);
+        if ($fields) {
+            // An input with several fields, e.g. a matrix, given a Maxima expression such as
+            // "matrix([1,2],[3,4])", e.g. by repeat_encode in the teacher's answer.
+            $response = $input->maxima_to_response_array((string) $value);
+            unset($response[$inputname . '_val']);
+            return $response;
+        }
+        return [$inputname => (string) $value];
     }
 
     /**
@@ -344,7 +393,7 @@ class stack_repeat_input extends stack_json_input {
             $exprs = [];
             foreach ($val as $row => $sans) {
                 try {
-                    $state = $input->validate_student_response([$inputname => (string) $sans],
+                    $state = $input->validate_student_response($this->value_to_response($input, $inputname, $sans),
                         $localoptions, $input->get_evaluated_teacher_answer(), $basesecurity,
                         false, null, null, null, $this->seed);
                 } catch (stack_exception $e) {

@@ -366,6 +366,45 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertEquals('(repeatedans1:[min])', $state->contentsmodified);
     }
 
+    public function test_validate_matrix(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('matrix', 'ans1', 'matrix([1],[2])');
+        $simpleinputs['ans1']->adapt_to_model_answer('matrix([1],[2])');
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+
+        // The browser sends the cells of each matrix.  A row with only empty cells is ignored.
+        $rawinput = '{"data":{"ans1":[{"sub_0_0":"1","sub_1_0":"x"},{"sub_0_0":"","sub_1_0":""},{"sub_0_0":"3","sub_1_0":"4"}]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[matrix([1],[x]),matrix([3],[4])])', $state->contentsmodified);
+
+        // The teacher's answer from repeat_encode has a Maxima expression for each matrix.
+        $rawinput = '{"data":{"ans1":["matrix([1],[x])","matrix([3],[4])"]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[matrix([1],[x]),matrix([3],[4])])', $state->contentsmodified);
+
+        // A matrix with some empty cells is invalid.
+        $rawinput = '{"data":{"ans1":[{"sub_0_0":"1","sub_1_0":""}]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(stack_string('repeatinvalidrows', '1'), $state->errors);
+
+        // Field names which no input uses can only come from tampering with the JSON.
+        $rawinput = '{"data":{"ans1":[{"sub_0_0":"1","Sub-1":"2"}]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertStringContainsString('invalid_json', $state->note);
+    }
+
     public function test_teacher_answer_display(): void {
 
         $simpleinputs = [];
@@ -417,10 +456,10 @@ final class input_repeat_test extends qtype_stack_testcase {
     public function test_get_unsupported_inputs(): void {
 
         $repeatinputs = ['state1' => ['ans1', 'ans2', 'ans3'], 'state2' => ['ans4']];
-        $inputtypes = ['ans1' => 'algebraic', 'ans2' => 'checkbox', 'ans3' => 'radio', 'ans4' => 'matrix',
+        $inputtypes = ['ans1' => 'algebraic', 'ans2' => 'checkbox', 'ans3' => 'radio', 'ans4' => 'notes',
             'ans5' => 'checkbox', 'state1' => 'repeat', 'state2' => 'repeat'];
         // Inputs outside repeat blocks (ans5) may have any type.
-        $this->assertEquals(['ans2' => 'checkbox', 'ans4' => 'matrix'],
+        $this->assertEquals(['ans2' => 'checkbox', 'ans4' => 'notes'],
             stack_repeat_input::get_unsupported_inputs($repeatinputs, $inputtypes));
 
         $this->assertEquals([], stack_repeat_input::get_unsupported_inputs([], $inputtypes));

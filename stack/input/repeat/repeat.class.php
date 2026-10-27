@@ -46,6 +46,29 @@ class stack_repeat_input extends stack_json_input {
     protected $incompleterows = [];
 
     /**
+     * @var int|null the seed of the question, used when validating each repeated value.  Without it,
+     * every CAS session gets a time-based seed, so its results are never found in the CAS cache.
+     */
+    protected $seed = null;
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function validate_student_response(
+        $response,
+        $options,
+        $teacheranswer,
+        stack_cas_security $basesecurity,
+        $ajaxinput = false,
+        $castextprocessor = null,
+        $questionvariables = null,
+        $lang = null,
+        $seed = null
+    ) {
+        $this->seed = $seed;
+        return parent::validate_student_response($response, $options, $teacheranswer, $basesecurity,
+            $ajaxinput, $castextprocessor, $questionvariables, $lang, $seed);
+    }
+
+    /**
      * Announces if the input is "simple" or compound.
      */
     public function get_simplicity() {
@@ -281,7 +304,8 @@ class stack_repeat_input extends stack_json_input {
             foreach ($val as $row => $sans) {
                 try {
                     $state = $input->validate_student_response([$inputname => (string) $sans],
-                        $localoptions, $input->get_evaluated_teacher_answer(), $basesecurity);
+                        $localoptions, $input->get_evaluated_teacher_answer(), $basesecurity,
+                        false, null, null, null, $this->seed);
                 } catch (stack_exception $e) {
                     // E.g. a value which is not one of the options of a dropdown: the JSON has been tampered with.
                     $valid = false;

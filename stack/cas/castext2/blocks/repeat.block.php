@@ -107,17 +107,20 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
             return false;
         }
         // Children are validated after this block, so let [[repeatindex/]] know where it is.
-        $this->callbackRecurse(function ($node) {
+        // The copies of the block are made client side, so interactive blocks are not allowed
+        // anywhere inside it, e.g. also not inside an [[if]].
+        $interactive = false;
+        $this->callbackRecurse(function ($node) use (&$interactive) {
             if ($node instanceof stack_cas_castext2_repeatindex) {
                 $node->insiderepeat = true;
+            } else if ($node->is_interactive()) {
+                $interactive = true;
             }
         });
-        foreach ($this->children as $item) {
-            if ($item->is_interactive()) {
-                $errors[] = new $options['errclass']('Repeat blocks may not contain interactive children.', $options['context'] . '/' .
-                    $this->position['start'] . '-' . $this->position['end']);
-                return false;
-            }
+        if ($interactive) {
+            $errors[] = new $options['errclass']('Repeat blocks may not contain interactive children.', $options['context'] . '/' .
+                $this->position['start'] . '-' . $this->position['end']);
+            return false;
         }
         return true;
     }

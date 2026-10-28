@@ -2143,6 +2143,26 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Interactive blocks are not allowed deeper inside repeat blocks either, but static blocks are.
+     * @covers \qtype_stack\stack_cas_castext2_repeat
+     */
+    public function test_stack_repeat_blocks_nonested_deep(): void {
+        $button = '[[repeatbutton title="Add" repeat_ids="1" save_state="state1"/]]';
+        $st = '[[repeat id="1"]][[input:ans1]] [[validation:ans1]]' .
+            '[[if test="true"]][[hint title="Hint"]]Shown if clicked.[[/hint]][[/if]][[/repeat]]' . $button;
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertFalse($at2->get_valid());
+        $this->assertEquals('Repeat blocks may not contain interactive children.', $at2->get_errors(true));
+
+        $st = '[[repeat id="1"]][[input:ans1]] [[validation:ans1]]' .
+            '[[if test="true"]][[lang code="en"]]Row [[repeatindex/]][[/lang]][[/if]]' .
+            '[[foreach v="[1,2]"]]{@v@}[[/foreach]][[comment]]c[[/comment]][[/repeat]]' . $button;
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $this->assertEquals('', $at2->get_errors(true));
+    }
+
+    /**
      * Basic test the jsxgraph blocks compile.
      * @covers \qtype_stack\stack_cas_castext2_jsxgraph
      */

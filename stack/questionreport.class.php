@@ -208,22 +208,30 @@ class stack_question_report {
         $summary = [];
         $jsonsummary = [];
 
-        // Load only the question attempt being reported. Loading the whole usage would initialise
-        // every question in the student's quiz attempt, which is expensive for STACK questions.
-        $datamapper = new question_engine_data_mapper();
+        // Read the steps of all reported question attempts in one query, rather than loading a
+        // question_attempt per row: each of those makes and initialises its own copy of the question,
+        // which is expensive for STACK questions.
+        $attempts = $this->load_attempt_steps(array_keys($result));
         // The question state depends only on the question version and the seed, so initialise
         // each such question once and reuse it to summarise every matching response.
         $questions = [];
+        $behaviours = [];
         foreach ($result as $qattempt) {
-            $currentqa = $datamapper->load_question_attempt($qattempt->id);
-            $questionkey = $currentqa->get_question_id() . '/' . $currentqa->get_step(0)->get_qt_var('_seed');
+            $attempt = $attempts[$qattempt->id];
+            $steps = $attempt->steps;
+            $questionkey = $attempt->questionid . '/' . $steps[0]->get_qt_var('_seed');
             if (!array_key_exists($questionkey, $questions)) {
-                $questions[$questionkey] = $currentqa->get_question();
+                $questions[$questionkey] = question_bank::load_question($attempt->questionid);
+                $questions[$questionkey]->apply_attempt_state($steps[0]);
             }
             $question = $questions[$questionkey];
-            $submittedresponseiterator = $currentqa->get_steps_with_submitted_response_iterator();
-            $numberofresponses = $submittedresponseiterator->count();
-            foreach ($submittedresponseiterator as $key => $step) {
+            if (!array_key_exists($attempt->behaviour, $behaviours)) {
+                $behaviours[$attempt->behaviour] = question_engine::make_behaviour($attempt->behaviour,
+                    new question_attempt($question, 0), $attempt->behaviour);
+            }
+            $submittedresponses = $this->steps_with_submitted_response($steps, $behaviours[$attempt->behaviour]);
+            $numberofresponses = count($submittedresponses);
+            foreach ($submittedresponses as $key => $step) {
                 $rsummary = $qattempt->responsesummary;
                 $response = $step->get_qt_data();
 
@@ -259,6 +267,91 @@ class stack_question_report {
 
         $this->summary = $summary;
         $this->jsonsummary = $jsonsummary;
+    }
+
+    /**
+     * Load the steps of the given question attempts in one query.
+     * As in question_attempt::load_from_records, an autosaved step is kept only if it is newer than the last real step.
+     * @param array $qattemptids question attempt ids
+     * @return array question attempt id => object with questionid, behaviour and steps (question_attempt_step[])
+     */
+    protected function load_attempt_steps(array $qattemptids): array {
+        global $DB;
+        $rows = [];
+        // Chunked to stay within the bound-parameter limits of all supported databases.
+        foreach (array_chunk($qattemptids, 1000) as $chunk) {
+            [$insql, $params] = $DB->get_in_or_equal($chunk);
+            $records = $DB->get_recordset_sql(
+                "SELECT qa.id AS questionattemptid, qa.questionid, qa.behaviour,
+                        qas.id AS stepid, qas.sequencenumber, qas.state, qas.timecreated, qas.userid,
+                        qasd.name, qasd.value
+                   FROM {question_attempts} qa
+                   JOIN {question_attempt_steps} qas ON qas.questionattemptid = qa.id
+              LEFT JOIN {question_attempt_step_data} qasd ON qasd.attemptstepid = qas.id
+                  WHERE qa.id $insql
+               ORDER BY qa.id, qas.sequencenumber, qasd.name", $params);
+            foreach ($records as $record) {
+                if (!isset($rows[$record->questionattemptid])) {
+                    $rows[$record->questionattemptid] = (object) ['questionid' => $record->questionid,
+                        'behaviour' => $record->behaviour, 'steps' => []];
+                }
+                $row = $rows[$record->questionattemptid];
+                if (!isset($row->steps[$record->stepid])) {
+                    $row->steps[$record->stepid] = (object) ['sequencenumber' => (int) $record->sequencenumber,
+                        'state' => $record->state, 'timecreated' => $record->timecreated,
+                        'userid' => $record->userid, 'data' => []];
+                }
+                if ($record->name !== null) {
+                    $row->steps[$record->stepid]->data[$record->name] = $record->value;
+                }
+            }
+            $records->close();
+        }
+
+        $attempts = [];
+        foreach ($rows as $qattemptid => $row) {
+            $steps = [];
+            $autosaved = null;
+            foreach ($row->steps as $stepid => $data) {
+                $step = new question_attempt_step($data->data, $data->timecreated, $data->userid, $stepid);
+                $step->set_state(question_state::get($data->state));
+                if ($data->sequencenumber >= 0) {
+                    $steps[] = $step;
+                } else if (!$autosaved) {
+                    // Steps are ordered by sequence number, so the first autosaved step is the latest.
+                    $autosaved = [-$data->sequencenumber, $step];
+                }
+            }
+            if ($autosaved && $autosaved[0] >= count($steps)) {
+                $steps[] = $autosaved[1];
+            }
+            $attempts[$qattemptid] = (object) ['questionid' => $row->questionid, 'behaviour' => $row->behaviour,
+                'steps' => $steps];
+        }
+        return $attempts;
+    }
+
+    /**
+     * The steps with a submitted response, chosen as question_attempt_steps_with_submitted_response_iterator does.
+     * @param question_attempt_step[] $steps the steps of one question attempt
+     * @param question_behaviour $behaviour the behaviour of that attempt
+     * @return question_attempt_step[] indexed from 1
+     */
+    protected function steps_with_submitted_response(array $steps, question_behaviour $behaviour): array {
+        $submitted = [];
+        $lastsaved = null;
+        foreach ($steps as $step) {
+            if ($behaviour->step_has_a_submitted_response($step)) {
+                $submitted[] = $step;
+                $lastsaved = null;
+            } else if (count($step->get_qt_data())) {
+                $lastsaved = $step;
+            }
+        }
+        if ($lastsaved) {
+            $submitted[] = $lastsaved;
+        }
+        return $submitted ? array_combine(range(1, count($submitted)), $submitted) : [];
     }
 
     /**

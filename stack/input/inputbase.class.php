@@ -63,6 +63,11 @@ abstract class stack_input {
      */
     const SIMPLICITY_COMPOUND = 'compound';
 
+    /** Whether the constructor is still setting the initial parameters.
+     * @var bool
+     */
+    private $initialising = false;
+
     /**
      * @var string the name of the input.
      * This name has two functions
@@ -186,6 +191,7 @@ abstract class stack_input {
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
         $this->runtime = $runtime;
+        $this->initialising = true;
         $class = get_class($this);
         foreach ($class::get_parameters_defaults() as $name => $value) {
             $this->set_parameter($name, $value);
@@ -210,6 +216,7 @@ abstract class stack_input {
             }
         }
 
+        $this->initialising = false;
         $this->internal_construct();
     }
 
@@ -308,6 +315,12 @@ abstract class stack_input {
                     break;
 
                 case 'rationalnum':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
+                    }
+                    break;
+
+                case 'realnum':
                     if (!(is_bool($arg))) {
                         $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
@@ -547,7 +560,9 @@ abstract class stack_input {
         if ($parameter == 'insertStars') {
             $this->parameters['grammarAutofixes'] = stack_input_factory::convert_legacy_insert_stars($value);
         }
-        $this->internal_construct();
+        if (!$this->initialising) {
+            $this->internal_construct();
+        }
     }
 
     /**
@@ -1287,6 +1302,15 @@ abstract class stack_input {
             );
         }
 
+        if (array_key_exists('realnum', $this->extraoptions) && $this->extraoptions['realnum']) {
+            $additionalvars['realnum'] = stack_ast_container::make_from_teacher_source(
+                'real_numberp(' . $this->name . ')',
+                '',
+                new stack_cas_security(),
+                []
+            );
+        }
+
         if (array_key_exists('rationalized', $this->extraoptions) && $this->extraoptions['rationalized']) {
             $additionalvars['rationalized'] = stack_ast_container::make_from_teacher_source(
                 'rationalized(' . $this->name . ')',
@@ -1526,6 +1550,15 @@ abstract class stack_input {
             }
         }
 
+        if (array_key_exists('realnum', $additionalvars)) {
+            $rn = $additionalvars['realnum'];
+            // Only when valid so far: a variable has already been reported by "novars".
+            if ($valid && $this->extraoptions['realnum'] && $rn->get_value() !== 'true') {
+                $valid = false;
+                $errors[] = stack_string('numericalinputmustreal');
+            }
+        }
+
         if (array_key_exists('rationalized', $additionalvars)) {
             $rn = $additionalvars['rationalized'];
             if ($this->extraoptions['rationalized'] && $rn->get_value() !== 'true') {
@@ -1599,6 +1632,36 @@ abstract class stack_input {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function requires_validation() {
         return $this->get_parameter('mustVerify', true);
+    }
+
+    /**
+     * Return accessible elements for matrix delimiters.
+     *
+     * Shared by the fixed and variable-size matrix inputs.
+     *
+     * @param string $matrixparens the configured matrix delimiter.
+     * @return string[] the left and right accessible elements.
+     */
+    protected function render_matrix_bracket_accessibility($matrixparens) {
+        $labelkeys = [
+            '[' => ['matrixleftsquarebracket', 'matrixrightsquarebracket'],
+            '(' => ['matrixleftparenthesis', 'matrixrightparenthesis'],
+            '{' => ['matrixleftcurlybracket', 'matrixrightcurlybracket'],
+            '|' => ['matrixleftverticalbar', 'matrixrightverticalbar'],
+        ];
+        if (!array_key_exists($matrixparens, $labelkeys)) {
+            return ['', ''];
+        }
+
+        $attributes = ['class' => 'matrixbracketaccessibility', 'role' => 'math'];
+        return [
+            html_writer::tag('span', '', $attributes + [
+                'aria-label' => stack_string($labelkeys[$matrixparens][0]),
+            ]),
+            html_writer::tag('span', '', $attributes + [
+                'aria-label' => stack_string($labelkeys[$matrixparens][1]),
+            ]),
+        ];
     }
 
     /**
@@ -1833,7 +1896,7 @@ abstract class stack_input {
      * This function is responsible for removing the validation tags from the question stem and replacing
      * them with the validation feedback.  Only the equiv input type currently does anything different here.
      */
-    public function replace_validation_tags($state, $fieldname, $questiontext) {
+    public function replace_validation_tags($state, $fieldname, $questiontext, $customvalidation = null) {
 
         $name = $this->name;
         // ISS879 Set language override to null as we should be in the question render here. It's only
@@ -1848,6 +1911,10 @@ abstract class stack_input {
         }
         if ($this->get_parameter('showValidation', 1) == 3) {
             $class = "stackinputfeedback compact";
+        }
+
+        if ($customvalidation !== null) {
+            $feedback = $customvalidation;
         }
 
         if (!$feedback) {
@@ -1978,13 +2045,13 @@ abstract class stack_input {
     }
 
     /**
-     * Returns the definition of this input as it should appear in an API response
+     * Returns the definition of this input as it should appear in an API response.
      * @return array
      */
     abstract public function render_api_data($tavalue);
 
     /**
-     * Returns the solution in the format used by the api
+     * Returns the solution in the format used by the api.
      * @param $tavalue
      * @return array|null
      */
@@ -1993,12 +2060,19 @@ abstract class stack_input {
     }
 
     /**
-     * Returns the rendering of the solution
+     * Returns the rendering of the solution.
      * @param $tadisplay
      * @param $ta
      * @return mixed
      */
     public function get_api_solution_render($tadisplay, $ta) {
         return $tadisplay;
+    }
+    /**
+     * Returns the name of this input.
+     * @return string
+     */
+    public function get_name(): string {
+        return $this->name;
     }
 }

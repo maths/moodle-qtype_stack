@@ -34,7 +34,7 @@ Unless you want to discuss something confidential with the developers, please do
 * Run Maxima unit tests of contributed packages by re-defining `stacklocation` and running `s_test_case.mac` in the sandbox.  E.g.
 
 ````
-    stacklocation:"/var/www/html/m40/question/type/stack"$
+    stacklocation:"/var/www/m501/public/question/type/stack"$
     load("s_test_case.mac");
 ````
 
@@ -92,9 +92,10 @@ E.g. "v4.10.0".
 
 ## 3. Moodle marketplace entry for the plugin
 
-Add a new version to the Moodle marketplace entry for the plugin.
+* Add a new version to the Moodle marketplace entry for the plugin.
+* Copy [development history](Development_history.md) to marketplace release notes.
 
-### 4. Releasing a new verion of the API to take advantage of the new release
+### 4. Releasing a new version of the API to take advantage of the new release
 
 Prompt to update Geomaxima image.
 

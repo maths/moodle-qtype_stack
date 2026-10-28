@@ -69,7 +69,11 @@ In theory one test case should be created for each anticipated response which ge
 
 When updating a PRT at this stage we would _expect_ test cases added in step 2 to fail.  This is reassuring as it indicates something significant has changed!  You can easily confirm the new behaviour of the testcase is now what is intended.
 
-### 6. Use data obtained from one cycle of attempts by students.
+### 6. Add accurate metadata.
+
+Check and add accurate [question metadata](../Authoring/Metadata.md).
+
+### 7. Use data obtained from one cycle of attempts by students.
 
 Rather than second-guess what students _might_ get wrong it is more effective to look at what they _do_.  See the section on [reporting](Reporting.md) for documentation on how to review students' answers.  When feedback/marks are delayed (e.g. online exam) this can be done between students taking the assessment and results being released.  If feedback/marks are immediate then better quality feedback can still be usefully added later.
 
@@ -78,6 +82,9 @@ Rather than second-guess what students _might_ get wrong it is more effective to
 3. Add further question tests to test each misconception.
 4. Is there any significant difference between random variants?
 
+# Comparing question versions
+
+Moodle creates a new version of the question every time you save. You can compare XML representations of different versions of your question via the 'Compare question XML' option in the STACK dashboard. This allows you to see what changes have been made between different versions. You can access other questions from the same question bank via this page, allowing you to compare different versions of non-STACK questions. You can also load question files from your local file system, either comparing them against each other or a version of your currently selected question. 
 
 # Authoring collaboratively
 

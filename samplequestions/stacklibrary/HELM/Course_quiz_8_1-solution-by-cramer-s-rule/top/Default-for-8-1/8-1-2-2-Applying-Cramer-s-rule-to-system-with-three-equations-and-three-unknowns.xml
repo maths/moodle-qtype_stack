@@ -65,6 +65,10 @@ Au:matrix([rand_with_step(-1,1,2),ev(rand(7)-3),ev(rand(7)-3)],[0,rand_with_step
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+      {"author":[{"firstName":"","lastName":"","institution":"HELM Consortium","year":"2015"},{"firstName":"","lastName":"","institution":"University of Edinburgh","year":"2025"}],"language":["en"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

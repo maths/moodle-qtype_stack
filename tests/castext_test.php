@@ -1819,6 +1819,42 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * A lambda holding an unevaluated matrix(...), issue #1912.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
+    public function test_lambda_matrix(): void {
+
+        $a2 = [
+            'f: lambda([w], matrix(w))',
+            'g: lambda([w,v], transpose(matrix(w,v)))',
+            'a: f([1,2])',
+        ];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $st = '{@f@}, {@g@}, {@a@}';
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at1 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('', $cs2->get_errors(false) ? implode(' ', $cs2->get_errors(false)) : '');
+        $this->assert_equals_ignore_spaces_and_e(
+            '\({\lambda\left(\left[ w \right]  , {\rm matrix}\left(w\right)\right)}\), ' .
+                '\({\lambda\left(\left[ w , v \right]  , ' .
+                '{\it transpose}\left({\rm matrix}\left(w , v\right)\right)\right)}\), ' .
+                '\({\left[\begin{array}{cc} 1 & 2 \end{array}\right]}\)',
+            $at1->get_rendered()
+        );
+    }
+
+    /**
      * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
@@ -3553,5 +3589,28 @@ final class castext_test extends qtype_stack_testcase {
                   'CASText source is edited as a plain text document., Unknown operator: ' .
                   '<span class="stacksyntaxexample">&</span>.';
         $this->assertEquals($errmsg, $at1->get_errors());
+    }
+
+    /**
+     * A backslash directly before an injection, issue #1910.
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     */
+    public function test_backslash_before_injection(): void {
+
+        $a1 = ['a:-5', 'b:3'];
+
+        $cases = [
+            ['\({@a@}\\\\{@b@}\)', $a1, true, '\({-5}\\\\{3}\)'],
+            ['\begin{pmatrix}{@a@}\\\\{@b@}\end{pmatrix}', $a1, true, '\begin{pmatrix}\({-5}\)\\\\\({3}\)\end{pmatrix}'],
+            ['\(\begin{pmatrix}{@a@}\\\\{@b@}\end{pmatrix}\)', $a1, true, '\(\begin{pmatrix}{-5}\\\\{3}\end{pmatrix}\)'],
+            ['x\\\\{@b@}y', $a1, true, 'x\\\\\({3}\)y'],
+            ['\({@a@} \\\\ {@b@}\)', $a1, true, '\({-5} \\\\ {3}\)'],
+            ['\({@a@}\\\\[2pt]{@b@}\)', $a1, true, '\({-5}\\\\[2pt]{3}\)'],
+            ['{@a@}\\\\{#b#}', $a1, true, '\({-5}\)\\\\3'],
+        ];
+
+        foreach ($cases as $case) {
+            $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3]);
+        }
     }
 }

@@ -37,8 +37,17 @@ stack_cas_castext2_iframe::register_counter('///REPEATBUTTON_COUNT///');
  */
 class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
+    /**
+     * Set for a button inside a repeat block: its rows are added by the JS of that block's button.
+     * @var bool
+     */
+    public $nested = false;
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
+        if ($this->nested) {
+            return $this->compile_nested();
+        }
 
         // All reveals need unique (at request level) identifiers, we use running numbering.
         static $count = 0;
@@ -174,17 +183,40 @@ function set_initial_value(el, value) {
 // the actual elements, so replacing an existing row would silently disconnect
 // it.  Instead each row is written into an empty "slot" element, and brings
 // along the empty slot for the next row.  Row 1 goes into the container itself.
-function slot_id(r, n) {
-    return n === 1 ? r.container : r.container + '_slot_' + n;
+function slot_id(container, n) {
+    return n === 1 ? container : container + '_slot_' + n;
 }
 
-// Build the HTML for row n of repeat block r from its template.  Every id (and
-// input name) gets a row specific suffix to keep them unique on the page.
-function make_row(r, n, state) {
+// The value in the state of an input in a row: path holds the row (0-based), and for an input
+// in a nested repeat block also the row of that block.
+function state_value(state, name, path) {
+    let value = state.data[name];
+    path.forEach((i) => {
+        value = Array.isArray(value) ? value[i] : undefined;
+    });
+    return value;
+}
+
+// The number of rows of nested repeat block q in the row of the outer block given by path.
+function nested_count(q, state, path) {
+    let count = 0;
+    q.inputs.forEach((name) => {
+        const rows = state_value(state, name, path);
+        if (Array.isArray(rows)) {
+            count = Math.max(count, rows.length);
+        }
+    });
+    return count;
+}
+
+// Build the HTML for row n of repeat block def from its template.  Every id (and input name)
+// gets the row specific suffix to keep them unique on the page.  The rows of the nested repeat
+// blocks of def are built into their containers.  Path gives the row in the state, see state_value().
+function make_row(def, n, suffix, state, path) {
     const tmp = document.createElement('div');
-    tmp.innerHTML = r.html.split(REPEATINDEX).join(String(n));
+    tmp.innerHTML = def.html.split(REPEATINDEX).join(String(n));
     const added = [];
-    const valids = Object.values(r.valids);
+    const valids = Object.values(def.valids);
     // Old id => new id, to keep labels attached to their elements.
     const renamed = {};
     tmp.querySelectorAll('[id]').forEach((el) => {
@@ -194,23 +226,22 @@ function make_row(r, n, state) {
             el.className = '';
             el.innerHTML = '';
         }
-        let newid = el.id + r.suffix + n;
+        let newid = el.id + suffix;
         if (is_repeated_input(el)) {
             const field = input_field(el);
-            const values = state.data[field.name] || [];
-            let value = values[n - 1];
+            let value = state_value(state, field.name, path);
             if (field.key !== null) {
                 value = (value && typeof value === 'object') ? value[field.key] : undefined;
             }
             set_initial_value(el, value !== undefined ? String(value) : '');
-            const vlename = input_name(el.name) + r.suffix + n;
-            el.name = el.name + r.suffix + n;
+            const vlename = input_name(el.name) + suffix;
+            el.name = el.name + suffix;
             if (el.type === 'radio') {
                 // The VLE finds a group of radio buttons by the id "<name>_1" of its first button.
                 newid = el.name + '_' + el.value;
             }
             if (!added.some((entry) => entry.vlename === vlename)) {
-                added.push({vlename: vlename, name: field.name, key: field.key, idx: n - 1,
+                added.push({vlename: vlename, name: field.name, key: field.key, path: path,
                     checkbox: el.type === 'checkbox'});
             }
         }
@@ -222,8 +253,30 @@ function make_row(r, n, state) {
             label.htmlFor = renamed[label.htmlFor];
         }
     });
-    // The template is not typeset, so let the VLE's maths filter typeset the copy.
-    return {html: '<div class="filter_mathjaxloader_equation">' + tmp.innerHTML + '</div>', added: added};
+    const buttons = [];
+    def.nested.forEach((q) => {
+        const container = tmp.querySelector('[id="' + q.container + suffix + '"]');
+        const count = nested_count(q, state, path);
+        let html = '';
+        for (let m = 1; m <= count; m++) {
+            const row = make_row(q, m, suffix + q.suffix + m, state, path.concat([m - 1]));
+            html += row.html;
+            row.added.forEach((entry) => added.push(entry));
+        }
+        if (container) {
+            container.innerHTML = count === 0 ? '' :
+                html + '<div id="' + slot_id(q.container + suffix, count + 1) + '"></div>';
+        }
+        if (q.button !== null && !buttons.includes(q.button + suffix)) {
+            buttons.push(q.button + suffix);
+        }
+    });
+    return {html: tmp.innerHTML, added: added, buttons: buttons};
+}
+
+// The template is not typeset, so let the VLE's maths filter typeset the copy.
+function typeset(html) {
+    return '<div class="filter_mathjaxloader_equation">' + html + '</div>';
 }
 
 // Write a single repeated input back into its slot of the state, whenever it changes.
@@ -233,18 +286,22 @@ function connect_input(entry) {
         const writeback = () => {
             // Re-read the state, other inputs may have changed it in the meantime.
             const state = read_state();
-            if (!state.data || !Array.isArray(state.data[entry.name])) {
+            if (!state.data) {
                 return;
             }
-            const rows = state.data[entry.name];
+            const rows = state_value(state, entry.name, entry.path.slice(0, -1));
+            const idx = entry.path[entry.path.length - 1];
+            if (!Array.isArray(rows)) {
+                return;
+            }
             if (entry.key === null) {
-                if (rows[entry.idx] === input.value) {
+                if (rows[idx] === input.value) {
                     return;
                 }
-                rows[entry.idx] = input.value;
+                rows[idx] = input.value;
             } else {
                 // The fields of an input consisting of several elements, e.g. the cells of a matrix.
-                const fields = (rows[entry.idx] && typeof rows[entry.idx] === 'object') ? rows[entry.idx] : {};
+                const fields = (rows[idx] && typeof rows[idx] === 'object') ? rows[idx] : {};
                 // The VLE reports whether a checkbox is ticked, its field has the key if it is.
                 let value = input.value;
                 if (entry.checkbox) {
@@ -254,7 +311,7 @@ function connect_input(entry) {
                     return;
                 }
                 fields[entry.key] = value;
-                rows[entry.idx] = fields;
+                rows[idx] = fields;
             }
             write_state(state);
         };
@@ -264,10 +321,29 @@ function connect_input(entry) {
     });
 }
 
+// The buttons of the nested repeat blocks, in row n of block r, add rows to those blocks.
+function connect_buttons(r, n, buttons) {
+    buttons.forEach((button) => {
+        stack_js.register_external_button_listener(button, () => {
+            const blocks = r.nested.filter((q) => q.button + r.suffix + n === button);
+            queue = queue.then(() => add_nested(r, n, blocks)).catch((e) => console.error('STACK repeatbutton:', e));
+        });
+    });
+}
+
+// The inputs of repeat block r, including those of its nested repeat blocks.
+function all_inputs(r) {
+    let names = r.inputs;
+    r.nested.forEach((q) => {
+        names = names.concat(q.inputs);
+    });
+    return names;
+}
+
 // Number of rows currently recorded in the state for block r.
 function row_count(r, state) {
     let count = 0;
-    r.inputs.forEach((name) => {
+    all_inputs(r).forEach((name) => {
         if (state.data && Array.isArray(state.data[name])) {
             count = Math.max(count, state.data[name].length);
         }
@@ -275,7 +351,7 @@ function row_count(r, state) {
     return count;
 }
 
-// Add one row to every block controlled by this button.
+// Add one row to every block controlled by this button, with one row in each nested block.
 function add_repeat() {
     if (state_input.hasAttribute('readonly')) {
         return;
@@ -289,13 +365,55 @@ function add_repeat() {
                 state.data[name].push('');
             }
         });
+        r.nested.forEach((q) => {
+            q.inputs.forEach((name) => {
+                state.data[name] = state.data[name] || [];
+                while (state.data[name].length < n) {
+                    state.data[name].push(['']);
+                }
+            });
+        });
         r.rows = n;
         return [r, n];
     });
     write_state(state);
     rows.forEach(([r, n]) => {
-        const row = make_row(r, n, state);
-        stack_js.switch_content(slot_id(r, n), row.html + '<div id="' + slot_id(r, n + 1) + '"></div>');
+        const row = make_row(r, n, r.suffix + n, state, [n - 1]);
+        stack_js.switch_content(slot_id(r.container, n),
+            typeset(row.html) + '<div id="' + slot_id(r.container, n + 1) + '"></div>');
+        row.added.forEach(connect_input);
+        connect_buttons(r, n, row.buttons);
+    });
+}
+
+// Add one row to the nested repeat blocks in row n of block r.
+function add_nested(r, n, blocks) {
+    if (state_input.hasAttribute('readonly')) {
+        return;
+    }
+    const state = read_state();
+    const rows = blocks.map((q) => {
+        const m = nested_count(q, state, [n - 1]) + 1;
+        q.inputs.forEach((name) => {
+            state.data[name] = state.data[name] || [];
+            while (state.data[name].length < n) {
+                state.data[name].push([]);
+            }
+            if (!Array.isArray(state.data[name][n - 1])) {
+                state.data[name][n - 1] = [];
+            }
+            while (state.data[name][n - 1].length < m) {
+                state.data[name][n - 1].push('');
+            }
+        });
+        return [q, m];
+    });
+    write_state(state);
+    rows.forEach(([q, m]) => {
+        const container = q.container + r.suffix + n;
+        const row = make_row(q, m, r.suffix + n + q.suffix + m, state, [n - 1, m - 1]);
+        stack_js.switch_content(slot_id(container, m),
+            typeset(row.html) + '<div id="' + slot_id(container, m + 1) + '"></div>');
         row.added.forEach(connect_input);
     });
 }
@@ -310,15 +428,28 @@ function construct_repeat() {
             return;
         }
         let html = '';
-        let added = [];
+        const rows = [];
         for (let n = 1; n <= count; n++) {
-            const row = make_row(r, n, state);
-            html += row.html;
-            added = added.concat(row.added);
+            const row = make_row(r, n, r.suffix + n, state, [n - 1]);
+            html += typeset(row.html);
+            rows.push(row);
         }
-        stack_js.switch_content(r.container, html + '<div id="' + slot_id(r, count + 1) + '"></div>');
-        added.forEach(connect_input);
+        stack_js.switch_content(r.container, html + '<div id="' + slot_id(r.container, count + 1) + '"></div>');
+        rows.forEach((row, i) => {
+            row.added.forEach(connect_input);
+            connect_buttons(r, i + 1, row.buttons);
+        });
     });
+}
+
+// Show the feedback for one field in its validation element.
+function update_feedback(id, cls, html) {
+    const fb = {cls: cls, html: html || ''};
+    // Always rewrite shown feedback, it may have been greyed out meanwhile.
+    if (fb.html !== '' || (shown_feedback[id] && shown_feedback[id].html !== '')) {
+        shown_feedback[id] = fb;
+        stack_js.switch_content(id, feedback_html(fb, false));
+    }
 }
 
 // Copy the validation feedback for each repeated field, which the repeat input sends
@@ -339,21 +470,24 @@ function show_feedback() {
             }
             feedback = JSON.parse(el.dataset.feedback || '{}');
         }
+        const state = read_state();
         REPEATS.forEach((r) => {
             for (let n = 1; n <= r.rows; n++) {
                 r.inputs.forEach((name) => {
-                    if (!(name in r.valids)) {
-                        return;
+                    if (name in r.valids) {
+                        update_feedback(r.valids[name] + r.suffix + n, r.valclass[name],
+                            feedback[name] && feedback[name][n]);
                     }
-                    const id = r.valids[name] + r.suffix + n;
-                    const fb = {
-                        cls: r.valclass[name],
-                        html: feedback[name] && feedback[name][n] ? feedback[name][n] : '',
-                    };
-                    // Always rewrite shown feedback, it may have been greyed out meanwhile.
-                    if (fb.html !== '' || (shown_feedback[id] && shown_feedback[id].html !== '')) {
-                        shown_feedback[id] = fb;
-                        stack_js.switch_content(id, feedback_html(fb, false));
+                });
+                r.nested.forEach((q) => {
+                    const count = nested_count(q, state, [n - 1]);
+                    for (let m = 1; m <= count; m++) {
+                        q.inputs.forEach((name) => {
+                            if (name in q.valids) {
+                                update_feedback(q.valids[name] + r.suffix + n + q.suffix + m, q.valclass[name],
+                                    feedback[name] && feedback[name][n] && feedback[name][n][m]);
+                            }
+                        });
                     }
                 });
             }
@@ -365,7 +499,7 @@ function show_feedback() {
 function init_repeat() {
     const data = {};
     REPEATS.forEach((r) => {
-        r.inputs.forEach((name) => {
+        all_inputs(r).forEach((name) => {
             data[name] = [];
         });
     });
@@ -373,36 +507,57 @@ function init_repeat() {
     add_repeat();
 }
 
+// Find the repeated inputs of a repeat block, and their validation elements, in its template.
+// A nested repeat block is taken out of the template, and described the same way in def.nested,
+// with the ids of its container and of its button.
+function parse_template(def, html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    def.nested = [];
+    tmp.querySelectorAll('[data-stack-repeat]').forEach((el) => {
+        const id = el.dataset.stackRepeat;
+        const container = tmp.querySelector('[data-stack-repeat-container="' + id + '"]');
+        const button = tmp.querySelector('[data-stack-repeat-button~="' + id + '"]');
+        const q = {
+            suffix: '_repeat_' + id + '_',
+            container: container ? container.id : '',
+            button: button ? button.id : null,
+        };
+        el.remove();
+        parse_template(q, el.innerHTML);
+        def.nested.push(q);
+    });
+    def.html = tmp.innerHTML;
+    const elements = [...tmp.querySelectorAll('[id]')];
+    def.inputs = [];
+    def.valids = {};
+    def.valclass = {};
+    elements.filter(is_repeated_input).forEach((el) => {
+        const name = input_field(el).name;
+        if (def.inputs.includes(name)) {
+            // Another button of the same group of radio buttons, or another cell of a matrix.
+            return;
+        }
+        const prefix = el.name.substring(0, el.name.indexOf('_') + 1);
+        def.inputs.push(name);
+        state_val_id = prefix + SAVE_STATE + '_val';
+        // The [[validation:name]] element of this input, if the template has one.
+        const val = elements.find((v) => v.id === prefix + name + '_val');
+        if (val) {
+            def.valids[name] = val.id;
+            def.valclass[name] = [...val.classList].filter(
+                (c) => !['empty', 'waiting', 'loading', 'error'].includes(c)).join(' ');
+        }
+    });
+}
+
 const ready = Promise.all([
     stack_js.request_access_to_input(SAVE_STATE, true).then((id) => {
         state_input = document.getElementById(id);
     }),
     ...REPEATS.map((r) => stack_js.get_content(r.template).then((html) => {
-        r.html = html;
-        const tmp = document.createElement('div');
-        tmp.innerHTML = html;
-        const elements = [...tmp.querySelectorAll('[id]')];
-        r.inputs = [];
-        r.valids = {};
-        r.valclass = {};
+        parse_template(r, html);
         r.rows = 0;
-        elements.filter(is_repeated_input).forEach((el) => {
-            const name = input_field(el).name;
-            if (r.inputs.includes(name)) {
-                // Another button of the same group of radio buttons, or another cell of a matrix.
-                return;
-            }
-            const prefix = el.name.substring(0, el.name.indexOf('_') + 1);
-            r.inputs.push(name);
-            state_val_id = prefix + SAVE_STATE + '_val';
-            // The [[validation:name]] element of this input, if the template has one.
-            const val = elements.find((v) => v.id === prefix + name + '_val');
-            if (val) {
-                r.valids[name] = val.id;
-                r.valclass[name] = [...val.classList].filter(
-                    (c) => !['empty', 'waiting', 'loading', 'error'].includes(c)).join(' ');
-            }
-        });
     })),
 ]).then(() => {
     if (state_input.value === '') {
@@ -442,6 +597,22 @@ JS);
         ]);
 
         return $body;
+    }
+
+    /**
+     * A button inside a repeat block is just a button, copied with each row of that block.  The JS
+     * of the outer block's button finds it by data-stack-repeat-button and adds the rows.
+     * @return MP_Node
+     */
+    private function compile_nested(): MP_Node {
+        $ids = implode(' ', $this->get_repeat_ids());
+        return new MP_List([
+            new MP_String('%root'),
+            new MP_String('<button type="button" class="btn btn-secondary" data-stack-repeat-button="' .
+                htmlspecialchars($ids) . '" id="'),
+            new MP_List([new MP_String('quid'), new MP_String('repeatbutton_' . str_replace(' ', '_', $ids))]),
+            new MP_String('">' . $this->params['title'] . '</button>'),
+        ]);
     }
 
     /**

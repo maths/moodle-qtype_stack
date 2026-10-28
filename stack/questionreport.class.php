@@ -211,8 +211,16 @@ class stack_question_report {
         // Load only the question attempt being reported. Loading the whole usage would initialise
         // every question in the student's quiz attempt, which is expensive for STACK questions.
         $datamapper = new question_engine_data_mapper();
+        // The question state depends only on the question version and the seed, so initialise
+        // each such question once and reuse it to summarise every matching response.
+        $questions = [];
         foreach ($result as $qattempt) {
             $currentqa = $datamapper->load_question_attempt($qattempt->id);
+            $questionkey = $currentqa->get_question_id() . '/' . $currentqa->get_step(0)->get_qt_var('_seed');
+            if (!array_key_exists($questionkey, $questions)) {
+                $questions[$questionkey] = $currentqa->get_question();
+            }
+            $question = $questions[$questionkey];
             $submittedresponseiterator = $currentqa->get_steps_with_submitted_response_iterator();
             $numberofresponses = $submittedresponseiterator->count();
             foreach ($submittedresponseiterator as $key => $step) {
@@ -223,10 +231,10 @@ class stack_question_report {
                             'slot' => $qattempt->slot, 'state' => strval($step->get_state()),
                             'timecreated' => $step->get_timecreated()];
                 if (!empty($response)) {
-                    $jsonsummary[] = $currentqa->get_question()->summarise_response_json($response, $metadata);
+                    $jsonsummary[] = $question->summarise_response_json($response, $metadata);
                     // Question attempt only stores the summary of the last step/response in DB. We need to calculate others.
                     if ($numberofresponses !== $key) {
-                        $rsummary = $currentqa->get_question()->summarise_response($response);
+                        $rsummary = $question->summarise_response($response);
                     }
                 }
 

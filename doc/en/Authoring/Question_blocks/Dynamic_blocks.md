@@ -136,7 +136,7 @@ Notes and restrictions.
 * There must be exactly one repeat button for each repeat block id, and the button must be _outside_ the repeat block.
 * Repeat blocks may contain inputs.  If so, the repeat block must also contain the corresponding validation tags.
 * Inputs consisting of a single element can be repeated: algebraic, numerical, units, string, singlechar, boolean, dropdown, textarea, equivalence reasoning, varmatrix and free-text inputs.  So can radio and checkbox inputs, where all the buttons or boxes of one input together are a single element, and matrix inputs, e.g. for a list of vectors.  Other inputs, e.g. notes, GeoGebra and Parsons inputs, are not yet supported, and a question with such an input inside a repeat block cannot be saved.  Note that free-text inputs are graded manually by default.
-* Repeat blocks may _not_ contain any other interactive blocks, including nested repeat blocks, JSXGraph, adapt, hint, reveal etc., not even inside other blocks such as `[[if]]`.  (This may change in future versions.)  Static blocks such as `[[if]]`, `[[foreach]]` and `[[lang]]` may be used, but they are evaluated once, before the page is served, so they give the same result in every copy of the repeat block.
+* Repeat blocks may _not_ contain any other interactive blocks, e.g. JSXGraph, adapt, hint, reveal etc., not even inside other blocks such as `[[if]]`.  (This may change in future versions.)  The exception is one level of [nested repeat blocks](#nested-repeat-blocks).  Static blocks such as `[[if]]`, `[[foreach]]` and `[[lang]]` may be used, but they are evaluated once, before the page is served, so they give the same result in every copy of the repeat block.
 * Repeat blocks may _not_ be used to add rows (`<tr>`) to a table (`<table>`) which starts outside of the repeat block.  This is due to limitations in the current javascript implementation.  You can put whole tables inside a repeat block, however.
 * Repeat blocks may contain the block `[[repeatindex/]]`.  This block acts as a counter for the block.  Client-side JS replaces it with the numerical value of the counter (integer, starting at 1).  It can be used in text and in maths, e.g. `\(x_{[[repeatindex/]]} = \)`; use braces in subscripts, so that e.g. `10` is typeset correctly.  It may only be used inside a repeat block.  It cannot be used inside CAS calculations (e.g. `{@...@}`), which are evaluated _before_ the page is served to the student.  The purpose of this block is simple enumeration of input boxes, not seeding of complex CAS calculations.  The older tag `<repeatindex>` still works, but some text editors remove or alter it, so use `[[repeatindex/]]` instead.
 * Students cannot remove copies once added.
@@ -177,6 +177,31 @@ set up the inputs as follows.
 STACK will take care of copying the field multiple times, validating each copy and collecting the answers.  In the PRT, compare `setify(repeatedans1)` with `setify(ta)`.
 
 More advanced examples could ask for several different inputs, e.g. a combination of an eigenvalue and an eigenvector or the coordinates of a critical point of a function.  If a repeat block contains inputs `ans1` and `ans2`, the PRTs can use `repeatedans1` and `repeatedans2`, which always have the same length: the n-th elements belong to the same row.
+
+### Nested repeat blocks
+
+A repeat block may contain another repeat block, e.g. to ask for all eigenvalues of a matrix, and for each eigenvalue a basis of its eigenspace.  The inner repeat block needs its own repeat button, _inside_ the outer repeat block, with the same `save_state` as the button of the outer block.
+
+```
+[[repeat id="ev"]]
+Eigenvalue \(\lambda_{[[repeatindex/]]} = \) [[input:ans1]] [[validation:ans1]]
+[[repeat id="vec"]]
+Eigenvector \(v_{[[repeatindex/]]} = \) [[input:ans2]] [[validation:ans2]]
+[[/repeat]]
+[[repeatbutton title="Add an eigenvector" repeat_ids="vec" save_state="state1" /]]
+[[/repeat]]
+[[repeatbutton title="Add an eigenvalue" repeat_ids="ev" save_state="state1" /]]
+[[input:state1]] [[validation:state1]]
+```
+
+Each row of the outer block starts with one row of the inner block, and the button in that row adds further rows to the inner block of that row only.  `[[repeatindex/]]` inside the inner block counts the rows of the inner block.
+
+For an input in the inner block, the list in the PRTs has one entry for each row of the outer block, which is the list of the values in the rows of the inner block.  In the example, `repeatedans1` could be `[5,2]` and `repeatedans2` could be `[[[1,1,1]],[[1,-1,0],[1,0,-1]]]`: one eigenvector for the eigenvalue 5, and two for the eigenvalue 2.
+
+* Empty rows of the inner block are ignored.  A row of the outer block with no rows of the inner block left gives an empty list.
+* A row of the outer block in which only the inner block is filled in is invalid, as for any row in which only some of the inputs are filled in.  The rows of the inner block are numbered in the validation messages by the row of the outer block, e.g. 2.1 for the first row of the inner block in the second row.
+* Only one level of nesting is possible.
+* The button inside the outer block may only add rows to repeat blocks inside the outer block, and the button outside may not add rows to the inner block.
 
 ## JSXGraph block ##
 

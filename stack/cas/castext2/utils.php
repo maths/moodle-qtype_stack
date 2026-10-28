@@ -201,6 +201,91 @@ class castext2_parser_utils {
         return $result;
     }
 
+    /**
+     * Check that nested repeat blocks can be used: the button inside a repeat block must add rows to
+     * repeat blocks inside the same block, and save them in the same input as the outer block's button.
+     *
+     * @param string $castext the question text.
+     * @return array of [language string name, its parameters] for each problem found.
+     */
+    public static function get_nested_repeat_errors(string $castext): array {
+        if ($castext === '' || substr_count($castext, '[[repeat ') < 2) {
+            return [];
+        }
+
+        $root = stack_cas_castext2_special_root::make(self::parse($castext));
+        // Outer repeat blocks, with the repeat blocks and buttons inside them.
+        $outer = [];
+        $inner = new SplObjectStorage();
+        $root->callbackRecurse(function ($node) use (&$outer, $inner) {
+            if (!($node instanceof stack_cas_castext2_repeat) || $inner->contains($node)) {
+                return;
+            }
+            $block = ['node' => $node, 'ids' => [], 'buttons' => []];
+            $node->callbackRecurse(function ($child) use (&$block, $inner) {
+                if ($child instanceof stack_cas_castext2_repeat && isset($child->params['id'])) {
+                    $block['ids'][] = $child->params['id'];
+                    $inner->attach($child);
+                } else if ($child instanceof stack_cas_castext2_repeatbutton) {
+                    $block['buttons'][] = $child;
+                    $inner->attach($child);
+                }
+            });
+            if ($block['ids'] || $block['buttons']) {
+                $outer[] = $block;
+            }
+        });
+        if (!$outer) {
+            return [];
+        }
+
+        // The buttons outside all repeat blocks.
+        $buttons = [];
+        $root->callbackRecurse(function ($node) use (&$buttons, $inner) {
+            if ($node instanceof stack_cas_castext2_repeatbutton && !$inner->contains($node)) {
+                $buttons[] = $node;
+            }
+        });
+        $innerids = [];
+        foreach ($outer as $block) {
+            $innerids = array_merge($innerids, $block['ids']);
+        }
+
+        $errors = [];
+        foreach ($buttons as $button) {
+            foreach (array_intersect($button->get_repeat_ids(), $innerids) as $id) {
+                $errors[] = ['repeatnestedouterbutton', $id];
+            }
+        }
+        foreach ($outer as $block) {
+            $id = $block['node']->params['id'] ?? '';
+            // The inputs in which the buttons of this block save its rows.
+            $savestates = [];
+            foreach ($buttons as $button) {
+                if (in_array($id, $button->get_repeat_ids())) {
+                    $savestates[] = trim($button->params['save_state'] ?? '');
+                }
+            }
+            $used = [];
+            foreach ($block['buttons'] as $button) {
+                $ids = $button->get_repeat_ids();
+                $used = array_merge($used, $ids);
+                foreach (array_diff($ids, $block['ids']) as $wrongid) {
+                    $errors[] = ['repeatnestedbuttonids', (object) ['id' => $wrongid, 'outer' => $id]];
+                }
+                $savestate = trim($button->params['save_state'] ?? '');
+                if ($savestates && !in_array($savestate, $savestates)) {
+                    $errors[] = ['repeatnestedsavestate',
+                        (object) ['inner' => $savestate, 'outer' => $savestates[0], 'id' => $id]];
+                }
+            }
+            foreach (array_diff($block['ids'], $used) as $nobutton) {
+                $errors[] = ['repeatnestednobutton', (object) ['id' => $nobutton, 'outer' => $id]];
+            }
+        }
+        return $errors;
+    }
+
     // Postprocesses the result from CAS. For those that have not yet fully
     // parsed the response. Does not use the full maximaparser infrastructure
     // as the result is just an list of strings... well should be for all simple

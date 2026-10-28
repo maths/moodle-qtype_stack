@@ -10,7 +10,7 @@
 <p>\[p(x) = {@poly@}.\]</p>
 <p>
 [[repeat id="root"]]
-\(x_[[repeatindex/]] = \) [[input:ans1]] [[validation:ans1]]<br>
+\(x_{[[repeatindex/]]} = \) [[input:ans1]] [[validation:ans1]]<br>
 [[/repeat]]
 [[repeatbutton title="Add another root" repeat_ids="root" save_state="state1" /]]
 [[input:state1]] [[validation:state1]]
@@ -18,9 +18,10 @@
 <p><strong>Remark</strong>: You can't delete input fields. If you add more fields than you require in the end, you can simply leave them blank/empty. They will not be evaluated.</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p><strong>Lösung</strong>: Dies ist ein Polynom vierten Grades und wahrscheinlich kennen Sie die Formel für die Nullstellen nicht. </p>
-<p>In dem Fall empfiehlt es sich zu versuchen eine Nullstelle zu raten. Man sieht hier ziemlich schnell, dass \(x = {@zero1@}\) eine Nullstelle von \(p(x)\) ist, d.h. \(p({@zero1@}) = 0\) (am besten probieren Sie als Nullstellen die ganze Zahlen von \(-2\) bis \(2\)).</p>
-<p>Wenn \(x_1 = {@zero1@}\) eine Nullstelle ist, so ist \((x-x_1) = ({@x-zero1@})\) ein Faktor des Polynoms. Führen Sie eine Polynomdivision durch.</p>]]></text>
+      <text><![CDATA[<p><strong>Solution</strong>: This is a polynomial of degree four, and you probably do not know a formula for its roots.</p>
+<p>In this case, try to guess a root.  Here one quickly finds that \(x = {@zero1@}\) is a root of \(p(x)\), i.e. \(p({@zero1@}) = 0\) (try the integers from \(-2\) to \(2\) first).</p>
+<p>If \(x_1 = {@zero1@}\) is a root, then \((x-x_1) = ({@x-zero1@})\) is a factor of the polynomial.  Divide \(p(x)\) by it, and find the roots of the quotient in the same way.</p>
+<p>The roots are \({@zero1@}\) (a double root), \({@zero2@}\) and \({@zero3@}\).</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0</penalty>
@@ -60,13 +61,13 @@ poly:expand(p);]]></text>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Richtige Antwort, gut gemacht!]]></text>
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Ihre Antwort ist teilweise korrekt.]]></text>
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Falsche Antwort.]]></text>
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
@@ -89,9 +90,9 @@ poly:expand(p);]]></text>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
-      <forbidfloat>0</forbidfloat>
+      <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
-      <checkanswertype>0</checkanswertype>
+      <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
       <options>hideanswer</options>
@@ -120,160 +121,112 @@ poly:expand(p);]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text><![CDATA[if length(repeatedans1)>4 then toomany:true else toomany:false;
-if elementp(zero1,setify(repeatedans1))=true then foundzero1:true else foundzero1:false;
-if elementp(zero2,setify(repeatedans1))=true then foundzero2:true else foundzero2:false;
-if elementp(zero3,setify(repeatedans1))=true then foundzero3:true else foundzero3:false;
-if length(repeatedans1)=4 and elementp(zero1,setify(repeatedans1))=true and elementp(zero2,setify(repeatedans1))=true and elementp(zero3,setify(repeatedans1))=true then doublerootwrong:true else doublerootwrong:false;]]></text>
+        <text><![CDATA[S: setify(repeatedans1);
+R: setify(ta);
+wrongvals: setdifference(S, R);
+founddouble: elementp(zero1, S);
+foundsimple: listify(intersection(S, {zero2, zero3}));
+/* Half the marks for the double root, a quarter for each simple root, minus a quarter for each wrong value. */
+sc: max(0, (if founddouble then 1/2 else 0) + length(foundsimple)/4 - cardinality(wrongvals)/4);]]></text>
       </feedbackvariables>
       <node>
         <name>0</name>
         <description></description>
         <answertest>AlgEquiv</answertest>
-        <sans>toomany</sans>
-        <tans>false</tans>
+        <sans>S</sans>
+        <tans>R</tans>
         <testoptions></testoptions>
-        <quiet>0</quiet>
-        <truescoremode>+</truescoremode>
-        <truescore>0</truescore>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
         <truepenalty></truepenalty>
-        <truenextnode>1</truenextnode>
+        <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
           <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0</falsescore>
+        <falsescore>sc</falsescore>
         <falsepenalty></falsepenalty>
-        <falsenextnode>-1</falsenextnode>
+        <falsenextnode>1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>Sie haben zu viele Nullstellen gefunden. Ein Polynom vom Grad \({@n@}\) hat maximal \({@n@}\) reelle Nullstellen (und man zählt mit Multiplizität). In diesem Beispiel gibt's eine doppelte Nullstelle, also maximal drei verschiedene Nullstellen.</p>]]></text>
+          <text></text>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
         <description></description>
         <answertest>AlgEquiv</answertest>
-        <sans>setify(repeatedans1)</sans>
-        <tans>setify(ta)</tans>
+        <sans>founddouble</sans>
+        <tans>true</tans>
         <testoptions></testoptions>
-        <quiet>0</quiet>
-        <truescoremode>=</truescoremode>
-        <truescore>1</truescore>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
-        <truenextnode>-1</truenextnode>
+        <truenextnode>2</truenextnode>
         <trueanswernote>prt1-2-T</trueanswernote>
         <truefeedback format="html">
-          <text></text>
+          <text><![CDATA[<p>You have found the double root \({@zero1@}\).</p>]]></text>
         </truefeedback>
-        <falsescoremode>-</falsescoremode>
+        <falsescoremode>+</falsescoremode>
         <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt1-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text><![CDATA[<p>You have not found the double root yet.</p>]]></text>
         </falsefeedback>
       </node>
       <node>
         <name>2</name>
         <description></description>
         <answertest>AlgEquiv</answertest>
-        <sans>foundzero1</sans>
-        <tans>true</tans>
+        <sans>length(foundsimple)</sans>
+        <tans>2</tans>
         <testoptions></testoptions>
-        <quiet>0</quiet>
+        <quiet>1</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.5</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>3</truenextnode>
         <trueanswernote>prt1-3-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p>Sehr gut, Sie haben die doppelte Nullstelle \({@zero1@}\) richtig identifiziert.</p>]]></text>
+          <text><![CDATA[<p>You have found both simple roots.</p>]]></text>
         </truefeedback>
-        <falsescoremode>-</falsescoremode>
+        <falsescoremode>+</falsescoremode>
         <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>3</falsenextnode>
         <falseanswernote>prt1-3-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>Schade, Sie haben die doppelte Nullstelle \({@zero1@}\) nicht gefunden.</p>]]></text>
+          <text><![CDATA[[[if test="is(length(foundsimple)=1)"]]<p>You have found the simple root \({@first(foundsimple)@}\), but one simple root is still missing.</p>[[else]]<p>You have not found any of the simple roots yet.</p>[[/if]]]]></text>
         </falsefeedback>
       </node>
       <node>
         <name>3</name>
         <description></description>
         <answertest>AlgEquiv</answertest>
-        <sans>foundzero2</sans>
-        <tans>true</tans>
+        <sans>cardinality(wrongvals)</sans>
+        <tans>0</tans>
         <testoptions></testoptions>
-        <quiet>0</quiet>
+        <quiet>1</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.25</truescore>
-        <truepenalty></truepenalty>
-        <truenextnode>4</truenextnode>
-        <trueanswernote>prt1-4-T</trueanswernote>
-        <truefeedback format="html">
-          <text><![CDATA[<p>Sehr gut, Sie haben die Nullstelle \({@zero2@}\) richtig identifiziert.</p>]]></text>
-        </truefeedback>
-        <falsescoremode>-</falsescoremode>
-        <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
-        <falsenextnode>4</falsenextnode>
-        <falseanswernote>prt1-4-F</falseanswernote>
-        <falsefeedback format="html">
-          <text><![CDATA[<p>Schade, Sie haben die Nullstelle \({@zero2@}\) nicht gefunden.</p>]]></text>
-        </falsefeedback>
-      </node>
-      <node>
-        <name>4</name>
-        <description></description>
-        <answertest>AlgEquiv</answertest>
-        <sans>foundzero3</sans>
-        <tans>true</tans>
-        <testoptions></testoptions>
-        <quiet>0</quiet>
-        <truescoremode>+</truescoremode>
-        <truescore>0.25</truescore>
-        <truepenalty></truepenalty>
-        <truenextnode>5</truenextnode>
-        <trueanswernote>prt1-5-T</trueanswernote>
-        <truefeedback format="html">
-          <text><![CDATA[<p>Sehr gut, Sie haben die Nullstelle \({@zero3@}\) richtig identifiziert.</p>]]></text>
-        </truefeedback>
-        <falsescoremode>-</falsescoremode>
-        <falsescore>0</falsescore>
-        <falsepenalty></falsepenalty>
-        <falsenextnode>5</falsenextnode>
-        <falseanswernote>prt1-5-F</falseanswernote>
-        <falsefeedback format="html">
-          <text><![CDATA[<p>Schade, Sie haben die Nullstelle \({@zero3@}\) nicht gefunden.</p>]]></text>
-        </falsefeedback>
-      </node>
-      <node>
-        <name>5</name>
-        <description></description>
-        <answertest>AlgEquiv</answertest>
-        <sans>doublerootwrong</sans>
-        <tans>true</tans>
-        <testoptions></testoptions>
-        <quiet>0</quiet>
-        <truescoremode>-</truescoremode>
-        <truescore>0.25</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
-        <trueanswernote>prt1-6-T</trueanswernote>
+        <trueanswernote>prt1-4-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p>Ihre Nullstelle \({@listify(setdifference(setify(repeatedans1),setify(ta)))[1]@}\) ist leider falsch.</p>]]></text>
+          <text></text>
         </truefeedback>
-        <falsescoremode>-</falsescoremode>
+        <falsescoremode>+</falsescoremode>
         <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
-        <falseanswernote>prt1-6-F</falseanswernote>
+        <falseanswernote>prt1-4-F</falseanswernote>
         <falsefeedback format="html">
-          <text></text>
+          <text><![CDATA[[[if test="is(cardinality(wrongvals)=1)"]]<p>\({@first(listify(wrongvals))@}\) is not a root of \(p(x)\).</p>[[else]]<p>The values \({@wrongvals@}\) are not roots of \(p(x)\).</p>[[/if]]<p>Each wrong value reduces your mark.</p>]]></text>
         </falsefeedback>
       </node>
     </prt>
@@ -291,7 +244,7 @@ if length(repeatedans1)=4 and elementp(zero1,setify(repeatedans1))=true and elem
     <deployedseed>1529426851</deployedseed>
     <qtest>
       <testcase>1</testcase>
-      <description></description>
+      <description>All roots.</description>
       <testinput>
         <name>state1</name>
         <value>repeat_encode([["ans1",ta]])</value>
@@ -300,7 +253,63 @@ if length(repeatedans1)=4 and elementp(zero1,setify(repeatedans1))=true and elem
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-2-T</expectedanswernote>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Every root once, the double root and a simple root twice.</description>
+      <testinput>
+        <name>state1</name>
+        <value>repeat_encode([["ans1",[zero3,zero1,zero2,zero3]]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>A simple root is missing.</description>
+      <testinput>
+        <name>state1</name>
+        <value>repeat_encode([["ans1",[zero1,zero2]]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.7500000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>All roots and a wrong value.</description>
+      <testinput>
+        <name>state1</name>
+        <value>repeat_encode([["ans1",[zero1,zero2,zero3,7]]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.7500000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-4-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description>Only wrong values.</description>
+      <testinput>
+        <name>state1</name>
+        <value>repeat_encode([["ans1",[7,8]]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-4-F</expectedanswernote>
       </expected>
     </qtest>
     <tags>

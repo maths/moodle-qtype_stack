@@ -17,10 +17,10 @@
 [[feedback:prt1]]]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p><strong>Lösung</strong>: Gemäss Kapitel 4.9 im Polybook hat die Gleichung \(z^4 = 1\) gerade so viele Lösungen wie der Grad des Polynoms ist, also hier 4. Wir klicken als 3x auf den Knopf, bis wir 4 Eingabefelder haben.</p>
-<p>Diese Lösungen haben alle den gleichen Betrag und sie liegen jeweils um \(\pi/2\) im Gegenuhrzeigersinn weitergedreht. Sobald wir eine erste Lösung gefunden haben, erhalten wir also alle weiteren Lösungen schnell.</p>
-<p>Die erste Lösung ist aber auch einfach: Natürlich gilt \(1^4 = 1\), also \(z_1 = 1\). Nun drehen wir einfach und schreiben in Normalform:</p>\[z_2 = z_1 \cdot e^{\text{i}\pi/2} = 1 \cdot \text{i} = \text{i},\]\[z_3 = z_2 \cdot e^{\text{i}\pi/2} = \text{i} \cdot \text{i} = -1,\]\[ z_4 = z_3 \cdot e^{\text{i}\pi/2} = -1 \cdot \text{i} = -\text{i}.\]
-<p>Die vier Lösungen bilden also ein Quadrat.</p>]]></text>
+      <text><![CDATA[<p><strong>Solution</strong>: The equation \(z^4 = 1\) has as many solutions as the degree of the polynomial, here \(4\).  So press the button three times, to get four input fields.</p>
+<p>All the solutions have the same absolute value, and each one is the previous one rotated anticlockwise by \(\pi/2\).  Once we have found a first solution, we get all the others quickly.</p>
+<p>The first solution is easy: of course \(1^4 = 1\), so \(z_1 = 1\).  Now we rotate, and write the results in cartesian form:</p>\[z_2 = z_1 \cdot e^{\text{i}\pi/2} = 1 \cdot \text{i} = \text{i},\]\[z_3 = z_2 \cdot e^{\text{i}\pi/2} = \text{i} \cdot \text{i} = -1,\]\[ z_4 = z_3 \cdot e^{\text{i}\pi/2} = -1 \cdot \text{i} = -\text{i}.\]
+<p>The four solutions form a square.</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0</penalty>
@@ -61,13 +61,13 @@ poly:ev(expand((z-z0)*(z-z1)*(z-z2)*(z-z3)),simp);</text>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Richtige Antwort, gut gemacht!]]></text>
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Ihre Antwort ist teilweise korrekt.]]></text>
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Falsche Antwort.]]></text>
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
@@ -88,11 +88,11 @@ poly:ev(expand((z-z0)*(z-z1)*(z-z2)*(z-z3)),simp);</text>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords></forbidwords>
+      <forbidwords>exp,e,%e</forbidwords>
       <allowwords></allowwords>
-      <forbidfloat>0</forbidfloat>
+      <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
-      <checkanswertype>0</checkanswertype>
+      <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
       <options>hideanswer</options>
@@ -121,16 +121,21 @@ poly:ev(expand((z-z0)*(z-z1)*(z-z2)*(z-z3)),simp);</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text></text>
+        <text><![CDATA[S: setify(map(rectform, repeatedans1));
+R: setify(ev(ta, simp));
+nfound: cardinality(intersection(S, R));
+wrongvals: setdifference(S, R);
+/* A quarter of the marks for each solution, minus a quarter for each wrong value. */
+sc: max(0, nfound/4 - cardinality(wrongvals)/4);]]></text>
       </feedbackvariables>
       <node>
         <name>0</name>
         <description></description>
         <answertest>AlgEquiv</answertest>
-        <sans>setify(repeatedans1)</sans>
-        <tans>setify(ta)</tans>
+        <sans>S</sans>
+        <tans>R</tans>
         <testoptions></testoptions>
-        <quiet>0</quiet>
+        <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
         <truepenalty></truepenalty>
@@ -140,18 +145,68 @@ poly:ev(expand((z-z0)*(z-z1)*(z-z2)*(z-z3)),simp);</text>
           <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0</falsescore>
+        <falsescore>sc</falsescore>
         <falsepenalty></falsepenalty>
-        <falsenextnode>-1</falsenextnode>
+        <falsenextnode>1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
           <text></text>
         </falsefeedback>
       </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>cardinality(wrongvals)</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[[[if test="is(cardinality(wrongvals)=1)"]]<p>\({@first(listify(wrongvals))@}\) is not a solution of \(z^4 = 1\).</p>[[else]]<p>The values \({@wrongvals@}\) are not solutions of \(z^4 = 1\).</p>[[/if]]<p>Each wrong value reduces your mark.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>nfound</sans>
+        <tans>4</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have found all the solutions.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[[[if test="is(nfound=0)"]]<p>None of your values is a solution.</p>[[elif test="is(nfound=1)"]]<p>One of your values is a solution, but there are more solutions.</p>[[else]]<p>{#nfound#} of your values are solutions, but there are more solutions.</p>[[/if]]]]></text>
+        </falsefeedback>
+      </node>
     </prt>
     <qtest>
       <testcase>1</testcase>
-      <description></description>
+      <description>All solutions.</description>
       <testinput>
         <name>state1</name>
         <value>repeat_encode([["ans1",ta]])</value>
@@ -161,6 +216,34 @@ poly:ev(expand((z-z0)*(z-z1)*(z-z2)*(z-z3)),simp);</text>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
         <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Two solutions.</description>
+      <testinput>
+        <name>state1</name>
+        <value>repeat_encode([["ans1",[1,-1]]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>All solutions and a wrong value.</description>
+      <testinput>
+        <name>state1</name>
+        <value>repeat_encode([["ans1",[1,%i,-1,-%i,2]]])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.7500000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
       </expected>
     </qtest>
     <tags>

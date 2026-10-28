@@ -36,14 +36,23 @@ class stack_repeat_input extends stack_json_input {
 
     /**
      * @var array input name => row (0-based, as in the student's JSON) => stack_input_state of
-     * the last validation, used to give feedback next to each repeated field.
+     * the last validation, used to give feedback next to each repeated field.  For an input in a
+     * nested repeat block: input name => row => row of the nested block => stack_input_state.
      */
     protected $rowstates = [];
 
     /**
-     * @var array row numbers (1-based) of rows in which only some of the fields are filled in.
+     * @var array row numbers (1-based) of rows in which only some of the fields are filled in,
+     * e.g. "2", or "2.1" for the first row of a nested repeat block in the second row.
      */
     protected $incompleterows = [];
+
+    /**
+     * @var array input name => id of the nested repeat block, for the inputs in repeat blocks
+     * inside other repeat blocks.  Their value in each row is a list, with one value for each row
+     * of the nested block.
+     */
+    protected $nestedinputs = [];
 
     /**
      * @var int|null the seed of the question, used when validating each repeated value.  Without it,
@@ -120,6 +129,15 @@ class stack_repeat_input extends stack_json_input {
     }
 
     /**
+     * Set the inputs in nested repeat blocks.
+     * @param array $nestedinputs input name => id of the nested repeat block,
+     *      as from castext2_parser_utils::get_nested_repeat_inputs().
+     */
+    public function set_nested_inputs(array $nestedinputs) {
+        $this->nestedinputs = $nestedinputs;
+    }
+
+    /**
      * The repeated inputs are not used directly, so their own teacher's answers are not shown.
      * @param array $inputs
      */
@@ -150,8 +168,10 @@ class stack_repeat_input extends stack_json_input {
         }
         foreach ($inputs as $inputname => $values) {
             foreach ($values as $row => $value) {
-                if (is_array($value) || is_object($value)) {
-                    $inputs[$inputname][$row] = '[' . implode(', ', (array) $value) . ']';
+                if (array_key_exists($inputname, $this->nestedinputs) || is_object($value)) {
+                    $inputs[$inputname][$row] = json_encode($value);
+                } else if (is_array($value)) {
+                    $inputs[$inputname][$row] = '[' . implode(', ', $value) . ']';
                 }
             }
         }
@@ -205,6 +225,16 @@ class stack_repeat_input extends stack_json_input {
         foreach ($rows as $number => $row) {
             $cells = [html_writer::tag('th', ($number + 1) . '.')];
             foreach ($inputs as $inputname => $values) {
+                if (array_key_exists($inputname, $this->nestedinputs)) {
+                    // The values of the rows of the nested repeat block.
+                    $displays = [];
+                    foreach ($values[$row] ?? [] as $i => $value) {
+                        $displays[] = $this->get_value_display($this->simpleinputs[$inputname],
+                            $value, $copy->rowstates[$inputname][$row][$i] ?? null);
+                    }
+                    $cells[] = html_writer::tag('td', implode(', ', $displays));
+                    continue;
+                }
                 $cells[] = html_writer::tag('td', $this->get_value_display($this->simpleinputs[$inputname],
                     $values[$row] ?? '', $copy->rowstates[$inputname][$row] ?? null));
             }
@@ -306,33 +336,22 @@ class stack_repeat_input extends stack_json_input {
                     return null;
                 }
                 foreach ($values as $row => $value) {
-                    if (is_array($value)) {
-                        // A list, e.g. from repeat_encode: the lines of a text area, since Maxima strings
-                        // cannot contain a newline, or the options chosen in a checkbox input.
-                        foreach ($value as $item) {
-                            if (!is_string($item) && !is_int($item) && !is_float($item)) {
+                    if (array_key_exists($inputname, $this->nestedinputs)) {
+                        // A list of values, one for each row of the nested repeat block.
+                        if (!is_array($value)) {
+                            return null;
+                        }
+                        foreach ($value as $i => $item) {
+                            $value[$i] = $this->extract_value($input, $inputname, $item);
+                            if ($value[$i] === null) {
                                 return null;
                             }
                         }
-                        $values[$row] = array_map('strval', $value);
-                    } else if (is_object($value)) {
-                        // The fields of an input consisting of several elements, e.g. "sub_0_1" => "2"
-                        // for the cells of a matrix.
-                        $fields = [];
-                        $expected = $input->get_expected_data();
-                        foreach (get_object_vars($value) as $key => $field) {
-                            if ($key === 'val' || !array_key_exists($inputname . '_' . $key, $expected) ||
-                                    (!is_string($field) && !is_int($field) && !is_float($field))) {
-                                return null;
-                            }
-                            $fields[$key] = (string) $field;
-                        }
-                        // Kept as an object, to tell it apart from a list.
-                        $values[$row] = (object) $fields;
-                    } else if (is_bool($value)) {
-                        // E.g. from repeat_encode for a boolean input.
-                        $values[$row] = $value ? 'true' : 'false';
-                    } else if (!is_string($value) && !is_int($value) && !is_float($value)) {
+                        $values[$row] = $value;
+                        continue;
+                    }
+                    $values[$row] = $this->extract_value($input, $inputname, $value);
+                    if ($values[$row] === null) {
                         return null;
                     }
                 }
@@ -343,15 +362,89 @@ class stack_repeat_input extends stack_json_input {
     }
 
     /**
+     * Check and normalise a single raw value from the JSON state.
+     *
+     * @param stack_input $input the repeated input.
+     * @param string $inputname its name.
+     * @param mixed $value the value decoded from the JSON.
+     * @return string|array|stdClass|null the value, or null if it is not acceptable.
+     */
+    private function extract_value(stack_input $input, string $inputname, $value) {
+        if (is_array($value)) {
+            // A list, e.g. from repeat_encode: the lines of a text area, since Maxima strings
+            // cannot contain a newline, or the options chosen in a checkbox input.
+            foreach ($value as $item) {
+                if (!is_string($item) && !is_int($item) && !is_float($item)) {
+                    return null;
+                }
+            }
+            return array_map('strval', $value);
+        } else if (is_object($value)) {
+            // The fields of an input consisting of several elements, e.g. "sub_0_1" => "2"
+            // for the cells of a matrix.
+            $fields = [];
+            $expected = $input->get_expected_data();
+            foreach (get_object_vars($value) as $key => $field) {
+                if ($key === 'val' || !array_key_exists($inputname . '_' . $key, $expected) ||
+                        (!is_string($field) && !is_int($field) && !is_float($field))) {
+                    return null;
+                }
+                $fields[$key] = (string) $field;
+            }
+            // Kept as an object, to tell it apart from a list.
+            return (object) $fields;
+        } else if (is_bool($value)) {
+            // E.g. from repeat_encode for a boolean input.
+            return $value ? 'true' : 'false';
+        } else if (!is_string($value) && !is_int($value) && !is_float($value)) {
+            return null;
+        }
+        return $value;
+    }
+
+    /**
      * Remove the rows in which every input is blank, e.g. because the student added more rows than needed.
      *
      * Rows are removed from all inputs together, so that values in the same row stay aligned.
      * The remaining values keep their row number (0-based) as key, to match the rows on screen.
      *
+     * In each row, the empty rows of the nested repeat blocks are removed in the same way.
+     *
      * @param array $inputs input name => list of raw values.
      * @return array the same, without the empty rows.
      */
     protected function remove_empty_rows(array $inputs): array {
+        $inputs = $this->remove_blank_rows($inputs);
+        // The inputs of each nested repeat block.
+        $blocks = [];
+        foreach ($this->nestedinputs as $inputname => $id) {
+            if (array_key_exists($inputname, $inputs)) {
+                $blocks[$id][] = $inputname;
+            }
+        }
+        foreach ($blocks as $inputnames) {
+            foreach ($inputs[$inputnames[0]] as $row => $unused) {
+                $nested = [];
+                foreach ($inputnames as $inputname) {
+                    $nested[$inputname] = $inputs[$inputname][$row] ?? [];
+                }
+                foreach ($this->remove_blank_rows($nested) as $inputname => $values) {
+                    if (array_key_exists($row, $inputs[$inputname])) {
+                        $inputs[$inputname][$row] = $values;
+                    }
+                }
+            }
+        }
+        return $inputs;
+    }
+
+    /**
+     * Remove the rows in which every input is blank, see remove_empty_rows().
+     *
+     * @param array $inputs input name => list of raw values.
+     * @return array the same, without the empty rows.
+     */
+    private function remove_blank_rows(array $inputs): array {
         $lists = array_filter($inputs, 'is_array');
         $numrows = $lists ? max(array_map('count', $lists)) : 0;
         $keep = [];
@@ -492,35 +585,73 @@ class stack_repeat_input extends stack_json_input {
         // Validate each entry separately using the simple input validation, with the
         // question's security settings (e.g. forbidden words, units) and options.
         // The details are shown next to each field, see validation_display().
+        // Validate a single value, with the label of its row for the errors, e.g. "2" or "2.1".
+        $validate = function (stack_input $input, string $inputname, $sans, string $label) use (
+                $localoptions, $basesecurity, &$valid, &$invalidrows, &$badvalues, &$notes): array {
+            try {
+                $state = $input->validate_student_response($this->value_to_response($input, $inputname, $sans),
+                    $localoptions, $input->get_evaluated_teacher_answer(), $basesecurity,
+                    false, null, null, null, $this->seed);
+            } catch (stack_exception $e) {
+                // E.g. a value which is not one of the options of a dropdown: the JSON has been tampered with.
+                $valid = false;
+                $invalidrows[$label] = true;
+                $badvalues = true;
+                return [null, null];
+            }
+            $expr = null;
+            if ($state->__get('status') === stack_input::VALID || $state->__get('status') === stack_input::SCORE) {
+                $expr = $state->__get('contentsmodified');
+            } else {
+                $valid = false;
+                $invalidrows[$label] = true;
+                if ($state->__get('status') === stack_input::BLANK) {
+                    // Only some fields of this (non-empty) row have been filled in.
+                    $this->incompleterows[$label] = true;
+                }
+            }
+            if ($state->__get('note') !== '') {
+                $notes[$state->__get('note')] = true;
+            }
+            return [$state, $expr];
+        };
+
+        // The rows of the outer repeat block, also for the nested inputs which have no rows there.
+        $rows = [];
+        foreach ($inputs as $inputname => $val) {
+            $rows = array_merge($rows, array_keys($val));
+        }
+        $rows = array_unique($rows);
+        sort($rows);
+
         foreach ($inputs as $inputname => $val) {
             $input = $this->simpleinputs[$inputname];
             // Val should now be an array of values.
             $exprs = [];
-            foreach ($val as $row => $sans) {
-                try {
-                    $state = $input->validate_student_response($this->value_to_response($input, $inputname, $sans),
-                        $localoptions, $input->get_evaluated_teacher_answer(), $basesecurity,
-                        false, null, null, null, $this->seed);
-                } catch (stack_exception $e) {
-                    // E.g. a value which is not one of the options of a dropdown: the JSON has been tampered with.
-                    $valid = false;
-                    $invalidrows[$row + 1] = true;
-                    $badvalues = true;
-                    continue;
-                }
-                $this->rowstates[$inputname][$row] = $state;
-                if ($state->__get('status') === stack_input::VALID || $state->__get('status') === stack_input::SCORE) {
-                    $exprs[] = $state->__get('contentsmodified');
-                } else {
-                    $valid = false;
-                    $invalidrows[$row + 1] = true;
-                    if ($state->__get('status') === stack_input::BLANK) {
-                        // Only some fields of this (non-empty) row have been filled in.
-                        $this->incompleterows[$row + 1] = true;
+            if (array_key_exists($inputname, $this->nestedinputs)) {
+                // One list of values for each row, one value for each row of the nested repeat block.
+                foreach ($rows as $row) {
+                    $nestedexprs = [];
+                    foreach ($val[$row] ?? [] as $i => $sans) {
+                        [$state, $expr] = $validate($input, $inputname, $sans, ($row + 1) . '.' . ($i + 1));
+                        if ($state !== null) {
+                            $this->rowstates[$inputname][$row][$i] = $state;
+                        }
+                        if ($expr !== null) {
+                            $nestedexprs[] = $expr;
+                        }
                     }
+                    $exprs[] = '[' . implode(',', $nestedexprs) . ']';
                 }
-                if ($state->__get('note') !== '') {
-                    $notes[$state->__get('note')] = true;
+            } else {
+                foreach ($val as $row => $sans) {
+                    [$state, $expr] = $validate($input, $inputname, $sans, (string) ($row + 1));
+                    if ($state !== null) {
+                        $this->rowstates[$inputname][$row] = $state;
+                    }
+                    if ($expr !== null) {
+                        $exprs[] = $expr;
+                    }
                 }
             }
             // If valid, collect together the valid modified expresssions.
@@ -532,8 +663,9 @@ class stack_repeat_input extends stack_json_input {
             $notes['invalid_json'] = true;
         }
         if ($invalidrows) {
-            ksort($invalidrows);
-            $errors[] = stack_string('repeatinvalidrows', implode(', ', array_keys($invalidrows)));
+            $labels = array_map('strval', array_keys($invalidrows));
+            sort($labels, SORT_NATURAL);
+            $errors[] = stack_string('repeatinvalidrows', implode(', ', $labels));
         }
         if ($this->incompleterows) {
             $notes['repeat_incomplete_row'] = true;
@@ -607,20 +739,19 @@ class stack_repeat_input extends stack_json_input {
     protected function render_row_feedback() {
         // Input name => row (1-based) => HTML.
         $feedback = [];
+        // For an input in a nested repeat block: input name => row => row of the nested block => HTML.
         foreach ($this->rowstates as $inputname => $rows) {
             $input = $this->simpleinputs[$inputname];
             foreach ($rows as $row => $state) {
-                if ($state->status === self::BLANK && array_key_exists($row + 1, $this->incompleterows)) {
-                    $html = html_writer::tag('div',
-                        stack_string('studentValidation_invalidAnswer') . ' ' . stack_string('repeatincompletefield'),
-                        ['class' => 'alert alert-danger stackinputerror']);
+                if (is_array($state)) {
+                    foreach ($state as $i => $nestedstate) {
+                        $feedback[$inputname][(string) ($row + 1)][(string) ($i + 1)] = $this->render_field_feedback(
+                            $input, $inputname, $nestedstate, ($row + 1) . '.' . ($i + 1));
+                    }
                 } else {
-                    // Exactly the validation the student would get from this input on its own,
-                    // without the hidden "_val" field, which only makes sense for the real input.
-                    $html = preg_replace('~<input[^>]*type="hidden"[^>]*>~', '',
-                        $input->render_validation($state, $inputname));
+                    $feedback[$inputname][(string) ($row + 1)] = $this->render_field_feedback(
+                        $input, $inputname, $state, (string) ($row + 1));
                 }
-                $feedback[$inputname][(string) ($row + 1)] = $html;
             }
         }
 
@@ -635,6 +766,27 @@ class stack_repeat_input extends stack_json_input {
             'data-state' => $state,
             'data-feedback' => json_encode((object) $feedback),
         ]);
+    }
+
+    /**
+     * The validation feedback for one repeated field.
+     *
+     * @param stack_input $input the repeated input.
+     * @param string $inputname its name.
+     * @param stack_input_state $state the validation of the value in this field.
+     * @param string $label the label of its row, e.g. "2", or "2.1" for a row of a nested repeat block.
+     * @return string HTML.
+     */
+    private function render_field_feedback(stack_input $input, string $inputname, stack_input_state $state,
+            string $label): string {
+        if ($state->status === self::BLANK && array_key_exists($label, $this->incompleterows)) {
+            return html_writer::tag('div',
+                stack_string('studentValidation_invalidAnswer') . ' ' . stack_string('repeatincompletefield'),
+                ['class' => 'alert alert-danger stackinputerror']);
+        }
+        // Exactly the validation the student would get from this input on its own,
+        // without the hidden "_val" field, which only makes sense for the real input.
+        return preg_replace('~<input[^>]*type="hidden"[^>]*>~', '', $input->render_validation($state, $inputname));
     }
 
     /**

@@ -2016,6 +2016,42 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * A repeat block with its button inside another repeat block: the inner button is a plain button,
+     * whose rows are added by the outer button's JS.
+     * @covers \qtype_stack\stack_cas_castext2_repeat
+     * @covers \qtype_stack\stack_cas_castext2_repeatbutton
+     */
+    public function test_stack_repeat_blocks_nested(): void {
+        $inner = '[[repeat id="vec"]][[input:ans2]] [[validation:ans2]][[/repeat]]' .
+            '[[repeatbutton title="Add a vector" repeat_ids="vec" save_state="state1"/]]';
+        $st = '[[repeat id="ev"]][[input:ans1]] [[validation:ans1]]' . $inner . '[[/repeat]]' .
+            '[[repeatbutton title="Add a value" repeat_ids="ev" save_state="state1"/]]';
+        $s2 = [];
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals('', $at2->get_errors(true));
+        // Without a question to process it, the rendered castext is still a JSON string.
+        $rendered = $at2->get_rendered();
+        $this->assertStringContainsString('data-stack-repeat=\\"vec\\"', $rendered);
+        $this->assertStringContainsString('data-stack-repeat-container=\\"vec\\"', $rendered);
+        $this->assertStringContainsString('data-stack-repeat-button=\\"vec\\"', $rendered);
+        // Only the outer button has the iframe with the JS.
+        $this->assertEquals(1, substr_count($rendered, '"iframe"'));
+
+        $this->assertEquals(['ans2' => 'vec'], \castext2_parser_utils::get_nested_repeat_inputs($st));
+        $this->assertEqualsCanonicalizing(['ans1', 'ans2'], \castext2_parser_utils::get_repeat_inputs($st)['state1']);
+        $this->assertEquals([], \castext2_parser_utils::get_nested_repeat_inputs($inner));
+
+        // Only one level of nesting.
+        $st = '[[repeat id="a"]][[repeat id="b"]][[repeat id="c"]]x[[/repeat]][[/repeat]][[/repeat]]';
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertFalse($at2->get_valid());
+        $this->assertEquals('Repeat blocks may only be nested one level deep.', $at2->get_errors(true));
+    }
+
+    /**
      * Find which inputs each repeat button repeats.
      * @covers \castext2_parser_utils::get_repeat_inputs
      */

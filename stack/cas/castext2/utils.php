@@ -169,6 +169,38 @@ class castext2_parser_utils {
         return $result;
     }
 
+    /**
+     * Find the inputs inside repeat blocks which are themselves inside another repeat block.
+     * Their values are a list for each row of the outer block.
+     *
+     * @param string $castext the question text.
+     * @return array input name => id of the nested repeat block it is in.
+     */
+    public static function get_nested_repeat_inputs(string $castext): array {
+        if ($castext === '' || substr_count($castext, '[[repeat ') < 2) {
+            return [];
+        }
+
+        $root = stack_cas_castext2_special_root::make(self::parse($castext));
+        $result = [];
+        $root->callbackRecurse(function ($node) use (&$result) {
+            if (!($node instanceof stack_cas_castext2_repeat)) {
+                return;
+            }
+            $node->callbackRecurse(function ($inner) use (&$result) {
+                if (!($inner instanceof stack_cas_castext2_repeat) || !isset($inner->params['id'])) {
+                    return;
+                }
+                $inner->callbackRecurse(function ($child) use (&$result, $inner) {
+                    if ($child instanceof stack_cas_castext2_special_ioblock && $child->channel === 'input') {
+                        $result[$child->variable] = $inner->params['id'];
+                    }
+                });
+            });
+        });
+        return $result;
+    }
+
     // Postprocesses the result from CAS. For those that have not yet fully
     // parsed the response. Does not use the full maximaparser infrastructure
     // as the result is just an list of strings... well should be for all simple

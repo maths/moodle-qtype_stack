@@ -534,4 +534,58 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertStringContainsString('invalid_json', $state->note);
     }
+
+    public function test_validate_nested(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', '2');
+        $simpleinputs['ans2'] = stack_input_factory::make('algebraic', 'ans2', '[1,0]');
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+        $el->set_nested_inputs(['ans2' => 'vec']);
+
+        // An eigenvalue in each row, with a list of eigenvectors in a nested repeat block.
+        // Empty rows of the nested block, and empty rows with empty nested rows, are ignored.
+        $rawinput = '{"data":{"ans1":["2","","3"],"ans2":[["[1,0]","","[0,1]"],[""],["[1,1]"]]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[2,3],repeatedans2:[[[1,0],[0,1]],[[1,1]]])', $state->contentsmodified);
+        // The feedback for a field of the nested block is given by the row and the row of the nested block.
+        [, $feedback] = $this->get_row_feedback($state->contentsdisplayed);
+        $this->assertEquals(['1', '3'], array_map('strval', array_keys($feedback['ans2'][1])));
+        $this->assertArrayHasKey(1, $feedback['ans2'][3]);
+        $this->assertArrayHasKey(3, $feedback['ans1']);
+
+        // A row without any rows of the nested block has an empty list.
+        $rawinput = '{"data":{"ans1":["2"],"ans2":[[]]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[2],repeatedans2:[[]])', $state->contentsmodified);
+
+        // Invalid values are reported by their row and the row of the nested block.
+        $rawinput = '{"data":{"ans1":["2",""],"ans2":[["[1,0]","[1,"],["[1,1]"]]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(stack_string('repeatinvalidrows', '1.2, 2'), $state->errors);
+
+        // The value of an input in a nested block must be a list in each row.
+        $rawinput = '{"data":{"ans1":["2"],"ans2":["[1,0]"]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertStringContainsString('invalid_json', $state->note);
+
+        // The correct answer shows the values of the nested block in the cell of their row.
+        $display = $el->get_teacher_answer_display('"{\\"data\\":{\\"ans1\\":[2],\\"ans2\\":[[\\"[1,0]\\",\\"[0,1]\\"]]}}"', '');
+        $this->assertStringContainsString('<th>1.</th>', $display);
+        $this->assertEquals(1, substr_count($display, '<tr>'));
+        $this->assertEquals(2, substr_count($display, '<td>'));
+        $this->assertStringContainsString('\left[ 1 , 0 \right]', $display);
+        $this->assertStringContainsString('\left[ 0 , 1 \right]', $display);
+    }
 }

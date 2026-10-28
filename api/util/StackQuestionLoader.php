@@ -390,10 +390,14 @@ class StackQuestionLoader {
             }
         }
         // A repeat input only gets the inputs inside the repeat blocks of its repeat button.
+        $nestedinputs = \castext2_parser_utils::get_nested_repeat_inputs((string) $question->questiontext);
         $repeatinputs = \castext2_parser_utils::get_repeat_inputs((string) $question->questiontext);
         foreach ($inputscomp as $name => $input) {
             if (array_key_exists($name, $repeatinputs)) {
                 $input->add_simple_inputs(array_intersect_key($inputssimp, array_flip($repeatinputs[$name])));
+                if ($input instanceof \stack_repeat_input) {
+                    $input->set_nested_inputs(array_intersect_key($nestedinputs, array_flip($repeatinputs[$name])));
+                }
             } else {
                 $input->add_simple_inputs($inputssimp);
             }

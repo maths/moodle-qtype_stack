@@ -142,7 +142,37 @@ rendered or graded, and `/test` returns no results for it.
 `isupgradeerror`, and `results`, keyed by seed. For each seed check `passes`,
 `fails` and `messages`; each failing entry in `outcomes` has a `reason` naming
 what did not match (score, penalty or answer note), and its PRT outcomes give
-the actual and expected `answernote`. An empty `results` is not a pass.
+the actual and expected `answernote`. On versions where the test-level reason
+is empty, inspect the PRT-level reasons too.
+
+**Reconcile execution with the submitted question.** Before sending a request,
+enumerate its deployed seeds and explicit `<qtest>/<testcase>` IDs. Then:
+
+- Require results for every declared seed, with no missing or unexpected IDs.
+  Explicit deployed seeds are used even for a non-random question. With no
+  deployed seeds, a non-random question uses `noseed`; a random question with
+  no deployed seeds has no test coverage.
+- Require an outcome for every explicit testcase on every expected seed.
+  Compare IDs as well as counts: a substituted test or seed can leave the
+  total unchanged. Duplicate testcase or seed IDs cannot establish distinct
+  coverage in a keyed response.
+- Require non-negative integer `passes` and `fails`, consistent with the
+  individual `passed` verdicts and expected test count. Null counts, missing
+  outcomes and an empty `results` are incomplete execution.
+- Inspect question-level `messages` and `isupgradeerror`, and every seed's
+  `messages`, even when the counts report success. Runtime or general-feedback
+  errors need investigation. Preserve warnings and report their implications.
+- Check `istests`. Without explicit question tests, the API may run an
+  automatic model-answer test; that does not establish the intended regression
+  coverage. Description-only questions need rendering checks separately.
+
+Input validation errors can be intentional in a test, for example when the
+expected PRT answer note is `NULL`. Check whether STACK reports that the
+expectation passed; do not classify every input-level error as a failed test.
+
+Record the question revision, API/CAS versions, expected and completed coverage,
+failures and anything not checked. Treat HTTP errors and unreadable responses as
+unverified executions. Do not silently drop them from a batch's denominator.
 
 ### Choose deployed seeds
 

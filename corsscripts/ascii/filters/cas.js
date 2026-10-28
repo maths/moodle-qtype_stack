@@ -11,13 +11,24 @@ export default function cas(text, blockCollector) {
 
     return text.replace(/\{@([^\n]+?)@\}/g, (match, raw) => {
         let rendered;
+        let errormsg;
         try {
-            rendered = String(math.evaluate(raw));
+            rendered = math.evaluate(raw);
+            if (typeof rendered === 'function') {
+                rendered = raw;
+            } else {
+                rendered = String(rendered);
+            }
         } catch (error) {
+            errormsg = error.message;
             rendered = raw;
         }
         if (blockCollector) {
-            blockCollector.blocks.push({ type: 'calculation', raw, rendered });
+            const block = { type: 'calculation', raw, rendered };
+            if (errormsg) {
+                block.errormsg = errormsg;
+            }
+            blockCollector.blocks.push(block);
         }
         return rendered;
     });

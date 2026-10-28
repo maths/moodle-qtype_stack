@@ -5,13 +5,12 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
-## Version 4.14.0
+## Version 4.15.0
 
-Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
+Issues with [github milestone 4.15.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.15.0) include
 
-1. Remove all "cte" code from Maxima - mostly install.
-2. Add in a [repeat block](../Authoring/Question_blocks/Dynamic_blocks.md) to allow a question author to create a block of static content which the student can opt to repeat by pressing a corresponding button.  This static content includes some input elements.
-3. Add in a [repeat input](../Specialist_tools/Repeat/index.md) for questions where the student can control the number of separate input boxes available.
+1. Add in a [repeat block](../Authoring/Question_blocks/Dynamic_blocks.md) to allow a question author to create a block of static content which the student can opt to repeat by pressing a corresponding button.  This static content includes some input elements.
+2. Add in a [repeat input](../Specialist_tools/Repeat/index.md) for questions where the student can control the number of separate input boxes available.
 
 ## Better testing
 
@@ -53,7 +52,7 @@ These include meta plugins like
 2. DONE: Error messages for unknown filter/extractor names! (To help authors....)
 3. Write an AsciiMath to Maxima parser to ensure the `lastblock` and `lastexpr` extractors create correct syntax for the input.  Note math.js already has the necessary _parser_ so de-pasting the ast creates by math.js is the first line of attack here.  See calculator.js filter for an example of traversing this tree.
 4. Add options to calculator blocks for degrees, and to support physics with scientific units (which math.js supports).
-
+ 
 ## Future equivalence reasoning development track.
 
 1. Allow bespoke validation (actually quite difficult).

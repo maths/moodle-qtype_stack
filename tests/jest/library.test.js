@@ -43,7 +43,7 @@ function setupLibraryDom() {
         <a class="library-file-link" data-filepath="library/topic/sheet_quiz.json">Quiz</a>
 
         <div data-id="stack_library_course_id" data-value="27"></div>
-
+        <div data-id="stack_cache_id" data-value="stacklibrary"></div>
         <select id="id_category">
             <option value="5,anything">Main category (11)</option>
             <option value="9,anything">Nested (3)</option>
@@ -99,8 +99,8 @@ describe('amd/src/library.js', () => {
                         }],
                         questiontext: 'raw question text',
                         questiondescription: '<p>Description</p>',
-                        questionvariables: 'a;b;c',
-                        questionname: 'Question A',
+                        questionvariables: '<strong>a</strong>;b;c',
+                        questionname: '<strong>Question A</strong>',
                     });
                 });
             }),
@@ -117,8 +117,11 @@ describe('amd/src/library.js', () => {
 
         expect(document.querySelector('.stack_library_display').innerHTML).toContain('Rendered question');
         expect(document.querySelector('.stack_library_raw_display').innerText).toBe('raw question text');
-        expect(document.querySelector('.stack_library_description_display').innerHTML).toContain('Description');
-        expect(document.querySelector('.stack_library_variables_display').innerHTML).toContain('a;<br>b;<br>c');
+        expect(document.querySelector('.stack_library_description_display').textContent).toBe('<p>Description</p>');
+        expect(document.querySelector('.stack_library_description_display').querySelector('p')).toBeNull();
+        expect(document.querySelector('.stack_library_variables_display').innerHTML).toContain('&lt;strong&gt;a&lt;/strong&gt;;<br>b;<br>c');
+        expect(document.querySelector('.stack_library_variables_display').querySelector('strong')).toBeNull();
+        expect(document.querySelector('.stack_library_selected_question').innerHTML).toContain('&lt;strong&gt;Question A&lt;/strong&gt;');
         expect(document.querySelector('.stack_library_selected_question').innerHTML).toContain('sheet_quiz.json');
         expect(document.querySelector('.stack-library-category-holder').hasAttribute('hidden')).toBe(true);
         expect(document.querySelector('.stack-library-course').hasAttribute('hidden')).toBe(false);
@@ -150,14 +153,14 @@ describe('amd/src/library.js', () => {
                         {
                             success: true,
                             questionid: 41,
-                            questionname: 'STACK imported',
+                            questionname: '<strong>STACK imported</strong>',
                             isstack: true,
                             filename: 'library/topic/question.json',
                         },
                         {
                             success: true,
                             questionid: 52,
-                            questionname: 'Quiz imported',
+                            questionname: '<strong>Quiz imported</strong>',
                             isstack: false,
                             filename: 'library/topic/sheet_quiz.json',
                         },
@@ -180,12 +183,15 @@ describe('amd/src/library.js', () => {
         document.querySelector('.library-import-link').dispatchEvent(new MouseEvent('click', {bubbles: true}));
 
         const importListHtml = document.querySelector('.stack-library-imported-list').innerHTML;
-        expect(importListHtml).toContain('STACK imported');
+        expect(importListHtml).toContain('&lt;strong&gt;STACK imported&lt;/strong&gt;');
         expect(importListHtml).toContain('questionid=41');
         expect(importListHtml).toContain('/question/bank/quiz.php?id=52');
+        expect(document.querySelector('.stack-library-imported-list').querySelector('strong')).toBeNull();
 
         expect(document.querySelector('.stack-library-import-success').hasAttribute('hidden')).toBe(false);
         expect(document.querySelector('.stack-library-import-failure').hasAttribute('hidden')).toBe(false);
+        expect(document.querySelector('.stack-library-import-success-file').innerHTML)
+            .toContain('&lt;strong&gt;STACK imported&lt;/strong&gt;');
         expect(document.querySelector('.stack-library-import-failure-file').innerHTML).toContain('bad.json');
     });
 });

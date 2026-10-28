@@ -15,14 +15,14 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026080600</text>
     </stackversion>
     <questionvariables>
       <text>v1:[1,rand_with_step(-9,9,1),rand_with_step(-9,9,1)];
- v2:[0,rand_with_step(-9,9,1),1];
- v3:[0,1,0];
- am:matrix(v1,v2,v3);
- correctanswer:matrix([0,1,0]);</text>
+v2:[0,rand_with_step(-9,9,1),1];
+v3:[0,1,0];
+am:matrix(v1,v2,v3);
+correctanswer:matrix([0,1,0]);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -44,6 +44,10 @@
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+     {"author":[{"firstName":"","lastName":"","institution":"Unknown - Legacy question","year":"2025"}],"language":["en"],"isPartOf":"STACK Library","license":"cc-sa-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
@@ -96,7 +100,7 @@
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>Result-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>The rank of the matrix \({@am@}\) is less then 3, hence the three vectors are linear independent.</p>]]></text>
+          <text><![CDATA[<p>The rank of the matrix \({@am@}\) is less then 3, hence the three vectors are linear dependent.</p>]]></text>
         </falsefeedback>
       </node>
     </prt>
@@ -131,7 +135,7 @@
         <name>Result</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-0-T</expectedanswernote>
+        <expectedanswernote>[ Result-0-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -145,7 +149,7 @@
         <name>Result</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-0-F</expectedanswernote>
+        <expectedanswernote>[ Result-0-F ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

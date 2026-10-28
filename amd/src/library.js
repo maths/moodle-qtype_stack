@@ -31,6 +31,7 @@ define([
 
     let courseId = null;
     let categoryId = null;
+    let cacheId = null;
     let libraryDiv = null;
     let rawDiv = null;
     let variablesDiv = null;
@@ -46,6 +47,21 @@ define([
     let errorDiv = null;
     let errorDetailsDiv = null;
     let currentPath = null;
+
+    /**
+     * Escape text before inserting it into innerHTML.
+     *
+     * @param {string} text text to escape
+     * @returns {string} escaped text
+     */
+    function escapeHtml(text) {
+        return String(text || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
 
     /**
      * Sets up event listeners.
@@ -73,6 +89,7 @@ define([
             elem.addEventListener('click', libraryRender);
         });
         courseId = document.querySelector('[data-id="stack_library_course_id"]').getAttribute('data-value');
+        cacheId = document.querySelector('[data-id="stack_cache_id"]').getAttribute('data-value');
         const importButton = document.querySelector('.library-import-link');
         importButton.addEventListener('click', ()=>libraryImport(false));
         const importFolderButton = document.querySelector('.library-import-link-folder');
@@ -100,13 +117,13 @@ define([
      * @param {object} e the click event triggering the function call.
      */
     function libraryRender(e) {
-        const filepath = e.target.getAttribute('data-filepath');
+        let filepath = e.target.getAttribute('data-filepath');
         currentPath = filepath;
         loading(true);
         categoryId = Number(document.getElementById('id_category').value.split(',')[0]);
         Ajax.call([{
             methodname: 'qtype_stack_library_render',
-            args: {category: categoryId, filepath: filepath},
+            args: {category: categoryId, filepath: filepath, cacheid: cacheId, apikey: ''},
             done: function(response) {
                 loading(false);
                 libraryDiv.innerHTML = response.questionrender;
@@ -124,9 +141,10 @@ define([
                         });
                   }
                 rawDiv.innerText = response.questiontext;
-                descriptionDiv.innerHTML = response.questiondescription;
-                variablesDiv.innerHTML = response.questionvariables.replace(/;/g, ";<br>");
-                displayedDiv.innerHTML = response.questionname + '<br>(' + filepath.split('/').pop() + ')';
+                descriptionDiv.textContent = response.questiondescription;
+                variablesDiv.innerHTML = response.questionvariables.split(';').map(escapeHtml).join(";<br>");
+                displayedDiv.innerHTML = escapeHtml(response.questionname) +
+                    '<br>(' + escapeHtml(filepath.split('/').pop()) + ')';
                 document.querySelectorAll('.library-secondary-info')
                     .forEach(el => el.removeAttribute('hidden'));
                 document.querySelector('.library-import-link').removeAttribute('disabled');
@@ -136,14 +154,16 @@ define([
                 } else {
                     document.querySelector('.stack-library-course').setAttribute('hidden', true);
                     document.querySelector('.stack-library-category-holder').removeAttribute('hidden');
-                    document.querySelector('.library-import-link-folder').removeAttribute('disabled');
+                    if (cacheId !== 'nrwsearch') {
+                        document.querySelector('.library-import-link-folder').removeAttribute('disabled');
+                    }
                 }
                 // This fires the Maths filters for content in the validation div.
                 CustomEvents.notifyFilterContentUpdated(libraryDiv);
             },
             fail: function(response) {
                 loading(false);
-                errorDetailsDiv.innerHTML = (response.message) ? response.message : '';
+                errorDetailsDiv.textContent = response.message || '';
                 errorDiv.hidden = false;
             }
         }]);
@@ -163,7 +183,14 @@ define([
         categoryId = Number(document.getElementById('id_category').value.split(',')[0]);
         Ajax.call([{
             methodname: 'qtype_stack_library_import',
-            args: {courseid: courseId, category: categoryId, filepath: filepath, isfolder: (isFolder) ? 1 : 0},
+            args: {
+                courseid: courseId,
+                category: categoryId,
+                filepath: filepath,
+                isfolder: (isFolder) ? 1 : 0,
+                cacheid: cacheId,
+                apikey: ''
+            },
             done: function(response) {
                 loading(false);
                 for (const currentQuestion of response) {
@@ -171,27 +198,28 @@ define([
                         let currentDashLink = dashLink + currentQuestion.questionid;
                         if (currentQuestion.isstack) {
                             importListDiv.innerHTML += '<br>' + '<a target="_blank" href="'
-                                + currentDashLink + '">' + currentQuestion.questionname + '</a>';
+                                + currentDashLink + '">' + escapeHtml(currentQuestion.questionname) + '</a>';
                         } else if (currentQuestion.filename.endsWith('_quiz.json')) {
                             importListDiv.innerHTML += '<br>' + '<a target="_blank" href="'
                                 + quizLink + '?id=' + currentQuestion.questionid + '">'
-                                + currentQuestion.questionname + '</a>';
+                                + escapeHtml(currentQuestion.questionname) + '</a>';
                         } else {
-                            importListDiv.innerHTML += '<br>' + currentQuestion.questionname;
+                            importListDiv.innerHTML += '<br>' + escapeHtml(currentQuestion.questionname);
                         }
                         importSuccessFileDiv.innerHTML += '<br>' +
-                            currentQuestion.filename.split('/').pop() + ' --> ' + currentQuestion.questionname;
+                            escapeHtml(currentQuestion.filename.split('/').pop()) + ' --> ' +
+                            escapeHtml(currentQuestion.questionname);
                         importSuccessDiv.removeAttribute('hidden');
                     } else {
                         importFailureFileDiv.innerHTML += '<br>' +
-                            currentQuestion.filename.split('/').pop();
+                            escapeHtml(currentQuestion.filename.split('/').pop());
                         importFailureDiv.removeAttribute('hidden');
                     }
                 }
             },
             fail: function(response) {
                 loading(false);
-                errorDetailsDiv.innerHTML = (response.message) ? response.message : '';
+                errorDetailsDiv.textContent = response.message || '';
                 errorDiv.hidden = false;
             }
         }]);

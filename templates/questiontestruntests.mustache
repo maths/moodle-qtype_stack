@@ -65,7 +65,15 @@
           "courseid": 7,
           "cmid": 7,
           "questionid": "6605",
-          "seed": 182397542
+          "seed": 182397542,
+          "seedurls":  [
+              {
+                  "seed": "182397542",
+                  "testurl": "http://question\/type\/stack\/questiontestrun.php?courseid=7&amp;questionid=6605#test-pane",
+                  "questionurl": "http://question\/type\/stack\/questiontestrun.php?courseid=7&amp;questionid=6605#question-pane",
+                  "selected": true
+              }
+          ]
       },
       "tests": {
         "demotest": false,
@@ -116,7 +124,14 @@
       {{#tests.hasinputs}}
         <!-- Only need tests if we have inputs -->
         {{#tests.hasrandomvariants}}
-          <h2 id="tests-heading">{{#str}} questiontestsfor, qtype_stack, {{question.seed}} {{/str}}</h2>
+          <h2 id="tests-heading">
+            <label for="tests-seed-select">{{#str}} questiontestsfor, qtype_stack {{/str}}:</label>
+            <select id="tests-seed-select" class="custom-select form-select w-auto d-inline-block" onchange="if(this.value) window.location.href=this.value">
+              {{#general.seedurls}}
+                <option value="{{{testurl}}}"{{#selected}} selected="selected"{{/selected}}{{#disabled}} disabled="disabled"{{/disabled}}>{{seed}}</option>
+              {{/general.seedurls}}
+            </select>
+          </h2>
           <p>{{#str}} questionnote, qtype_stack {{/str}}: {{{question.questionnote}}}</p>
         {{/tests.hasrandomvariants}}
         {{#tests.demotest}}
@@ -240,9 +255,4 @@
             </div>
         {{/tests.demotest}}{{/canedit}}
       {{/tests.output}}
-
-
-
-
-
 

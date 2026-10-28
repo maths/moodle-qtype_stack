@@ -473,6 +473,14 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->resetAfterTest();
         global $DB;
 
+        // The 'secondslot' case repeats 'singleinput' with another STACK question in slot 1,
+        // so the reported question is in slot 2 of a multi-question attempt.
+        $secondslot = $type === 'secondslot';
+        if ($secondslot) {
+            $type = 'singleinput';
+        }
+        $slot = $secondslot ? 2 : 1;
+
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $course = $this->getDataGenerator()->create_course();
         $contextid = \context_course::instance($course->id)->id;
@@ -611,6 +619,10 @@ final class responseanalysis_test extends qtype_stack_testcase {
             'name' => 'QUIZNAME1', 'questionsperpage' => 0,
             'grade' => 100.0, 'sumgrades' => 2, 'preferredbehaviour' => $behaviour]);
 
+        if ($secondslot) {
+            $first = $generator->create_question('stack', 'test3', ['name' => 'QNAME0', 'category' => $qcategory->id]);
+            \quiz_add_quiz_question($first->id, $quiz1, 0);
+        }
         \quiz_add_quiz_question($q->id, $quiz1, 0);
 
         $attemptids = [];
@@ -641,7 +653,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
                 $timenow = time();
                 $attempt = \quiz_create_attempt($quizobj, $attemptnumber, null, $timenow, false, $user->id);
 
-                \quiz_start_new_attempt($quizobj, $quba, $attempt, $attemptnumber, $timenow, [], [1 => $step[3]]);
+                \quiz_start_new_attempt($quizobj, $quba, $attempt, $attemptnumber, $timenow, [], [$slot => $step[3]]);
                 \quiz_attempt_save_started($quizobj, $quba, $attempt);
                 $attemptid = $attemptids[$step[0]] = $attempt->id;
             } else {
@@ -654,7 +666,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
             } else {
                 $attemptobj = \quiz_attempt::create($attemptid);
             }
-            $attemptobj->process_submitted_actions($timenow, false, $step[4]);
+            $attemptobj->process_submitted_actions($timenow, false, [$slot => $step[4][1]]);
             if (isset($step[6])) {
                 $attemptobj->process_submitted_actions($timenow, false, [1 => ['-tryagain' => 1]]);
                 $attemptobj->process_submitted_actions($timenow, false, $step[6]);
@@ -682,6 +694,19 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->report->create_summary();
         $this->assertEquals($this->summary, $this->report->summary);
         $this->assertEquals(7, count($this->report->jsonsummary));
+    }
+
+    public function test_create_summary_second_slot(): void {
+        $this->create_steps('secondslot');
+        $this->report = $this->getMockBuilder(stack_question_report::class)
+            ->onlyMethods(['run_report'])
+            ->setConstructorArgs([$this->quizquestion, $this->quizcontextid, $this->coursecontextid])->getMock();
+        $this->report->create_summary();
+        $this->assertEquals($this->summary, $this->report->summary);
+        $this->assertEquals(7, count($this->report->jsonsummary));
+        $json0 = json_decode($this->report->jsonsummary[0]);
+        $this->assertEquals(2, $json0->slot);
+        $this->assertEquals(333333333, $json0->seed);
     }
 
     public function test_create_summary_interactive(): void {

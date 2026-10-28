@@ -231,11 +231,14 @@ different variants, but each one must be checked. For each seed:
 - its question note must differ from every other deployed seed's, since STACK
   treats variants with the same note as the same variant;
 - it has no runtime errors and passes every test;
-- it is not degenerate: no zero coefficient that removes a term, no answer of
-  0 or 1 that gives the game away, no coincidence between a misconception and
-  the right answer.
+- it meets the intended learning objective: exclude accidental simplifications
+  or coincidences that invalidate a diagnostic test. Zero coefficients and
+  answers of 0 or 1 can be intentional boundary cases; retain and test them
+  when they are part of the question's purpose.
 
-Replace any seed that fails. A question without randomisation needs no
+Investigate failed seeds before replacing them. Fix generator or marking
+defects and rerun the tests; restrict variants deliberately when a case falls
+outside the intended scope. A question without randomisation needs no
 deployed seed.
 
 ### Run the tests through the STACK API

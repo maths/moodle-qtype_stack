@@ -167,9 +167,12 @@ designed to take into a test. Do not copy the route back unchecked.
 
 - **Every question fails with a version-mismatch error:** the four version
   numbers disagree.
-- **Blank scores on scattered seeds, while the same test passes elsewhere:** a
-  CAS timeout, not a marking fault. Re-run the one question, or raise
-  `castimeout`. A real fault fails the same test on every seed.
+- **Blank scores or failures on some seeds:** inspect the question-level and
+  seed-level messages and the individual test outcomes. Reproduce the failure
+  with the same XML, input and seed before assigning a cause. Timeouts,
+  generator defects and marking faults can all depend on the seed. Check CAS
+  diagnostics before changing `castimeout`; passing on other seeds does not
+  rule out a question defect.
 - **"Question variables invalid" or no response:** check the `maxima`
   container is running and reachable from the `stack` container.
 - **Passes in the API, fails on the site:** the site's settings, plugins or

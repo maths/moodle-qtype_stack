@@ -208,12 +208,11 @@ class stack_question_report {
         $summary = [];
         $jsonsummary = [];
 
-        $currentquba = null;
-        $currentqa = null;
+        // Load only the question attempt being reported. Loading the whole usage would initialise
+        // every question in the student's quiz attempt, which is expensive for STACK questions.
+        $datamapper = new question_engine_data_mapper();
         foreach ($result as $qattempt) {
-            $currentqubaid = $qattempt->questionusageid;
-            $currentquba = question_engine::load_questions_usage_by_activity($currentqubaid);
-            $currentqa = $currentquba->get_question_attempt($qattempt->slot);
+            $currentqa = $datamapper->load_question_attempt($qattempt->id);
             $submittedresponseiterator = $currentqa->get_steps_with_submitted_response_iterator();
             $numberofresponses = $submittedresponseiterator->count();
             foreach ($submittedresponseiterator as $key => $step) {

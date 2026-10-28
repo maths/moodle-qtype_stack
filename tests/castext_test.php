@@ -2088,6 +2088,35 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * With an id, the repeatindex block gives the number of the copy of that enclosing repeat block.
+     * @covers \qtype_stack\stack_cas_castext2_repeatindex
+     */
+    public function test_stack_repeat_blocks_repeatindex_id(): void {
+        $inner = '[[repeat id="vec"]]\\(v_{[[repeatindex id="ev"/]],[[repeatindex/]]}\\) [[input:ans2]] [[validation:ans2]]' .
+            '[[/repeat]][[repeatbutton title="Add a vector" repeat_ids="vec" save_state="state1"/]]';
+        $st = '[[repeat id="ev"]]\\(\\lambda_{[[repeatindex id="ev"/]]}\\) [[input:ans1]] [[validation:ans1]]' . $inner .
+            '[[/repeat]][[repeatbutton title="Add a value" repeat_ids="ev" save_state="state1"/]]';
+        $s2 = [];
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals('', $at2->get_errors(true));
+        $rendered = $at2->get_rendered();
+        $this->assertStringNotContainsString('repeatindex', $rendered);
+        $this->assertStringContainsString('v_{%%REPEATINDEX:ev%%,' . \stack_cas_castext2_repeat::REPEATINDEX . '}', $rendered);
+        $this->assertStringContainsString('\\\\lambda_{%%REPEATINDEX:ev%%}', $rendered);
+
+        // Only enclosing repeat blocks can be referred to.
+        $st = '[[repeat id="ev"]][[input:ans1]] [[validation:ans1]][[/repeat]]' .
+            '[[repeat id="vec"]]Row [[repeatindex id="ev"/]] [[input:ans2]] [[validation:ans2]][[/repeat]]' .
+            '[[repeatbutton title="Add" repeat_ids="ev vec" save_state="state1"/]]';
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertFalse($at2->get_valid());
+        $this->assertStringContainsString('may only refer to a repeat block it is inside', $at2->get_errors(true));
+    }
+
+    /**
      * The buttons of nested repeat blocks must fit their outer repeat blocks.
      * @covers \castext2_parser_utils::get_nested_repeat_errors
      */

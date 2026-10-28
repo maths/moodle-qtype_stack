@@ -39,6 +39,19 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
     const REPEATINDEX = '%%REPEATINDEX%%';
 
     /**
+     * The placeholder for [[repeatindex/]], or for [[repeatindex id="..."/]].
+     * The JS of the repeat button replaces both.
+     * @param string|null $id the id of the repeat block whose number of the copy is wanted, or null for the innermost.
+     * @return string
+     */
+    public static function repeatindex_placeholder(?string $id): string {
+        if ($id === null) {
+            return self::REPEATINDEX;
+        }
+        return '%%REPEATINDEX:' . str_replace('%', '', $id) . '%%';
+    }
+
+    /**
      * Set for a repeat block inside another one, whose copies are made by the outer block's button.
      * @var bool
      */
@@ -138,6 +151,7 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
         $this->callbackRecurse(function ($node) use (&$interactive, &$toodeep, $nested) {
             if ($node instanceof stack_cas_castext2_repeatindex) {
                 $node->insiderepeat = true;
+                $node->repeatids[] = $this->params['id'];
             } else if ($node instanceof stack_cas_castext2_repeat || $node instanceof stack_cas_castext2_repeatbutton) {
                 $node->nested = true;
                 $toodeep = $toodeep || $nested;

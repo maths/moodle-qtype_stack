@@ -186,7 +186,7 @@ A repeat block may contain another repeat block, e.g. to ask for all eigenvalues
 [[repeat id="ev"]]
 Eigenvalue \(\lambda_{[[repeatindex/]]} = \) [[input:ans1]] [[validation:ans1]]
 [[repeat id="vec"]]
-Eigenvector \(v_{[[repeatindex/]]} = \) [[input:ans2]] [[validation:ans2]]
+Eigenvector \(v_{[[repeatindex id="ev"/]],[[repeatindex/]]} = \) [[input:ans2]] [[validation:ans2]]
 [[/repeat]]
 [[repeatbutton title="Add an eigenvector" repeat_ids="vec" save_state="state1" /]]
 [[/repeat]]
@@ -194,7 +194,7 @@ Eigenvector \(v_{[[repeatindex/]]} = \) [[input:ans2]] [[validation:ans2]]
 [[input:state1]] [[validation:state1]]
 ```
 
-Each row of the outer block starts with one row of the inner block, and the button in that row adds further rows to the inner block of that row only.  `[[repeatindex/]]` inside the inner block counts the rows of the inner block.
+Each row of the outer block starts with one row of the inner block, and the button in that row adds further rows to the inner block of that row only.  `[[repeatindex/]]` inside the inner block counts the rows of the inner block.  For the number of the row of the outer block, give its id: `[[repeatindex id="ev"/]]`.  E.g. `\(v_{[[repeatindex id="ev"/]],[[repeatindex/]]}\)` numbers the eigenvectors \(v_{1,1}\), \(v_{2,1}\), \(v_{2,2}\), ...
 
 For an input in the inner block, the list in the PRTs has one entry for each row of the outer block, which is the list of the values in the rows of the inner block.  In the example, `repeatedans1` could be `[5,2]` and `repeatedans2` could be `[[[1,1,1]],[[1,-1,0],[1,0,-1]]]`: one eigenvector for the eigenvalue 5, and two for the eigenvalue 2.
 

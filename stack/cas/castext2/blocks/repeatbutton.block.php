@@ -81,7 +81,7 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
             $list[] = new MP_List([new MP_String('quid'), new MP_String('repeat_' . $id)]);
             $list[] = new MP_String("', container: '");
             $list[] = new MP_List([new MP_String('quid'), new MP_String('repeatcontainer_' . $id)]);
-            $list[] = new MP_String("', suffix: " . json_encode('_repeat_' . $id . '_') . "},\n");
+            $list[] = new MP_String("', id: " . json_encode($id) . ", suffix: " . json_encode('_repeat_' . $id . '_') . "},\n");
         }
         $list[] = new MP_String("];\n");
 
@@ -212,9 +212,12 @@ function nested_count(q, state, path) {
 // Build the HTML for row n of repeat block def from its template.  Every id (and input name)
 // gets the row specific suffix to keep them unique on the page.  The rows of the nested repeat
 // blocks of def are built into their containers.  Path gives the row in the state, see state_value().
-function make_row(def, n, suffix, state, path) {
+// Indices gives the rows of the enclosing repeat blocks by their ids, for the placeholders of their numbers.
+function make_row(def, n, suffix, state, path, indices) {
+    indices = Object.assign({}, indices, {[def.id]: n});
     const tmp = document.createElement('div');
-    tmp.innerHTML = def.html.split(REPEATINDEX).join(String(n));
+    tmp.innerHTML = def.html.split(REPEATINDEX).join(String(n)).replace(/%%REPEATINDEX:([^%]*)%%/g,
+        (placeholder, id) => (id in indices ? String(indices[id]) : placeholder));
     const added = [];
     const valids = Object.values(def.valids);
     // Old id => new id, to keep labels attached to their elements.
@@ -259,7 +262,7 @@ function make_row(def, n, suffix, state, path) {
         const count = nested_count(q, state, path);
         let html = '';
         for (let m = 1; m <= count; m++) {
-            const row = make_row(q, m, suffix + q.suffix + m, state, path.concat([m - 1]));
+            const row = make_row(q, m, suffix + q.suffix + m, state, path.concat([m - 1]), indices);
             html += row.html;
             row.added.forEach((entry) => added.push(entry));
         }
@@ -378,7 +381,7 @@ function add_repeat() {
     });
     write_state(state);
     rows.forEach(([r, n]) => {
-        const row = make_row(r, n, r.suffix + n, state, [n - 1]);
+        const row = make_row(r, n, r.suffix + n, state, [n - 1], {});
         stack_js.switch_content(slot_id(r.container, n),
             typeset(row.html) + '<div id="' + slot_id(r.container, n + 1) + '"></div>');
         row.added.forEach(connect_input);
@@ -411,7 +414,7 @@ function add_nested(r, n, blocks) {
     write_state(state);
     rows.forEach(([q, m]) => {
         const container = q.container + r.suffix + n;
-        const row = make_row(q, m, r.suffix + n + q.suffix + m, state, [n - 1, m - 1]);
+        const row = make_row(q, m, r.suffix + n + q.suffix + m, state, [n - 1, m - 1], {[r.id]: n});
         stack_js.switch_content(slot_id(container, m),
             typeset(row.html) + '<div id="' + slot_id(container, m + 1) + '"></div>');
         row.added.forEach(connect_input);
@@ -430,7 +433,7 @@ function construct_repeat() {
         let html = '';
         const rows = [];
         for (let n = 1; n <= count; n++) {
-            const row = make_row(r, n, r.suffix + n, state, [n - 1]);
+            const row = make_row(r, n, r.suffix + n, state, [n - 1], {});
             html += typeset(row.html);
             rows.push(row);
         }
@@ -519,6 +522,7 @@ function parse_template(def, html) {
         const container = tmp.querySelector('[data-stack-repeat-container="' + id + '"]');
         const button = tmp.querySelector('[data-stack-repeat-button~="' + id + '"]');
         const q = {
+            id: id,
             suffix: '_repeat_' + id + '_',
             container: container ? container.id : '',
             button: button ? button.id : null,

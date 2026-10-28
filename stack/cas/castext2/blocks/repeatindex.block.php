@@ -29,7 +29,8 @@ require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/repeat.block.php');
 
 /**
- * The number of the copy of a repeat block, replaced client side.
+ * The number of the copy of a repeat block, replaced client side.  With an id, the number of the
+ * copy of that enclosing repeat block, e.g. of the outer block inside a nested repeat block.
  */
 class stack_cas_castext2_repeatindex extends stack_cas_castext2_block {
 
@@ -39,9 +40,15 @@ class stack_cas_castext2_repeatindex extends stack_cas_castext2_block {
      */
     public $insiderepeat = false;
 
+    /**
+     * The ids of the enclosing repeat blocks, set by those blocks.
+     * @var string[]
+     */
+    public $repeatids = [];
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
-        return new MP_String(stack_cas_castext2_repeat::REPEATINDEX);
+        return new MP_String(stack_cas_castext2_repeat::repeatindex_placeholder($this->params['id'] ?? null));
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -58,6 +65,12 @@ class stack_cas_castext2_repeatindex extends stack_cas_castext2_block {
     public function validate(&$errors = [], $options = []): bool {
         if (!$this->insiderepeat) {
             $errors[] = new $options['errclass']('The repeatindex block may only be used inside a repeat block.',
+                $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
+            return false;
+        }
+        if (isset($this->params['id']) && !in_array($this->params['id'], $this->repeatids)) {
+            $errors[] = new $options['errclass']('The repeatindex block may only refer to a repeat block it is inside, ' .
+                'not to "' . $this->params['id'] . '".',
                 $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
             return false;
         }

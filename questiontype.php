@@ -2549,6 +2549,10 @@ class qtype_stack extends question_type {
             $errors[$inputname . 'type'][] = stack_string('repeatinputtypenotsupported',
                 ['input' => $inputname, 'type' => stack_string('inputtype' . $inputtype)]);
         }
+        // The buttons of nested repeat blocks must fit their outer repeat blocks.
+        foreach (castext2_parser_utils::get_nested_repeat_errors($fromform['questiontext']['text']) as [$string, $a]) {
+            $errors['questiontext'][] = stack_string($string, $a);
+        }
 
         // 3) Validate all prts.
         foreach ($prts as $prtname => $count) {

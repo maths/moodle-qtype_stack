@@ -2088,6 +2088,39 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * The buttons of nested repeat blocks must fit their outer repeat blocks.
+     * @covers \castext2_parser_utils::get_nested_repeat_errors
+     */
+    public function test_get_nested_repeat_errors(): void {
+        $make = function (string $innerbutton, string $outerbutton): string {
+            return '[[repeat id="ev"]][[input:ans1]] [[validation:ans1]]' .
+                '[[repeat id="vec"]][[input:ans2]] [[validation:ans2]][[/repeat]]' . $innerbutton . '[[/repeat]]' .
+                $outerbutton;
+        };
+        $inner = '[[repeatbutton title="Add a vector" repeat_ids="vec" save_state="state1"/]]';
+        $outer = '[[repeatbutton title="Add a value" repeat_ids="ev" save_state="state1"/]]';
+
+        $this->assertEquals([], \castext2_parser_utils::get_nested_repeat_errors($make($inner, $outer)));
+        $this->assertEquals([], \castext2_parser_utils::get_nested_repeat_errors(
+            '[[repeat id="1"]][[input:ans1]] [[validation:ans1]][[/repeat]]' .
+            '[[repeat id="2"]][[input:ans2]] [[validation:ans2]][[/repeat]]' .
+            '[[repeatbutton title="Add" repeat_ids="1 2" save_state="state1"/]]'));
+
+        // The inner button saves its rows in another input.
+        $this->assertEquals([['repeatnestedsavestate', (object) ['inner' => 'state2', 'outer' => 'state1', 'id' => 'ev']]],
+            \castext2_parser_utils::get_nested_repeat_errors($make(str_replace('state1', 'state2', $inner), $outer)));
+        // The inner button adds rows to the outer block, and the inner block has no button.
+        $this->assertEquals([
+                ['repeatnestedbuttonids', (object) ['id' => 'ev', 'outer' => 'ev']],
+                ['repeatnestednobutton', (object) ['id' => 'vec', 'outer' => 'ev']],
+            ],
+            \castext2_parser_utils::get_nested_repeat_errors($make(str_replace('"vec"', '"ev"', $inner), $outer)));
+        // The outer button adds rows to the inner block.
+        $this->assertEquals([['repeatnestedouterbutton', 'vec']],
+            \castext2_parser_utils::get_nested_repeat_errors($make($inner, str_replace('"ev"', '"ev vec"', $outer))));
+    }
+
+    /**
      * Find which inputs each repeat button repeats.
      * @covers \castext2_parser_utils::get_repeat_inputs
      */

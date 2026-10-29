@@ -122,6 +122,9 @@ s_test_case(mat_solve(matrix([1,-1],[1,-1]),[0,0]),matrix([%r4],[%r4]));
 s_test_case(mat_solve(matrix([1,-1],[1,-1]),[1,0]),matrix([]));
 s_test_case_simp(ev(stack_strip_percent(mat_solve(matrix([1,-1],[1,-1]),[1,0],true),[r]),simp),matrix([(2*r+1)/2],[r]));
 s_test_case_simp(mat_solve(matrix([0,0],[1,1]),[1,0],true),matrix([-%r6],[%r6]));
+/* Least squares over C uses the conjugate transpose in the normal equations. */
+s_test_case_simp(mat_solve(matrix([1],[%i]),[1,0],true),matrix([1/2]));
+s_test_case_simp(mat_solve(matrix([1,0],[%i,1],[0,1]),[1,0,0],true),matrix([2/3],[-(%i/3)]));
 
 s_test_case(scale_nicely([9,12,27]),[3,4,9]);
 s_test_case(scale_nicely(matrix([-9],[-12],[-27])),matrix([3],[4],[9]));

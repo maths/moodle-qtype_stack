@@ -54,7 +54,7 @@ You can remove any percent variables using `stack_strip_percent`, documented in 
 `mat_solve(A,b,[lstsq])` is a STACK-provided function that is mostly just a wrapper for `linsolve` that expects matrices instead of lists of equations. 
  * Input: `A` An \(m\times n\) matrix
  * Input: `b` A \(m\times 1\) matrix (or a list with m entries)
- * Optional input: `lstsq` if given true then a least squares solution will be obtained. If `false` or omitted, only exact solutions obtained.
+ * Optional input: `lstsq` if given true then a least squares solution will be obtained, from the normal equations \(A^*Ax = A^*b\) (\(A^*\) is the conjugate transpose, \(A^T\) for a real \(A\)). If `false` or omitted, only exact solutions obtained.
  * Output: The general solution to \(Ax = b\). If no solution exists and lstsq is not true, then \(matrix([])\) is returned.
  
 Some examples are:

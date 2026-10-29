@@ -376,85 +376,113 @@ s_exec_test("linearalgebra/predicates/algebraic_predicates.mac:137",35)$
 s_test_case(simp):=is(diagonalizablep(matrix([1,1,0],[0,1,0],[0,0,2])) = false)$
 s_exec_test("linearalgebra/predicates/algebraic_predicates.mac:138",36)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1,1],[1,-1],[1,0])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:54",1)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:61",1)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:55",2)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:62",2)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1,1],[1,2],[1,0])) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:56",3)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:63",3)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1,1],[1,-1])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:57",4)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:64",4)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1,1],[1,-1])/sqrt(2)) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:58",5)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:65",5)$
 s_test_case(simp):=is(orthogonal_columnsp(1) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:59",6)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:66",6)$
 s_test_case(simp):=is(orthogonal_columnsp([c(1,0),c(0,1)]) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:60",7)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:67",7)$
 s_test_case(simp):=is(orthogonal_columnsp([c(1,0),c(0,1,0)]) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:61",8)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:68",8)$
 s_test_case(simp):=is(orthogonal_columnsp(ident(2)) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:62",9)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:69",9)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([2,1],[2,-1])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:63",10)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:70",10)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([2,1],[2,-1]),ident(2)) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:64",11)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:71",11)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1,1/2],[0,1])) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:65",12)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:72",12)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1,1/2],[0,1]),matrix([2,-1],[-1,2])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:66",13)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:73",13)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1/sqrt(2),1/(sqrt(2)*sqrt(3))],[0,sqrt(2)/sqrt(3)]),matrix([2,-1],[-1,2])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:67",14)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:74",14)$
 s_test_case(simp):=is(orthogonal_columnsp(ident(2),matrix([2,-1],[-1,2])) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:68",15)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:75",15)$
 s_test_case(simp):=is(orthonormal_columnsp(matrix([1,1],[1,-1],[1,0])) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:90",16)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:97",16)$
 s_test_case(simp):=is(orthonormal_columnsp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:91",17)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:98",17)$
 s_test_case(simp):=is(orthonormal_columnsp(matrix([1,1],[1,-1])) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:92",18)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:99",18)$
 s_test_case(simp):=is(orthonormal_columnsp(ev(matrix([1,1],[1,-1])/sqrt(2),simp)) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:93",19)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:100",19)$
 s_test_case(simp):=is(orthonormal_columnsp(1) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:94",20)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:101",20)$
 s_test_case(simp):=is(orthonormal_columnsp([c(1,0),c(0,1)]) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:95",21)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:102",21)$
 s_test_case(simp):=is(orthonormal_columnsp([c(1,0),c(0,1,0)]) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:96",22)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:103",22)$
 s_test_case(simp):=is(orthonormal_columnsp(ident(2)) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:97",23)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:104",23)$
 s_test_case(simp):=is(orthonormal_columnsp(matrix([2,1],[2,-1])) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:98",24)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:105",24)$
 s_test_case(simp):=is(orthonormal_columnsp(matrix([1,1/2],[0,1]),matrix([2,-1],[-1,2])) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:99",25)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:106",25)$
 s_test_case(simp):=is(orthonormal_columnsp(matrix([1/sqrt(2),1/(sqrt(2)*sqrt(3))],[0,sqrt(2)/sqrt(3)]),matrix([2,-1],[-1,2])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:100",26)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:107",26)$
 s_test_case(simp):=is(orthonormal_columnsp(matrix([1/sqrt(2),1/(sqrt(2)*sqrt(3))],[0,sqrt(2)/sqrt(3)]),lambda([w,v],transpose(w) . matrix([2,-1],[-1,2]) . v)) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:101",27)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:108",27)$
 s_test_case(simp):=is(orth_matrixp(matrix([1,1],[1,-1],[1,0])) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:115",28)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:122",28)$
 s_test_case(simp):=is(orth_matrixp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:116",29)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:123",29)$
 s_test_case(simp):=is(orth_matrixp(matrix([1,1],[1,-1])) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:117",30)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:124",30)$
 s_test_case(simp):=is(orth_matrixp(ev(matrix([1,1],[1,-1])/sqrt(2),simp)) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:118",31)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:125",31)$
 s_test_case(simp):=is(orth_matrixp(1) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:119",32)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:126",32)$
 s_test_case(simp):=block([M:"untouched",checkmat:"untouched"],orthogonal_columnsp(ident(2)),is(M = "untouched" and checkmat = "untouched"))$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:122",33)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:129",33)$
 s_test_case(simp):=block([M:"untouched",checkmat:"untouched"],orthonormal_columnsp(ident(2)),is(M = "untouched" and checkmat = "untouched"))$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:124",34)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:131",34)$
 s_test_case(simp):=is(orth_matrixp([c(1,0),c(0,1)]) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:126",35)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:133",35)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1,0],[0,0])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:127",36)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:134",36)$
 s_test_case(simp):=is(orthonormal_columnsp(matrix([1,0],[0,0])) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:128",37)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:135",37)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1,1],[0,1]),matrix([1,-1],[-1,2])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:129",38)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:136",38)$
 s_test_case(simp):=is(orthonormal_columnsp(matrix([1,1],[0,1]),matrix([1,-1],[-1,2])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:130",39)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:137",39)$
 s_test_case(simp):=is(orth_matrixp(matrix([0,-1],[1,0])) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:131",40)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:138",40)$
+s_test_case(simp):=is(orthonormal_columnsp(matrix([1+%i],[1-%i])/2) = true)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:141",41)$
+s_test_case(simp):=is(orthonormal_columnsp(matrix([1/sqrt(2),%i/sqrt(2)],[%i/sqrt(2),1/sqrt(2)])) = true)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:142",42)$
+s_test_case(simp):=is(orthonormal_columnsp(matrix([sqrt(2)],[%i])) = false)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:143",43)$
+s_test_case(simp):=is(orthonormal_columnsp(matrix([sqrt(2),%i],[%i,-sqrt(2)])) = false)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:144",44)$
+s_test_case(simp):=is(orthogonal_columnsp(matrix([1,1],[%i,-%i])) = true)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:145",45)$
+s_test_case(simp):=is(orthogonal_columnsp(matrix([1,%i],[%i,1])) = true)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:146",46)$
+s_test_case(simp):=is(orthogonal_columnsp(matrix([1,1],[%i,%i])) = false)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:147",47)$
+s_test_case(simp):=is(orth_matrixp(ev(matrix([1,%i],[%i,1])/sqrt(2),simp)) = true)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:148",48)$
+s_test_case(simp):=is(orth_matrixp(ev(matrix([1,%i],[-%i,1])/sqrt(2),simp)) = false)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:149",49)$
+s_test_case(simp):=is(orthonormal_columnsp(matrix([1],[%i])/sqrt(3),matrix([2,0],[0,1])) = true)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:150",50)$
+s_test_case(simp):=is(orthonormal_columnsp(matrix([1],[0])) = true)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:152",51)$
+s_test_case(simp):=is(orthonormal_columnsp([c(3/5,4/5)]) = true)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:153",52)$
+s_test_case(simp):=is(orthogonal_columnsp(matrix([1],[2])) = true)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:154",53)$
+s_test_case(simp):=is(orthogonal_columnsp(matrix([a,1],[1,-a])) = true)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:156",54)$
 s_test_case(simp):=is(col_vecp(matrix([1],[2])) = true)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:37",1)$
 s_test_case(simp):=is(col_vecp(matrix([1,2])) = false)$

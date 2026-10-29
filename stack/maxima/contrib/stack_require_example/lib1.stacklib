@@ -1,0 +1,75 @@
+{
+    "src": {
+        "\/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac": {
+            "sha1": "3788028c5c3ca6268210de1609919fb12c7640ad"
+        },
+        "\/stack\/maxima\/contrib\/stack_require_example\/lib1b.mac": {
+            "sha1": "db27ee49fc0ecb91a06043c945a518834b4eb09e"
+        }
+    },
+    "contents": {
+        "preamble \/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac": {
+            "requires": [],
+            "code": "texput(\"lib1_item\",lambda([ex],sconcat(\"\\\\sqrt{\",first(ex),\"}\")));\n"
+        },
+        "lib1a_fun1": {
+            "requires": [
+                "local\/preamble \/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac",
+                "lib2\/lib2_fun2"
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac",
+            "code": "lib1a_fun1(mode):=if mode then sconcat(\"1\/fun1, \",lib2_fun2(true)) else \"1\/fun1\";\n"
+        },
+        "lib1a_fun2": {
+            "requires": [
+                "local\/preamble \/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac"
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac",
+            "code": "lib1a_fun2(mode):=\"1\/fun2\";\n"
+        },
+        "lib1a_value1": {
+            "requires": [
+                "local\/preamble \/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac",
+                "local\/lib1b_value1"
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac",
+            "code": "lib1a_value1:lib1b_value1;\n"
+        },
+        "lib1b_value1": {
+            "requires": [],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1b.mac",
+            "code": "lib1b_value1:lib1_item(2);\n"
+        }
+    },
+    "tests": [
+        {
+            "code": "s_test_case(simp):=is(lib1a_fun1(false) = \"1\/fun1\");\n",
+            "requires": [
+                "local\/lib1a_fun1"
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac: line 15"
+        },
+        {
+            "code": "s_test_case(simp):=is(lib1a_fun1(true) = \"1\/fun1, 2\/fun2, 1\/fun2\");\n",
+            "requires": [
+                "local\/lib1a_fun1"
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac: line 16"
+        },
+        {
+            "code": "s_test_case(simp):=is(tex1(lib1b_value1) = \"{\\\\it lib1\\\\_item}\\\\left(2\\\\right)\");\n",
+            "requires": [
+                "local\/lib1b_value1"
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1b.mac: line 14"
+        },
+        {
+            "code": "s_test_case(simp):=block([],is(tex1(lib1b_value1) = \"\\\\sqrt{2}\"));\n",
+            "requires": [
+                "local\/lib1a_value1",
+                "local\/lib1b_value1"
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1b.mac: line 16"
+        }
+    ]
+}

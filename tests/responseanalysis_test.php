@@ -473,6 +473,14 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->resetAfterTest();
         global $DB;
 
+        // The 'secondslot' case repeats 'singleinput' with another STACK question in slot 1,
+        // so the reported question is in slot 2 of a multi-question attempt.
+        $secondslot = $type === 'secondslot';
+        if ($secondslot) {
+            $type = 'singleinput';
+        }
+        $slot = $secondslot ? 2 : 1;
+
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $course = $this->getDataGenerator()->create_course();
         $contextid = \context_course::instance($course->id)->id;
@@ -533,6 +541,20 @@ final class responseanalysis_test extends qtype_stack_testcase {
                         'step_lang' => 'en']], 1],
                 ];
                 $behaviour = 'immediatefeedback';
+                break;
+            case 'autosave':
+                // One unfinished attempt: an answer saved without checking it; the test then autosaves another.
+                $q = $generator->create_question(
+                    'stack',
+                    'response_test',
+                    ['name' => 'QNAME1', 'category' => $qcategory->id]
+                );
+                $this->quizquestion = $q;
+                $steps = [
+                    [0, 'John', 'Jones', 3,
+                        [1 => ['ans1' => 'thing1_yuck', 'ans1_val' => '"thing1_yuck"', 'step_lang' => 'en']], 0],
+                ];
+                $behaviour = 'interactive';
                 break;
             case 'interactive1':
                 // Two wrong answers and then correct.
@@ -611,6 +633,10 @@ final class responseanalysis_test extends qtype_stack_testcase {
             'name' => 'QUIZNAME1', 'questionsperpage' => 0,
             'grade' => 100.0, 'sumgrades' => 2, 'preferredbehaviour' => $behaviour]);
 
+        if ($secondslot) {
+            $first = $generator->create_question('stack', 'test3', ['name' => 'QNAME0', 'category' => $qcategory->id]);
+            \quiz_add_quiz_question($first->id, $quiz1, 0);
+        }
         \quiz_add_quiz_question($q->id, $quiz1, 0);
 
         $attemptids = [];
@@ -641,7 +667,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
                 $timenow = time();
                 $attempt = \quiz_create_attempt($quizobj, $attemptnumber, null, $timenow, false, $user->id);
 
-                \quiz_start_new_attempt($quizobj, $quba, $attempt, $attemptnumber, $timenow, [], [1 => $step[3]]);
+                \quiz_start_new_attempt($quizobj, $quba, $attempt, $attemptnumber, $timenow, [], [$slot => $step[3]]);
                 \quiz_attempt_save_started($quizobj, $quba, $attempt);
                 $attemptid = $attemptids[$step[0]] = $attempt->id;
             } else {
@@ -654,7 +680,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
             } else {
                 $attemptobj = \quiz_attempt::create($attemptid);
             }
-            $attemptobj->process_submitted_actions($timenow, false, $step[4]);
+            $attemptobj->process_submitted_actions($timenow, false, [$slot => $step[4][1]]);
             if (isset($step[6])) {
                 $attemptobj->process_submitted_actions($timenow, false, [1 => ['-tryagain' => 1]]);
                 $attemptobj->process_submitted_actions($timenow, false, $step[6]);
@@ -682,6 +708,94 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->report->create_summary();
         $this->assertEquals($this->summary, $this->report->summary);
         $this->assertEquals(7, count($this->report->jsonsummary));
+    }
+
+    public function test_create_summary_second_slot(): void {
+        $this->create_steps('secondslot');
+        $this->report = $this->getMockBuilder(stack_question_report::class)
+            ->onlyMethods(['run_report'])
+            ->setConstructorArgs([$this->quizquestion, $this->quizcontextid, $this->coursecontextid])->getMock();
+        $this->report->create_summary();
+        $this->assertEquals($this->summary, $this->report->summary);
+        $this->assertEquals(7, count($this->report->jsonsummary));
+        $json0 = json_decode($this->report->jsonsummary[0]);
+        $this->assertEquals(2, $json0->slot);
+        $this->assertEquals(333333333, $json0->seed);
+    }
+
+    /**
+     * Fixture types whose steps are checked against the question engine.
+     * @return array
+     */
+    public static function fixture_types_provider(): array {
+        return [['singleinput'], ['multiinput'], ['secondslot'], ['interactive1'], ['interactive2'],
+            ['interactive3'], ['interactive4']];
+    }
+
+    /**
+     * The report reads steps itself; check it picks the same steps as the question engine.
+     * @dataProvider fixture_types_provider
+     * @param string $type fixture type for create_steps
+     */
+    public function test_steps_with_submitted_response_match_engine(string $type): void {
+        $this->create_steps($type);
+        $this->assert_steps_match_engine();
+    }
+
+    public function test_steps_with_submitted_response_autosaved(): void {
+        global $DB;
+        $attemptids = $this->create_steps('autosave');
+        $uniqueid = $DB->get_field('quiz_attempts', 'uniqueid', ['id' => $attemptids[0]]);
+        $quba = \question_engine::load_questions_usage_by_activity($uniqueid);
+        $quba->process_autosave(1, ['ans1' => 'thing1_true', 'ans1_val' => '"thing1_true"', 'step_lang' => 'en']);
+        \question_engine::save_questions_usage_by_activity($quba);
+        $this->assertLessThan(0, $DB->get_field_sql('SELECT MIN(sequencenumber) FROM {question_attempt_steps}'));
+
+        $steps = $this->assert_steps_match_engine();
+        $this->assertEquals('thing1_true', end($steps)->get_qt_var('ans1'));
+    }
+
+    /**
+     * Assert that, for every reported question attempt, the report picks the same steps with the same
+     * data as question_attempt::get_steps_with_submitted_response_iterator.
+     * @return array the steps the report picked for the last question attempt
+     */
+    protected function assert_steps_match_engine(): array {
+        $report = $this->getMockBuilder(stack_question_report::class)
+            ->onlyMethods(['run_report'])
+            ->setConstructorArgs([$this->quizquestion, $this->quizcontextid, $this->coursecontextid])->getMock();
+        $loadsteps = new \ReflectionMethod($report, 'load_attempt_steps');
+        $submitted = new \ReflectionMethod($report, 'steps_with_submitted_response');
+        $qattemptids = array_keys($report->load_summary_data());
+        $this->assertNotEmpty($qattemptids);
+        $attempts = $loadsteps->invoke($report, $qattemptids);
+        $datamapper = new \question_engine_data_mapper();
+        foreach ($qattemptids as $qattemptid) {
+            $qa = $datamapper->load_question_attempt($qattemptid);
+            $expected = [];
+            foreach ($qa->get_steps_with_submitted_response_iterator() as $key => $step) {
+                $expected[$key] = $this->describe_step($step);
+            }
+            $steps = $submitted->invoke($report, $attempts[$qattemptid]->steps, $qa->get_behaviour(false));
+            $actual = [];
+            foreach ($steps as $key => $step) {
+                $actual[$key] = $this->describe_step($step);
+            }
+            $this->assertNotEmpty($expected);
+            $this->assertSame($expected, $actual);
+        }
+        return $steps;
+    }
+
+    /**
+     * The parts of a step the report uses, in a form that can be compared.
+     * @param \question_attempt_step $step
+     * @return array
+     */
+    protected function describe_step(\question_attempt_step $step): array {
+        $data = $step->get_qt_data();
+        ksort($data);
+        return [(int) $step->get_id(), (string) $step->get_state(), $step->get_timecreated(), $data];
     }
 
     public function test_create_summary_interactive(): void {

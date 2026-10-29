@@ -38,9 +38,9 @@ final class questionlibrary_github_test extends \basic_testcase {
      * Authentication is restricted to the GitHub API origin.
      */
     public function test_token_is_scoped(): void {
-        $previous = getenv('STACK_TEST_GITHUB_TOKEN');
+        $previous = getenv('STACK_GITHUB_TOKEN');
         try {
-            putenv('STACK_TEST_GITHUB_TOKEN=test-token');
+            putenv('STACK_GITHUB_TOKEN=test-token');
             $method = new \ReflectionMethod(\stack_question_library::class, 'github_headers');
             $headers = $method->invoke(null, 'https://api.github.com/repos/maths/moodle-qtype_stack');
             $this->assertContains('Authorization: Bearer test-token', $headers);
@@ -55,12 +55,12 @@ final class questionlibrary_github_test extends \basic_testcase {
             ) {
                 $this->assertCount(2, $method->invoke(null, $url), $url);
             }
-            putenv('STACK_TEST_GITHUB_TOKEN');
+            putenv('STACK_GITHUB_TOKEN');
             $this->assertCount(2, $method->invoke(null, 'https://api.github.com/repos/example'));
-            putenv("STACK_TEST_GITHUB_TOKEN=invalid\r\nheader");
+            putenv("STACK_GITHUB_TOKEN=invalid\r\nheader");
             $this->assertCount(2, $method->invoke(null, 'https://api.github.com/repos/example'));
         } finally {
-            putenv($previous === false ? 'STACK_TEST_GITHUB_TOKEN' : 'STACK_TEST_GITHUB_TOKEN=' . $previous);
+            putenv($previous === false ? 'STACK_GITHUB_TOKEN' : 'STACK_GITHUB_TOKEN=' . $previous);
         }
     }
 
@@ -96,9 +96,10 @@ final class questionlibrary_github_test extends \basic_testcase {
              * Return a failed response without making a network request.
              *
              * @param string $url Request URL
+             * @param int $timeout Request timeout in seconds
              * @return array Response body, status and diagnostics
              */
-            protected static function request_github(string $url): array {
+            protected static function request_github(string $url, int $timeout = 0): array {
                 return ['sensitive response', 403, 'HTTP 403, cURL error 0, x-ratelimit-remaining=0'];
             }
         };

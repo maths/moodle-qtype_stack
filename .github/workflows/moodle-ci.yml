@@ -266,7 +266,7 @@ jobs:
         if: ${{ matrix.moodle-branch == 'main' || matrix.moodle-branch == 'MOODLE_405_STABLE'}}
         #if: ${{ always() }}
         env:
-          STACK_TEST_GITHUB_TOKEN: ${{ github.token }}
+          STACK_GITHUB_TOKEN: ${{ github.token }}
         run: moodle-plugin-ci phpunit
 
       - name: JS unit tests

@@ -197,3 +197,17 @@ In the tests/jest directory as a user with write permissions:
 npm install
 npm test
 ```
+
+### GitHub API authentication
+
+External-library tests retrieve public files from GitHub. Set `STACK_GITHUB_TOKEN` in the PHP process
+environment to authenticate these requests. The token is optional and is also supported by live STACK
+installations. It is sent only to HTTPS requests on `api.github.com`; redirects are not followed.
+
+GitHub Actions supplies its temporary token only to the PHPUnit step with `contents: read` permission.
+Code executed by that step can read the token, so do not substitute a production token or a personal
+token with broader access when testing contributions. Live installations should use their own token
+with only the permissions needed to read the intended repositories.
+
+Retrieval failures report the HTTP status, cURL error number and available numeric rate-limit headers.
+The external-library tests display listing errors before accessing the returned files.

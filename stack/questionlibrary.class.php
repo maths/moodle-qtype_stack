@@ -85,7 +85,7 @@ class stack_question_library {
     }
 
     /**
-     * Build headers for GitHub, with optional authentication during PHPUnit tests.
+     * Build headers for GitHub, optionally using STACK_GITHUB_TOKEN.
      *
      * @param string $url Request URL
      * @return array HTTP headers
@@ -94,11 +94,10 @@ class stack_question_library {
         $headers = ['User-Agent: Moodle-STACK', 'Accept: application/vnd.github.v3+json'];
         $parts = parse_url($url);
         if (
-            defined('PHPUNIT_TEST') && PHPUNIT_TEST &&
                 ($parts['scheme'] ?? '') === 'https' && ($parts['host'] ?? '') === 'api.github.com' &&
                 !isset($parts['user']) && !isset($parts['pass']) && ($parts['port'] ?? 443) === 443
         ) {
-            $token = getenv('STACK_TEST_GITHUB_TOKEN');
+            $token = getenv('STACK_GITHUB_TOKEN');
             if ($token !== false && $token !== '' && !preg_match('/[\r\n]/', $token)) {
                 $headers[] = 'Authorization: Bearer ' . $token;
             }
@@ -110,15 +109,16 @@ class stack_question_library {
      * Fetch GitHub data and retain only numeric diagnostic headers.
      *
      * @param string $url Request URL
+     * @param int $timeout Request timeout in seconds; zero uses the cURL default
      * @return array Response body, HTTP status and safe diagnostic text
      */
-    protected static function request_github(string $url): array {
+    protected static function request_github(string $url, int $timeout = 0): array {
         $diagnostics = [];
         $ch = curl_init($url);
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER => static::github_headers($url),
-            CURLOPT_TIMEOUT => 10,
+            CURLOPT_TIMEOUT => $timeout,
             CURLOPT_FOLLOWLOCATION => false,
             CURLOPT_HEADERFUNCTION => static function ($ch, string $line) use (&$diagnostics): int {
                 if (
@@ -353,7 +353,7 @@ class stack_question_library {
 
         // Always use the git/trees API with recursive=1, then filter by subpath.
         $apiurl = "{$apibase}/git/trees/" . rawurlencode($branch) . "?recursive=1";
-        [$response, $httpcode, $details] = static::request_github($apiurl);
+        [$response, $httpcode, $details] = static::request_github($apiurl, 10);
         if ($response === false || $httpcode !== 200) {
             $errorresponse->error .= ': ' . $details;
             return [$errorresponse, []];

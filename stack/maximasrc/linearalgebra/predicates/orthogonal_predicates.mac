@@ -18,6 +18,7 @@
 
 
 _orthogonal_check_matrix(M, [sp]):= block([dim, G],
+    /* @ignore[global=%i] */
     /* sp is also used as a function; expand and ratsimp are ev operators.
        @ignore[rename=sp]
        @ignore[global=expand]

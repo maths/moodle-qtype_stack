@@ -226,8 +226,11 @@ class stack_question_report {
             }
             $question = $questions[$questionkey];
             if (!array_key_exists($attempt->behaviour, $behaviours)) {
-                $behaviours[$attempt->behaviour] = question_engine::make_behaviour($attempt->behaviour,
-                    new question_attempt($question, 0), $attempt->behaviour);
+                $behaviours[$attempt->behaviour] = question_engine::make_behaviour(
+                    $attempt->behaviour,
+                    new question_attempt($question, 0),
+                    $attempt->behaviour
+                );
             }
             $submittedresponses = $this->steps_with_submitted_response($steps, $behaviours[$attempt->behaviour]);
             $numberofresponses = count($submittedresponses);
@@ -289,7 +292,9 @@ class stack_question_report {
                    JOIN {question_attempt_steps} qas ON qas.questionattemptid = qa.id
               LEFT JOIN {question_attempt_step_data} qasd ON qasd.attemptstepid = qas.id
                   WHERE qa.id $insql
-               ORDER BY qa.id, qas.sequencenumber, qasd.name", $params);
+               ORDER BY qa.id, qas.sequencenumber, qasd.name",
+                $params
+            );
             foreach ($records as $record) {
                 if (!isset($rows[$record->questionattemptid])) {
                     $rows[$record->questionattemptid] = (object) ['questionid' => $record->questionid,

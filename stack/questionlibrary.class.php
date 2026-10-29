@@ -85,6 +85,64 @@ class stack_question_library {
     }
 
     /**
+     * Build headers for GitHub, optionally using STACK_GITHUB_TOKEN.
+     *
+     * @return array HTTP headers
+     */
+    protected static function github_headers(): array {
+        $headers = ['User-Agent: Moodle-STACK', 'Accept: application/vnd.github.v3+json'];
+        $token = getenv('STACK_GITHUB_TOKEN');
+        if ($token !== false && $token !== '' && !preg_match('/[\r\n]/', $token)) {
+            $headers[] = 'Authorization: Bearer ' . $token;
+        }
+        return $headers;
+    }
+
+    /**
+     * Fetch GitHub data and retain only numeric diagnostic headers.
+     *
+     * @param string $url Request URL
+     * @param int $timeout Request timeout in seconds; zero uses the cURL default
+     * @return array Response body, HTTP status and safe diagnostic text
+     */
+    protected static function request_github(string $url, int $timeout = 0): array {
+        $parts = parse_url($url);
+        if (
+            ($parts['scheme'] ?? '') !== 'https' || ($parts['host'] ?? '') !== 'api.github.com' ||
+                ($parts['port'] ?? 443) !== 443 || isset($parts['user']) || isset($parts['pass'])
+        ) {
+            throw new \stack_exception('GitHub requests require an HTTPS api.github.com URL on port 443 without credentials.');
+        }
+        $diagnostics = [];
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => static::github_headers(),
+            CURLOPT_TIMEOUT => $timeout,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HEADERFUNCTION => static function ($ch, string $line) use (&$diagnostics): int {
+                if (
+                    preg_match(
+                        '/^(x-ratelimit-remaining|x-ratelimit-reset|retry-after):\s*([0-9]+)\s*$/i',
+                        trim($line),
+                        $matches
+                    )
+                ) {
+                    $diagnostics[strtolower($matches[1])] = $matches[2];
+                }
+                return strlen($line);
+            },
+        ]);
+        $response = static::execute_curl_request($ch);
+        $status = (int) static::get_curl_info($ch, CURLINFO_HTTP_CODE);
+        $details = 'HTTP ' . $status . ', cURL error ' . curl_errno($ch);
+        foreach ($diagnostics as $name => $value) {
+            $details .= ', ' . $name . '=' . $value;
+        }
+        return [$response, $status, $details];
+    }
+
+    /**
      * Summary of render_question
      * @param object Moodle XML of question
      * @throws \stack_exception
@@ -289,26 +347,15 @@ class stack_question_library {
 
         $apibase = "https://api.github.com/repos/{$owner}/{$repo}";
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Moodle-STACK'); // GitHub requires a user agent.
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/vnd.github.v3+json']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/vnd.github.v3+json']);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-
         $files = [];
         $errorresponse = new StdClass();
         $errorresponse->error = stack_string('stack_library_connection_error');
 
         // Always use the git/trees API with recursive=1, then filter by subpath.
         $apiurl = "{$apibase}/git/trees/" . rawurlencode($branch) . "?recursive=1";
-        curl_setopt($ch, CURLOPT_URL, $apiurl);
-        $response = static::execute_curl_request($ch);
-        $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
-        if ($response === false || $httpcode >= 400) {
-            if ($response) {
-                $errorresponse->error .= ': ' . $response;
-            }
+        [$response, $httpcode, $details] = static::request_github($apiurl, 10);
+        if ($response === false || $httpcode !== 200) {
+            $errorresponse->error .= ': ' . $details;
             return [$errorresponse, []];
         }
         $data = json_decode($response, true);
@@ -497,23 +544,9 @@ class stack_question_library {
      * @return string XML file contents
      */
     public static function get_external_github_file($requestedfile) {
-        $headers = [
-            'User-Agent: Moodle-STACK',
-            'Accept: application/vnd.github.v3+json',
-        ];
-
-        $ch = curl_init($requestedfile);
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER     => $headers,
-            CURLOPT_FAILONERROR    => false,
-            CURLOPT_SSL_VERIFYPEER => true,
-        ]);
-        $res = static::execute_curl_request($ch);
-        $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
-
+        [$res, $httpcode, $details] = static::request_github($requestedfile);
         if ($res === false || $httpcode !== 200) {
-            throw new \stack_exception('File unavailable.');
+            throw new \stack_exception('File unavailable (' . $details . ').');
         }
 
         $json = json_decode($res, true);

@@ -38,11 +38,11 @@ s_test_case(geo_mult(matrix([1,1,0],[0,1,0],[0,0,2]),2),1);
 s_test_case(alg_mult(matrix([2,1,0],[0,2,0],[0,0,1]),1),1);
 s_test_case(geo_mult(matrix([2,1,0],[0,2,0],[0,0,1]),1),1);
 
-s_test_case(eigenvectorp(c(1,0),ident(2)),true);
+s_test_case(eigenvectorp(column_vector(1,0),ident(2)),true);
 s_test_case(eigenvectorp(matrix([0],[1]),matrix([1,1],[0,1])),false);
-s_test_case(eigenvectorp(c(1,0),ident(2),1),true);
-s_test_case(eigenvectorp(c(1,0),ident(2),2),false);
-s_test_case(eigenvectorp(c(2,0),ident(2),1),true);
+s_test_case(eigenvectorp(column_vector(1,0),ident(2),1),true);
+s_test_case(eigenvectorp(column_vector(1,0),ident(2),2),false);
+s_test_case(eigenvectorp(column_vector(2,0),ident(2),1),true);
 s_test_case(eigenvectorp(matrix([%i],[1]),matrix([0,-1],[1,0])),true);
 s_test_case(eigenvectorp(matrix([%i],[1]),matrix([0,-1],[1,0]),%i),true);
 s_test_case(eigenvectorp(matrix([%i],[1]),matrix([0,-1],[1,0]),-%i),false);
@@ -59,9 +59,9 @@ s_test_case(eigenvaluep((1+sqrt(5))/2,matrix([0,1],[1,1]),matrix([1],[(1+sqrt(5)
 s_test_case(eigenvaluep(1,matrix([1,0],[0,2])),true);
 s_test_case(eigenvaluep(2,matrix([1,0],[0,2])),true);
 s_test_case(eigenvaluep(3,matrix([1,0],[0,2])),false);
-s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),c(1,0)),true);
-s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),c(2,0)),true);
-s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),c(0,1)),false);
+s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),column_vector(1,0)),true);
+s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),column_vector(2,0)),true);
+s_test_case(eigenvaluep(1,matrix([1,0],[0,2]),column_vector(0,1)),false);
 s_test_case(eigenvaluep(%i,matrix([0,-1],[1,0])),true);
 s_test_case(eigenvaluep(%i,matrix([0,-1],[1,0]),matrix([%i],[1])),true);
 s_test_case(eigenvaluep(%i,matrix([0,-1],[1,0]),matrix([1],[%i])),false);

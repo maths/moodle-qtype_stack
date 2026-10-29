@@ -123,10 +123,12 @@ final class input_matrix_test extends qtype_stack_testcase {
         ];
         $cases = [];
         foreach ($brackets as $label => $bracket) {
-            foreach ([
+            foreach (
+                [
                 'matrix([1])', 'column_vector(1,2)', 'row_vector(1,2)',
                 'aug_matrix(matrix([1,2]),column_vector(3))',
-            ] as $model) {
+                ] as $model
+            ) {
                 $cases[$label . ' ' . $model] = array_merge($bracket, [$model]);
             }
         }
@@ -504,12 +506,14 @@ final class input_matrix_test extends qtype_stack_testcase {
     public function test_saved_vector_aliases(): void {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'v', $options);
-        foreach ([
+        foreach (
+            [
             'column_vector(f(1,2),a+b)',
             'row_vector(f(1,2),a+b)',
             'aug_matrix(matrix([1,2],[3,4]),column_vector(f(1,2),a+b))',
             'aug_matrix(row_vector(f(1,2),a+b),column_vector(3))',
-        ] as $model) {
+            ] as $model
+        ) {
             $el->adapt_to_model_answer($model);
             $saved = str_replace(['column_vector(', 'row_vector('], ['c(', 'r('], $model);
             $response = $el->maxima_to_response_array($saved);
@@ -523,10 +527,12 @@ final class input_matrix_test extends qtype_stack_testcase {
     public function test_augmented_alias_model_answer(): void {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
-        foreach ([
+        foreach (
+            [
             'aug_matrix(matrix([1,2],[3,4]),column_vector(5,6))',
             'aug_matrix(row_vector(1,2),column_vector(3),row_vector(4,5),column_vector(6))',
-        ] as $model) {
+            ] as $model
+        ) {
             $source = str_replace(['column_vector(', 'row_vector('], ['c(', 'r('], $model);
             $el->adapt_to_model_answer('block([],stack_linear_algebra_declare(true),' . $source . ')');
             $this->assertEmpty($el->get_errors());

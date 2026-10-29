@@ -2839,7 +2839,10 @@ final class input_algebraic_test extends qtype_stack_testcase {
             $answer = $constructor . '(1,a)';
             $el = stack_input_factory::make('algebraic', 'ans1', $model);
             $state = $el->validate_student_response(
-                ['ans1' => $answer], $options, $model, new stack_cas_security()
+                ['ans1' => $answer],
+                $options,
+                $model,
+                new stack_cas_security()
             );
             $this->assertSame(stack_input::VALID, $state->status);
             $this->assertSame($answer, $state->contentsmodified);
@@ -2847,7 +2850,10 @@ final class input_algebraic_test extends qtype_stack_testcase {
 
             $el->set_parameter('forbidWords', $constructor);
             $state = $el->validate_student_response(
-                ['ans1' => $answer], $options, $model, new stack_cas_security()
+                ['ans1' => $answer],
+                $options,
+                $model,
+                new stack_cas_security()
             );
             $this->assertSame(stack_input::INVALID, $state->status);
             $this->assertSame('forbiddenFunction', $state->note);
@@ -2862,14 +2868,20 @@ final class input_algebraic_test extends qtype_stack_testcase {
             $el = stack_input_factory::make('algebraic', 'ans1', $model);
             $el->set_parameter('sameType', false);
             $state = $el->validate_student_response(
-                ['ans1' => $answer], $options, $model, new stack_cas_security()
+                ['ans1' => $answer],
+                $options,
+                $model,
+                new stack_cas_security()
             );
             $this->assertSame($answer, $state->contentsmodified);
             $this->assertStringNotContainsString('\\begin{array}', $state->contentsdisplayed);
 
             $el->add_contextsession(new \stack_secure_loader('stack_linear_algebra_declare(true)', 'vector aliases'));
             $state = $el->validate_student_response(
-                ['ans1' => $answer], $options, $model, new stack_cas_security()
+                ['ans1' => $answer],
+                $options,
+                $model,
+                new stack_cas_security()
             );
             $this->assertSame(stack_input::VALID, $state->status);
             // Preserve the submitted spelling while evaluating its display in the question context.

@@ -2865,7 +2865,8 @@ final class castext_test extends qtype_stack_testcase {
         $this->assertTrue($keyval->get_valid(), implode('; ', $keyval->get_errors()));
         $session = $keyval->get_session();
         $result = castext2_evaluatable::make_from_source(
-            '{@is(c(1,2)=column_vector(1,2)) and is(r(1,2)=row_vector(1,2))@}', 'vector aliases'
+            '{@is(c(1,2)=column_vector(1,2)) and is(r(1,2)=row_vector(1,2))@}',
+            'vector aliases'
         );
         $session->add_statement($result);
         $session->instantiate();

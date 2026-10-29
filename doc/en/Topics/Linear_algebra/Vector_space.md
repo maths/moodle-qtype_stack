@@ -17,11 +17,13 @@ This page contains reference documentation on functions in this library.
 
 * `unit_vecp(ex)` is a predicate function that tests whether a given input is a unit vector. `ex` must be a matrix (not `c` or `r`) with exactly one row or one column.
 
-The following functions have the optional argument `sp`. If this argument is omitted then the standard inner product (dot product) is used. Otherwise, `sp` must be the name of a function that performs a scalar product of two vectors; i.e. it takes two vector inputs and outputs a scalar. If given, this scalar product function will be used in place of the standard inner product.
+The following functions have the optional argument `sp`. If this argument is omitted then the standard inner product is used: the dot product for real vectors, and `x . conjugate(y)` for complex vectors, linear in the first slot (entries are conjugated only when a vector contains `%i`, so symbolic entries are treated as real). Otherwise, `sp` must be the name of a function that performs a scalar product of two vectors; i.e. it takes two vector inputs and outputs a scalar. If given, this scalar product function will be used in place of the standard inner product.
   
-* `proj(u, v, [sp])` will compute the projection of `u` onto `v` using scalar product `sp` (dot product if omitted).
-* `orthogonalize(L, [sp])` will orthogonalize a list of vectors `L` with respect to scalar product `sp` (dot product if omitted)
-* `normalize(L, [sp])` will normalize a list of vectors `L` with respect to scalar product `sp` (dot product if omitted)
+* `proj(u, v, [sp])` will compute the projection of `v` onto `u` using scalar product `sp` (the standard inner product if omitted).
+* `orthogonalize(L, [sp])` will orthogonalize a list of vectors `L` with respect to scalar product `sp` (the standard inner product if omitted)
+* `normalize(L, [sp])` will normalize a list of vectors `L` with respect to scalar product `sp` (the standard inner product if omitted)
+
+For complex vectors, a supplied `sp` should be linear in its first argument and conjugate-linear in its second, as \(\langle u, v\rangle\) in most linear algebra texts.
 
 ## Equivalence functions
 
@@ -57,4 +59,4 @@ Maxima provides `columnspace` and `nullspace` functions natively. This will retu
  
 ## Projection matrices
 
-* `projection_matrix(A)` will produce the symmetric, idempotent matrix that orthogonally projects vectors in \(\mathbb{R}^m\) onto the column space of \(m\times n\) matrix `A`. 
+* `projection_matrix(A)` will produce the symmetric, idempotent matrix that orthogonally projects vectors in \(\mathbb{R}^m\) onto the column space of \(m\times n\) matrix `A`. For a complex matrix `A` it produces the Hermitian, idempotent matrix that projects vectors in \(\mathbb{C}^m\), using the conjugate transpose. 

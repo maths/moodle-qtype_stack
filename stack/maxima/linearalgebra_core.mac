@@ -212,7 +212,8 @@ mat_solve(A,b,[lstsq]):= block([m,n,vars,eqns,sol,AT],
   [m, n]: matrix_size(A),
   if ev(is(first(matrix_size(b))#m),simp) then return(matrix([])),
   vars: rest(stack_var_makelist(tmp,n)),
-  if lstsq then AT: transpose(A) else AT: ident(m),
+  /* The normal equations use the conjugate transpose for complex A. */
+  if lstsq then AT: (if freeof(%i, A) then transpose(A) else ctranspose(A)) else AT: ident(m),
   eqns: list_matrix_entries(ev((AT . A) . transpose(vars) - (AT . b),simp)),
   sol: map('rhs, linsolve(eqns,vars)),
   if emptyp(sol) then return(matrix(sol)) else return(transpose(matrix(sol)))

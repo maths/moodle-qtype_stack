@@ -5,6 +5,9 @@
 This document defines the essential technical requirements for STACK questions.
 It is written for AI coding agents and LLMs assisting human question authors.
 A project or authoring kit may add its own conventions on top of these.
+For an optional review of mathematical purpose, feedback and learner interaction,
+see [Question quality review](stack_question_review.md). Agree the intended use
+with the author; technical test success alone does not establish suitability.
 
 ### Write the question as Moodle XML
 
@@ -150,7 +153,17 @@ working one. A question with no inputs has no PRTs and needs no tests.
 - one test for each route through each PRT, not just each leaf: every
   diagnostic node needs a test that reaches it;
 - an invalid input, wherever one is likely or the question relies on its own
-  validation.
+  validation;
+- alternative correct answers when the task permits them, such as a different
+  basis or an equivalent expression;
+- a near-miss for each targeted diagnostic: a response that should receive a
+  different explanation. A diagnostic must not reject a valid alternative or
+  infer a misconception from an answer that has several possible causes.
+
+A wrong-answer test must reach the grader: invalid syntax alone does not test
+whether the PRT rejects a mathematically incorrect answer. For dependent parts,
+write the intended follow-through expectations explicitly. Use learner previews
+to check partial submissions and retries; qtests alone do not exercise the UI.
 
 **Test inputs.** A `<value>` is a Maxima expression evaluated in the context of
 the question variables, so it follows the random values. It is evaluated with
@@ -231,11 +244,14 @@ different variants, but each one must be checked. For each seed:
 - its question note must differ from every other deployed seed's, since STACK
   treats variants with the same note as the same variant;
 - it has no runtime errors and passes every test;
-- it is not degenerate: no zero coefficient that removes a term, no answer of
-  0 or 1 that gives the game away, no coincidence between a misconception and
-  the right answer.
+- it meets the intended learning objective: exclude accidental simplifications
+  or coincidences that invalidate a diagnostic test. Zero coefficients and
+  answers of 0 or 1 can be intentional boundary cases; retain and test them
+  when they are part of the question's purpose.
 
-Replace any seed that fails. A question without randomisation needs no
+Investigate failed seeds before replacing them. Fix generator or marking
+defects and rerun the tests; restrict variants deliberately when a case falls
+outside the intended scope. A question without randomisation needs no
 deployed seed.
 
 ### Run the tests through the STACK API

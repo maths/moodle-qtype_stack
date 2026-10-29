@@ -65,7 +65,7 @@ In this question, we have eigenvalues \(\lambda_1 = 1\) and \(\lambda_2 = {@a2@}
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2022082900</text>
+      <text>2026080600</text>
     </stackversion>
     <questionvariables>
       <text>a1:1;
@@ -128,6 +128,10 @@ testa6:D;</text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+     {"author":[{"firstName":"","lastName":"","institution":"Unknown - Legacy question","year":"2025"}],"language":["en"],"isPartOf":"STACK Library","license":"cc-sa-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
@@ -363,7 +367,7 @@ node1:is(sa2evrank=ta2evrank)</text>
         <name>0</name>
         <description/>
         <answertest>AlgEquiv</answertest>
-        <sans>ans2</sans>
+        <sans>ans3</sans>
         <tans>matrix([0],[0])</tans>
         <testoptions/>
         <quiet>1</quiet>

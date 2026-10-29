@@ -21,7 +21,7 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2024111900</text>
+      <text>2026080600</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[stack_include_contrib("prooflib.mac");
@@ -34,7 +34,7 @@ proof_steps: [
     ["ca2",    "\\[ \\mathbf{b}_1+\\mathbf{b}_2=A\\mathbf{x}_1+A\\mathbf{x}_2=A(\\mathbf{x}_1+\\mathbf{x}_2)\\in S.\\]"],
     ["ca3",    "\\(\\mathbf{b}_1+\\mathbf{b}_2\\in S\\)"],
     ["ca4",    "\\(S\\) is closed under addition."],
-    ["cs1",    "Let \\(c_1\\) be any scalar."],
+    ["cs1",    "Let \\(c\\) be any scalar."],
     ["cs2",    "\\[ c\\mathbf{b}_1 = c A\\mathbf{x}_1 = A(c\\mathbf{x}_1) \\in S.\\]"],
     ["cs3",    "\\(S\\) is closed under scalar multiplication"],
     ["conc",  "Since \\(S\\) is closed under addition and scalar multiplication it is a subspace."],
@@ -78,6 +78,10 @@ tas:setify(map(proof_flatten, tal));]]></text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+     {"author":[{"firstName":"","lastName":"","institution":"Unknown - Legacy question","year":"2025"}],"language":["en"],"isPartOf":"STACK Library","license":"cc-sa-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
@@ -128,7 +132,7 @@ saprob:proof_assessment_dag(sa, tdag);</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text>{@proof_dag_problem_display(saprob, poof_steps)@}</text>
+          <text>{@proof_dag_problem_display(saprob, proof_steps)@}</text>
         </falsefeedback>
       </node>
     </prt>
@@ -148,7 +152,7 @@ saprob:proof_assessment_dag(sa, tdag);</text>
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-1-T</expectedanswernote>
+        <expectedanswernote>[ prt1-1-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -162,7 +166,7 @@ saprob:proof_assessment_dag(sa, tdag);</text>
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-1-T</expectedanswernote>
+        <expectedanswernote>[ prt1-1-T ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

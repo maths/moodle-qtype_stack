@@ -26,6 +26,7 @@
 // NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
 require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
+require_once(__DIR__ . '/../fixtures/apifixtures.class.php');
 
 use Moodle\BehatExtension\Exception\SkippedException;
 use PHPUnit\Framework\Assert;
@@ -228,6 +229,8 @@ class behat_qtype_stack extends behat_base {
         $formvalue = $this->evaluate_script($js);
         $this->getSession()->switchToWindow();
         $formvalue = str_replace(["\r\n", "\r", "\n"], '\n', $formvalue);
+        // MathJax versions differ in where they insert invisible multiplication characters.
+        [$formvalue, $value1, $value2, $value3] = str_replace("\u{2062}", '', [$formvalue, $value1, $value2, $value3]);
         if (
             strpos($formvalue, $value1) === false &&
             strpos($formvalue, $value2) === false &&
@@ -266,7 +269,7 @@ class behat_qtype_stack extends behat_base {
      */
     public function the_focused_element_should_be(string $selector): void {
         $selectorjson = json_encode($selector);
-        $matches = $this->spin(function($context, $selectorjson) {
+        $matches = $this->spin(function ($context, $selectorjson) {
             $js = <<<EOF
                 return (function() {
                     const expected = document.querySelector({$selectorjson});
@@ -370,6 +373,24 @@ class behat_qtype_stack extends behat_base {
         if (count($urls) !== (int) $number) {
             throw new \Exception("Expected $number images but found " . count($urls) . ".");
         }
+    }
+
+    /**
+     * Create a site library containing a small multi-question Moodle XML file.
+     *
+     * @Given /^the STACK Behat question set site library exists$/
+     */
+    public function the_stack_behat_question_set_site_library_exists(): void {
+        global $CFG;
+
+        $dir = $CFG->dataroot . '/stack/sitelibrary/behat_question_set';
+        make_writable_directory($dir);
+        file_put_contents(
+            $dir . '/Question-set-library-test.xml',
+            stack_api_test_data::get_question_string('libraryquestionset')
+        );
+
+        cache::make('qtype_stack', 'librarycache')->purge();
     }
 
     /**

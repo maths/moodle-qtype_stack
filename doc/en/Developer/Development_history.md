@@ -2,6 +2,18 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.14.0 (2026101500)
+
+1. Add [metadata](../Authoring/Metadata.md) to STACK questions.  (Issue #1711).
+2. Update to version 2.5.1 of ASCIIMath (May 2026)
+3. Add in errors to the free text input, using stdin/stdout/stderr as a model for filter/extractor functions.
+4. Count authoring failures as XML import errors so Stop on error rejects invalid uploads before writes. Explicit repair imports retain broken diagnostics without changing Moodle version status.
+5. Refactor display of matrices so that brackets for `matrix`, `c` and `r` can be controlled in a consistent manner by the question wide `matrixparens` option.  See also Issue #1848.  Thanks to Oleksandr Kulkov for these contributions.
+6. Add in augmented matrix grids for fixed [matrix inputs](../Authoring/Inputs/Matrix_input.md) and Support augmented model answers in fixed and variable-size [matrix inputs](../Authoring/Inputs/Matrix_input.md). (Issue #1850).
+7. Move the [matrix library](../Topics/Linear_algebra/Matrix_library.md) into core STACK, with generated documentation and tests. The contributed package remains available for older STACK installations.
+8. `stackjson_parse()` parses in one pass, so its time grows linearly with the length of the JSON (it was quadratic: about 1 s for the state of a moderate JSXGraph sketch, called again in every PRT). The result no longer depends on `simp`, a number at the top level is parsed, and malformed input gives `und`.  (Issue #1898).
+
+
 ## Version 4.13.1 (2026080600)
 
 Released August 2026.
@@ -10,6 +22,7 @@ This release contains some useful bug fixes, and improvements.
 
 1. Improve free-text blocks by matching scroll between textarea and preview block.
 2. Add in syntax highlighting and line numbering to question and feedback variables via the ace editor. Contributed by Hieu Vu and team on behalf of The Open University (UK).
+3. Add [XML Compare](../STACK_question_admin/Authoring_workflow.md#comparing-question-versions) feature to the STACK dashboard.
 
 __Note to colleagues upgrading__ Since 4.12.0 we now require the plugin [import as new version](https://github.com/maths/moodle-qbank_importasversion/).
 

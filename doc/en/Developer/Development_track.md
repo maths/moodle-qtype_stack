@@ -5,11 +5,11 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
-## Version 4.14.0
+## Version 4.15.0
 
-Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
+1. Improve `ATSet` by using `algebraic_equivalence` for pairwise compasions.  Fix to issue #1931.
 
-1. Add [metadata](../Authoring/Metadata.md) to STACK questions.  (Issue #1711).
+Issues with [github milestone 4.15.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.15.0) include
 
 ## Better testing
 

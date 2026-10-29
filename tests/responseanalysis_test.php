@@ -1185,4 +1185,58 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $quiznames = array_column($quizzes, 'name');
         $this->assertEquals(true, in_array('QUIZNAME1', $quiznames));
     }
+
+    public function test_quiz_selection_multiple_random_slots(): void {
+        global $CFG, $DB;
+        $this->resetAfterTest();
+
+        // Create a course with two question categories and two simple questions.
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $course = $this->getDataGenerator()->create_course();
+        $contextid = \context_course::instance($course->id)->id;
+        // For Moodle 5 these will be in a question bank module.
+        $qcategory1 = $generator->create_question_category(
+            ['contextid' => $contextid]
+        );
+        $qcategory2 = $generator->create_question_category(
+            ['contextid' => $qcategory1->contextid]
+        );
+        $user = $this->getDataGenerator()->create_user();
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $user->id, $contextid);
+        $this->setUser($user);
+        $q1 = $generator->create_question(
+            'shortanswer',
+            null,
+            ['name' => 'QNAME1', 'category' => $qcategory1->id]
+        );
+        $q2 = $generator->create_question(
+            'shortanswer',
+            null,
+            ['name' => 'QNAME2', 'category' => $qcategory2->id]
+        );
+
+        // Create a quiz with two random slots, one from each category, and add the questions.
+        $quizgenerator = new \testing_data_generator();
+        $quizgenerator = $quizgenerator->get_plugin_generator('mod_quiz');
+        $quiz = $quizgenerator->create_instance(['course' => $course->id,
+            'name' => 'QUIZNAME1', 'questionsperpage' => 0,
+            'grade' => 100.0, 'sumgrades' => 2, 'preferredbehaviour' => 'immediatefeedback']);
+
+        if ($CFG->version > 2023042411) {
+            $this->add_random_questions($quiz->id, 0, $qcategory1->id, 1);
+            $this->add_random_questions($quiz->id, 0, $qcategory2->id, 1);
+        } else {
+            \quiz_add_random_questions($quiz, 0, $qcategory1->id, 1, false);
+            \quiz_add_random_questions($quiz, 0, $qcategory2->id, 1, false);
+        }
+
+        // Assert that both questions are reported as being in the quiz, even though they are in different categories.
+        $quizzes = stack_question_report::get_relevant_quizzes($q1->id, $qcategory1->contextid);
+        $this->assertEquals(1, count($quizzes));
+        $this->assertEquals(['QUIZNAME1'], array_column($quizzes, 'name'));
+        $quizzes = stack_question_report::get_relevant_quizzes($q2->id, $qcategory2->contextid);
+        $this->assertEquals(1, count($quizzes));
+        $this->assertEquals(['QUIZNAME1'], array_column($quizzes, 'name'));
+    }
 }

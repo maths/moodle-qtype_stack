@@ -26,7 +26,7 @@ This gives
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2023010400</text>
+      <text>2026080600</text>
     </stackversion>
     <questionvariables>
       <text>/* Eigenvalues and Eigenvectors. */
@@ -66,6 +66,10 @@ cp:expand(determinant(LI-M));</text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+     {"author":[{"firstName":"","lastName":"","institution":"Unknown - Legacy question","year":"2025"}],"language":["en"],"isPartOf":"STACK Library","license":"cc-sa-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>l1</name>
@@ -435,15 +439,15 @@ cp:expand(determinant(LI-M));</text>
       </testinput>
       <testinput>
         <name>sev1</name>
-        <value>sev1</value>
+        <value>transpose(matrix(ev1))</value>
       </testinput>
       <testinput>
         <name>sev2</name>
-        <value>sev2</value>
+        <value>transpose(matrix(ev2))</value>
       </testinput>
       <testinput>
         <name>sev3</name>
-        <value>sev3</value>
+        <value>transpose(matrix(ev3))</value>
       </testinput>
       <expected>
         <name>ev1</name>
@@ -491,35 +495,35 @@ cp:expand(determinant(LI-M));</text>
       </testinput>
       <testinput>
         <name>sev2</name>
-        <value>sev3</value>
+        <value>transpose(matrix(ev3))</value>
       </testinput>
       <testinput>
         <name>sev3</name>
-        <value>sev2</value>
+        <value>transpose(matrix(ev2))</value>
       </testinput>
       <expected>
         <name>ev1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>ev1-2-T</expectedanswernote>
+        <expectedanswernote>[ ev1-1-T | ev1-2-T ]</expectedanswernote>
       </expected>
       <expected>
         <name>ev2</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>ev2-1-F</expectedanswernote>
+        <expectedanswernote>( ev2-1-F ]</expectedanswernote>
       </expected>
       <expected>
         <name>ev3</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>ev3-2-F</expectedanswernote>
+        <expectedanswernote>[ ev3-1-T | ev3-2-F ]</expectedanswernote>
       </expected>
       <expected>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt1-5-F</expectedanswernote>
+        <expectedanswernote>( prt1-1-F | prt1-5-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -539,39 +543,39 @@ cp:expand(determinant(LI-M));</text>
       </testinput>
       <testinput>
         <name>sev1</name>
-        <value>sev3</value>
+        <value>transpose(matrix(ev3))</value>
       </testinput>
       <testinput>
         <name>sev2</name>
-        <value>sev1</value>
+        <value>transpose(matrix(ev1))</value>
       </testinput>
       <testinput>
         <name>sev3</name>
-        <value>sev3</value>
+        <value>transpose(matrix(ev3))</value>
       </testinput>
       <expected>
         <name>ev1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>ev1-2-F</expectedanswernote>
+        <expectedanswernote>[ ev1-1-T | ev1-2-F ]</expectedanswernote>
       </expected>
       <expected>
         <name>ev2</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>ev2-2-F</expectedanswernote>
+        <expectedanswernote>[ ev2-1-T | ev2-2-F ]</expectedanswernote>
       </expected>
       <expected>
         <name>ev3</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>ev3-1-F</expectedanswernote>
+        <expectedanswernote>( ev3-1-F ]</expectedanswernote>
       </expected>
       <expected>
         <name>prt1</name>
         <expectedscore>0.2500000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt1-5-T</expectedanswernote>
+        <expectedanswernote>( prt1-1-F | prt1-5-T ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

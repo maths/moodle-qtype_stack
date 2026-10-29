@@ -10,9 +10,11 @@ for column vectors and
 
     r(1,2,3,4)
 
-for row vectors is provided.  By default, these will display as \(c(1,2,3)\) and \(r(1,2,3,4)\), but TeX support (e.g. for student input) is provided by the `stack_linear_algebra_declare(true)` function. If this function is included in the question variables, either by a teacher including it directly or by including one of the linear algebra contributed libraries, they will instead display as column or row vectors as expected. 
+for row vectors is provided.  By default, these will display as \(c(1,2,3)\) and \(r(1,2,3,4)\), but TeX support (e.g. for student input) is provided by the `stack_linear_algebra_declare(true)` function. If this function is included in the question variables, either by a teacher including it directly or by including one of the linear algebra contributed libraries, they will instead display as column or row vectors using the question's default shape of matrix parentheses.
 
 Once converted into matrices, the student's answer will be evaluated by PRTs as matrices.  Of course, this will not be reflected in the valuation.
+
+Both matrix input types can also collect either form: use `c(...)` or `r(...)` as the model answer and the student's response remains respectively `c(...)` or `r(...)`. The fixed grid infers its dimensions from the answer. The variable-size input accepts whitespace-separated components without fixing their number. This avoids converting a vector to a matrix merely to use a structured matrix input.
 
 * `vec_convert(ex)` Attempts to convert `c` and `r` convenience functions into matrices. If the expression contains multiple `c` and `r` terms that do not conform, the original expression is returned.
 * `vec_convertedp(ex)` A predicate function that checks whether `c` or `r` is present. This is useful in a PRT to ensure that an earlier conversion was successful (i.e. everything conforms) before continuing.
@@ -66,7 +68,4 @@ If you turn the option "Multiplication sign" to none, this should display as
 Notice the use of the function `ordergreat`.  `ordergreat` can only be used once at the beginning of the question.
 
 If you use the special constant `%_stack_preamble_end;` then anything before this constant will be available everywhere in the question, including the inputs.
-
-
-
 

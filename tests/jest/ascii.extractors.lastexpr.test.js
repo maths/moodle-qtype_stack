@@ -1,28 +1,37 @@
 import lastexpr from '../../corsscripts/ascii/extractors/lastexpr.js';
+import { setAsciiStrings } from '../../corsscripts/ascii/asciihelper.js';
+import { stackStrings } from './ascii.teststrings.js';
+
+const strings = stackStrings([
+    'asciistringextractorlastexprnotfound'
+]);
 
 describe('lastexpr extractor', () => {
+    beforeEach(() => {
+        setAsciiStrings(strings);
+    });
 
     // ── Block-mode tests ──────────────────────────────────────────────────────
 
     describe('with blocks', () => {
         test('returns trimmed raw of a single code_inline block', () => {
             const blocks = [{ type: 'code_inline', raw: 'x^2' }];
-            expect(lastexpr('', blocks)).toBe('x^2');
+            expect(lastexpr('', blocks)).toEqual({ result: 'x^2' });
         });
 
         test('trims whitespace from code_inline raw', () => {
             const blocks = [{ type: 'code_inline', raw: '  x^2  ' }];
-            expect(lastexpr('', blocks)).toBe('x^2');
+            expect(lastexpr('', blocks)).toEqual({ result: 'x^2' });
         });
 
         test('returns last non-empty line of an asciimath_block', () => {
             const blocks = [{ type: 'asciimath_block', raw: 'first line\nsecond line' }];
-            expect(lastexpr('', blocks)).toBe('second line');
+            expect(lastexpr('', blocks)).toEqual({ result: 'second line' });
         });
 
         test('skips empty trailing lines in an asciimath_block', () => {
             const blocks = [{ type: 'asciimath_block', raw: 'only line\n\n' }];
-            expect(lastexpr('', blocks)).toBe('only line');
+            expect(lastexpr('', blocks)).toEqual({ result: 'only line' });
         });
 
         test('scans asciimath_block lines bottom-up to find last non-empty line', () => {
@@ -30,7 +39,7 @@ describe('lastexpr extractor', () => {
                 type: 'asciimath_block',
                 raw: 'line1\nline2\nline3\n   '
             }];
-            expect(lastexpr('', blocks)).toBe('line3');
+            expect(lastexpr('', blocks)).toEqual({ result: 'line3' });
         });
 
         test('returns last code_inline over an earlier asciimath_block', () => {
@@ -38,7 +47,7 @@ describe('lastexpr extractor', () => {
                 { type: 'asciimath_block', raw: 'math line' },
                 { type: 'code_inline', raw: 'inline last' }
             ];
-            expect(lastexpr('', blocks)).toBe('inline last');
+            expect(lastexpr('', blocks)).toEqual({ result: 'inline last' });
         });
 
         test('falls back to asciimath_block when last block is not eligible', () => {
@@ -46,7 +55,7 @@ describe('lastexpr extractor', () => {
                 { type: 'asciimath_block', raw: 'math content' },
                 { type: 'paragraph', raw: 'not eligible' }
             ];
-            expect(lastexpr('', blocks)).toBe('math content');
+            expect(lastexpr('', blocks)).toEqual({ result: 'math content' });
         });
 
         test('scans bottom-up: last code_inline wins when multiple exist', () => {
@@ -54,7 +63,7 @@ describe('lastexpr extractor', () => {
                 { type: 'code_inline', raw: 'first' },
                 { type: 'code_inline', raw: 'last' }
             ];
-            expect(lastexpr('', blocks)).toBe('last');
+            expect(lastexpr('', blocks)).toEqual({ result: 'last' });
         });
 
         test('ignores blocks that are not code_inline or asciimath_block', () => {
@@ -63,17 +72,19 @@ describe('lastexpr extractor', () => {
                 { type: 'code_inline', raw: 'first' },
                 { type: 'calculation', raw: 'also ignored' }
             ];
-            expect(lastexpr('', blocks)).toBe('first');
+            expect(lastexpr('', blocks)).toEqual({ result: 'first' });
         });
 
-        test('returns ERROR when no eligible block is found', () => {
+        test('returns translated error when no eligible block is found', () => {
             const blocks = [{ type: 'paragraph', raw: 'nothing' }];
-            expect(lastexpr('', blocks)).toBe('ERROR');
+            expect(lastexpr('', blocks)).toEqual({
+                error: strings.asciistringextractorlastexprnotfound
+            });
         });
 
         test('handles windows-style line endings in asciimath_block', () => {
             const blocks = [{ type: 'asciimath_block', raw: 'line one\r\nline two' }];
-            expect(lastexpr('', blocks)).toBe('line two');
+            expect(lastexpr('', blocks)).toEqual({ result: 'line two' });
         });
     });
 
@@ -81,31 +92,35 @@ describe('lastexpr extractor', () => {
 
     describe('without blocks (raw fallback)', () => {
         test('returns last non-empty line of raw', () => {
-            expect(lastexpr('line one\nline two', null)).toBe('line two');
+            expect(lastexpr('line one\nline two', null)).toEqual({ result: 'line two' });
         });
 
         test('skips trailing empty lines in raw', () => {
-            expect(lastexpr('line one\nline two\n  \n', null)).toBe('line two');
+            expect(lastexpr('line one\nline two\n  \n', null)).toEqual({ result: 'line two' });
         });
 
         test('trims whitespace from matched raw line', () => {
-            expect(lastexpr('  trimmed  ', null)).toBe('trimmed');
+            expect(lastexpr('  trimmed  ', null)).toEqual({ result: 'trimmed' });
         });
 
-        test('returns ERROR when all raw lines are empty', () => {
-            expect(lastexpr('\n\n\n', null)).toBe('ERROR');
+        test('returns translated error when all raw lines are empty', () => {
+            expect(lastexpr('\n\n\n', null)).toEqual({
+                error: strings.asciistringextractorlastexprnotfound
+            });
         });
 
-        test('returns ERROR for empty raw with null blocks', () => {
-            expect(lastexpr('', null)).toBe('ERROR');
+        test('returns translated error for empty raw with null blocks', () => {
+            expect(lastexpr('', null)).toEqual({
+                error: strings.asciistringextractorlastexprnotfound
+            });
         });
 
         test('handles windows-style line endings in raw fallback', () => {
-            expect(lastexpr('first\r\nsecond', null)).toBe('second');
+            expect(lastexpr('first\r\nsecond', null)).toEqual({ result: 'second' });
         });
 
         test('falls back to raw when blocks is an empty array', () => {
-            expect(lastexpr('fallback', [])).toBe('fallback');
+            expect(lastexpr('fallback', [])).toEqual({ result: 'fallback' });
         });
     });
 });

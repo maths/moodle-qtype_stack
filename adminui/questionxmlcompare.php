@@ -245,7 +245,8 @@ $toggleparams['display'] = stack_question_xml_compare::toggle_display_mode($disp
 $general->displaytogglelink = (new moodle_url('/question/type/stack/adminui/questionxmlcompare.php', $toggleparams))->out();
 $diffonlytoggleparams = $pageparams;
 $diffonlytoggleparams['diffonly'] = stack_question_xml_compare::toggle_diff_only($diffonly);
-$general->diffonlytogglelink = (new moodle_url('/question/type/stack/adminui/questionxmlcompare.php', $diffonlytoggleparams))->out();
+$general->diffonlytogglelink =
+    (new moodle_url('/question/type/stack/adminui/questionxmlcompare.php', $diffonlytoggleparams))->out();
 $general->uploadform = $uploadform->render();
 
 // Template data is intentionally flat: the page template reads the view state directly.

@@ -42,27 +42,27 @@ final class mathsoutputmathjax_test extends qtype_stack_testcase {
     public function test_providecommand_support_is_conditional(): void {
         $output = new class extends \stack_maths_output_mathjax {
             /** @var bool whether compatibility was requested. */
-            public bool $providecommandrequired = false;
+            public bool $compatrequested = false;
 
             /**
              * Record the request without changing the page requirements manager.
              */
             protected function require_providecommand(): void {
-                $this->providecommandrequired = true;
+                $this->compatrequested = true;
             }
         };
 
         $output->process_display_castext('What is \\(x^2\\)?', false);
-        $this->assertFalse($output->providecommandrequired);
+        $this->assertFalse($output->compatrequested);
 
         $this->assertSame('', $output->process_display_castext(null, false));
-        $this->assertFalse($output->providecommandrequired);
+        $this->assertFalse($output->compatrequested);
 
         $output->process_display_castext(
             '\\(\\providecommand{\\stackmatrix}[3]{\\left#1#3\\right#2}\\)',
             false
         );
-        $this->assertTrue($output->providecommandrequired);
+        $this->assertTrue($output->compatrequested);
     }
 
     public function test_maths_output_mathsjax(): void {

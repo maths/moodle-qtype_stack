@@ -44,7 +44,9 @@ final class mathsoutputmathjax_test extends qtype_stack_testcase {
             /** @var bool whether compatibility was requested. */
             public bool $providecommandrequired = false;
 
-            /** Record the request without changing the page requirements manager. */
+            /**
+             * Record the request without changing the page requirements manager.
+             */
             protected function require_providecommand(): void {
                 $this->providecommandrequired = true;
             }

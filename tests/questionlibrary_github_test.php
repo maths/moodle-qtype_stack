@@ -35,30 +35,62 @@ require_once(__DIR__ . '/../stack/utils.class.php');
  */
 final class questionlibrary_github_test extends \basic_testcase {
     /**
-     * Authentication is restricted to the GitHub API origin.
+     * Authentication is optional and rejects invalid header values.
      */
-    public function test_token_is_scoped(): void {
+    public function test_optional_token(): void {
         $previous = getenv('STACK_GITHUB_TOKEN');
         try {
             putenv('STACK_GITHUB_TOKEN=test-token');
             $method = new \ReflectionMethod(\stack_question_library::class, 'github_headers');
-            $headers = $method->invoke(null, 'https://api.github.com/repos/maths/moodle-qtype_stack');
+            $headers = $method->invoke(null);
             $this->assertContains('Authorization: Bearer test-token', $headers);
-            foreach (
-                [
-                'http://api.github.com/repos/example',
-                'https://api.github.com.example.org/repos/example',
-                'https://example.org/api.github.com',
-                'https://api.github.com:8443/repos/example',
-                'https://user@api.github.com/repos/example',
-                ] as $url
-            ) {
-                $this->assertCount(2, $method->invoke(null, $url), $url);
-            }
             putenv('STACK_GITHUB_TOKEN');
-            $this->assertCount(2, $method->invoke(null, 'https://api.github.com/repos/example'));
+            $this->assertCount(2, $method->invoke(null));
             putenv("STACK_GITHUB_TOKEN=invalid\r\nheader");
-            $this->assertCount(2, $method->invoke(null, 'https://api.github.com/repos/example'));
+            $this->assertCount(2, $method->invoke(null));
+        } finally {
+            putenv($previous === false ? 'STACK_GITHUB_TOKEN' : 'STACK_GITHUB_TOKEN=' . $previous);
+        }
+    }
+
+    /**
+     * Unsupported origins are rejected before executing any request, with or without a token.
+     */
+    public function test_invalid_urls_are_rejected(): void {
+        $previous = getenv('STACK_GITHUB_TOKEN');
+        $library = new class extends \stack_question_library {
+            /**
+             * A rejected URL must never reach the transport.
+             *
+             * @param resource $ch cURL handle
+             * @return string Response body
+             */
+            protected static function execute_curl_request($ch) {
+                throw new \LogicException('Unexpected network request.');
+            }
+        };
+        $method = new \ReflectionMethod($library, 'request_github');
+        try {
+            foreach (['', 'test-token'] as $token) {
+                putenv('STACK_GITHUB_TOKEN=' . $token);
+                $urls = [
+                    'http://api.github.com/repos/example',
+                    'https://api.github.com.example.org/repos/example',
+                    'https://example.org/api.github.com',
+                    'https://api.github.com:8443/repos/example',
+                    'https://user:password@api.github.com/repos/example',
+                    'not a URL',
+                ];
+                foreach ($urls as $url) {
+                    try {
+                        $method->invoke(null, $url);
+                        $this->fail('Unsupported URL was accepted.');
+                    } catch (\stack_exception $exception) {
+                        $this->assertStringContainsString('HTTPS api.github.com URL', $exception->getMessage());
+                        $this->assertStringNotContainsString($url, $exception->getMessage());
+                    }
+                }
+            }
         } finally {
             putenv($previous === false ? 'STACK_GITHUB_TOKEN' : 'STACK_GITHUB_TOKEN=' . $previous);
         }

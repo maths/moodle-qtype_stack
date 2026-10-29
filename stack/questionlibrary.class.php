@@ -87,20 +87,13 @@ class stack_question_library {
     /**
      * Build headers for GitHub, optionally using STACK_GITHUB_TOKEN.
      *
-     * @param string $url Request URL
      * @return array HTTP headers
      */
-    protected static function github_headers(string $url): array {
+    protected static function github_headers(): array {
         $headers = ['User-Agent: Moodle-STACK', 'Accept: application/vnd.github.v3+json'];
-        $parts = parse_url($url);
-        if (
-                ($parts['scheme'] ?? '') === 'https' && ($parts['host'] ?? '') === 'api.github.com' &&
-                !isset($parts['user']) && !isset($parts['pass']) && ($parts['port'] ?? 443) === 443
-        ) {
-            $token = getenv('STACK_GITHUB_TOKEN');
-            if ($token !== false && $token !== '' && !preg_match('/[\r\n]/', $token)) {
-                $headers[] = 'Authorization: Bearer ' . $token;
-            }
+        $token = getenv('STACK_GITHUB_TOKEN');
+        if ($token !== false && $token !== '' && !preg_match('/[\r\n]/', $token)) {
+            $headers[] = 'Authorization: Bearer ' . $token;
         }
         return $headers;
     }
@@ -113,11 +106,18 @@ class stack_question_library {
      * @return array Response body, HTTP status and safe diagnostic text
      */
     protected static function request_github(string $url, int $timeout = 0): array {
+        $parts = parse_url($url);
+        if (
+            ($parts['scheme'] ?? '') !== 'https' || ($parts['host'] ?? '') !== 'api.github.com' ||
+                ($parts['port'] ?? 443) !== 443 || isset($parts['user']) || isset($parts['pass'])
+        ) {
+            throw new \stack_exception('GitHub requests require an HTTPS api.github.com URL on port 443 without credentials.');
+        }
         $diagnostics = [];
         $ch = curl_init($url);
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => static::github_headers($url),
+            CURLOPT_HTTPHEADER => static::github_headers(),
             CURLOPT_TIMEOUT => $timeout,
             CURLOPT_FOLLOWLOCATION => false,
             CURLOPT_HEADERFUNCTION => static function ($ch, string $line) use (&$diagnostics): int {

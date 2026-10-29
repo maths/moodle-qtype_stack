@@ -4,6 +4,8 @@ on: [push, pull_request]
 
 jobs:
   test:
+    permissions:
+      contents: read
     runs-on: ubuntu-22.04
 
     services:
@@ -263,6 +265,8 @@ jobs:
       - name: PHPUnit tests
         if: ${{ matrix.moodle-branch == 'main' || matrix.moodle-branch == 'MOODLE_405_STABLE'}}
         #if: ${{ always() }}
+        env:
+          STACK_TEST_GITHUB_TOKEN: ${{ github.token }}
         run: moodle-plugin-ci phpunit
 
       - name: JS unit tests

@@ -796,7 +796,7 @@ class stack_question_report {
     /**
      * Get information on all quizzes containing a version of a given question
      * @param int $questionid
-     * @param IntlBreakIterator $questioncontextid
+     * @param int $questioncontextid
      * @return array
      */
     public static function get_relevant_quizzes(int $questionid, int $questioncontextid): array {
@@ -815,8 +815,8 @@ class stack_question_report {
         $quizzes = $DB->get_records_sql($quizzesquery, ['questionid' => $questionid]);
 
         // We also need to find quizzes where the question is a random option.
-        // We retrieve all unique question set references from the question's context.
-        $randomquery = "SELECT DISTINCT qr.usingcontextid as quizcontextid, q.name,
+        // A quiz can contain several random slots, so the first column must be the reference id.
+        $randomquery = "SELECT qr.id, qr.usingcontextid as quizcontextid, q.name,
                             cc.id as coursecontextid, co.fullname as coursename, qr.filtercondition
                     FROM {question_set_references} qr
                     LEFT JOIN {context} c ON c.id = qr.usingcontextid
@@ -824,7 +824,7 @@ class stack_question_report {
                     LEFT JOIN {quiz} q ON cm.instance = q.id
                     LEFT JOIN {course} co ON q.course = co.id
                     LEFT JOIN {context} cc ON cc.instanceid = co.id
-                    WHERE cc.contextlevel = 50 AND qr.questionscontextid = :questionscontextid;";
+                    WHERE cc.contextlevel = 50 AND qr.questionscontextid = :questionscontextid";
 
         $randomquizzes = $DB->get_records_sql($randomquery, ['questionscontextid' => $questioncontextid]);
         $randomloader = new stack_random_question_loader(new qubaid_list([]));

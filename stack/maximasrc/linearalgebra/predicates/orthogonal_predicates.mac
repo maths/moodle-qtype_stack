@@ -1,0 +1,131 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/* Thank you to Georg Osang of IDEMS International
+   for significant contributions to this work in 2024. */
+
+
+_orthogonal_check_matrix(M, [sp]):= block([dim],
+    /* sp is also used as a function; expand and ratsimp are ev operators.
+       @ignore[rename=sp]
+       @ignore[global=expand]
+       @ignore[global=ratsimp] */
+    if emptyp(sp) then return(ev(transpose(M).M, expand, simp)),
+    sp: first(sp),
+    if not matrixp(sp) then ( /* Get matrix form from scalar product */
+        dim: length(M),
+        sp: genmatrix(lambda([i, j], sp(col(ident(dim), i), col(ident(dim), j))), dim, dim)
+    ),
+    return(ev(transpose(M).sp.M, expand, ratsimp, simp))
+);
+
+/**
+ * Does the given matrix/list have orthogonal columns with respect to scalar product sp?
+ * i.e. for any two distinct columns v1 and v2, is sp(v1, v2) = 0?
+ * Returns false in case of malformed input.
+ * In case no scalar product is provided, the standard dot product is used.
+ * These are bilinear products, without complex conjugation.
+ *
+ * @param[matrix] L, A mxn matrix or list of column vectors, see cols_to_matrix
+ * @param[function or matrix] sp, (Optional) A scalar product or a symmetric positive definite matrix S representing a scalar product sp(u, v) := u^T.S.v
+ * @return[boolean] Does L have orthogonal columns with respect to sp?
+ */
+
+orthogonal_columnsp(L, [sp]):= block([M,checkmat],
+    /* @ignore[global=null] */
+    M: cols_to_matrix(L),
+    if M = matrix([null]) then return(false),
+    checkmat: if emptyp(sp) then _orthogonal_check_matrix(M) else _orthogonal_check_matrix(M, first(sp)),
+    return(diagp(radcan(checkmat)))
+);
+
+s_test_case(simp) := is(orthogonal_columnsp(matrix([1,1],[1,-1],[1,0])) = true)$
+s_test_case(simp) := is(orthogonal_columnsp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])) = true)$
+s_test_case(simp) := is(orthogonal_columnsp(matrix([1,1],[1,2],[1,0])) = false)$
+s_test_case(simp) := is(orthogonal_columnsp(matrix([1,1],[1,-1])) = true)$
+s_test_case(simp) := is(orthogonal_columnsp(matrix([1,1],[1,-1])/sqrt(2)) = true)$
+s_test_case(simp) := is(orthogonal_columnsp(1) = false)$
+s_test_case(simp) := is(orthogonal_columnsp([c(1, 0), c(0, 1)]) = true)$
+s_test_case(simp) := is(orthogonal_columnsp([c(1, 0), c(0, 1, 0)]) = false)$
+s_test_case(simp) := is(orthogonal_columnsp(ident(2)) = true)$
+s_test_case(simp) := is(orthogonal_columnsp(matrix([2,1],[2,-1])) = true)$
+s_test_case(simp) := is(orthogonal_columnsp(matrix([2,1],[2,-1]), ident(2)) = true)$
+s_test_case(simp) := is(orthogonal_columnsp(matrix([1,1/2],[0,1])) = false)$
+s_test_case(simp) := is(orthogonal_columnsp(matrix([1,1/2],[0,1]), matrix([2,-1],[-1,2])) = true)$
+s_test_case(simp) := is(orthogonal_columnsp(matrix([1/sqrt(2),1/(sqrt(2)*sqrt(3))],[0,sqrt(2)/sqrt(3)]), matrix([2,-1],[-1,2])) = true)$
+s_test_case(simp) := is(orthogonal_columnsp(ident(2), matrix([2,-1],[-1,2])) = false)$
+
+/**
+ * Does the given matrix/list have orthonormal columns with respect to scalar product sp?
+ * i.e. for columns v_i and v_j, is sp(v_i, v_i) = 1 and sp(v_i, v_j) = 0 for i # j?
+ * Returns false in case of malformed input.
+ * In case no scalar product is provided, the standard dot product is used.
+ * These are bilinear products, without complex conjugation.
+ *
+ * @param[matrix] L, A mxn matrix or list of column vectors, see cols_to_matrix
+ * @param[function or matrix] sp, (Optional) A scalar product or a symmetric positive definite matrix S representing a scalar product sp(u, v) := u^T.S.v
+ * @return[boolean] Does L have orthonormal columns with respect to sp?
+ */
+
+orthonormal_columnsp(L, [sp]):= block([M,checkmat],
+    /* @ignore[global=null] */
+    M: cols_to_matrix(L),
+    if M = matrix([null]) then return(false),
+    checkmat: if emptyp(sp) then _orthogonal_check_matrix(M) else _orthogonal_check_matrix(M, first(sp)),
+    return(is(radcan(checkmat) = ident(second(matrix_size(M)))))
+);
+
+s_test_case(simp) := is(orthonormal_columnsp(matrix([1,1],[1,-1],[1,0])) = false)$
+s_test_case(simp) := is(orthonormal_columnsp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])) = true)$
+s_test_case(simp) := is(orthonormal_columnsp(matrix([1,1],[1,-1])) = false)$
+s_test_case(simp) := is(orthonormal_columnsp(ev(matrix([1,1],[1,-1])/sqrt(2),simp)) = true)$
+s_test_case(simp) := is(orthonormal_columnsp(1) = false)$
+s_test_case(simp) := is(orthonormal_columnsp([c(1, 0), c(0, 1)]) = true)$
+s_test_case(simp) := is(orthonormal_columnsp([c(1, 0), c(0, 1, 0)]) = false)$
+s_test_case(simp) := is(orthonormal_columnsp(ident(2)) = true)$
+s_test_case(simp) := is(orthonormal_columnsp(matrix([2,1],[2,-1])) = false)$
+s_test_case(simp) := is(orthonormal_columnsp(matrix([1,1/2],[0,1]), matrix([2,-1],[-1,2])) = false)$
+s_test_case(simp) := is(orthonormal_columnsp(matrix([1/sqrt(2),1/(sqrt(2)*sqrt(3))],[0,sqrt(2)/sqrt(3)]), matrix([2,-1],[-1,2])) = true)$
+s_test_case(simp) := is(orthonormal_columnsp(matrix([1/sqrt(2),1/(sqrt(2)*sqrt(3))],[0,sqrt(2)/sqrt(3)]), lambda([w,v],transpose(w).matrix([2,-1],[-1,2]).v)) = true)$
+
+/**
+ * Is a given object an orthogonal matrix?
+ * i.e. Is M^T . M = M . M^T = I?
+ * Requires a square Maxima matrix and uses the ordinary dot product.
+ * Unlike `orthonormal_columnsp`, this function has no scalar-product argument.
+ *
+ * @param[matrix] M, a matrix
+ * @return[boolean] Is M an orthogonal matrix?
+ */
+
+orth_matrixp(M):= orthonormal_columnsp(M) and squarep(M);
+
+s_test_case(simp) := is(orth_matrixp(matrix([1,1],[1,-1],[1,0])) = false)$
+s_test_case(simp) := is(orth_matrixp(matrix([1/sqrt(3),1/sqrt(2)],[1/sqrt(3),-1/sqrt(2)],[1/sqrt(3),0])) = false)$
+s_test_case(simp) := is(orth_matrixp(matrix([1,1],[1,-1])) = false)$
+s_test_case(simp) := is(orth_matrixp(ev(matrix([1,1],[1,-1])/sqrt(2),simp)) = true)$
+s_test_case(simp) := is(orth_matrixp(1) = false)$
+
+/* Temporary matrices must not replace question variables. */
+s_test_case(simp) := block([M:"untouched",checkmat:"untouched"],
+    orthogonal_columnsp(ident(2)), is(M="untouched" and checkmat="untouched"))$
+s_test_case(simp) := block([M:"untouched",checkmat:"untouched"],
+    orthonormal_columnsp(ident(2)), is(M="untouched" and checkmat="untouched"))$
+s_test_case(simp) := is(orth_matrixp([c(1,0),c(0,1)])=false)$
+s_test_case(simp) := is(orthogonal_columnsp(matrix([1,0],[0,0]))=true)$
+s_test_case(simp) := is(orthonormal_columnsp(matrix([1,0],[0,0]))=false)$
+s_test_case(simp) := is(orthogonal_columnsp(matrix([1,1],[0,1]),matrix([1,-1],[-1,2]))=true)$
+s_test_case(simp) := is(orthonormal_columnsp(matrix([1,1],[0,1]),matrix([1,-1],[-1,2]))=true)$
+s_test_case(simp) := is(orth_matrixp(matrix([0,-1],[1,0]))=true)$

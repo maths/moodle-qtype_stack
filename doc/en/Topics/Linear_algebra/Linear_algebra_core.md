@@ -17,14 +17,19 @@ you can use the [latest code from github](https://github.com/maths/moodle-qtype_
 ## Predicate functions for vectors
 
 * `vec_convertedp(ex)` A predicate to determine whether an expression has been converted to matrix form.
-* `col_vecp(ex)` Predicate for determining whether a given object is an \(M\times 1\) matrix (a column vector). Note: does not consider `c` a column vector. Use `vec_convert` before `col_vecp`.
-* `row_vecp(ex)` Predicate for determining whether a given object is a \(1\times N\) matrix (a row vector). Note: does not consider `r` a row vector. Use `vec_convert` before `row_vecp`.
-* `vectorp(ex):= col_vecp(ex) or row_vecp(ex);`
+
+The generated [shape-predicate reference](../../CAS/Library/linearalgebra/predicates/index.md)
+documents [`col_vecp`](../../CAS/Library/linearalgebra/predicates/index.md#col_vecp),
+[`row_vecp`](../../CAS/Library/linearalgebra/predicates/index.md#row_vecp) and
+[`vectorp`](../../CAS/Library/linearalgebra/predicates/index.md#vectorp), including examples,
+the distinction from inert `c`/`r` notation, and empty and 1-by-1 matrix cases.
 
 ## Predicate functions for matrices
 
-* `squarep(M)` Is a given object a square matrix?
-* `diagp(M)` Predicate to determine whether a matrix is diagonal. `M` need not be square. 
+See the generated references for
+[`squarep`](../../CAS/Library/linearalgebra/predicates/index.md#squarep) and
+[`diagp`](../../CAS/Library/linearalgebra/predicates/index.md#diagp).
+The latter also accepts rectangular matrices; its treatment of unsimplified entries is explained there.
 
 ## Functions to manipulate matrices and solve systems of linear equations
 

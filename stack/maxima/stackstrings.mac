@@ -55,113 +55,74 @@ stackmap_has_key(m, k) := block([tmp, found],
 
 /* This function takes a string containing JSON and returns a list, number, string, */
 /* boolean or a stackmap depending on what if finds. Should it find null or empty */
-/* input it returns und. */
+/* input it returns und, as it does for malformed input. */
+/* One pass over the characters: a stack of the open lists and maps, values are consed */
+/* onto the innermost one and reversed when it closes, so the time grows linearly with */
+/* the length of the JSON. simp is true inside, so the result does not depend on the */
+/* simp setting of the caller. */
 /* Note that we do use stringproc. */
-stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm],
- r: und,
- if not stringp(json) or is(json="") then return(und),
- tmp:strim(sconcat(ascii(32),ascii(9),ascii(10),ascii(11),ascii(12),ascii(13)),json),
- if is(tmp="") then return(und),
-
- /* Easy ones. */
- if is(tmp="true") then return(true),
- if is(tmp="false") then return(false),
- if is(tmp="null") then return(und),
- if is(tmp="[]") then return([]),
- if is(tmp="{}") then return(["stack_map"]),
-
- /* Not easy, do some tokenising. */
- mode:"raw", /* In a string or not, maybe number */
- i:0,
- tokens:[],
- lastslash:false,
- while ev(is(i<slength(tmp)), simp) do (
-  c:charat(tmp, ev(i+1, simp)),
-  if is(mode="raw") then (
-   if is(c="[") then tokens:append(tokens,[_stackjson_tokens_list_open])
-   elseif is(c="]") then tokens:append(tokens,[_stackjson_tokens_list_close])
-   elseif is(c="{") then tokens:append(tokens,[_stackjson_tokens_dict_open])
-   elseif is(c="}") then tokens:append(tokens,[_stackjson_tokens_dict_close])
-   elseif is(c=":") then tokens:append(tokens,[_stackjson_tokens_key_sep])
-   elseif is(c=",") then tokens:append(tokens,[_stackjson_tokens_list_sep])
-   elseif is(c="\"") then (mode:"string",lastslash:false,r:"")
-   elseif is(c="n") and is(charat(tmp,i+2)="u") and is(charat(tmp,i+3)="l") and is(charat(tmp,i+4)="l") then (i:i+3, tokens:append(tokens,[und]))
-   elseif is(c="t") and is(charat(tmp,i+2)="r") and is(charat(tmp,i+3)="u") and is(charat(tmp,i+4)="e") then (i:i+3, tokens:append(tokens,[true]))
-   elseif is(c="f") and is(charat(tmp,i+2)="a") and is(charat(tmp,i+3)="l") and is(charat(tmp,i+4)="s") and is(charat(tmp,i+5)="e") then (i:i+4, tokens:append(tokens,[false]))
-   elseif not is(sposition(c,sconcat(ascii(32),ascii(9),ascii(10),ascii(11),ascii(12),ascii(13)))=false) then (i:i)
-   elseif is(c="-") then (mode:"number",r:["-"])
-   elseif digitcharp(c) then (mode:"number",r:[c])
-  ) elseif is(mode="string") then (
-   if(lastslash) then (
-    lastslash:false,
-    if is(c="\\") then r:sconcat(r,"\\")
-    elseif is(c="n") then r:sconcat(r,ascii(10))
-    elseif is(c="t") then r:sconcat(r,ascii(9))
-    elseif is(c="r") then r:sconcat(r,ascii(13))
-    elseif is(c="b") then r:sconcat(r,ascii(8))
-    elseif is(c="f") then r:sconcat(r,ascii(12))
-    elseif is(c="\"") then r:sconcat(r,"\"")
-    elseif is(c="u") then (r:sconcat(r,unicode(stack_string_hex_to_num(substring(tmp,i+2,i+6)))),i:i+4)
-    else r:sconcat(r,c)
-   ) else (
-    if is(c="\\") then lastslash:true
-    elseif is(c="\"") then (tokens:append(tokens,[r]),mode:"raw")
-    else r:sconcat(r,c)
+stackjson_parse(json) := block([simp:true, st, kinds, mode, buf, esc, u, hex, c, top, lit, ws, bad],
+ if not stringp(json) then return(und),
+ ws:sconcat(ascii(32),ascii(9),ascii(10),ascii(11),ascii(12),ascii(13)),
+ if is(strim(ws,json)="") then return(und),
+ /* st: the values collected so far, innermost open list or map first. */
+ /* kinds: "[" or "{" for each open list or map. */
+ /* mode 0: between values, 1: in a string, 2: in a number, 3: in true/false/null. */
+ st:[[]], kinds:[], mode:0, buf:[], esc:false, u:0, hex:[], bad:false,
+ /* The appended blank ends a number or a literal at the end of the input. */
+ for c in append(charlist(json),[" "]) do (
+  if is(mode=1) then (
+   if is(u>0) then (
+    /* The four hexadecimal digits of \uXXXX. */
+    hex:cons(c,hex), u:u-1,
+    if is(u=0) then buf:cons(unicode(stack_string_hex_to_num(simplode(reverse(hex)))),buf)
+   ) elseif esc then (
+    esc:false,
+    if is(c="u") then (u:4, hex:[])
+    elseif is(c="n") then buf:cons(ascii(10),buf)
+    elseif is(c="t") then buf:cons(ascii(9),buf)
+    elseif is(c="r") then buf:cons(ascii(13),buf)
+    elseif is(c="b") then buf:cons(ascii(8),buf)
+    elseif is(c="f") then buf:cons(ascii(12),buf)
+    else buf:cons(c,buf)
    )
-  ) elseif is(mode="number") then (
-   if digitcharp(c) then r:append(r,[c])
-   elseif is(c=".") then r:append(r,[c])
-   elseif is(c="e") then r:append(r,[c])
-   elseif is(c="E") then r:append(r,[c])
-   elseif is(c="+") then r:append(r,[c])
-   elseif is(c="-") then r:append(r,[c])
-   else (tokens:append(tokens,[stack_string_parse_number(simplode(r))]),i:i-1,mode:"raw")
-  ),
-  i:i+1
- ),
-
- /* In the unlikely case that we have an atomic value e.g. string or number exit early. */
- if is(length(tokens)=1) then return(tokens[1]),
- dm:0,
- /* Otherwise reduce grouppings. */
- starts:sublist_indices(tokens, lambda([x], is(x=_stackjson_tokens_list_open) or is(x=_stackjson_tokens_dict_open))),
- while ev(is(length(starts)>0), simp) do (
-  r:[],
-  nt:[],
-  i:1,
-  /* Change this to actual sublist as this is not the way to do it... */
-  while ev(is(i<last(starts)), simp) do (nt:append(nt,[tokens[i]]), i:ev(i+1, simp)),
-  if is(tokens[last(starts)]=_stackjson_tokens_list_open) then (
-   i:ev(last(starts)+1, simp),
-   while not is(tokens[i]=_stackjson_tokens_list_close) do (
-    if not is(tokens[i]=_stackjson_tokens_list_sep) then r:append(r,[tokens[i]]),
-    i:ev(i+1, simp)
-   )
+   elseif is(c="\\") then esc:true
+   elseif is(c="\"") then (st:cons(cons(simplode(reverse(buf)),first(st)),rest(st)), mode:0)
+   else buf:cons(c,buf)
   ) else (
-   r:["stack_map"],
-   i:ev(last(starts)+1, simp),
-   while not ev(is(tokens[i]=_stackjson_tokens_dict_close), simp) do (
-    if not ev(is(tokens[i]=_stackjson_tokens_list_sep), simp) then (
-     k:tokens[i],
-     v:tokens[ev(i+2, simp)],
-     r:append(r,[[k,v]]),
-     i:ev(i+3, simp)
-    ) else i:ev(i+1, simp)
-   )  
-  ),
-  nt:append(nt,[r]),
-  i:ev(i+1, simp),
-  /* Change this to actual sublist as this is not the way to do it... */
-  while ev(is(i<length(tokens)+1), simp) do (nt:append(nt,[tokens[i]]),i:ev(i+1, simp)),
-  if ev(is(length(nt)<length(tokens)), simp) then dm:0,
-  tokens:nt,
-  /* If the string is bad we may loop forever for this we have an automated exit. */
-  dm:ev(dm+1, simp),
-  if ev(is(dm>20), simp) then return(und),
-  starts:sublist_indices(tokens, lambda([x], is(x=_stackjson_tokens_list_open) or is(x=_stackjson_tokens_dict_open)))
+   /* The end of a number or of true/false/null. */
+   if is(mode=2) and is(sposition(c,"0123456789.eE+-")=false) then (
+    st:cons(cons(stack_string_parse_number(simplode(reverse(buf))),first(st)),rest(st)),
+    mode:0
+   ),
+   if is(mode=3) and not(alphacharp(c)) then (
+    lit:simplode(reverse(buf)),
+    /* Any other word is malformed input. */
+    if not(member(lit,["true","false","null"])) then (bad:true, return(und)),
+    st:cons(cons(if is(lit="true") then true elseif is(lit="false") then false else und,first(st)),rest(st)),
+    mode:0
+   ),
+   if is(mode=2) or is(mode=3) then buf:cons(c,buf)
+   elseif is(c="[") or is(c="{") then (st:cons([],st), kinds:cons(c,kinds))
+   elseif is(c="]") or is(c="}") then (
+    /* A closing bracket without a matching open one: stop (return leaves only the loop). */
+    if is(kinds=[]) or not(is(first(kinds)=(if is(c="]") then "[" else "{"))) then (bad:true, return(und)),
+    top:reverse(first(st)),
+    /* A map: [k1, v1, k2, v2, ...] becomes ["stack_map", [k1, v1], [k2, v2], ...]. */
+    if is(first(kinds)="{") then
+     top:cons("stack_map",makelist([top[2*i-1],top[2*i]],i,1,floor(length(top)/2))),
+    kinds:rest(kinds), st:rest(st),
+    st:cons(cons(top,first(st)),rest(st))
+   )
+   elseif is(c="\"") then (mode:1, buf:[])
+   elseif is(c="-") or digitcharp(c) then (mode:2, buf:[c])
+   elseif alphacharp(c) then (mode:3, buf:[c])
+   /* Blanks, "," and ":" only separate the values. */
+  )
  ),
- /* At this point the tokens list has been reduced to length of one or things are broken... */
- return(tokens[1])
+ /* Exactly one value at the top level, everything closed, otherwise the input is malformed. */
+ if bad or not(is(kinds=[])) or not(is(length(st)=1)) or not(is(length(first(st))=1)) then return(und),
+ return(first(first(st)))
 )$
 
 /* Takes a string that is assumed to be hexadecimal and turns it to an integer the hard way. */

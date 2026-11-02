@@ -49,7 +49,7 @@ Internally you can refer to the student's answer using the variable name `ans1` 
 Currently STACK supports the following kinds of inputs.  These have a variety of options, as explained below.
 
 1. **Algebraic** The default: a form box into which a student is expected to type an algebraic expression.
-2. **Numerical** This input type _requires_ the student to type in a number of some kind.  Any expression with a variable will be rejected as invalid.  See the specific documentation for more information:  [Numerical input](Numerical_input.md).
+2. **Numerical** This input type _requires_ the student to type in a number of some kind.  Any expression with a variable will be rejected as invalid.  Variables are checked after simplification, so an expression such as `0*t` which simplifies to a number is accepted.  See the specific documentation for more information:  [Numerical input](Numerical_input.md).
 3. **Scientific units** The support for scientific units includes an input type which enables teachers to check units as valid/invalid. See the separate documentation for [units](../../Topics/Units.md).
 4. **Matrix** This provides a grid for students to type in their answer.
 5. **Variable size matrix** This provides a textarea. Students type in expressions and spaces separate items in rows.

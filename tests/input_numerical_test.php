@@ -265,6 +265,55 @@ final class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals('This input expects a fraction or rational number.', $state->errors);
     }
 
+    /**
+     * Test cases for the realnum option, issue #1911.
+     *
+     * @return array
+     */
+    public static function realnum_cases(): array {
+        return [
+            ['3', stack_input::VALID, ''],
+            ['-3/4', stack_input::VALID, ''],
+            ['0.5', stack_input::VALID, ''],
+            ['sqrt(2)', stack_input::VALID, ''],
+            ['pi', stack_input::VALID, ''],
+            ['2*sin(1)', stack_input::VALID, ''],
+            ['i', stack_input::INVALID, 'This input expects a real number.'],
+            ['2*i', stack_input::INVALID, 'This input expects a real number.'],
+            ['1+2*i', stack_input::INVALID, 'This input expects a real number.'],
+            ['sqrt(-4)', stack_input::INVALID, 'This input expects a real number.'],
+            ['(-1)^(1/2)', stack_input::INVALID, 'This input expects a real number.'],
+            ['t', stack_input::INVALID, 'This input expects a number, and so may not contain variables.'],
+        ];
+    }
+
+    /**
+     * Test the realnum option.
+     *
+     * @param string $sa The student's answer.
+     * @param string $status The expected status.
+     * @param string $errors The expected errors.
+     * @dataProvider realnum_cases
+     */
+    public function test_validate_student_response_with_realnum(string $sa, string $status, string $errors): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3');
+        $el->set_parameter('options', 'realnum');
+        $state = $el->validate_student_response(['sans1' => $sa], $options, '3', new stack_cas_security());
+        $this->assertEquals($status, $state->status);
+        $this->assertEquals($errors, $state->errors);
+    }
+
+    public function test_validate_student_response_without_realnum_complex(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '3');
+        $state = $el->validate_student_response(['sans1' => '2*i'], $options, '3', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+    }
+
     public function test_validate_student_response_with_rationalnum_invalid_pi(): void {
 
         $options = new stack_options();

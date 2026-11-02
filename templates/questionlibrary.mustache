@@ -97,17 +97,35 @@
             {{#str}} stack_library_select, qtype_stack {{/str}}
           </span>
           <select onChange="document.querySelector('[data-id=\'qa-loading\']').removeAttribute('hidden');window.location.href=this.value;">
+            <option value="" disabled {{#search}} selected="selected" {{/search}}>
+            </option>
             {{#libraries.items}}
               <option value="{{{url}}}" {{#active}} selected="selected" {{/active}}>
                 {{name}}
               </option>
             {{/libraries.items}}
           </select>
+          {{#libraries.isgithub}}
+            <button class="btn btn-primary library-cache-refresh" onClick="document.querySelector('[data-id=\'qa-loading\']').removeAttribute('hidden');window.location.href=window.location.href + '&refresh=1'"
+                type="button">
+              {{#str}} stack_library_refresh, qtype_stack {{/str}}
+            </button>
+          {{/libraries.isgithub}}
           <span data-id='qa-loading' hidden>
             {{#pix}}y/loading, core, {{#str}}loading, tool_lp{{/str}}{{/pix}}
           </span>
         </p>
       {{/libraries.hasitems}}
+      {{#isnrwapikey}}
+      <form name='stack_lib_search' id='stack_lib_search' method='post' action='{{{searchurl}}}'>
+        <div class="mb-1" style="display:flex; flex-direction:row;">
+          <label for="stack_library_search">{{#str}} stack_library_nrw, qtype_stack {{/str}}: </label>&nbsp;
+          <input id='stack_library_search' name='search' value="{{{search}}}" style="flex:1" />&nbsp;
+          <input type="submit" class="btn-primary" name="submit-button" id="submit-button" value="Search" />
+        </div>
+      </form>
+      <br>
+      {{/isnrwapikey}}
       <div class="alert alert-secondary" style="position: relative; color: black;">
         <div class="stack-library-category-holder">
           {{#str}} stack_library_destination, qtype_stack {{/str}}
@@ -153,6 +171,11 @@
         </div>
       </div>
       <div class="formulation stack-library-file-list">
+        {{#fileserror}}
+          <div style="margin-left: 30px">
+            {{fileserror}}
+          </div>
+        {{/fileserror}}
         {{#files}}
           {{>qtype_stack/questionfolder}}
         {{/files}}
@@ -187,5 +210,7 @@
     </div>
   </div>
   <div data-id="stack_library_course_id" data-value="{{courseid}}" hidden>
+  </div>
+  <div data-id="stack_cache_id" data-value="{{libraries.current}}" hidden>
   </div>
 </div>

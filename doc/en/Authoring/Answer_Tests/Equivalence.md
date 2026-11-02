@@ -36,7 +36,7 @@ This test will work with a variety of [types of object](../../CAS/Maxima_backgro
 
 Note: exactly what this answer test does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.
 
-For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment.
+For sets, the CAS simplifies each element and compares the two sets structurally.  If they are not identical, each remaining element of one set which is an expression is compared with the elements of the other set using algebraic equivalence, in both directions.  So \(\{\tfrac{1}{2}+\tfrac{\sqrt{5}}{2}\}\) and \(\{\tfrac{1+\sqrt{5}}{2}\}\) are equivalent, as are \(\{-4(1+i)\}\) and \(\{-4-4i\}\), and \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  Elements which are not expressions, such as lists, equations and inequalities, are only compared structurally.  A student's set containing two forms of the same element, such as \(\{\tfrac{1}{2}+\tfrac{\sqrt{5}}{2}, \tfrac{1+\sqrt{5}}{2}\}\), is equivalent to the set \(\{\tfrac{1+\sqrt{5}}{2}\}\).  If the sets are not equivalent and have different numbers of elements, the answer note is `ATSet_wrongsz`.  The [Sets](Other.md#Sets) answer test gives more detailed feedback, including on duplicate elements.
 
 Equations and expressions are very different.  Two equations are equivalent if they have the same roots with the same multiplicity of roots.  For example, \((x-2)^2=0\) and \(x=2\) are not considered to be equivalent.  Similarly \(a^3b^3=0\) is not \(a=0 \text{ or } b=0\).  To establish equivalence of equations we use the pseudo code
 
@@ -59,10 +59,10 @@ In calculating the ratio `x1/x2` we use Maxima's simplifier, which may be modifi
 
 Inequalities are turned into sets of real numbers they represent.  When this is done it is indicated by the answer note `ATInequality_solver.`  If you want `a>1` to be _not_ the same as `x>1` then you need to test in a more syntactic way, not using algebraic equivalence.
 
-Currently, \(\{-\frac{\sqrt{2}}{\sqrt{3}}\}\) and \(\{-\frac{2}{\sqrt{6}}\}\) are considered to be different.  If you want these to be considered the same, you need to write them in a canonical form.   Instead of passing in just the sets, use the answer test to compare the following.
+Sets whose elements are lists or equations are not compared element by element.  For example, \(\{[-\frac{\sqrt{2}}{\sqrt{3}},0]\}\) and \(\{[-\frac{2}{\sqrt{6}},0]\}\) are considered to be different.  If you want these to be considered the same, you need to write them in a canonical form.   Instead of passing in just the sets, use the answer test to compare the following.
 
-    ev(radcan({-sqrt(2)/sqrt(3)}),simp);
-    ev(radcan({-2/sqrt(6)}),simp);
+    ev(radcan({[-sqrt(2)/sqrt(3),0]}),simp);
+    ev(radcan({[-2/sqrt(6),0]}),simp);
 
 Why doesn't the test automatically apply `radcan`?  If we always did this, then \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\) would be expanded out, which would break the system.  Since, in a given situation, we know a lot about what a student is likely to answer we can apply an appropriate form.   There isn't one rule which will work here, unfortunately.
 

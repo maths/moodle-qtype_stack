@@ -48,7 +48,7 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2025042500</text>
+      <text>2026080600</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[stack_linear_algebra_declare(true);
@@ -174,7 +174,7 @@ if not(emptyp(stu_parts)) then [cons_vec,dir_vecs,vars]: stu_parts;</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_x-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your answer is in an unexpected form. It should be a parametric equation of the form \({@vx@} = {@vx@}_0 + t\vd\)</p>]]></text>
+          <text><![CDATA[<p>Your answer is in an unexpected form. It should be a parametric equation of the form \({@vx@} = {@vx@}_0 + t\vd\)</p>]]></text>
         </falsefeedback>
       </node>
       <node>
@@ -199,7 +199,7 @@ if not(emptyp(stu_parts)) then [cons_vec,dir_vecs,vars]: stu_parts;</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_x-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your answer has too many or too few dimensions. The general solution to this systems of equations should be a line in \(\RR^2\). </p>]]></text>
+          <text><![CDATA[<p>Your answer has too many or too few dimensions. The general solution to this systems of equations should be a line in \(\mathbb{R}^3\). </p>]]></text>
         </falsefeedback>
       </node>
       <node>
@@ -224,7 +224,7 @@ if not(emptyp(stu_parts)) then [cons_vec,dir_vecs,vars]: stu_parts;</text>
         <falsenextnode>3</falsenextnode>
         <falseanswernote>prt_x-3-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your direction vector is pointing in the wrong direction. </p>]]></text>
+          <text><![CDATA[<p>Your direction vector is pointing in the wrong direction. </p>]]></text>
         </falsefeedback>
       </node>
       <node>
@@ -249,7 +249,7 @@ if not(emptyp(stu_parts)) then [cons_vec,dir_vecs,vars]: stu_parts;</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt_x-4-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">Your \({@vx@}_0\) is not a solution to the system of equations. </p>]]></text>
+          <text><![CDATA[<p>Your \({@vx@}_0\) is not a solution to the system of equations. </p>]]></text>
         </falsefeedback>
       </node>
     </prt>
@@ -314,13 +314,13 @@ if not(emptyp(stu_parts)) then [cons_vec,dir_vecs,vars]: stu_parts;</text>
         <name>prt_x</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt_x-4-T</expectedanswernote>
+        <expectedanswernote>( prt_x-1-T | prt_x-2-T | prt_x-3-T | prt_x-4-T ]</expectedanswernote>
       </expected>
       <expected>
         <name>prt_xr</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt_xr-1-T</expectedanswernote>
+        <expectedanswernote>[ prt_xr-1-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -337,14 +337,14 @@ if not(emptyp(stu_parts)) then [cons_vec,dir_vecs,vars]: stu_parts;</text>
       <expected>
         <name>prt_x</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty/>
-        <expectedanswernote>prt_x-2-F</expectedanswernote>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>( prt_x-1-T | prt_x-2-F ]</expectedanswernote>
       </expected>
       <expected>
         <name>prt_xr</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty/>
-        <expectedanswernote>prt_xr-1-F</expectedanswernote>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>( prt_xr-1-F ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

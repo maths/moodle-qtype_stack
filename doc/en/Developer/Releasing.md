@@ -34,7 +34,7 @@ Unless you want to discuss something confidential with the developers, please do
 * Run Maxima unit tests of contributed packages by re-defining `stacklocation` and running `s_test_case.mac` in the sandbox.  E.g.
 
 ````
-    stacklocation:"/var/www/html/m40/question/type/stack"$
+    stacklocation:"/var/www/m501/public/question/type/stack"$
     load("s_test_case.mac");
 ````
 

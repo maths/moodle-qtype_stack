@@ -5,7 +5,7 @@
       <text>Orthogonally diagonalise a matrix with a repeated eigenvalue</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Orthogonally diagonalise the matrix \[ A = {@AA@}. \] That is, find and orthogonal matrix \(Q\) and diagonal matrix \(D\) such that \(QDQ^T = A\).</p>
+      <text><![CDATA[<p>Orthogonally diagonalise the matrix \[ A = {@AA@}. \] That is, find an orthogonal matrix \(Q\) and diagonal matrix \(D\) such that \(QDQ^T = A\).</p>
 <p>The eigenspaces of \(A\) are: \[ E_{{@L2/ss@}} = \operatorname{span}\left({@v3@}\right),\qquad E_{{@L1/ss@}} = \operatorname{span}\left({@v1@}, {@v2@}\right) \]</p>
 <div>\(Q = \) [[input:stu_Q]] [[validation:stu_Q]]</div>
 <div>\(D = \) [[input:stu_D]] [[validation:stu_D]]</div>

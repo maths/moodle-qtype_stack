@@ -56,8 +56,8 @@ Return `true` when the argument is a Maxima matrix with exactly one column.
 A 1-by-1 matrix satisfies both [`col_vecp`](#col_vecp) and [`row_vecp`](#row_vecp).
 
 For example, `col_vecp(matrix([a],[b]))` is `true`, but
-`col_vecp(matrix([a,b]))` and `col_vecp(c(a,b))` are `false`.
-Use `vec_convert` first when accepting the inert `c`/`r` notation.
+`col_vecp(matrix([a,b]))` and `col_vecp(column_vector(a,b))` are `false`.
+Use `vec_convert` first when accepting the vector notation.
 Lists, scalars and `matrix()` return `false`.
 
 
@@ -244,8 +244,8 @@ Return `true` when the argument is a Maxima matrix with exactly one row.
 A 1-by-1 matrix satisfies both [`row_vecp`](#row_vecp) and [`col_vecp`](#col_vecp).
 
 For example, `row_vecp(matrix([a,b]))` is `true`, but
-`row_vecp(matrix([a],[b]))` and `row_vecp(r(a,b))` are `false`.
-Use `vec_convert` first when accepting the inert `c`/`r` notation.
+`row_vecp(matrix([a],[b]))` and `row_vecp(row_vector(a,b))` are `false`.
+Use `vec_convert` first when accepting the vector notation.
 Lists, scalars and `matrix()` return `false`.
 
 This is a shape check: `matrix([])` has one row and no columns, so it
@@ -329,7 +329,7 @@ For example, `trilp(matrix([a,0],[b,c],[d,e]))` is `true`.
 Diagonal entries may be zero or symbolic, so this does not test invertibility
 or row echelon form. Use [`triup`](#triup) to check the other triangular part.
 
-Non-matrix arguments, including lists and inert `c`/`r` expressions, return
+Non-matrix arguments, including lists and vector expressions, return
 `false`. With no entries to reject, `matrix()`, `matrix([])` and
 `matrix([],[])` return `true`.
 
@@ -364,7 +364,7 @@ For example, `triup(matrix([a,b,c],[0,d,e]))` is `true`.
 Diagonal entries may be zero or symbolic, so this does not test invertibility
 or row echelon form. Use [`trilp`](#trilp) to check the other triangular part.
 
-Non-matrix arguments, including lists and inert `c`/`r` expressions, return
+Non-matrix arguments, including lists and vector expressions, return
 `false`. With no entries to reject, `matrix()`, `matrix([])` and
 `matrix([],[])` return `true`.
 
@@ -392,8 +392,8 @@ algebraically zero expressions should be accepted.
 ## vectorp(ex)<a id='vectorp'></a>
 
 Return `true` for a matrix accepted by either [`col_vecp`](#col_vecp) or [`row_vecp`](#row_vecp).
-This includes 1-by-1 matrices. It does not accept lists or inert `c`/`r`
-expressions; apply `vec_convert` first if the `c`/`r` forms are permitted.
+This includes 1-by-1 matrices. It does not accept lists or vector
+expressions; apply `vec_convert` first when accepting vector notation.
 
 For example, `vectorp(matrix([a],[b]))` and `vectorp(matrix([a,b]))`
 are `true`, while `vectorp(matrix([a,b],[c,d]))` is `false`.

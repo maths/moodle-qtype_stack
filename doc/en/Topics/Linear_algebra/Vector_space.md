@@ -3,19 +3,18 @@
 STACK has a [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/vectorspaces.mac) for vector space functions.  To use this library you must load it into the question variables.
 
 * To use the latest code from github: `stack_include_contrib("vectorspaces.mac");`
-* Loading this library automatically declares `stack_linear_algebra_declare(true);` to provide context. See the documentation on the core [linear algebra](Linear_algebra_core.md) for more information. 
 
 This page contains reference documentation on functions in this library.
 
 ## Student vector input
 
-`vectorspaces.mac` allows students to use the notation `c()` and `r()` to easily input column or row vectors. For more information, see the page on [vectors](Vectors.md)
+Students can enter column or row vectors using [vector notation](Vectors.md).
 
 ## Unit vectors and scalar products
 
 `vectorspaces.mac` provides a few functions to manipulate vectors. 
 
-* `unit_vecp(ex)` is a predicate function that tests whether a given input is a unit vector. `ex` must be a matrix (not `c` or `r`) with exactly one row or one column.
+* `unit_vecp(ex)` is a predicate function that tests whether a given input is a unit vector. `ex` must be a matrix (use `vec_convert` for vector notation) with exactly one row or one column.
 
 The following functions have the optional argument `sp`. If this argument is omitted then the standard inner product (dot product) is used. Otherwise, `sp` must be the name of a function that performs a scalar product of two vectors; i.e. it takes two vector inputs and outputs a scalar. If given, this scalar product function will be used in place of the standard inner product.
   

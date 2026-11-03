@@ -96,14 +96,14 @@ $CFG->inputshowvalidation = 1;
 
 // The API reads the STACK version and the Maxima libraries version from the code it runs
 // (version.php and stack/maxima/stackmaxima.mac). Use the goemaxima image with the same version.
-// Set these only to override them.
+// Set these only to override them for testing purposes or a small performance gain.
 // $CFG->stackmaximaversion = "2026101500";
 // $CFG->version = "2026101500";
 
 // This is an optional api identifier. In production, this should match stackmaths/stackapi version
 // in docker-compose.yml. Whatever is set here will be output by the render route. Output defaults to
 // $CFG->version if $CFG->apiversion not set.
-$CFG->apiversion = "2026101500-0";
+// $CFG->apiversion = "2026101500-0";
 
 // Do not change this setting.
 $CFG->mathsdisplay = 'api';
@@ -122,4 +122,4 @@ $CFG->corsorigin = '*';
 // attempt to download language packs when needed. If they don't exist, empty /lang/[lang]/qtype_stack.php files will be
 // created. If a language pack later becomes available, you will need to delete the empty file or restart your container
 // to download it.
-$CFG->supportedlanguages = 'en,de';
+$CFG->supportedlanguages = '*';

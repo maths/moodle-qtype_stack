@@ -22,7 +22,7 @@ New questions will be created with editable `metadata` similar to the following:
     "freeform" {} // Completely user-defined metadata
 }
 ```
-A question can have multiple authors. The metadata scheme is loosely based on [the Dublin Core specification](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/).
+A question can have multiple authors. The metadata scheme is loosely based on [the Dublin Core specification](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/). Authors are given a first and last name for consistency with name storage within Moodle. If this is unsuitable, enter the author's full name in the last name field. You can enter the same author twice with a different year if you wish to preserve a limited edit history timeline.
 
 Additional metadata is stored in Scope->Property->Qualifier->Value or Scope->Property->Value format. Scope identifies the metadata scheme being used. For instance, two institutions might have the property `Level` that has different meanings. Scope allows differentiation between the two:
 ```

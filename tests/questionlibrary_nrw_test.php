@@ -232,7 +232,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
 
     public function test_get_external_nrw_file_returns_xml(): void {
         stack_question_library_nrw_testable::set_mock_curl_responses([
-            json_encode(['xml' => '<question id="1"></question>']),
+            json_encode(['export_xml' => '<question id="1"></question>']),
         ], [200]);
 
         $result = stack_question_library_nrw_testable::get_external_nrw_file('atlas-1', 'secret');

@@ -40,6 +40,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once(__DIR__ . '/fixtures/test_base.php');
+require_once(__DIR__ . '/helper.php');
 require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once(__DIR__ . '/../questiontype.php');
@@ -75,6 +76,120 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
     public function test_name(): void {
 
         $this->assertEquals($this->qtype->name(), 'stack');
+    }
+
+    public function test_prescribedmetadata_is_created_for_new_question(): void {
+        global $DB;
+
+        $this->setAdminUser();
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $category = $generator->create_question_category();
+
+        $question = $this->save_question_with_prescribedmetadata($category->id, '');
+
+        $prescribedmetadata = json_decode(
+            $DB->get_field('qtype_stack_options', 'prescribedmetadata', ['questionid' => $question->id])
+        );
+        $this->assertMatchesRegularExpression('/^ATLAS-/', $prescribedmetadata->atlasId);
+        $this->assertSame([], $prescribedmetadata->atlasIdHistory);
+    }
+
+    public function test_prescribedmetadata_is_updated_for_existing_question(): void {
+        global $DB;
+
+        $this->setAdminUser();
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $category = $generator->create_question_category();
+        $question = $this->save_question_with_prescribedmetadata($category->id, '');
+        $originalatlasid = 'ATLAS-ORIGINAL';
+        $originalmetadata = json_encode([
+            'atlasId' => $originalatlasid,
+            'atlasIdHistory' => ['ATLAS-PREVIOUS'],
+        ]);
+        $DB->set_field(
+            'qtype_stack_options',
+            'prescribedmetadata',
+            $originalmetadata,
+            ['questionid' => $question->id]
+        );
+
+        $updatedquestion = $this->save_question_with_prescribedmetadata(
+            $category->id,
+            '',
+            false,
+            question_bank::load_question_data($question->id)
+        );
+
+        $prescribedmetadata = json_decode(
+            $DB->get_field('qtype_stack_options', 'prescribedmetadata', ['questionid' => $updatedquestion->id])
+        );
+        $this->assertNotSame($originalatlasid, $prescribedmetadata->atlasId);
+        $this->assertMatchesRegularExpression('/^ATLAS-/', $prescribedmetadata->atlasId);
+        $this->assertSame(['ATLAS-PREVIOUS', $originalatlasid], $prescribedmetadata->atlasIdHistory);
+    }
+
+    public function test_prescribedmetadata_is_preserved_for_import_with_atlas_id(): void {
+        global $DB;
+
+        $this->setAdminUser();
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $category = $generator->create_question_category();
+        $prescribedmetadata = '{"atlasId":"ATLAS-NRW-123","source":"NRW"}';
+
+        $question = $this->save_question_with_prescribedmetadata($category->id, $prescribedmetadata, true);
+
+        $this->assertSame(
+            $prescribedmetadata,
+            $DB->get_field('qtype_stack_options', 'prescribedmetadata', ['questionid' => $question->id])
+        );
+    }
+
+    public function test_prescribedmetadata_is_created_for_import_without_atlas_id(): void {
+        global $DB;
+
+        $this->setAdminUser();
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $category = $generator->create_question_category();
+
+        $question = $this->save_question_with_prescribedmetadata($category->id, '', true);
+
+        $prescribedmetadata = json_decode(
+            $DB->get_field('qtype_stack_options', 'prescribedmetadata', ['questionid' => $question->id])
+        );
+        $this->assertMatchesRegularExpression('/^ATLAS-/', $prescribedmetadata->atlasId);
+        $this->assertSame([], $prescribedmetadata->atlasIdHistory);
+    }
+
+    /**
+     * Save a complete STACK form fixture through the question type save path.
+     *
+     * @param int $categoryid Category in which to save the question.
+     * @param string $prescribedmetadata Metadata supplied by the form or import.
+     * @param bool $import Whether to mark the form as an XML import.
+     */
+    private function save_question_with_prescribedmetadata(
+        int $categoryid,
+        string $prescribedmetadata,
+        bool $import = false,
+        ?object $question = null
+    ): object {
+        global $PAGE;
+
+        $form = (new \qtype_stack_test_helper())->get_stack_question_form_data_test1();
+        $form->category = (string) $categoryid;
+        $form->prescribedmetadata = $prescribedmetadata;
+        if ($import) {
+            $form->import_process = true;
+        }
+        if ($question === null) {
+            $question = (object) [
+                'qtype' => 'stack',
+                'parent' => 0,
+            ];
+        }
+        $PAGE->set_context(context_system::instance());
+        $PAGE->set_pagetype('question-type-stack');
+        return $this->qtype->save_question($question, $form);
     }
 
     public function test_get_possible_responses_test0(): void {
@@ -415,6 +530,7 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
+    <prescribedmetadata>{"atlasId":"ATLAS-NRW-123"}</prescribedmetadata>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
@@ -614,6 +730,7 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->logicsymbol           = 'lang';
         $expectedq->matrixparens          = '[';
         $expectedq->variantsselectionseed = '';
+        $expectedq->prescribedmetadata    = '{"atlasId":"ATLAS-NRW-123"}';
 
         $expectedq->ans1type               = 'algebraic';
         $expectedq->ans1modelans           = 2;

@@ -568,7 +568,14 @@ class qtype_stack extends question_type {
             $params
         );
 
-        if (in_array($PAGE->pagetype, ['question-type-stack', 'question-type-stack-questionxmledit'])) {
+        $prescribedmetadata = json_decode($initialprescribedmetadata);
+        $hasatlasid = is_object($prescribedmetadata) && !empty($prescribedmetadata->atlasId);
+        if (
+            in_array($PAGE->pagetype, ['question-type-stack', 'question-type-stack-questionxmledit']) &&
+            (empty($fromform->import_process) || !$hasatlasid)
+        ) {
+            // Preserve an Atlas ID supplied by an XML source such as NRW. If
+            // there is no Atlas ID, generate one as for an ordinary save.
             $questiondata = question_bank::load_question_data($fromform->id);
             $format = new qformat_xml();
             $format->setQuestions([$questiondata]);
@@ -576,7 +583,7 @@ class qtype_stack extends question_type {
             $format->setContexttofile(false);
             $atlasid = self::make_question_atlas_id($format->exportprocess(false));
 
-            $prescribedmetadata = json_decode($initialprescribedmetadata) ?: new StdClass();
+            $prescribedmetadata = $prescribedmetadata ?: new StdClass();
             $prescribedmetadata->atlasIdHistory = $prescribedmetadata->atlasIdHistory ?: [];
             if (!empty($prescribedmetadata->atlasId)) {
                 $prescribedmetadata->atlasIdHistory[] = $prescribedmetadata->atlasId;

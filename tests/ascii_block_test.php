@@ -297,6 +297,14 @@ final class ascii_block_test extends qtype_stack_testcase {
                 $this->ascii_string_json_fragment('asciistringextractorlastcalcnotfound'),
                 $iframehtml
             );
+            $this->assertStringContainsString(
+                $this->ascii_string_json_fragment('asciistringtoolbarcalculationstart'),
+                $iframehtml
+            );
+            $this->assertStringContainsString(
+                $this->ascii_string_json_fragment('asciistringtoolbarmarkdowninline'),
+                $iframehtml
+            );
         } finally {
             StackIframeHolder::$iframes = [];
             StackIframeHolder::$islibrary = $oldlibrarymode;

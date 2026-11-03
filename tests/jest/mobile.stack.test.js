@@ -652,6 +652,44 @@ describe('mobile/stack.js', () => {
         expect(latestResponse('iframe-2').position).toBeCloseTo(0.5);
     });
 
+    test('input-toolbar inserts text into the parent textarea', async() => {
+        const {postMessageByFrame, sendMessage, latestResponse} = await setupMessageHarness(['iframe-1']);
+
+        sendMessage({
+            version: 'STACK-JS:1.5.0',
+            src: 'iframe-1',
+            type: 'register-input-listener',
+            name: 'txt',
+            'track-input': true,
+        });
+        postMessageByFrame['iframe-1'].mockClear();
+
+        sendMessage({
+            version: 'STACK-JS:1.7.0',
+            src: 'iframe-1',
+            type: 'input-toolbar',
+            name: 'txt',
+            buttons: [
+                {label: '\\[', insert: '\\[', title: 'Display start'},
+            ],
+            'limit-to-question': true,
+        });
+
+        const textarea = document.querySelector('#q1 textarea[name="pfxtxt"]');
+        const toolbar = textarea.previousElementSibling;
+        expect(toolbar.classList.contains('stack-ascii-input-toolbar')).toBe(true);
+        expect(toolbar.querySelector('button').textContent).toBe('\\[');
+
+        textarea.value = 'abcdef';
+        textarea.setSelectionRange(2, 4);
+        toolbar.querySelector('button').click();
+
+        expect(textarea.value).toBe('ab\\[ef');
+        expect(textarea.selectionStart).toBe(4);
+        expect(textarea.selectionEnd).toBe(4);
+        expect(latestResponse('iframe-1').value).toBe('ab\\[ef');
+    });
+
     test('clear-input and submit button commands operate through message API', async() => {
         const {postMessageByFrame, sendMessage, latestResponse} = await setupMessageHarness(['iframe-1']);
 

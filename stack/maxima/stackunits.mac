@@ -401,8 +401,8 @@ ATUnitsStrictAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, "", true, "Absolute"
    boolean: strictp determines if the test should be "strict" in requiging exactly the correct units.
    numtest: string Chooses the numerical test applied to the numerical part.
 */
-ATUnitsFun(SA, SB, SO, SR, strictp, numtest) := block([validity, rawmk, sb, ansnote, 
-        SAU, SBU, SOU, SAU1, SBU1, SOU1, ol, ret, ret1, ret2],
+ATUnitsFun(SA, SB, SO, SR, strictp, numtest) := block([validity, rawmk, fb, ansnote, 
+        SAA, SBB, SAU, SBU, SOU, SAU1, SBU1, SOU1, ol, ret, ret1, ret2],
   validity:true, rawmk:true, fb:"", ansnote:"",
   if (is(_EC(errcatch(SAA:ev(SA, simp, nouns)), "") = false)) then
     return([false, false, StackAddNote("", "ATUnits_STACKERROR_SAns"), ""]),

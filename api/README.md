@@ -108,7 +108,10 @@ The following keys can be contained inside the input configuration options. The 
 - `syntaxHintType`: If the Syntax hint should be displayed as a placeholder, or as initial value. Supported for the types `algebraic, numerical, string, units`
 - `options`: Key-Value Object containing the options for choice like input types. Supportet for the types `checkbox, dropdown, radio`
 - `matrixbrackets`: The desired matrix bracket style. One of `matrixroundbrackets`, `matrixsquarebrackets`, `matrixcurlybrackets`, `matrixbarbrackets`, `matrixnobrackets`. Supported for the types `matrix` and  `varmatrix`
-- `casValueType`: The Maxima constructor returned by a matrix input: `matrix`, `c`, or `r`. Supported for the types `matrix` and `varmatrix`.
+- `casValueType`: The Maxima constructor returned by a matrix input: `matrix`, `column_vector`, `row_vector`, or `aug_matrix`. Supported for the types `matrix` and `varmatrix`.
+- `blocks`: For a fixed `matrix` input with `casValueType: "aug_matrix"`, an ordered array of blocks, each with `type` (`matrix`, `column_vector`, or `row_vector`) and `columns` (its width). Use the widths to place separators between blocks; `width` and `height` describe the complete grid.
+- `blockTypes`: For a `varmatrix` input with `casValueType: "aug_matrix"`, the ordered block constructors (`matrix`, `column_vector`, or `row_vector`). Block widths are supplied by the student's response; column-vector blocks must have one column and row-vector blocks require one row.
+- `blockSeparator`: For an augmented `varmatrix` input, the separator between blocks in each row: `|`.
 - `width`: Width of the input matrix. Supported for the `matrix` type.
 - `height` Height of the input matrix. Supported for the `matrix` type.
 

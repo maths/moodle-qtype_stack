@@ -236,9 +236,23 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
             }
             return true;
         };
-        // @codingStandardsIgnoreStart
-        while (!$ast->callbackRecurse($process)) { }
-        // @codingStandardsIgnoreEnd
+        // A rewrite returns false, and the walk starts again until a walk changes nothing.
+        // A rewrite never reaches beyond the top-level statement it is in, so for a root
+        // the walk restarts at that statement instead of the whole code. Restarting at the
+        // root makes the time grow quadratically with the size of the code (e.g. questions
+        // with large stack_include libraries). The order of the rewrites is the same.
+        if ($ast instanceof MP_Root) {
+            foreach (array_keys($ast->items) as $i) {
+                do {
+                    $item = $ast->items[$i];
+                    $item->parentnode = $ast;
+                } while ($process($item) !== true || $item->callbackRecurse($process) !== true);
+            }
+        } else {
+            // @codingStandardsIgnoreStart
+            while (!$ast->callbackRecurse($process)) { }
+            // @codingStandardsIgnoreEnd
+        }
 
         return $ast;
     }

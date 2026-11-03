@@ -257,7 +257,7 @@ sa1:setify(flatten(makelist(makelist(AM1[l1,l2],l2,1,l1-1),l1,2,first(matrix_siz
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text>In upper triangular form, if every entry below and to the left of the main diagonal is zero.  You have the incorrect entries listed above below and to the left of the main diagonal is zero.</text>
+          <text>A matrix is in upper triangular form if every entry below the main diagonal is zero. Some entries below the main diagonal of your matrix are not zero.</text>
         </falsefeedback>
       </node>
       <node>

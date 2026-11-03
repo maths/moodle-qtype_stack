@@ -1,0 +1,138 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/* Thank you to Georg Osang of IDEMS International
+   for significant contributions to this work in 2024. */
+
+
+/**
+ * Predicate to determine whether a matrix is in row echelon form
+ * i.e. Is every zero-row below all non-zero rows and does the pivot in each row appear to the right of the previous pivot?
+ * Optionally checks whether each pivot is equal to 1
+ * Non-matrix input returns `false`. The zero matrix and matrices with no
+ * entries satisfy these conditions. Pivots are identified using `is`; simplify
+ * entries first if algebraically zero expressions should be recognised.
+ *
+ * @param[matrix] M, An mxn matrix
+ * @param[boolean] normalize_pivots, Optional: If true is given here, then pivots are required to be equal to 1
+ * @return[boolean] Is this matrix in row echelon form?
+ */
+
+REFp(M,[normalize_pivots]):= block([isREF,pivot_row,m,n,jj,ii],
+  if emptyp(normalize_pivots) then normalize_pivots: false else normalize_pivots: first(normalize_pivots),
+  isREF: matrixp(M),
+  if isREF then block(
+    pivot_row: 0,
+    [m, n]: matrix_size(M),
+    for jj: 1 thru n do block(
+      jj: ev(jj,simp),
+      if is(pivot_row < m) then block(
+        if is(M[ev(pivot_row+1,simp),jj] # 0) then block(
+          pivot_row: ev(pivot_row + 1,simp),
+          if normalize_pivots and is(M[ev(pivot_row,simp),jj] # 1) then isREF: false
+        ),
+        for ii: ev(pivot_row+1,simp) thru m do block(
+          ii: ev(ii,simp),
+          if is(M[ii,jj] # 0) then isREF: false
+        )
+      )
+    )
+  ),
+  return(isREF)
+);
+
+s_test_case(simp) := is(REFp(ident(4)) = true)$
+s_test_case(simp) := is(REFp(ev(2*ident(4),simp)) = true)$
+s_test_case(simp) := is(REFp(ev(2*ident(4),simp),true) = false)$
+s_test_case(simp) := is(REFp(matrix([2,1,1],[0,0,3],[0,0,0],[0,0,0])) = true)$
+s_test_case(simp) := is(REFp(matrix([2,1,1],[0,0,3],[0,0,0],[0,0,0]),true) = false)$
+s_test_case(simp) := is(REFp(matrix([2,1,1],[0,0,3],[0,0,0],[0,0,0]),false) = true)$
+s_test_case(simp) := is(REFp(matrix([2,1,1],[0,0,0],[0,0,3],[0,0,0])) = false)$
+s_test_case(simp) := is(REFp(matrix([1,1,1,1,1,1],[0,1,1,1,1,1],[0,0,0,1,1,1],[0,0,0,0,0,1])) = true)$
+s_test_case(simp) := is(REFp(matrix([1,1,1,1,1,1],[0,1,1,1,1,1],[0,0,0,1,1,1],[0,0,0,0,0,1]),true) = true)$
+s_test_case(simp) := is(REFp(matrix([1,1,1,1,1,1],[0,1,1,1,1,1],[0,0,1,0,1,1],[0,0,0,0,0,1])) = true)$
+s_test_case(simp) := is(REFp(matrix([1,2,3],[0,5,6])) = true)$
+s_test_case(simp) := is(REFp(matrix([1,2,3],[4,5,6])) = false)$
+s_test_case(simp) := is(REFp(matrix([1,2,3],[0,5,6],[0,8,9])) = false)$
+
+/**
+ * Is a given object a diagonalizable matrix?
+ * i.e. Is there an invertible matrix P and diagonal matrix D such that P^^-1 . M . P = D?
+ *
+ * This uses Maxima's `jordan` and `dispJordan` functions and inherits their
+ * computational limits. Non-square and non-matrix inputs return `false`.
+ *
+ * @param[matrix] M, a matrix
+ * @return[boolean] Is M a diagonalizable matrix?
+ */
+
+diagonalizablep(M):= if squarep(M) then ev(diagp(dispJordan(jordan(M))),simp) else false;
+
+s_test_case(simp) := is(diagonalizablep(ident(2)) = true)$
+s_test_case(simp) := is(diagonalizablep(matrix([1,1],[0,1])) = false)$
+s_test_case(simp) := is(diagonalizablep(1) = false)$
+s_test_case(simp) := is(diagonalizablep(matrix([1,1],[1,1])) = true)$
+
+/**
+ * Is a given object a symmetric matrix?
+ * i.e. Is M = M^T?
+ * This uses transpose without complex conjugation, so it tests symmetry,
+ * not the Hermitian property. Non-square and non-matrix inputs return `false`.
+ *
+ * @param[matrix] M, a matrix
+ * @return[boolean] Is M a symmetric matrix?
+ */
+
+symp(M):= if squarep(M) then is(M = ev(transpose(M),simp)) else false;
+
+s_test_case(simp) := is(symp(ident(3)) = true)$
+s_test_case(simp) := is(symp(matrix([1,1],[0,1])) = false)$
+s_test_case(simp) := is(symp(1) = false)$
+
+/**
+ * Is a given object an invertible matrix?
+ * i.e. Is there a matrix M^^-1 such that M^^-1 . M = M . M^^-1 = I?
+ * A square matrix is accepted when Maxima recognises its simplified
+ * determinant as nonzero. Non-square and non-matrix inputs return `false`.
+ *
+ * @param[matrix] M, a matrix
+ * @return[boolean] Is M an invertible matrix?
+ */
+
+invertiblep(M):= block([isInvertible],
+  isInvertible: false,
+  if squarep(M) then block(
+    if ev(is(determinant(M)#0),simp) then isInvertible: true
+  ),
+  return(isInvertible)
+);
+
+s_test_case(simp) := is(invertiblep(ident(2)) = true)$
+s_test_case(simp) := is(invertiblep(matrix([1,1],[0,1])) = true)$
+s_test_case(simp) := is(invertiblep(1) = false)$
+s_test_case(simp) := is(invertiblep(matrix([1,1],[1,1])) = false)$
+
+s_test_case(simp) := is(REFp(1)=false)$
+s_test_case(simp) := is(REFp(matrix())=true)$
+s_test_case(simp) := is(REFp(matrix([],[]))=true)$
+s_test_case(simp) := is(REFp(matrix([0,0],[0,0]),true)=true)$
+s_test_case(simp) := is(REFp(matrix([0,1],[1,0]))=false)$
+s_test_case(simp) := is(REFp(matrix([0,0],[0,1]))=false)$
+s_test_case(simp) := is(symp(matrix([a,b],[b,c]))=true)$
+s_test_case(simp) := is(symp(matrix([1,2,3],[2,4,5]))=false)$
+s_test_case(simp) := is(invertiblep(matrix([0,1],[1,0]))=true)$
+s_test_case(simp) := is(invertiblep(matrix([1,2,3],[4,5,6]))=false)$
+s_test_case(simp) := is(diagonalizablep(matrix([2,1],[0,3]))=true)$
+s_test_case(simp) := is(diagonalizablep(matrix([1,1,0],[0,1,0],[0,0,2]))=false)$

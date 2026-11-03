@@ -257,6 +257,25 @@ final class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals('ssubst("","",x)', stack_utils::eliminate_strings('ssubst("times",",",x)'));
     }
 
+    public function test_maxima_string_to_php_string(): void {
+
+        $this->assertEquals('', stack_utils::maxima_string_to_php_string('""'));
+        $this->assertEquals('foo', stack_utils::maxima_string_to_php_string('"foo"'));
+        $this->assertEquals('"foo', stack_utils::maxima_string_to_php_string('"\"foo"'));
+        $this->assertEquals('a\b', stack_utils::maxima_string_to_php_string('"a\\\\b"'));
+        $this->assertEquals('a\"b', stack_utils::maxima_string_to_php_string('"a\\\\\"b"'));
+        $this->assertEquals('\(a\\\\b\)', stack_utils::maxima_string_to_php_string('"\\\\(a\\\\\\\\b\\\\)"'));
+        // A trailing backslash, issue #1910.
+        $this->assertEquals('x\\', stack_utils::maxima_string_to_php_string('"x\\\\"'));
+        $this->assertEquals('\\\\', stack_utils::maxima_string_to_php_string('"\\\\\\\\"'));
+        $this->assertEquals('\\', stack_utils::maxima_string_to_php_string('"\\\\"'));
+
+        // Round trip.
+        foreach (['', 'foo', '"', '\\', 'x\\', '\\\\', '\\"', '"\\', 'a\\"b\\\\', '\\\\[2pt]'] as $s) {
+            $this->assertEquals($s, stack_utils::maxima_string_to_php_string(stack_utils::php_string_to_maxima_string($s)));
+        }
+    }
+
     /**
      * Test cases for test_count_missing_alttext.
      *

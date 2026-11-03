@@ -25,47 +25,41 @@
 /*******************************************************************************/
 
 stack_linear_algebra_declare(mode) := block(
-  texput(c,
-    lambda([ex], stack_matrix_disp(transpose(matrix(args(ex)))))
-  ),
- texput(r,
-    lambda([ex], stack_matrix_disp(matrix(args(ex))))
-  ),
-  /* We can't have declarations like this in the STACK core. It will cause problems with existing questions! */
-  declare([c,r],nonscalar),
-  return(true)
+  c([entries]) := apply('column_vector, entries),
+  r([entries]) := apply('row_vector, entries),
+  true
 )$
 
 /* Thank you to Georg Osang of IDEMS International    */
 /* for significant contributions to this work in 2024 */
 
 /**
- * Converts inert functions c and r into matrices.
- * c and r can be found in certain contrib libraries (such as vectorspaces.mac) to enable students to input vectors simply.
+ * Converts column_vector and row_vector expressions into matrices.
  * Works on entire expressions.
  * Returns expression unchanged if simp:true and matrices do not conform.
  * 
- * @param[expression] ex An expression that may contain c or r.
- * @return[scalar expression] The expression with c and r replaced with matrices, or the original expression if matrices do not conform
+ * @param[expression] ex An expression that may contain vector notation.
+ * @return[expression] Vector notation replaced with matrices, or the original expression if matrices do not conform
  */
 vec_convert(ex):= block([ex2],
-  ex2: errcatch(ev(ex,c = lambda([[ex]],transpose(matrix(ex))),r = lambda([[ex]],matrix(ex)))),
+  ex2: errcatch(ev(ex,
+      column_vector = lambda([[ex]],transpose(matrix(ex))), row_vector = lambda([[ex]],matrix(ex)))),
   if emptyp(ex2) then return(ex) else return(first(ex2))
 );
 
 /**
- * Given a row or column vector, convert it to c() or r() form.
+ * Convert a row or column matrix to vector notation.
  * Intended to create model answers in instances where students
- * are expected to use these convenience functions.
+ * are expected to enter vector expressions.
  * Does not loop through an expression, will only work on vectors
  * as individual objects. 
  *
  * @param[matrix] ex A vector; i.e. a 1xN or Mx1 matrix
- * @return[expression] That vector as a c() or r() vector
+ * @return[expression] A column_vector or row_vector expression
  */
 un_vec_convert(ex):= block([],
-  if col_vecp(ex) then ex: apply('c, list_matrix_entries(ex)) else
-  if row_vecp(ex) then ex: apply('r, list_matrix_entries(ex)),
+  if col_vecp(ex) then ex: apply('column_vector, list_matrix_entries(ex)) else
+  if row_vecp(ex) then ex: apply('row_vector, list_matrix_entries(ex)),
   return(ex)
 );
 
@@ -76,82 +70,15 @@ un_vec_convert(ex):= block([],
 /**
  * A predicate to determine whether an expression has been converted to matrix form.
  * 
- * @param[expression] ex An expression that may contain c or r
- * @return[boolean] Does the expression contain c or r?
+ * @param[expression] ex An expression that may contain vector notation
+ * @return[boolean] True when no vector notation remains.
  */
 vec_convertedp(ex):= block([ex_ops],
   ex_ops: get_ops(ex),
-  if member(c,ex_ops) or member(r,ex_ops) then return(false) else return(true)
+  not (member(column_vector,ex_ops) or member(row_vector,ex_ops))
 );
 
-/** 
- * Predicate for determining whether a given object is an Mx1 matrix (a column vector)
- * Note: does not consider c a column vector. Use vec_convert before col_vecp.
- *
- * @param[expression] ex An object that may be a matrix
- * @return[boolean] Is the object an Mx1 matrix?
- */
-col_vecp(ex):= block(
-  if not(matrixp(ex)) then return(false)
-  else return(is(second(matrix_size(ex))=1))
-);
-
-/** 
- * Predicate for determining whether a given object is a 1xN matrix (a row vector)
- * Note: does not consider r a row vector. Use vec_convert before row_vecp.
- *
- * @param[expression] ex An object that may be a matrix
- * @return[boolean] Is the object a 1xN matrix?
- */
-row_vecp(ex):= block(
-  if not(matrixp(ex)) then return(false)
-  else return(is(first(matrix_size(ex))=1))
-);
-
-/** 
- * Predicate for determining whether a given object is a vector
- * Note: does not consider c or r a vector. Use vec_convert before vectorp.
- *
- * @param[expression] ex An object that may be a matrix
- * @return[boolean] Is the object a 1xN or Mx1 matrix?
- */
-vectorp(ex):= col_vecp(ex) or row_vecp(ex);
-
-/** 
- * Predicate to determine whether a matrix is diagonal.
- * i.e. Is every off-diagonal entry equal to 0?
- *
- * @param[matrix] M An mxn matrix
- * @return[boolean] Is this matrix diagonal?
- */
-diagp(M):= block([dia,imax,jmax,ii,jj],
-  if not(matrixp(M)) then return(false),
-  dia: true,
-  [imax, jmax]: ev(matrix_size(M),simp),
-  for ii: 1 thru imax while dia do block(
-    ii: ev(ii,simp),
-    for jj: 1 thru jmax while dia do block(
-      jj: ev(jj,simp),
-      if not(is(ii=jj)) and not(is(M[ii,jj]=0)) then dia: false
-    )
-  ),
-  return(dia)
-);
-
-/** 
- * Is a given object a square matrix?
- * i.e. Does the matrix have the same number of rows as columns?
- *
- * @param[matrix] M a matrix
- * @return[boolean] Is M a square matrix?
- */
-squarep(M):= block([isSquare],
-  isSquare: false,
-  if matrixp(M) then block(
-    if is(apply("=", matrix_size(M))) then isSquare: true
-  ),
-  return(isSquare)
-);
+/* Shape predicates are defined in maximasrc/linearalgebra/predicates. */
 
 /*********************************************************************************/
 /* Functions to convert objects into standard forms                              */
@@ -178,11 +105,12 @@ squarep(M):= block([isSquare],
  */
 make_list_of_lists(ex):= block([_op1],
   _op1:safe_op(ex),
-  if not(member(op1,["[","ntuple","{","span","matrix"])) then return(ex),
+  if not(member(_op1,["[","ntuple","{","span","matrix"])) then return(ex),
   ex:vec_convert(ex),
   if vectorp(ex) then return([list_matrix_entries(ex)]),
-  if is(op1="matrix") then return(args(transpose(ex))),
+  if is(_op1="matrix") then return(args(transpose(ex))),
   ex:args(ex),
+  if emptyp(ex) then return([]),
   if ev(not(some(lambda([ex2], nonscalarp(ex2)), ex)), simp) then return([ex]),
   ex:map(lambda([ex2], if vectorp(ex2) then list_matrix_entries(ex2) else args(ex2)),ex),
   return(ex)

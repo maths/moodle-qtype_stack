@@ -945,6 +945,9 @@ XML;
         $this->assertEquals(0, count($question->inputs));
     }
 
+    /*
+     * A helper function returning minimal STACK XML.
+     */
     private function get_minimal_question_xml(string $extra = ''): string {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" .
             "<quiz>\n" .

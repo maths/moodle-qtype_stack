@@ -5,17 +5,27 @@
       <text>Cramers_Rule_1</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Use Cramer's rule to find the y-coordinate of the solution of the system: <br /> <br /> \[{@eqns[1]@}\ =\ {@bmat[1,1]@} , \] <br /> \[ {@eqns[2]@}\ =\ {@bmat[2,1]@} , \] <br /> \[ {@eqns[3]@}\ =\ {@bmat[3,1]@} . \] <br /> <br /> y= [[input:ans1]] [[validation:ans1]]</p>]]></text>
+      <text><![CDATA[<p>Use Cramer's rule to find the y-coordinate of the solution of the system:
+\[ {@eqns[1]@} = {@bmat[1,1]@}, \]
+\[ {@eqns[2]@} = {@bmat[2,1]@}, \] 
+\[ {@eqns[3]@} = {@bmat[3,1]@}. \]
+y= [[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>Cramer's rule states that y = \(\frac{D_{y}}{D}\) where \(D\) is the determinant of the matrix and \(D_{y}\) is the determinant of the matrix with the y column replaced by the numbers on the right hand side of the equations. Therefore for the system <br /> \[{@eqns[1]@}\ =\ {@bmat[1,1]@} , \] \[ {@eqns[2]@}\ =\ {@bmat[2,1]@} , \] \[ {@eqns[3]@}\ =\ {@bmat[3,1]@} , \] <br /> \[ D = det{@Amat@}={@D@}\] <br /> \[D_{y} = det{@Amaty@}={@Dy@}\] <br /> and hence, \[y=\frac{D_{y}}{D}=\frac{@Dy@}{@D@} = {@Dy/D@}\]</p>]]></text>
+      <text><![CDATA[<p>Cramer's rule states that y = \(\frac{D_{y}}{D}\) where \(D\) is the determinant of the matrix and \(D_{y}\) is the determinant of the matrix with the y column replaced by the numbers on the right hand side of the equations. Therefore for the system 
+\[ {@eqns[1]@} = {@bmat[1,1]@}, \]
+\[ {@eqns[2]@} = {@bmat[2,1]@}, \] 
+\[ {@eqns[3]@} = {@bmat[3,1]@}, \] 
+\[ D = \det{@Amat@}={@D@}\] 
+\[ D_{y} = \det{@Amaty@}={@Dy@}\] 
+and hence, \[y=\frac{D_{y}}{D}=\frac{@Dy@}{@D@} = {@Dy/D@}\]</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0</penalty>
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026080600</text>
     </stackversion>
     <questionvariables>
       <text>Au:matrix([rand_with_step(-1,1,2),ev(rand(7)-3),ev(rand(7)-3)],[0,rand_with_step(-1,1,2),ev(rand(7)-3)],[0,0,rand_with_step(-1,1,2)]);
@@ -147,7 +157,7 @@
         <name>Result</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-0-T</expectedanswernote>
+        <expectedanswernote>[ Result-0-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -161,7 +171,7 @@
         <name>Result</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-0-F</expectedanswernote>
+        <expectedanswernote>[ Result-0-F ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

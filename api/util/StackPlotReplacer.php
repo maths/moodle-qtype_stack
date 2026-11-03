@@ -26,6 +26,11 @@ namespace api\util;
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class StackPlotReplacer {
+    /**
+     * @var string Bad characters stripped from a filename.
+     */
+    private const BAD_FILENAME_CHARACTERS = '/[\/\\\\?%\'*:|"<>$!`&\t ]+/'; // phpcs:ignore moodle.Strings.ForbiddenStrings.Found
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function replace_plots(&$plots, &$text, $nameprefix, $storeprefix) {
         $i = 0;
@@ -55,7 +60,14 @@ class StackPlotReplacer {
     public static function persist_plugin_files(\qtype_stack_question $question, $storeprefix) {
         global $CFG;
         foreach ($question->pluginfiles as $name => $content) {
-            file_put_contents($CFG->dataroot . '/stack/plots/' . $storeprefix . '-' . $name, base64_decode($content));
+            // Strip any path components and remove characters that are unsafe in a filename.
+            $safename = basename((string) $name);
+            $safename = preg_replace(self::BAD_FILENAME_CHARACTERS, '-', $safename);
+            if ($safename === '' || $safename === '.' || $safename === '..') {
+                continue;
+            }
+            $target = realpath($CFG->dataroot . '/stack/plots') . '/' . $storeprefix . '-' . $safename;
+            file_put_contents($target, base64_decode($content));
         }
     }
 }

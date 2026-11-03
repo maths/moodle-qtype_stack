@@ -86,9 +86,14 @@ normalize(M, [sp]) := block([L],
  * If ex is a matrix, it checks for full column rank, not row rank. To check for full rank generally, use invertiblep.
  * 
  * @param[] ex a mxn matrix or list of column vectors, see cols_to_matrix
+ * The empty collection ([], {}, ntuple() or span()) is linearly independent: it is a basis of {0}.
+ *
  * @return[boolean] Is the collection of column vectors linearly independent?
  */
 lin_indp(ex):= block(
+  /* The empty set is linearly independent and spans {0}.  cols_to_matrix cannot represent */
+  /* an empty collection, and returns matrix([null]) as for malformed input, so test first. */
+  if member(safe_op(ex), ["[", "{", "ntuple", "span"]) and emptyp(args(ex)) then return(true),
   ex: cols_to_matrix(ex),
   if ex = matrix([null]) then return(false),
   return(is(rank(ex) = ev(second(matrix_size(ex)),simp)))
@@ -122,12 +127,22 @@ col_equivp(ex,ta):= row_equivp(transpose(ex),transpose(ta));
  * Given two lists of column vectors, determine whether they span the same subspace.
  * i.e. Is each element of ex linearly dependent on ta and vice versa?
  * Note: This does not check for redundancies. To check whether two bases are equivalent, use this function in conjunction with lin_indp.
- * 
+ * The empty collection ([], {}, ntuple() or span()) spans {0}, as does any collection of zero vectors.
+ *
  * @param[] ex A mxn matrix or list of column vectors, see cols_to_matrix
  * @param[] ta A mxn matrix or list of column vectors, see cols_to_matrix
  * @return[boolean] Do the two lists of column vectors span the same subspace?
  */
-subspace_equivp(ex,ta):=block([M_ex, M_ta, combined, rank_combined],
+subspace_equivp(ex,ta):=block([M_ex, M_ta, combined, rank_combined, empty_ex, empty_ta],
+  /* The empty set is linearly independent and spans {0}.  cols_to_matrix cannot represent */
+  /* an empty collection, and returns matrix([null]) as for malformed input, so test first. */
+  /* An empty collection spans the same subspace as another collection exactly when */
+  /* the other is also empty, or is well formed with rank 0 (all zero vectors). */
+  empty_ex: member(safe_op(ex), ["[", "{", "ntuple", "span"]) and emptyp(args(ex)),
+  empty_ta: member(safe_op(ta), ["[", "{", "ntuple", "span"]) and emptyp(args(ta)),
+  if empty_ex and empty_ta then return(true),
+  if empty_ex then (M_ta: cols_to_matrix(ta), return(is(M_ta # matrix([null]) and rank(M_ta) = 0))),
+  if empty_ta then (M_ex: cols_to_matrix(ex), return(is(M_ex # matrix([null]) and rank(M_ex) = 0))),
   M_ex: cols_to_matrix(ex),
   M_ta: cols_to_matrix(ta),
   if M_ex = matrix([null]) or M_ta = matrix([null]) then return(false),

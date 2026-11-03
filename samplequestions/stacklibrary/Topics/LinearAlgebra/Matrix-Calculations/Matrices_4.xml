@@ -6,33 +6,40 @@
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>If a {@n1@} by {@n1@} matrix \({\bf A}\) has \(\det({\bf A}) = {@a1@}\), find \[\det({@a2@}{\bf A}),\det({@a3@}{\bf A}),\det({\bf A}^{@a4@}),\det(({\bf A}^{-1})^{@-a5@})\] <br /> Enter your answers in the right order in the boxes below.</p>
-<p>\(\det({@a2@}{\bf A}) = \) [[input:ans1]][[validation:ans1]] <br /> \(\det({@a3@}{\bf A}) = \) [[input:ans2]][[validation:ans2]] <br /> \(\det({\bf A}^{@a4@}) = \) [[input:ans3]][[validation:ans3]] <br /> \(\det({\bf A}^{-1})^{@-a5@}) = \) [[input:ans4]][[validation:ans4]]</p>
-<p> </p>
-<p> </p>
-<p> </p>]]></text>
+<p>
+\(\det({@a2@}{\bf A}) = \) [[input:ans1]][[validation:ans1]] <br /> 
+\(\det({@a3@}{\bf A}) = \) [[input:ans2]][[validation:ans2]] <br /> 
+\(\det({\bf A}^{@a4@}) = \) [[input:ans3]][[validation:ans3]] <br />
+\(\det({\bf A}^{-1})^{@-a5@} = \) [[input:ans4]][[validation:ans4]]
+</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>If a \({@n1@}\) by \({@n1@}\) matrix \({\bf A}\) has \(\det({\bf A}) = {@a1@}\), then \[\det({@a2@}{\bf A}) = {@a2@}^{@n1@}\cdot{@a1@} = {@a2^(n1)*a1@}\] <br /> \[\det(\{@a3@}{\bf A}) = ({@a3@})^{@n1@}\cdot{@a1@} = {@a3^(n1)*a1@}\] <br /> \[\det({\bf A}^{@a4@})= ({@a1@})^{@a4@} = {@a1^a4@}\] <br /> \[\det(({\bf A}^{-1})^{@-a5@}) ={@a1@}^{@a5@} = {@a1^a5@}\]</p>]]></text>
+      <text><![CDATA[<p>If a \({@n1@}\) by \({@n1@}\) matrix \({\bf A}\) has \(\det({\bf A}) = {@a1@}\), then 
+\[\det({@a2@}{\bf A}) = {@a2@}^{@n1@}\cdot{@a1@} = {@a2^(n1)*a1@}\]
+\[\det({@a3@}{\bf A}) = ({@a3@})^{@n1@}\cdot{@a1@} = {@a3^(n1)*a1@}\]
+\[\det({\bf A}^{@a4@})= ({@a1@})^{@a4@} = {@a1^a4@}\]
+\[\det(({\bf A}^{-1})^{@-a5@}) ={@a1@}^{@a5@} = {@a1^a5@}\]
+</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0</penalty>
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026080600</text>
     </stackversion>
     <questionvariables>
       <text>n1:rand(3)+3;
-  a1:rand(2)+2;
-  a2:rand(4)+2;
-  a3:-(rand(4)+2);
-  a4:rand(3)+2;
-  a5:-(rand(4)+2);
-  correctanswer:[a1*(a2)^n1, a1*(a3)^n1, a1^a4, a1^a5];
-  wronganswer1:[-a1*(a2)^n1, a1*(a3)^n1, a1^a4, a1^a5];
-  wronganswer2:[a1*(a2)^n1, -a1*(a3)^n1, a1^a4, a1^a5];
-  wronganswer3:[a1*(a2)^n1, a1*(a3)^n1, -a1^a4, -a1^a5];
-  wronganswer4:[a1*(a2)^n1, a1*(a3)^n1, a1^a4, -a1^a5];</text>
+a1:rand(2)+2;
+a2:rand(4)+2;
+a3:-(rand(4)+2);
+a4:rand(3)+2;
+a5:-(rand(4)+2);
+correctanswer:[a1*(a2)^n1, a1*(a3)^n1, a1^a4, a1^a5];
+wronganswer1:[-a1*(a2)^n1, a1*(a3)^n1, a1^a4, a1^a5];
+wronganswer2:[a1*(a2)^n1, -a1*(a3)^n1, a1^a4, a1^a5];
+wronganswer3:[a1*(a2)^n1, a1*(a3)^n1, -a1^a4, -a1^a5];
+wronganswer4:[a1*(a2)^n1, a1*(a3)^n1, a1^a4, -a1^a5];</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -284,7 +291,7 @@
         <name>Result</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-3-T</expectedanswernote>
+        <expectedanswernote>[ Result-0-T | Result-1-T | Result-2-T | Result-3-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -310,7 +317,7 @@
         <name>Result</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-3-F</expectedanswernote>
+        <expectedanswernote>[ Result-0-F | Result-1-F | Result-2-F | Result-3-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -336,7 +343,7 @@
         <name>Result</name>
         <expectedscore>0.7500000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-3-T</expectedanswernote>
+        <expectedanswernote>[ Result-0-F | Result-1-T | Result-2-T | Result-3-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -362,7 +369,7 @@
         <name>Result</name>
         <expectedscore>0.7500000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-3-T</expectedanswernote>
+        <expectedanswernote>[ Result-0-T | Result-1-F | Result-2-T | Result-3-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -388,7 +395,7 @@
         <name>Result</name>
         <expectedscore>0.5000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-3-F</expectedanswernote>
+        <expectedanswernote>[ Result-0-T | Result-1-T | Result-2-F | Result-3-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -414,7 +421,7 @@
         <name>Result</name>
         <expectedscore>0.7500000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>Result-3-F</expectedanswernote>
+        <expectedanswernote>[ Result-0-T | Result-1-T | Result-2-T | Result-3-F ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

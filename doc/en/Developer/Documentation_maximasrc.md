@@ -6,6 +6,11 @@ sources. The structure under `/doc/en/CAS/Library/` is built from
 `/stack/maximasrc/` by the `cli/stack_maxima_compiler.php`. Should you wish to
 modify or expand that documentation follow these instructions.
 
+The compiler also generates `stack/maxima/contrib/matrix.mac` from the migrated matrix functions
+and the core `aug`/`de_aug` helpers. Keep this compatibility output when regenerating the library:
+`stack_include_contrib("matrix.mac")` fetches it from `master`, including on older installations
+which do not yet provide these functions in core. Edit the maintained source, not the generated file.
+
 ## Documenting STACK-Maxima sources
 
 The directory tree under `/stack/maximasrc/` can be as deep as one wishes and

@@ -222,6 +222,7 @@ $string['numericalinputvarsforbidden'] = 'This input expects a number, and so ma
 $string['numericalinputmustfloat'] = 'This input expects a floating point number.';
 $string['numericalinputmustint'] = 'This input expects an explicit integer.';
 $string['numericalinputmustrational'] = 'This input expects a fraction or rational number.';
+$string['numericalinputmustreal'] = 'This input expects a real number.';
 $string['numericalinputdp'] = 'You must supply exactly \( {$a} \) decimal places.';
 $string['numericalinputsf'] = 'You must supply exactly \( {$a} \) significant figures.';
 $string['numericalinputmindp'] = 'You must supply at least \( {$a} \) decimal places.';
@@ -1357,7 +1358,7 @@ $string['ATList_wronglen']              = 'Your list should have {$a->m0} elemen
 $string['ATList_wrongentries']          = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
 $string['ATMatrix_wrongsz']             = 'Your matrix should be {$a->m0} by {$a->m1}, but it is actually {$a->m2} by {$a->m3}. ';
-$string['ATMatrix_wrongentries']        = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
+$string['ATMatrix_wrongentries']        = 'Your answer is shown below, possibly simplified. Incorrect entries are underlined in red. {$a->m0} ';
 
 $string['ATSet_wrongsz']                = 'Your set should have {$a->m0} different elements, but it actually has {$a->m1}. ';
 $string['ATSet_wrongentries']           = 'The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. {$a->m0} ';

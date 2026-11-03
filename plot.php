@@ -29,7 +29,6 @@ require_once(__DIR__ . '/../../../config.php');
 
 require_once($CFG->libdir . '/filelib.php');
 
-
 $filename = clean_filename(get_file_argument());
 $filenamesplit = explode('.', $filename);
 $filetype = end($filenamesplit);

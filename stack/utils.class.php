@@ -829,13 +829,13 @@ class stack_utils {
 
     /**
      * Converts a PHP string object containing a Maxima string as presented by the grind command to a PHP string object.
+     * The escapes are undone in a single pass: with two passes, a content ending in a backslash
+     * would have its escaped backslash and the closing quote read as an escaped quote.
      * @param a string that contains ""-quotes around the content.
      * @return a string without those quotes.
      */
     public static function maxima_string_to_php_string($string) {
-        $converted = str_replace("\\\\", "\\", $string);
-        $converted = str_replace("\\\"", '"', $converted);
-        return substr($converted, 1, -1);
+        return strtr(substr($string, 1, -1), ['\\\\' => '\\', '\\"' => '"']);
     }
 
     /**

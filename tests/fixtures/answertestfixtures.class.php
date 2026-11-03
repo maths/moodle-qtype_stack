@@ -313,8 +313,12 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '[1,2,4]', '[1,2,3]', 0, '(ATList_wrongentries 3).', ''],
         ['AlgEquiv', '', '[1,x>2]', '[1,2<x]', 1, '', ''],
         [
-            'AlgEquiv', '', '[1,2,[2-x<0,{1,2,2,2, 1,3}]]', '[1,2,[2-x<0,{1,2}]]', 0,
-            '(ATList_wrongentries 3: (ATList_wrongentries 2: ATSet_wrongsz)).', '',
+            'AlgEquiv', '', '[1,2,[2-x<0,{1,2,2,2,1,3}]]', '[1,2,[2-x<0,{1,2}]]', 0,
+            '(ATList_wrongentries 3: (ATList_wrongentries 2: ATSet_wrongentries)).', '',
+        ],
+        [
+            'AlgEquiv', '', '[1,2,[2-x<0,{1,2,2,2,1,3}]]', '[1,2,[2-x<0,{1,2,3}]]', 1,
+            '', '',
         ],
         [
             'AlgEquiv', '', '[(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)]', '[(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)]',
@@ -341,6 +345,14 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'x', '{1,2,3}', 0, 'ATAlgEquiv_SA_not_set.', 'Sets'],
         ['AlgEquiv', '', 'co(1,2)', '{1,2,3}', 0, 'ATAlgEquiv_SA_not_set.', ''],
         ['AlgEquiv', '', '{1,2}', '{1,2,3}', 0, 'ATSet_wrongsz.', ''],
+        ['AlgEquiv', '', '{5, -3, 5*(1+i)-5*i}', '{5, -3}', 1, '', ''],
+        // Two forms of one element are equivalent to a set with that one element.
+        ['AlgEquiv', '', '{5,5*(1+%i)-5*%i}', '{5}', 1, '', ''],
+        ['AlgEquiv', '', '{sqrt(2)+1,1/(sqrt(2)-1)}', '{1+sqrt(2)}', 1, '', ''],
+        ['AlgEquiv', '', '{5,5*(1+%i)-5*%i}', '{5,-3}', 0, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{5,5*(1+%i)-5*%i,7}', '{5,-3}', 0, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{}', '{}', 1, '', ''],
+        ['AlgEquiv', '', '{}', '{1}', 0, 'ATSet_wrongsz.', ''],
         ['AlgEquiv', '', '{2/4, 1/3}', '{1/2, 1/3}', 1, '', ''],
         ['AlgEquiv', '', '{A[1],A[2],A[4]}', '{A[1],A[2],A[3]}', 0, 'ATSet_wrongentries.', ''],
         ['AlgEquiv', '', '{A[1],A[2],A[3]}', '{A[1],A[2],A[3]}', 1, '', ''],
@@ -350,15 +362,10 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=2}', 0, 'ATSet_wrongentries.', ''],
         ['AlgEquiv', '', '{x-1=0,x>1 and 5>x}', '{x>1 and x<3,x=1}', 0, 'ATSet_wrongentries.', ''],
         [
-            'AlgEquiv', '', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', -3, 'ATSet_wrongentries.',
-            'Equivalence for elements of sets is different from expressions: see docs.',
+            'AlgEquiv', '', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', 1, '',
+            'Elements of sets which are expressions are compared with algebraic_equivalence: see docs.',
         ],
-        [
-            'AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -3,
-            'ATSet_wrongentries.', '',
-        ],
-        // Without sets the following examples should be equal.
-        ['AlgEquiv', '', '{5/4*%e^(%i*%pi/6)}', '{5*sqrt(3)/8+5/8*%i}', -3, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{5/4*%e^(%i*%pi/6)}', '{5*sqrt(3)/8+5/8*%i}', 1, '', ''],
         ['AlgEquiv', '', 'map(expand,{5/4*%e^(%i*%pi/6)})', '{5*sqrt(3)/8+5/8*%i}', 1, '', ''],
         ['AlgEquiv', '', 'ratsimp({5/4*%e^(%i*%pi/6)})', 'ratsimp({5*sqrt(3)/8+5/8*%i})', 1, '', ''],
 
@@ -374,13 +381,24 @@ class stack_answertest_test_data {
             'AlgEquiv', '', 'ev(radcan((n+1)^((n+2)/(n+1))/(n+2)),radexpand:all,simp)',
             'ev(radcan(1/(n+2)*((n+1)^(1/(n+1)))^(n+2)),radexpand:all,simp)', 1, '', '',
         ],
-        // We don't simplify here.
-        ['AlgEquiv', '', '{(2-2^(5/2))/2,(2^(5/2)+2)/2}', '{1-2^(3/2),2^(3/2)+1}', 0, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{(2-2^(5/2))/2,(2^(5/2)+2)/2}', '{1-2^(3/2),2^(3/2)+1}', 1, '', ''],
         ['AlgEquiv', '', 'ev(radcan({(2-2^(5/2))/2,(2^(5/2)+2)/2}),simp)', '{1-2^(3/2),2^(3/2)+1}', 1, '', ''],
-        ['AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', 0, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', 1, '', ''],
+        ['AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^5999}', 0, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{1/2+sqrt(5)/2,1/2-sqrt(5)/2}', '{(1+sqrt(5))/2,(1-sqrt(5))/2}', 1, '', ''],
+        ['AlgEquiv', '', '{2/(sqrt(5)-1),-2/(1+sqrt(5))}', '{(1+sqrt(5))/2,(1-sqrt(5))/2}', 1, '', ''],
+        // Two forms of one element: the sizes match, but the second element of the teacher's set is missing.
+        ['AlgEquiv', '', '{1/2+sqrt(5)/2,(1+sqrt(5))/2}', '{(1+sqrt(5))/2,(1-sqrt(5))/2}', 0, 'ATSet_wrongentries.', ''],
+        ['AlgEquiv', '', '{-4*(1+%i),-4+4*%i,3}', '{-4-4*%i,-4+4*%i,3}', 1, '', ''],
+        ['AlgEquiv', '', '{-4*(1+%i),-4+4*%i,2}', '{-4-4*%i,-4+4*%i,3}', 0, 'ATSet_wrongentries.', ''],
         [
             'AlgEquiv', '', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}',
             1, '', '',
+        ],
+        // Extra simplification.
+        [
+            'AlgEquiv', '', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -3,
+            'ATSet_wrongentries.', '',
         ],
 
         ['AlgEquiv', '', 'matrix([1,2],[2,3])', 'matrix([1,2],[2,3])', 1, '', 'Matrices'],
@@ -1499,8 +1517,40 @@ class stack_answertest_test_data {
         ['Sets', '', '{1,2,1}', '{1,2}', 1, 'ATSets_duplicates.', 'Duplicate entries'],
         ['Sets', '', '{1,2,1+1}', '{1,2}', 1, 'ATSets_duplicates.', ''],
         ['Sets', '', '{1,2,1+1}', '{1,2,3}', 0, 'ATSets_duplicates. ATSets_missingentries.', ''],
-        // We accept these are "different" as we can't simplify this without expanding.
-        ['Sets', '', '{(x-a)^6000}', '{(a-x)^6000}', 0, 'ATSets_wrongentries. ATSets_missingentries.', ''],
+        ['Sets', '', '{5, -3, 5*(1+i)-5*i}', '{5, -3}', 1, 'ATSets_duplicates.', ''],
+        ['Sets', '', '{(x-a)^6000}', '{(a-x)^6000}', 1, '', ''],
+        ['Sets', '', '{(x-a)^6000}', '{(a-x)^5999}', 0, 'ATSets_wrongentries. ATSets_missingentries.', ''],
+        ['Sets', '', '{}', '{}', 1, '', ''],
+        ['Sets', '', '{}', '{1}', 0, 'ATSets_missingentries.', ''],
+        ['Sets', '', '{1}', '{}', 0, 'ATSets_wrongentries.', ''],
+        // Elements which are expressions are compared with algebraic_equivalence.
+        ['Sets', '', '{1/2+sqrt(5)/2,1/2-sqrt(5)/2}', '{(1+sqrt(5))/2,(1-sqrt(5))/2}', 1, '', ''],
+        ['Sets', '', '{1/2+sqrt(5)/2,7}', '{(1+sqrt(5))/2,(1-sqrt(5))/2}', 0, 'ATSets_wrongentries. ATSets_missingentries.', ''],
+        ['Sets', '', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', 1, '', ''],
+        ['Sets', '', '{x*(x+1),2}', '{x^2+x,2}', 1, '', ''],
+        ['Sets', '', '{%i*(1+%i)}', '{%i-1}', 1, '', ''],
+        ['Sets', '', '{-4*(1+%i),-4+4*%i,3}', '{-4-4*%i,-4+4*%i,3}', 1, '', ''],
+        ['Sets', '', '{-4*(1+%i),-4+4*%i,2}', '{-4-4*%i,-4+4*%i,3}', 0, 'ATSets_wrongentries. ATSets_missingentries.', ''],
+        // Two forms of one element are duplicates, which do not make the answer wrong.
+        ['Sets', '', '{5,5*(1+%i)-5*%i}', '{5}', 1, 'ATSets_duplicates.', ''],
+        ['Sets', '', '{sqrt(2)+1,1/(sqrt(2)-1)}', '{1+sqrt(2)}', 1, 'ATSets_duplicates.', ''],
+        ['Sets', '', '{(x-1)*(x+1),x^2-1,x^2+1}', '{x^2-1,x^2+1}', 1, 'ATSets_duplicates.', ''],
+        ['Sets', '', '{x*(x+1),x^2+x}', '{x^2+x}', 1, 'ATSets_duplicates.', ''],
+        ['Sets', '', '{x>1,x-1>0}', '{x>1}', 1, 'ATSets_duplicates.', ''],
+        ['Sets', '', '{5,5*(1+%i)-5*%i}', '{5,-3}', 0, 'ATSets_duplicates. ATSets_missingentries.', ''],
+        [
+            'Sets', '', '{5,5*(1+%i)-5*%i,7}', '{5,-3}', 0,
+            'ATSets_duplicates. ATSets_wrongentries. ATSets_missingentries.', '',
+        ],
+        [
+            'Sets', '', '{1/2+sqrt(5)/2,(1+sqrt(5))/2}', '{(1+sqrt(5))/2,(1-sqrt(5))/2}', 0,
+            'ATSets_duplicates. ATSets_missingentries.', '',
+        ],
+        // Elements which are not expressions are only compared structurally.
+        ['Sets', '', '{x=1,1/2+sqrt(5)/2}', '{x=1,(1+sqrt(5))/2}', 1, '', ''],
+        ['Sets', '', '{[2/4,1]}', '{[1/2,1]}', 1, '', ''],
+        ['Sets', '', '{[-sqrt(2)/sqrt(3),0]}', '{[-2/sqrt(6),0]}', 0, 'ATSets_wrongentries. ATSets_missingentries.', ''],
+        ['Sets', '', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=2}', 0, 'ATSets_wrongentries. ATSets_missingentries.', ''],
 
         ['Expanded', '', '1/0', '0', -1, 'ATExpanded_STACKERROR_SAns.', ''],
         ['Expanded', '', 'x>2', 'x^2-2*x+1', 0, 'ATExpanded_SA_not_expression.', ''],

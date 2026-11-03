@@ -1781,7 +1781,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             ['pat' => 'linearalgebra_contrib', 'ver' => 2025022400, 'alt' => 'stack_linear_algebra_declare(true)'],
         ];
         foreach ($patterns as $checkpat) {
-            if ($stackversion < $checkpat['ver'] || !array_key_exists('dataspecific', $checkpat)) {
+            if ($stackversion < $checkpat['ver'] || !array_key_exists('datespecific', $checkpat)) {
                 foreach ($qfields as $field) {
                     if (strstr($this->$field ?? '', $checkpat['pat'])) {
                         $a = ['pat' => $checkpat['pat'], 'ver' => $checkpat['ver'], 'qfield' => stack_string($field)];

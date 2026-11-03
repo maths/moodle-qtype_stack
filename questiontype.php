@@ -579,6 +579,8 @@ class qtype_stack extends question_type {
             $questiondata = question_bank::load_question_data($fromform->id);
             $format = new qformat_xml();
             $format->setQuestions([$questiondata]);
+            $coursecontext = $context->get_course_context(false);
+            $format->setCourse($coursecontext ? get_course($coursecontext->instanceid) : get_site());
             $format->setCattofile(false);
             $format->setContexttofile(false);
             $atlasid = self::make_question_atlas_id($format->exportprocess(false));

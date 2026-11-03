@@ -32,6 +32,7 @@ use stack_question_test;
 use test_question_maker;
 use question_possible_response;
 use question_check_specified_fields_expectation;
+use question_bank;
 use context_system;
 use stdClass;
 use function stack_utils\get_config;

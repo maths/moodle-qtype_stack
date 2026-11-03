@@ -584,7 +584,8 @@ class qtype_stack extends question_type {
             $atlasid = self::make_question_atlas_id($format->exportprocess(false));
 
             $prescribedmetadata = $prescribedmetadata ?: new StdClass();
-            $prescribedmetadata->atlasIdHistory = $prescribedmetadata->atlasIdHistory ?: [];
+            $prescribedmetadata->atlasIdHistory = !empty($prescribedmetadata->atlasIdHistory) ?
+                $prescribedmetadata->atlasIdHistory : [];
             if (!empty($prescribedmetadata->atlasId)) {
                 $prescribedmetadata->atlasIdHistory[] = $prescribedmetadata->atlasId;
             }

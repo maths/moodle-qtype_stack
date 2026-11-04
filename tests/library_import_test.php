@@ -884,6 +884,7 @@ final class library_import_test extends externallib_advanced_testcase {
         $context = context_course::instance($this->course->id);
         $teacherroleid = $DB->get_field('role', 'id', ['shortname' => 'teacher']);
         role_assign($teacherroleid, $this->user->id, $context->id);
+        $this->getDataGenerator()->enrol_user($this->user->id, $this->course->id);
 
         $this->expectException(required_capability_exception::class);
         library_import::import_execute(

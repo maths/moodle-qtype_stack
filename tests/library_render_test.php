@@ -178,7 +178,6 @@ final class library_render_test extends externallib_advanced_testcase {
         $context = context_course::instance($this->course->id);
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
-        role_assign($managerroleid, $this->user->id, \context_system::instance()->id);
 
         $returnvalue = fake_render::render_execute($this->qcategory->id, 'file', \stack_question_library::GITHUB, '');
 
@@ -210,8 +209,8 @@ final class library_render_test extends externallib_advanced_testcase {
         $file->url = 'fakeURL';
         $cache->set(\stack_question_library::GITHUB . '_flat_file_list', ['file' => $file]);
         $context = context_course::instance($this->course->id);
-        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
-        role_assign($managerroleid, $this->user->id, $context->id);
+        $teacherroleid = $DB->get_field('role', 'id', ['shortname' => 'teacher']);
+        role_assign($teacherroleid, $this->user->id, $context->id);
 
         $this->expectException(required_capability_exception::class);
         fake_render::render_execute($this->qcategory->id, 'file', \stack_question_library::GITHUB, '');

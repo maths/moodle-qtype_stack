@@ -205,13 +205,17 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $rows = $transpose ? $ogcolumns : $ogrows;
 
         $r->items[] = new MP_String('<div class="stack-parsons-controls">');
-        $r->items[] = new MP_String("<button type='button' class='parsons-button' id='resize'>
-            <i class='fa fa-expand'></i></button>");
+        $r->items[] = new MP_String(html_writer::tag('button',
+            html_writer::tag('i', '', ['class' => 'fa fa-expand', 'aria-hidden' => 'true']),
+            ['type' => 'button', 'class' => 'parsons-button', 'id' => 'resize',
+                'aria-label' => stack_string('stackBlock_parsons_resize')]));
         if ($clone === 'true' && $usedrag) {
             $r->items[] = new MP_String('<div class="parsons-button parsons-bin" id="parsons-bin-wrapper">
             <i class="fa fa-trash bin-icon"></i><div class="drop-zone" id="bin"></div></div>');
-            $r->items[] = new MP_String('<div class="parsons-button" id="delete-all">
-            <i class="fa fa-times-circle "></i></div>');
+            $r->items[] = new MP_String(html_writer::tag('button',
+                html_writer::tag('i', '', ['class' => 'fa fa-times-circle', 'aria-hidden' => 'true']),
+                ['type' => 'button', 'class' => 'parsons-button', 'id' => 'delete-all',
+                    'aria-label' => stack_string('stackBlock_parsons_deleteall')]));
         }
         if ($useaccessible) {
             $hidden = $usedrag ? ' hidden' : '';
@@ -380,6 +384,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             'empty' => stack_string('stackBlock_parsons_accessible_empty'),
             'added' => stack_string('stackBlock_parsons_accessible_added'),
             'removed' => stack_string('stackBlock_parsons_accessible_removed'),
+            'position' => stack_string('stackBlock_parsons_accessible_position'),
             'moved' => stack_string('stackBlock_parsons_accessible_moved'),
             'noemptycells' => stack_string('stackBlock_parsons_accessible_noemptycells'),
             'addsection' => stack_string('stackBlock_parsons_accessible_addsection'),
@@ -403,7 +408,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                     $clone . '", "' . $columns . '", "' . $rows . '", "' . $orientation . '", index, "' . $gridmode . '",
                     "' . $itemheight . '", "' . $itemwidth . '", "' . $log . '");' . "\n";
             // Generate the two lists, headers and index in HTML.
-            $code .= 'stackSortable.add_reorientation_button();' . "\n";
+            $code .= 'stackSortable.add_reorientation_button(' . json_encode(stack_string('stackBlock_parsons_orientation')) . ');' . "\n";
             if ($useaccessible) {
                 $code .= 'const parsonsControls = document.querySelector(".stack-parsons-controls");
                     const parsonsToggleControl = document.getElementById("parsons-toggle-accessible");
@@ -503,6 +508,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 }
                 const parsonsAccessibleReset = document.getElementById("parsons-accessible-reset");
                 if (parsonsAccessibleReset) {
+                    parsonsAccessibleReset.disabled = !!(id && document.getElementById(id).hasAttribute("readonly"));
                     parsonsAccessibleReset.addEventListener("click", () => {
                         if (accessibleParsons === null) {
                             renderAccessibleParsons();

@@ -2068,3 +2068,8 @@ $string['sbasen_validate_base_too_big'] = 'The base-N system currently does not 
 $string['sbasen_validate_invalid_digits'] = 'Some of the digits in base-N number {$a->num} are not suitable for the base ({$a->base}) in use.';
 
 $string['matrixcelllabel'] = 'Row {$a->row}, column {$a->column}';
+
+$string['stackBlock_parsons_resize'] = 'Fit frame to content';
+$string['stackBlock_parsons_orientation'] = 'Change layout';
+$string['stackBlock_parsons_deleteall'] = 'Remove all steps';
+$string['stackBlock_parsons_accessible_position'] = 'Position {position} of {count}.';

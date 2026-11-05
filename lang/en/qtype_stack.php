@@ -2066,3 +2066,5 @@ $string['parsertester_output'] = 'Output';
 $string['sbasen_validate_not_basen'] = 'Expected a raw base-N number.';
 $string['sbasen_validate_base_too_big'] = 'The base-N system currently does not support base-{$a->base}, only bases 2-36 are supported.';
 $string['sbasen_validate_invalid_digits'] = 'Some of the digits in base-N number {$a->num} are not suitable for the base ({$a->base}) in use.';
+
+$string['matrixcelllabel'] = 'Row {$a->row}, column {$a->column}';

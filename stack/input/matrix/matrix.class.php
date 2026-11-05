@@ -345,6 +345,7 @@ class stack_matrix_input extends stack_input {
                     $field = 'placeholder';
                 }
                 $name = $fieldname . '_sub_' . $i . '_' . $j;
+                $attr['aria-label'] = stack_string('matrixcelllabel', ['row' => $i + 1, 'column' => $j + 1]);
                 $html   = html_writer::empty_tag(
                     'input',
                     array_merge(['type' => 'text', 'id'  => $name, 'name'  => $name, $field => $val], $attr)

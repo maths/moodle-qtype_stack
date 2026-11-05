@@ -926,6 +926,11 @@ class StackQuestionLoader {
             throw $nonstackerror;
         }
         $plaindata = self::xml_to_array($xmldata);
+        // xml_to_array() represents an empty <question> element as an empty string. The
+        // difference API treats that as a question with no explicitly supplied fields.
+        if (!is_array($plaindata['question'])) {
+            $plaindata['question'] = [];
+        }
         $diff = self::obj_diff(self::$defaults['question'], $plaindata['question']);
         $useddefaults = self::find_used_defaults($plaindata['question'], self::$defaults['question']);
 

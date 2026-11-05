@@ -547,7 +547,7 @@ class stack_question_library {
         curl_setopt($ch, CURLOPT_USERAGENT, 'Moodle-STACK'); // GitHub requires a user agent.
         curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer {$apikey}"]);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        $apiurl = "{$apibase}{$requestedid}?fields=xml";
+        $apiurl = "{$apibase}{$requestedid}?fields=export_xml";
         curl_setopt($ch, CURLOPT_URL, $apiurl);
         $response = static::execute_curl_request($ch);
         $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
@@ -556,11 +556,11 @@ class stack_question_library {
         }
 
         $json = json_decode($response, true);
-        if (!$json) {
+        if (!is_array($json) || !isset($json['export_xml']) || !is_string($json['export_xml'])) {
             throw new \stack_exception('Invalid JSON.');
         }
 
-        return $json['xml'];
+        return $json['export_xml'];
     }
 
     /**

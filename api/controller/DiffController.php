@@ -40,8 +40,9 @@ class DiffController {
         $data = $request->getParsedBody();
 
         $diffresponse = new StackDiffResponse();
-        $diff = StackQuestionLoader::detect_differences($data["questionDefinition"]);
-        $diffresponse->diff = $diff;
+        $analysis = StackQuestionLoader::detect_differences($data["questionDefinition"], true);
+        $diffresponse->diff = $analysis['diff'];
+        $diffresponse->useddefaults = (object) $analysis['useddefaults'];
 
         $response->getBody()->write(json_encode($diffresponse));
         return $response->withHeader('Content-Type', 'application/json');

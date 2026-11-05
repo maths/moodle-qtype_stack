@@ -455,6 +455,9 @@ function diff() {
                 }
                 document.getElementById('stackapi_difference').style.display = 'block';
                 document.getElementById('difference').innerText = json.diff;
+                document.getElementById('useddefaults').innerText =
+                    JSON.stringify(json.useddefaults, null, 2);
+                document.getElementById('stackapi_useddefaults').style.display = 'block';
             } catch (e) {
                 document.getElementById('errors').innerText = 'There was an error attempting to display the request. Please try again or reload the page.';
                 return;

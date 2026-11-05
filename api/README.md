@@ -55,7 +55,7 @@ The STACK service implemented in this repository provides a stateless REST-API w
 - POST /validate: Validate a user's input
 - POST /download: Serves a file for questions that have download links
 - POST /test: Run a questions tests against all deployed variants
-- POST /diff: Return a YAML dump with the difference between the submitted question and API defaults
+- POST /diff: Return the difference between the submitted question and API defaults, together with the defaults used
 
 ### Render route
 
@@ -245,6 +245,7 @@ The `POST /diff` route is used to compare a question with defaults.
 The return object:
 
 - `diff`: A YAML representation of the differences between the sent question and the API defaults.
+- `useddefaults`: A JSON object containing the default fields used by the API.
 
 As the API fills in defaults, the diff output is all that is needed to re-send the question to the API via any route. There is a minimum definition returned by the diff route even if fields match the default. The example below is for a default question with a single input, PRT and node but fields will be shown for every input, prt and node in a more complex question.
 

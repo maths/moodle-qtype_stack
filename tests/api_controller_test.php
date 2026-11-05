@@ -547,5 +547,11 @@ final class api_controller_test extends qtype_stack_testcase {
             '/name: \'Algebraic input\'\nquestiontext: \|-\n/s',
             $this->output->diff
         );
+
+        $this->requestdata['questionDefinition'] = '<quiz><question type="stack"></question></quiz>';
+        $dc->__invoke($this->request, $this->response, []);
+        $this->assertTrue(property_exists($this->output->useddefaults, 'hidden'));
+        $this->assertEquals('Default question', trim((string) $this->output->useddefaults->questiontext));
+        $this->assertEquals('ans1', $this->output->useddefaults->input[0]->name);
     }
 }

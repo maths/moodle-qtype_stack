@@ -905,9 +905,10 @@ class StackQuestionLoader {
      * Detects differences between the provided XML or YAML and the default question structure.
      *
      * @param string $xml The XML or YAML string to compare.
-     * @return string The differences in YAML format.
+     * @param bool $includeuseddefaults Whether to include the defaults used in the result.
+     * @return string|array The differences in YAML format, optionally with defaults used.
      */
-    public static function detect_differences($xml) {
+    public static function detect_differences($xml, bool $includeuseddefaults = false) {
         if (!self::$defaults) {
                 self::$defaults = Yaml::parseFile(__DIR__ . '/../questiondefaults.yml');
         }
@@ -926,6 +927,7 @@ class StackQuestionLoader {
         }
         $plaindata = self::xml_to_array($xmldata);
         $diff = self::obj_diff(self::$defaults['question'], $plaindata['question']);
+        $useddefaults = self::find_used_defaults($plaindata['question'], self::$defaults['question']);
 
         $isquestiontext = isset($plaindata['question']['questiontext']);
         $isdefaultinput = preg_match(
@@ -949,11 +951,16 @@ class StackQuestionLoader {
             );
         if (!empty($plaindata['question']['input'])) {
             $diffinputs = [];
+            $useddefaultinputs = [];
             foreach ($plaindata['question']['input'] as $input) {
                 $diffinput = self::obj_diff(self::$defaults['input'], $input);
                 $diffinputs[] = $diffinput;
+                $useddefaultinputs[] = self::find_used_defaults($input, self::$defaults['input']);
             }
             $diff['input'] = $diffinputs;
+            if (count(array_filter($useddefaultinputs))) {
+                $useddefaults['input'] = $useddefaultinputs;
+            }
             // We need to create an input if questiontext contains [[input:ansnamedefault]] or
             // questiontext doesn't exist and default contains [[input:ansnamedefault]].
         } else if ((!$isquestiontext && $isdefaultinput) || $isrequesteddefaultinput) {
@@ -965,20 +972,32 @@ class StackQuestionLoader {
                 'checkanswertype' => self::get_default('input', 'checkanswertype', '0'),
                 'mustverify' => self::get_default('input', 'mustverify', '1'),
                 'showvalidation' => self::get_default('input', 'showvalidation', '1')]];
+            $useddefaults['input'] = [self::$defaults['input']];
         } else {
             $diff['input'] = [];
             if (self::get_default('question', 'defaultgrade', 1) !== 0) {
                 $diff['defaultgrade'] = '0';
+                $useddefaults['defaultgrade'] = '0';
             } else {
                 unset($diff['defaultgrade']);
             }
         }
+        if (!array_key_exists('specificfeedback', $plaindata['question'])) {
+            $useddefaults['specificfeedback'] = (
+                ((!$isquestiontext && $isdefaultinput) || $isrequesteddefaultinput) ?
+                self::get_default('question', 'specificfeedback', '[[feedback:prt1]]') : ''
+            );
+        }
         if (!empty($plaindata['question']['prt'])) {
             $diffprts = [];
+            $useddefaultprts = [];
             foreach ($plaindata['question']['prt'] as $prt) {
                 $diffprt = self::obj_diff(self::$defaults['prt'], $prt);
+                $useddefaultprt = self::find_used_defaults($prt, self::$defaults['prt']);
+                $useddefaultnodes = [];
                 foreach ($prt['node'] as $node) {
                     $diffnode = self::obj_diff(self::$defaults['node'], $node);
+                    $useddefaultnodes[] = self::find_used_defaults($node, self::$defaults['node']);
                     if (substr($diffnode['answertest'], 0, 2) === 'AT') {
                         unset($diffnode['sans']);
                         unset($diffnode['tans']);
@@ -1007,9 +1026,16 @@ class StackQuestionLoader {
 
                     $diffprt['node'][] = $diffnode;
                 }
+                if (count(array_filter($useddefaultnodes))) {
+                    $useddefaultprt['node'] = $useddefaultnodes;
+                }
                 $diffprts[] = $diffprt;
+                $useddefaultprts[] = $useddefaultprt;
             }
             $diff['prt'] = $diffprts;
+            if (count(array_filter($useddefaultprts))) {
+                $useddefaults['prt'] = $useddefaultprts;
+            }
             // We need to create a PRT if questiontext contains [[input:ansnamedefault]] or
             // questiontext doesn't exist and default contains [[input:ansnamedefault]].
         } else if (
@@ -1027,6 +1053,9 @@ class StackQuestionLoader {
                 'autosimplify' => self::get_default('prt', 'autosimplify', '1'),
                 'feedbackstyle' => self::get_default('prt', 'feedbackstyle', '1'),
                 'node' => [$prtnode]]];
+            $useddefaults['prt'] = [
+                self::$defaults['prt'] + ['node' => [self::$defaults['node']]],
+            ];
         } else {
             $diff['prt'] = [];
         }
@@ -1041,28 +1070,72 @@ class StackQuestionLoader {
         }
         if (!empty($plaindata['question']['qtest'])) {
             $difftests = [];
+            $useddefaulttests = [];
             foreach ($plaindata['question']['qtest'] as $test) {
                 $difftest = [];
                 $difftest['testcase'] = $test['testcase'];
                 $difftest = array_merge($difftest, self::obj_diff(self::$defaults['qtest'], $test));
+                $useddefaulttest = self::find_used_defaults($test, self::$defaults['qtest']);
+                $useddefaulttestinputs = [];
                 foreach ($test['testinput'] as $tinput) {
                     $difftinput = [];
                     $difftinput['name'] = $tinput['name'];
                     $difftinput = array_merge($difftinput, self::obj_diff(self::$defaults['testinput'], $tinput));
                     $difftest['testinput'][] = $difftinput;
+                    $useddefaulttestinputs[] = self::find_used_defaults($tinput, self::$defaults['testinput']);
                 }
+                if (count(array_filter($useddefaulttestinputs))) {
+                    $useddefaulttest['testinput'] = $useddefaulttestinputs;
+                }
+                $useddefaultexpected = [];
                 foreach ($test['expected'] as $texpected) {
                     $difftexpected = [];
                     $difftexpected['name'] = $texpected['name'];
                     $difftexpected = array_merge($difftexpected, self::obj_diff(self::$defaults['expected'], $texpected));
                     $difftest['expected'][] = $difftexpected;
+                    $useddefaultexpected[] = self::find_used_defaults($texpected, self::$defaults['expected']);
+                }
+                if (count(array_filter($useddefaultexpected))) {
+                    $useddefaulttest['expected'] = $useddefaultexpected;
                 }
                 $difftests[] = $difftest;
+                $useddefaulttests[] = $useddefaulttest;
             }
             $diff['qtest'] = $difftests;
+            if (count(array_filter($useddefaulttests))) {
+                $useddefaults['qtest'] = $useddefaulttests;
+            }
         }
         $yaml = Yaml::dump($diff, 10, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK | Yaml::DUMP_COMPACT_NESTED_MAPPING);
+        if ($includeuseddefaults) {
+            return [
+                'diff' => $yaml,
+                'useddefaults' => $useddefaults,
+            ];
+        }
         return $yaml;
+    }
+
+    /**
+     * Find default fields that are absent from a question definition.
+     *
+     * @param array $data The question data.
+     * @param array $defaults The defaults to compare with the question data.
+     * @return array The defaults used by the API.
+     */
+    private static function find_used_defaults(array $data, array $defaults): array {
+        $useddefaults = [];
+        foreach ($defaults as $key => $value) {
+            if (!array_key_exists($key, $data)) {
+                $useddefaults[$key] = $value;
+            } else if (is_array($value) && is_array($data[$key])) {
+                $nested = self::find_used_defaults($data[$key], $value);
+                if ($nested !== []) {
+                    $useddefaults[$key] = $nested;
+                }
+            }
+        }
+        return $useddefaults;
     }
 
     /**

@@ -28,4 +28,6 @@ namespace api\dtos;
 class StackDiffResponse {
     /** @var string */
     public $diff;
+    /** @var object */
+    public $useddefaults;
 }

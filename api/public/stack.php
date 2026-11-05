@@ -201,6 +201,10 @@ require_login();
             <h2>YAML representation based on API defaults:</h2>
             <div id="difference" class="feedback outcome" style="white-space: pre;"></div>
           </div>
+        <div id="stackapi_useddefaults" class="col-lg-10" style="display: none">
+            <h2>Defaults used:</h2>
+            <pre id="useddefaults" class="feedback outcome"></pre>
+          </div>
         </div>
       </div>
     </div>

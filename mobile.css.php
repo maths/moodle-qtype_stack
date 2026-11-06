@@ -34,5 +34,5 @@ if ($css === false) {
     exit;
 }
 
-$pixurl = rtrim($CFG->wwwroot, '/') . '/question/type/stack/pix/';
+$pixurl = (new moodle_url('/question/type/stack/pix/'))->out(false);
 echo str_replace('../pix/', $pixurl, $css);

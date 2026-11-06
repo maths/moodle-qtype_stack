@@ -50,23 +50,29 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<tr><td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_0_1" name="ans1_sub_0_1" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 2" /></td>' .
                 '<td><input type="text" id="ans1_sub_0_2" name="ans1_sub_0_2" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 3" /></td>' .
                 '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_1_0" name="ans1_sub_1_0" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 2" /></td>' .
                 '<td><input type="text" id="ans1_sub_1_2" name="ans1_sub_1_2" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 3" /></td>' .
                 '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
             $el->render(
                 new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
@@ -127,17 +133,21 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="a" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_0_1" name="ans1_sub_0_1" value="b" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 2" /></td>' .
                 '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_1_0" name="ans1_sub_1_0" value="?" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="d" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 2" /></td>' .
                 '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
             $el->render(
                 new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
@@ -160,17 +170,21 @@ final class input_matrix_test extends qtype_stack_testcase {
             '<td style="padding-top: 0.5em">&nbsp;</td>' .
             '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="a" size="5" ' .
                 'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                'aria-label="Row 1, column 1" /></td>' .
             '<td><input type="text" id="ans1_sub_0_1" name="ans1_sub_0_1" value="b" size="5" ' .
                 'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                'aria-label="Row 1, column 2" /></td>' .
             '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
             '<td><input type="text" id="ans1_sub_1_0" name="ans1_sub_1_0" value="?" size="5" ' .
                 'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                'aria-label="Row 2, column 1" /></td>' .
             '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="d" size="5" ' .
                 'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                'aria-label="Row 2, column 2" /></td>' .
             '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
             $el->render(
                 new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
@@ -194,17 +208,21 @@ final class input_matrix_test extends qtype_stack_testcase {
             '<td style="padding-top: 0.5em">&nbsp;</td>' .
             '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="a" size="5" ' .
                 'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                'aria-label="Row 1, column 1" /></td>' .
             '<td><input type="text" id="ans1_sub_0_1" name="ans1_sub_0_1" value="b" size="5" ' .
                 'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                'aria-label="Row 1, column 2" /></td>' .
             '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
             '<td><input type="text" id="ans1_sub_1_0" name="ans1_sub_1_0" value="?" size="5" ' .
                 'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                'aria-label="Row 2, column 1" /></td>' .
             '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="d" size="5" ' .
                 'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                'aria-label="Row 2, column 2" /></td>' .
             '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
             $el->render(
                 new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
@@ -228,17 +246,21 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" placeholder="a" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_0_1" name="ans1_sub_0_1" placeholder="b" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 2" /></td>' .
                 '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_1_0" name="ans1_sub_1_0" placeholder="?" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" placeholder="d" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 2" /></td>' .
                 '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
             $el->render(
                 new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
@@ -260,17 +282,21 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_0_1" name="ans1_sub_0_1" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 2" /></td>' .
                 '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_1_0" name="ans1_sub_1_0" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 2" /></td>' .
                 '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
             $el->render(
                 new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
@@ -368,17 +394,21 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="1" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_0_1" name="ans1_sub_0_1" value="2" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 2" /></td>' .
                 '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_1_0" name="ans1_sub_1_0" value="4" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="5" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 2" /></td>' .
                 '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
             $el->render($state, 'ans1', false, null)
         );
@@ -411,17 +441,21 @@ final class input_matrix_test extends qtype_stack_testcase {
                 '<td style="padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="1" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_0_1" name="ans1_sub_0_1" value="2" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 1, column 2" /></td>' .
                 '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
                 '<td><input type="text" id="ans1_sub_1_0" name="ans1_sub_1_0" value="4" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 1" /></td>' .
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="5" size="5" ' .
                     'autocapitalize="none" spellcheck="false" data-stack-input-type="matrix" ' .
-                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," /></td>' .
+                    'data-stack-input-decimal-separator="." data-stack-input-list-separator="," ' .
+                    'aria-label="Row 2, column 2" /></td>' .
                 '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
             $el->render($state, 'ans1', false, null)
         );

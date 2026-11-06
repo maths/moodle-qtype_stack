@@ -96,7 +96,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         this.steps = steps;
         this.inputId = inputId;
         this.input = inputId ? document.getElementById(inputId) : null;
-        this.submitted = this.input && this.input.getAttribute("readonly") === "readonly";
+        this.submitted = this.input && this.input.hasAttribute("readonly");
         this.clone = clone;
         this.orientation = orientation;
         this.columns = ((this.orientation === "col") ? columns : rows);
@@ -123,6 +123,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
             added: "Item added.",
             removed: "Item removed.",
             moved: "Item moved.",
+            position: "Position {position} of {count}.",
             noemptycells: "No empty cells are available.",
             addsection: "Add to your solution",
             ordersection: "Order your solution",
@@ -148,15 +149,22 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         if (!container) {
             return;
         }
-        container.replaceChildren();
+        this.submitted = this.input && this.input.hasAttribute("readonly");
+        this.contentSerial = 0;
         container.classList.add("stack-parsons-accessible");
-
-        const live = document.createElement("div");
-        live.id = "parsons-accessible-live";
-        live.className = "stack-parsons-sr-only";
-        live.setAttribute("aria-live", "polite");
-        container.append(live);
-        this.liveRegion = live;
+        // Keep the registered live region in the DOM while replacing the answer controls.
+        if (!this.liveRegion) {
+            this.liveRegion = document.createElement("div");
+            this.liveRegion.id = "parsons-accessible-live";
+            this.liveRegion.className = "stack-parsons-sr-only";
+            this.liveRegion.setAttribute("aria-live", "polite");
+            this.liveRegion.setAttribute("aria-atomic", "true");
+            container.append(this.liveRegion);
+        }
+        if (typeof MathJax !== "undefined" && MathJax.typesetClear) {
+            MathJax.typesetClear([container]);
+        }
+        Array.from(container.children).filter(child => child !== this.liveRegion).forEach(child => child.remove());
 
         if (this.submitted) {
             container.append(this._render_readonly());
@@ -172,6 +180,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
     }
 
     reset() {
+        if (this.submitted || this.input?.hasAttribute("readonly")) { return; }
         this.state = this._generate_state();
         this.history = this.state;
         if (this.input) {
@@ -185,7 +194,8 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
     announce(message) {
         if (this.liveRegion) {
             this.liveRegion.textContent = "";
-            window.setTimeout(() => {
+            window.clearTimeout(this.announcementTimer);
+            this.announcementTimer = window.setTimeout(() => {
                 this.liveRegion.textContent = message;
             }, 0);
         }
@@ -196,11 +206,13 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         const list = document.createElement("ol");
         list.className = "stack-parsons-accessible-list stack-parsons-available";
 
-        this._current().available.forEach((key) => {
+        this._current().available.forEach((key, row) => {
             const item = document.createElement("li");
             item.className = "stack-parsons-accessible-item";
+            item.dataset.parsonsLocation = `available:${row}`;
             item.append(this._item_content(key));
             item.append(this._destination_form(key, null));
+            this._connect_controls(item);
             list.append(item);
         });
 
@@ -244,9 +256,11 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         items.forEach((key, row) => {
             const item = document.createElement("li");
             item.className = "stack-parsons-accessible-item";
+            item.dataset.parsonsLocation = `used:${col}:${row}`;
             item.append(this._item_content(key));
             if (!this.submitted) {
                 item.append(this._list_controls(key, col, row));
+                this._connect_controls(item);
             }
             list.append(item);
         });
@@ -264,6 +278,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         for (let row = 0; row < Number(this.rows); row++) {
             const item = document.createElement("li");
             item.className = "stack-parsons-accessible-grid-cell";
+            item.dataset.parsonsLocation = `used:${col}:${row}`;
             const cellLabel = document.createElement("h4");
             const rowLabel = this.index && this.index[row + 1] !== undefined ? this.index[row + 1] : String(row + 1);
             cellLabel.innerHTML = rowLabel;
@@ -277,6 +292,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
                 item.append(this._item_content(key));
                 if (!this.submitted) {
                     item.append(this._grid_controls(key, col, row));
+                    this._connect_controls(item);
                 }
             }
             list.append(item);
@@ -292,9 +308,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         const button = document.createElement("button");
         button.type = "button";
         button.textContent = from === null ? this.labels.add : this.labels.move;
-        button.setAttribute("aria-label", this._format(from === null ? this.labels.additem : this.labels.moveitem, {
-            item: this._item_label(key)
-        }));
+        button.dataset.parsonsAction = from === null ? 'add' : 'move';
         button.disabled = destinations.length === 0;
 
         if (destinations.length === 1) {
@@ -304,7 +318,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         }
 
         const select = document.createElement("select");
-        select.setAttribute("aria-label", this._format(this.labels.destinationitem, {item: this._item_label(key)}));
+        select.dataset.parsonsAction = 'destination';
         destinations.forEach((destination) => {
             const option = document.createElement("option");
             option.value = JSON.stringify(destination);
@@ -327,28 +341,47 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
     _list_controls(key, col, row) {
         const controls = document.createElement("div");
         controls.className = "stack-parsons-accessible-controls";
-
-        if (row !== 0) {
-            controls.append(this._button(this.labels.moveup, () => this._move_in_list(col, row, row - 1), false,
-                this._format(this.labels.moveupitem, {item: this._item_label(key)})));
-        }
-        if (row !== this._current().used[col][0].length - 1) {
-            controls.append(this._button(this.labels.movedown, () => this._move_in_list(col, row, row + 1), false,
-                this._format(this.labels.movedownitem, {item: this._item_label(key)})));
-        }
-        const remove = this._button(this.labels.remove, () => this._remove_from_list(col, row), false,
-            this._format(this.labels.removeitem, {item: this._item_label(key)}));
-
-        controls.append(remove);
+        const up = this._button(this.labels.moveup, () => this._move_in_list(col, row, row - 1));
+        up.dataset.parsonsAction = 'up';
+        up.setAttribute('aria-disabled', String(row === 0));
+        const down = this._button(this.labels.movedown, () => this._move_in_list(col, row, row + 1));
+        down.dataset.parsonsAction = 'down';
+        down.setAttribute('aria-disabled', String(row === this._current().used[col][0].length - 1));
+        const remove = this._button(this.labels.remove, () => this._remove_from_list(col, row));
+        remove.dataset.parsonsAction = 'remove';
+        controls.append(up, down, remove);
         return controls;
     }
 
     _grid_controls(key, col, row) {
         const controls = document.createElement("div");
         controls.className = "stack-parsons-accessible-controls";
-        controls.append(this._button(this.labels.remove, () => this._remove_from_grid(col, row), false,
-            this._format(this.labels.removeitem, {item: this._item_label(key)})));
+        const remove = this._button(this.labels.remove, () => this._remove_from_grid(col, row));
+        remove.dataset.parsonsAction = 'remove';
+        controls.append(remove);
         return controls;
+    }
+
+    // Keep the visible action as the name; retain mathematical structure in its description.
+    _connect_controls(item) {
+        const content = item.querySelector('.stack-parsons-accessible-content');
+        item.querySelectorAll('button, select').forEach(control => {
+            if (control.tagName === 'SELECT') {
+                control.setAttribute('aria-label', this.labels.destination);
+            } else {
+                control.removeAttribute('aria-label');
+            }
+            control.setAttribute('aria-describedby', content.id);
+        });
+    }
+
+    _restore_focus(target) {
+        if (!target) { return; }
+        const container = document.getElementById('parsons-accessible-container');
+        const item = Array.from(container.querySelectorAll('[data-parsons-location]'))
+            .find(candidate => candidate.dataset.parsonsLocation === target.location);
+        const control = item?.querySelector('[data-parsons-action="' + target.action + '"]');
+        control?.focus();
     }
 
     _destinations(from) {
@@ -376,7 +409,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
 
     _place_item(key, from, destination) {
         const current = this._clone_current();
-        const itemLabel = this._item_label(key);
+
         if (from === null) {
             if (this.clone !== "true") {
                 const availableIndex = current.available.indexOf(key);
@@ -395,41 +428,41 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         } else {
             current.used[destination.col][destination.row] = [key];
         }
-        const destinationLabel = destination && destination.label ? destination.label : "";
-        const message = from === null ?
-            this._format(this.labels.addeditem, {item: itemLabel, destination: destinationLabel}) :
-            this._format(this.labels.moveditemtodestination, {item: itemLabel, destination: destinationLabel});
-        this._commit(current, message);
+        const row = this.rows === "" ? current.used[destination.col][0].length - 1 : destination.row;
+        this._commit(current, from === null ? this.labels.added : this.labels.moved,
+            {location: `used:${destination.col}:${row}`, action: 'remove'});
     }
 
     _move_in_list(col, fromRow, toRow) {
         const current = this._clone_current();
         const list = current.used[col][0];
+        if (toRow < 0 || toRow >= list.length || fromRow === toRow) { return; }
         const item = list.splice(fromRow, 1)[0];
         list.splice(toRow, 0, item);
-        this._commit(current, this._format(this.labels.moveditem, {item: this._item_label(item)}));
+        this._commit(current, this.labels.moved + ' ' + this._format(this.labels.position,
+            {position: toRow + 1, count: list.length}),
+            {location: `used:${col}:${toRow}`, action: toRow < fromRow ? 'up' : 'down'});
     }
 
     _remove_from_list(col, row) {
         const current = this._clone_current();
         const key = current.used[col][0].splice(row, 1)[0];
-        if (this.clone !== "true") {
-            current.available.push(key);
-        }
-        this._commit(current, this._format(this.labels.removeditem, {item: this._item_label(key)}));
+        if (this.clone !== "true") { current.available.push(key); }
+        this._commit(current, this.labels.removed,
+            {location: `available:${current.available.indexOf(key)}`, action: 'add'});
     }
 
     _remove_from_grid(col, row) {
         const current = this._clone_current();
         const key = current.used[col][row][0];
         current.used[col][row] = [];
-        if (this.clone !== "true") {
-            current.available.push(key);
-        }
-        this._commit(current, this._format(this.labels.removeditem, {item: this._item_label(key)}));
+        if (this.clone !== "true") { current.available.push(key); }
+        this._commit(current, this.labels.removed,
+            {location: `available:${current.available.indexOf(key)}`, action: 'add'});
     }
 
-    _commit(current, message) {
+    _commit(current, message, focus = null) {
+        if (this.submitted || this.input?.hasAttribute("readonly")) { return; }
         const newState = [current, this._get_current_seconds()];
         if (JSON.stringify(newState[0]) !== JSON.stringify(this.history[0][0])) {
             this.history.unshift(newState);
@@ -440,6 +473,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
             this.input.dispatchEvent(new Event("change"));
         }
         this.render();
+        this._restore_focus(focus);
         this.announce(message);
     }
 
@@ -506,6 +540,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
     _item_content(key) {
         const content = document.createElement("div");
         content.className = "stack-parsons-accessible-content";
+        content.id = 'parsons-content-' + (++this.contentSerial);
         content.innerHTML = this.steps[key];
         return content;
     }
@@ -535,10 +570,6 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         const div = document.createElement("div");
         div.innerHTML = html;
         return div.textContent || div.innerText || "";
-    }
-
-    _item_label(key) {
-        return this._plain_text(this.steps[key]).replace(/\s+/g, " ").trim();
     }
 
     _format(template, replacements) {

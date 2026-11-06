@@ -132,3 +132,19 @@
     white-space: nowrap;
     border: 0;
 }
+
+.stack-parsons-accessible button[aria-disabled="true"] {
+    opacity: 0.6;
+}
+.stack-parsons-accessible button:focus-visible,
+.stack-parsons-accessible select:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
+}
+
+.stack-parsons-controls > #parsons-toggle-accessible {
+    max-width: calc(100% - 4px);
+    height: auto;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}

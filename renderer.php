@@ -188,6 +188,12 @@ class qtype_stack_renderer extends qtype_renderer {
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
 
+        // Associate authored input labels even when automatic validation is disabled or the attempt is read-only.
+        $labelquestionid = method_exists($qa, 'get_outer_question_div_unique_id')
+            ? $qa->get_outer_question_div_unique_id() : 'q' . $qa->get_slot();
+        $this->page->requires->js_call_amd('qtype_stack/input_labels', 'init',
+            [$labelquestionid, $qa->get_field_prefix()]);
+
         // Initialise automatic validation, if enabled.
         if (stack_utils::get_config()->ajaxvalidation) {
             // Once we cen rely on everyone being on a Moodle version that includes the fix for

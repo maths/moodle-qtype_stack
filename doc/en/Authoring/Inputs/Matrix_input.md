@@ -27,3 +27,8 @@ Students must separate their matrix elements by spaces, and newline characters.
 Input box size is used to determine the starting width of the input.
 
 If you use the `allowempty` option then an empty answer is indicated by the `EMPTYANSWER` tag.  This is a different _type_ than a matrix.  (We could have chosen `matrix()` as the empty matrix, but `EMPTYANSWER` is more in keeping with other inputs.)
+
+## Accessible input names
+
+Cells expose their one-based row and column. Authors can also associate the visible mathematical
+context, such as the matrix being requested, using [input labels](Accessible_labels.md).

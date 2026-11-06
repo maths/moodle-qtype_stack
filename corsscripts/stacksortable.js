@@ -396,7 +396,7 @@ export const stack_sortable = class stack_sortable {
         this.log = log;
         if (inputId !== null) {
             this.input = document.getElementById(this.inputId);
-            this.submitted = this.input.getAttribute("readonly") === "readonly"
+            this.submitted = this.input.hasAttribute("readonly")
         }
         this.ids = this._create_ids(this.rows, this.columns);
         this.availableId = this.ids.available;
@@ -456,7 +456,9 @@ export const stack_sortable = class stack_sortable {
      */
     add_delete_all_listener(buttonId, newUsed, newAvailable) {
         const button = document.getElementById(buttonId);
+        button.disabled = !!this.submitted;
         button.addEventListener("click", () => {
+            if (this.submitted) { return; }
             this._delete_all_from_used(); this.update_state(newUsed, newAvailable); this.update_grid_empty_css();});
     }
 
@@ -504,12 +506,15 @@ export const stack_sortable = class stack_sortable {
      * The button allows users to change the orientation of sortable lists between vertical
      * and horizontal.
      */
-    add_reorientation_button() {
+    add_reorientation_button(label) {
         var btn = document.createElement("button");
         btn.id = "orientation";
+        btn.type = "button";
+        if (label) { btn.setAttribute("aria-label", label); }
         btn.setAttribute("class", "parsons-button");
         var icon = document.createElement("i");
         icon.setAttribute("class", "fa fa-refresh");
+        icon.setAttribute("aria-hidden", "true");
         btn.append(icon);
         btn.addEventListener("click", () => this._flip_orientation());
         document.body.insertBefore(btn, document.getElementById("containerRow"));
@@ -929,7 +934,8 @@ export const stack_sortable = class stack_sortable {
      * @returns {boolean} - Returns true if the element is double-clickable, false otherwise.
      */
     _double_clickable(item) {
-        return !item.matches(".header") && !item.matches(".index");
+        return !this.submitted && !item.closest("button, a, input, select, textarea, .header, .index") &&
+            !!item.closest("li[data-id]");
     }
 
     /**

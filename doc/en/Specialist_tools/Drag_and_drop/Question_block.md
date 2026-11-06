@@ -210,3 +210,14 @@ the move history takes the following format
     ]
 ]
 ```
+
+### Keyboard editing and focus
+
+After adding a step, focus moves to its Remove button in the answer. After removing a step, focus
+returns to its Add button in the available list. Moving a step retains focus on the corresponding
+Move up or Move down button; unavailable boundary moves are announced as disabled. Submitted answers
+remain read-only, including Reset. Button descriptions reference the rendered mathematical card.
+
+The editor and [shared input labels](../../Authoring/Inputs/Accessible_labels.md) should be evaluated
+with the site's supported browser and assistive-technology combinations. Keyboard and browser-tree
+checks alone do not establish screen-reader usability.

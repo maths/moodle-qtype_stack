@@ -68,7 +68,7 @@ div.stack-hint-content {
     min-height: 1em;
 }
 .que.stack .stackinputfeedback.loading {
-    background: #fff url('../pix/loading_small.gif') no-repeat top right;
+    background: #fff url(../pix/loading_small.gif) no-repeat top right;
 }
 .que.stack .stackinputfeedback.waiting .stacksyntaxexample,
 .que.stack .stackinputfeedback.loading .stacksyntaxexample {
@@ -161,7 +161,7 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
 }
 
 .que.stack div.matrixcurlybrackets {
-    --stack-curly-bracket: url('../pix/curlybracket.svg');
+    --stack-curly-bracket: url(../pix/curlybracket.svg);
     position: relative;
     display: inline-block;
     /*rtl:ignore*/
@@ -634,7 +634,7 @@ body.ie:not(.ie11) .stack_abstract_graph {
     padding: 8px;
 }
 #simplemodal-container a.modalCloseImg {
-    background: url('../pix/x.png') no-repeat;
+    background: url(../pix/x.png) no-repeat;
     width: 25px;
     height: 29px;
     display: inline;

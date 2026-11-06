@@ -551,7 +551,45 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['questionDefinition'] = '<quiz><question type="stack"></question></quiz>';
         $dc->__invoke($this->request, $this->response, []);
         $this->assertTrue(property_exists($this->output->useddefaults, 'hidden'));
-        $this->assertEquals('Default question', trim((string) $this->output->useddefaults->questiontext));
+        $this->assertEquals('Default', $this->output->useddefaults->name);
+        $this->assertEquals(
+            '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>',
+            trim((string) $this->output->useddefaults->questiontext)
+        );
+        $this->assertEquals('html', $this->output->useddefaults->questiontextformat);
+        $this->assertEquals('1', $this->output->useddefaults->defaultgrade);
         $this->assertEquals('ans1', $this->output->useddefaults->input[0]->name);
+        $this->assertEquals('15', $this->output->useddefaults->input[0]->boxsize);
+        $this->assertEquals('prt1', $this->output->useddefaults->prt[0]->name);
+        $this->assertEquals('AlgEquiv', $this->output->useddefaults->prt[0]->node[0]->answertest);
+
+        $this->requestdata['questionDefinition'] = <<<'XML'
+<quiz>
+  <question type="stack">
+    <name><text>Supplied name</text></name>
+    <questiontext format="html"><text>[[input:ans1]]</text></questiontext>
+    <specificfeedback format="html"><text>[[feedback:prt1]]</text></specificfeedback>
+    <input><name>ans1</name><tans>teacher_answer</tans></input>
+    <prt><name>prt1</name><node><name>0</name><sans>ans1</sans></node></prt>
+    <qtest><testcase>2</testcase><testinput><name>ans1</name></testinput><expected><name>prt1</name></expected></qtest>
+  </question>
+</quiz>
+XML;
+        $dc->__invoke($this->request, $this->response, []);
+        $useddefaults = $this->output->useddefaults;
+        $this->assertFalse(property_exists($useddefaults, 'name'));
+        $this->assertFalse(property_exists($useddefaults, 'questiontext'));
+        $this->assertFalse(property_exists($useddefaults, 'specificfeedback'));
+        $this->assertEquals('', $useddefaults->generalfeedback);
+        $this->assertFalse(property_exists($useddefaults->input[0], 'name'));
+        $this->assertFalse(property_exists($useddefaults->input[0], 'tans'));
+        $this->assertEquals('algebraic', $useddefaults->input[0]->type);
+        $this->assertFalse(property_exists($useddefaults->prt[0], 'name'));
+        $this->assertFalse(property_exists($useddefaults->prt[0]->node[0], 'name'));
+        $this->assertFalse(property_exists($useddefaults->prt[0]->node[0], 'sans'));
+        $this->assertEquals('ta1', $useddefaults->prt[0]->node[0]->tans);
+        $this->assertFalse(property_exists($useddefaults->qtest[0], 'testcase'));
+        $this->assertEquals('', $useddefaults->qtest[0]->testinput[0]->value);
+        $this->assertEquals('1-0-T', $useddefaults->qtest[0]->expected[0]->expectedanswernote);
     }
 }

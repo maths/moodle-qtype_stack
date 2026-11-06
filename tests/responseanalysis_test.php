@@ -710,6 +710,53 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals(7, count($this->report->jsonsummary));
     }
 
+    /**
+     * Historical versions may be unreadable even though their attempts and version records remain.
+     * @dataProvider unavailable_version_provider
+     * @param string $type attempt fixture
+     * @param string $damage missing record to simulate
+     */
+    public function test_report_with_unavailable_historical_version(string $type, string $damage): void {
+        global $DB;
+        $this->create_steps($type);
+        $oldid = $this->quizquestion->id;
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $current = $generator->update_question($this->quizquestion, 'response_test');
+        $this->assertNotEquals($oldid, $current->id);
+
+        // Keep one readable attempt in the mixed-version report.
+        if ($type === 'singleinput') {
+            $attemptid = $DB->get_field_sql('SELECT MAX(id) FROM {question_attempts} WHERE questionid = ?', [$oldid]);
+            $DB->set_field('question_attempts', 'questionid', $current->id, ['id' => $attemptid]);
+        }
+        if ($damage === 'question') {
+            $DB->delete_records('question', ['id' => $oldid]);
+        } else {
+            $DB->delete_records('qtype_stack_options', ['questionid' => $oldid]);
+        }
+        \question_bank::notify_question_edited($oldid);
+
+        // Exercise the complete report, including the real version-selection query.
+        $report = new stack_question_report(\question_bank::load_question($current->id),
+            $this->quizcontextid, $this->coursecontextid);
+        $expected = $type === 'singleinput' ? $this->summary : [3 => [RESPONSE3T => 1]];
+        $this->assertEquals($expected, $report->summary);
+        // Only readable questions can reconstruct the detailed per-step JSON.
+        $this->assertCount($type === 'singleinput' ? 1 : 0, $report->jsonsummary);
+    }
+
+    /**
+     * @return array unavailable-version cases, including multiple submitted responses in one attempt
+     */
+    public static function unavailable_version_provider(): array {
+        return [
+            'deleted question, mixed versions' => ['singleinput', 'question'],
+            'missing options, mixed versions' => ['singleinput', 'options'],
+            'deleted question, retries' => ['interactive1', 'question'],
+            'missing options, retries' => ['interactive1', 'options'],
+        ];
+    }
+
     public function test_create_summary_second_slot(): void {
         $this->create_steps('secondslot');
         $this->report = $this->getMockBuilder(stack_question_report::class)

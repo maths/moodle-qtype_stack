@@ -221,10 +221,26 @@ class stack_question_report {
             $steps = $attempt->steps;
             $questionkey = $attempt->questionid . '/' . $steps[0]->get_qt_var('_seed');
             if (!array_key_exists($questionkey, $questions)) {
-                $questions[$questionkey] = question_bank::load_question($attempt->questionid);
-                $questions[$questionkey]->apply_attempt_state($steps[0]);
+                try {
+                    $questions[$questionkey] = question_bank::load_question($attempt->questionid);
+                } catch (Exception $e) {
+                    // Like Moodle's attempt loader, tolerate an unavailable historical question.
+                    $questions[$questionkey] = null;
+                }
+                if ($questions[$questionkey] instanceof qtype_stack_question) {
+                    $questions[$questionkey]->apply_attempt_state($steps[0]);
+                }
             }
             $question = $questions[$questionkey];
+            if (!$question instanceof qtype_stack_question) {
+                // Only the final summary survives without the definition. Count it once per attempt;
+                // earlier responses and detailed JSON cannot be reconstructed from a missing question.
+                $rsummary = trim($qattempt->responsesummary ?? '');
+                if ($rsummary !== '') {
+                    $summary[$qattempt->variant][$rsummary] = ($summary[$qattempt->variant][$rsummary] ?? 0) + 1;
+                }
+                continue;
+            }
             if (!array_key_exists($attempt->behaviour, $behaviours)) {
                 $behaviours[$attempt->behaviour] = question_engine::make_behaviour(
                     $attempt->behaviour,

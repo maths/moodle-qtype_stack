@@ -132,7 +132,7 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
         $cacheid = stack_question_library::STACKLIB;
     } else {
         $external = $librarytype;
-        $externaldetail = $allowedlibraries->{$libraryid}->url;
+        $externaldetail = ['url' => $allowedlibraries->{$libraryid}->url, 'id' => $libraryid];
     }
 } else if (str_starts_with($location, stack_question_library::NRWSEARCH)) {
     require_capability('qtype/stack:useexternallibraries', \context_system::instance());

@@ -173,6 +173,7 @@ final class library_render_test extends externallib_advanced_testcase {
         $cache->purge();
         $file = new \StdClass();
         $file->url = 'fakeURL';
+        $file->githubcredential = ['setting' => 'githubtoken_bank', 'repository' => 'https://api.github.com/repos/a/b'];
         $cache->set(\stack_question_library::GITHUB . '_flat_file_list', ['file' => $file]);
         // Set the required capabilities - webservice access and export rights on course.
         $context = context_course::instance($this->course->id);
@@ -180,7 +181,15 @@ final class library_render_test extends externallib_advanced_testcase {
         role_assign($managerroleid, $this->user->id, $context->id);
         role_assign($managerroleid, $this->user->id, \context_system::instance()->id);
 
-        $returnvalue = fake_render::render_execute($this->qcategory->id, 'file', \stack_question_library::GITHUB, '');
+        $renderer = new class extends fake_render {
+            public static array $credential = [];
+            public static function call_external_request($requestedfile, $external, $apikey) {
+                self::$credential = $apikey;
+                return parent::call_external_request($requestedfile, $external, $apikey);
+            }
+        };
+        $returnvalue = $renderer::render_execute($this->qcategory->id, 'file', \stack_question_library::GITHUB, '');
+        $this->assertSame($file->githubcredential, $renderer::$credential);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.

@@ -64,6 +64,15 @@ class stack_question_library {
     public const NRWAPIBASE = 'https://vmits1614.vm.ruhr-uni-bochum.de/dev/api';
 
     /**
+     * Stable setting key for an entry in the external library catalogue.
+     * @param string $libraryid Catalogue key (independent of the display name)
+     * @return string Encrypted configuration setting name
+     */
+    public static function github_token_setting(string $libraryid): string {
+        return 'githubtoken_' . hash('sha256', $libraryid);
+    }
+
+    /**
      * Wrapper for curl_exec to allow mocking in unit tests.
      *
      * @param resource $ch cURL handle
@@ -82,6 +91,80 @@ class stack_question_library {
      */
     protected static function get_curl_info($ch, int $opt) {
         return curl_getinfo($ch, $opt);
+    }
+
+    /**
+     * Create a Moodle HTTP client; overridable for transport tests.
+     * @return \curl HTTP client without response caching
+     */
+    protected static function github_client(): \curl {
+        global $CFG;
+        require_once($CFG->libdir . '/filelib.php');
+        return new \curl(['cache' => false]);
+    }
+
+    /**
+     * Build GitHub headers using an encrypted Moodle setting.
+     *
+     * @param string $setting Encrypted configuration setting name
+     * @return array HTTP headers
+     */
+    protected static function github_headers(string $setting = 'githubtoken'): array {
+        $headers = ['User-Agent: Moodle-STACK', 'Accept: application/vnd.github.v3+json'];
+        $encrypted = get_config('qtype_stack', $setting);
+        $token = $encrypted ? \core\encryption::decrypt($encrypted) : '';
+        if ($token !== false && $token !== '' && !preg_match('/[\r\n]/', $token)) {
+            $headers[] = 'Authorization: Bearer ' . $token;
+        }
+        return $headers;
+    }
+
+    /**
+     * Fetch GitHub data and retain only numeric diagnostic headers.
+     *
+     * @param string $url Request URL
+     * @param int $timeout Request timeout in seconds; zero uses the cURL default
+     * @param string $setting Encrypted configuration setting name
+     * @return array Response body, HTTP status, safe diagnostic text and numeric diagnostic headers
+     */
+    protected static function request_github(string $url, int $timeout = 0, string $setting = 'githubtoken'): array {
+        $parts = parse_url($url);
+        if (
+            ($parts['scheme'] ?? '') !== 'https' || ($parts['host'] ?? '') !== 'api.github.com' ||
+                ($parts['port'] ?? 443) !== 443 || isset($parts['user']) || isset($parts['pass'])
+        ) {
+            throw new \stack_exception('GitHub requests require an HTTPS api.github.com URL on port 443 without credentials.');
+        }
+        $client = static::github_client();
+        $client->setHeader(static::github_headers($setting));
+        $response = $client->get($url, [], [
+            'CURLOPT_USERAGENT' => 'Moodle-STACK',
+            'CURLOPT_TIMEOUT' => $timeout,
+            'CURLOPT_CONNECTTIMEOUT' => 300,
+            'CURLOPT_FOLLOWLOCATION' => false,
+            'CURLOPT_SSL_VERIFYPEER' => true,
+            'CURLOPT_SSL_VERIFYHOST' => 2,
+        ]);
+        $status = (int) ($client->get_info()['http_code'] ?? 0);
+        $errno = $client->get_errno();
+        // Moodle collects the headers. Select rate-limit numbers for errors and fallback decisions.
+        $headers = array_change_key_case($client->getResponse(), CASE_LOWER);
+        $diagnostics = [];
+        foreach (['x-ratelimit-remaining', 'x-ratelimit-reset', 'retry-after'] as $name) {
+            $value = $headers[$name] ?? null;
+            if (is_string($value) && ctype_digit(trim($value))) {
+                $diagnostics[$name] = trim($value);
+            }
+        }
+        // Moodle can return error text when a URL is blocked; do not treat it as a response body.
+        if ($errno || !$status) {
+            $response = false;
+        }
+        $details = 'HTTP ' . $status . ', cURL error ' . $errno;
+        foreach ($diagnostics as $name => $value) {
+            $details .= ', ' . $name . '=' . $value;
+        }
+        return [$response, $status, $details, $diagnostics];
     }
 
     /**
@@ -225,7 +308,7 @@ class stack_question_library {
     public static function get_file_list_from_repo($detail, $repotype) {
         switch ($repotype) {
             case self::GITHUB:
-                return self::list_github_repo($detail);
+                return is_array($detail) ? self::list_github_repo($detail['url'], $detail['id']) : self::list_github_repo($detail);
             case self::NRWSEARCH:
                 return self::list_nrw_search($detail);
             default:
@@ -244,7 +327,7 @@ class stack_question_library {
     public static function get_external_file($requestedfile, $repotype, $apikey) {
         switch ($repotype) {
             case self::GITHUB:
-                return self::get_external_github_file($requestedfile);
+                return self::get_external_github_file($requestedfile, is_array($apikey) ? $apikey : []);
             case self::NRWSEARCH:
                 return self::get_external_nrw_file($requestedfile, $apikey);
             default:
@@ -255,9 +338,10 @@ class stack_question_library {
     /**
      * Retrieves a list of all the files in a GitHub repo via API
      * @param string $githuburl
+     * @param string $libraryid Configured catalogue key, or empty to use only the default credential
      * @return array [object StdClass structured representation of the file system, array flat array of file objects]
      */
-    public static function list_github_repo(string $githuburl) {
+    public static function list_github_repo(string $githuburl, string $libraryid = '') {
         // Parse github URL like:
         // https://github.com/{owner}/{repo}/tree/{branch}/{path...}.
         $parts = parse_url($githuburl);
@@ -289,26 +373,37 @@ class stack_question_library {
 
         $apibase = "https://api.github.com/repos/{$owner}/{$repo}";
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Moodle-STACK'); // GitHub requires a user agent.
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/vnd.github.v3+json']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/vnd.github.v3+json']);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-
         $files = [];
         $errorresponse = new StdClass();
         $errorresponse->error = stack_string('stack_library_connection_error');
 
         // Always use the git/trees API with recursive=1, then filter by subpath.
         $apiurl = "{$apibase}/git/trees/" . rawurlencode($branch) . "?recursive=1";
-        curl_setopt($ch, CURLOPT_URL, $apiurl);
-        $response = static::execute_curl_request($ch);
-        $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
-        if ($response === false || $httpcode >= 400) {
-            if ($response) {
-                $errorresponse->error .= ': ' . $response;
+        $setting = 'githubtoken';
+        if ($libraryid !== '') {
+            $library = (json_decode(get_config('qtype_stack', 'libraries') ?: '{}', true) ?: [])[$libraryid] ?? null;
+            if (!$library || $library['url'] !== $githuburl) {
+                throw new \stack_exception('The GitHub library settings have changed or the library is unavailable. ' .
+                    'Reload the library page and try again.');
             }
+            $specific = self::github_token_setting($libraryid);
+            if (get_config('qtype_stack', $specific)) {
+                $setting = $specific;
+            }
+        }
+        [$response, $httpcode, $details, $diagnostics] = static::request_github($apiurl, 10, $setting);
+        // Retry access failures only. Rate limits must retain their original diagnostics.
+        if ($setting !== 'githubtoken' && in_array($httpcode, [401, 403, 404], true)
+                && $response !== false && !isset($diagnostics['retry-after'])
+                && ($diagnostics['x-ratelimit-remaining'] ?? null) !== '0'
+                && !str_contains(strtolower((string)$response), 'rate limit')
+                && get_config('qtype_stack', 'githubtoken')
+                && static::github_headers($setting) !== static::github_headers('githubtoken')) {
+            $setting = 'githubtoken';
+            [$response, $httpcode, $details] = static::request_github($apiurl, 10, $setting);
+        }
+        if ($response === false || $httpcode !== 200) {
+            $errorresponse->error .= ': ' . $details;
             return [$errorresponse, []];
         }
         $data = json_decode($response, true);
@@ -324,6 +419,8 @@ class stack_question_library {
                     'relpath' => $relpath,
                     'isdirectory' => ($item['type'] === 'tree') ? 1 : 0,
                     'url' => ($item['type'] === 'tree') ? '' : $item['url'],
+                    // Cache only the setting name, never the credential. Keep downloads on the listing's credential.
+                    'githubcredential' => ['setting' => $setting, 'repository' => $apibase],
                 ];
             }
         }
@@ -494,26 +591,17 @@ class stack_question_library {
      * Fetch a file from GitHub using the api blob URL.
      *
      * @param string $requestedfile API URL
+     * @param array $credential Server-cached repository and setting selected during listing
      * @return string XML file contents
      */
-    public static function get_external_github_file($requestedfile) {
-        $headers = [
-            'User-Agent: Moodle-STACK',
-            'Accept: application/vnd.github.v3+json',
-        ];
-
-        $ch = curl_init($requestedfile);
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER     => $headers,
-            CURLOPT_FAILONERROR    => false,
-            CURLOPT_SSL_VERIFYPEER => true,
-        ]);
-        $res = static::execute_curl_request($ch);
-        $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
-
+    public static function get_external_github_file($requestedfile, array $credential = []) {
+        if ($credential && !str_starts_with($requestedfile, $credential['repository'] . '/git/blobs/')) {
+            throw new \stack_exception('The requested file is outside this GitHub library. ' .
+                'Reload the library page and select the file again.');
+        }
+        [$res, $httpcode, $details] = static::request_github($requestedfile, 0, $credential['setting'] ?? 'githubtoken');
         if ($res === false || $httpcode !== 200) {
-            throw new \stack_exception('File unavailable.');
+            throw new \stack_exception('File unavailable (' . $details . ').');
         }
 
         $json = json_decode($res, true);

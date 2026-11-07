@@ -243,7 +243,7 @@ $settings->add(new admin_setting_configtext(
     3
 ));
 
-$settings->add(new admin_setting_configtextarea(
+$setting = new admin_setting_configtextarea(
     'qtype_stack/libraries',
     get_string('settingexternallibraries', 'qtype_stack'),
     get_string('settingexternallibraries_desc', 'qtype_stack'),
@@ -251,7 +251,38 @@ $settings->add(new admin_setting_configtextarea(
     PARAM_RAW,
     60,
     5
-));
+);
+$setting->set_updatedcallback(static function () {
+    cache_helper::purge_by_definition('qtype_stack', 'librarycache');
+});
+$settings->add($setting);
+
+$setting = new admin_setting_encryptedpassword(
+    'qtype_stack/githubtoken',
+    get_string('settinggithubtoken', 'qtype_stack'),
+    get_string('settinggithubtoken_desc', 'qtype_stack')
+);
+$setting->set_updatedcallback(static function () {
+    cache_helper::purge_by_definition('qtype_stack', 'librarycache');
+});
+$settings->add($setting);
+
+// Library catalogue keys identify credentials; display-name changes do not change the secret.
+require_once(__DIR__ . '/stack/questionlibrary.class.php');
+foreach (json_decode(get_config('qtype_stack', 'libraries') ?: '{}', true) ?: [] as $id => $library) {
+    if (!is_array($library) || !str_starts_with($library['url'] ?? '', 'https://github.com/')) {
+        continue;
+    }
+    $setting = new admin_setting_encryptedpassword(
+        'qtype_stack/' . stack_question_library::github_token_setting((string)$id),
+        get_string('settinggithublibrarytoken', 'qtype_stack', s($library['name'] ?? $id)),
+        get_string('settinggithublibrarytoken_desc', 'qtype_stack')
+    );
+    $setting->set_updatedcallback(static function () {
+        cache_helper::purge_by_definition('qtype_stack', 'librarycache');
+    });
+    $settings->add($setting);
+}
 
 $settings->add(new admin_setting_configtext(
     'qtype_stack/nrwapikey',

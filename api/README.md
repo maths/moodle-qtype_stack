@@ -236,6 +236,23 @@ Example result object:
 
 If a question has no tests, a default test will be run to check if the model answers return a score of 1.
 
+#### Interpreting `/test` results in automated question authoring
+
+An HTTP success or positive `passes` count does **not** establish that author-supplied question tests ran. The `istests` field indicates whether explicit test cases were loaded. If no test cases are supplied and the question has PRTs, the API may run a fallback check using the teacher's answers and expecting full marks. This does not check how other answers are graded.
+
+The following **suggested client-side reporting labels are not fields returned by the API**. The examples correspond to cases in the existing [API controller tests](../tests/api_controller_test.php); they are not results of a new API run.
+
+| Observed response (selected fields) | Suggested report | Scope |
+| --- | --- | --- |
+| `istests: false`, `results.noseed.passes: 1`, `fails: 0` | **DEFAULT_CHECK_ONLY** | Teacher-answer fallback passed; no explicit tests were run. |
+| `istests: true`, `results.noseed.fails: 2` | **EXPLICIT_TESTS_FAILED** | At least one supplied test failed. |
+| `isupgradeerror: true`, `results: []` | **NOT_VERIFIED** | Validation stopped testing; no successful run can be inferred. |
+| `istests: true`, a returned seed has `passes: 4`, `fails: 0`, and empty `messages` | **CHECK_THIS_SEED** | Check the case-level `outcomes` and the other expected seeds before claiming coverage. |
+
+A client may report **explicit question tests passed for the evaluated seeds** only if `istests` is `true`, `isupgradeerror` is `false`, top-level `messages` is empty, and `results` contains a non-empty set of seed results. For **every** reported seed, require non-null `passes > 0`, `fails: 0`, empty seed-level `messages`, non-empty `outcomes`, and `passed: true` on every reported test case. Require `passes + fails` to equal the number of reported test-case outcomes. Missing, inconsistent, or empty results are **inconclusive**, not passes. Explicit failed cases or non-empty error messages must be reported rather than hidden by other passing cases.
+
+For a claim covering **all deployed variants**, additionally check that `israndomvariants` / `isdeployedseeds` and the returned seed keys are consistent with the deployed seeds in the submitted question. A successful test result certifies only the evaluated test cases; it does not establish mathematical correctness for all possible answers. See [testing and quality control](../doc/en/STACK_question_admin/Testing.md) for guidance on including both correct-answer and incorrect-answer test cases.
+
 ### Diff route
 
 The `POST /diff` route is used to compare a question with defaults.

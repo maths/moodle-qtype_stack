@@ -266,8 +266,14 @@ jobs:
         if: ${{ matrix.moodle-branch == 'main' || matrix.moodle-branch == 'MOODLE_405_STABLE'}}
         #if: ${{ always() }}
         env:
-          STACK_GITHUB_TOKEN: ${{ github.token }}
-        run: moodle-plugin-ci phpunit
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          tokenconfig="$RUNNER_TEMP/stack-github-token.php"
+          trap 'rm -f "$tokenconfig"; rm -rf "$RUNNER_TEMP/stack-github-key"' EXIT
+          printf '%s' "$GITHUB_TOKEN" | php plugin/tests/fixtures/setup_github_token.php "$PWD/moodle" "$tokenconfig"
+          unset GITHUB_TOKEN
+          cd moodle
+          php vendor/bin/phpunit -c phpunit-stack-github.xml --testsuite qtype_stack_testsuite
 
       - name: JS unit tests
         if: ${{matrix.moodle-branch == 'MOODLE_502_STABLE'}}

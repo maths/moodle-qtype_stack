@@ -200,15 +200,22 @@ npm test
 
 ### GitHub API authentication
 
-External-library tests retrieve public files from GitHub. Set `STACK_GITHUB_TOKEN` in the PHP process
-environment to authenticate these requests. The token is optional and is also supported by live STACK
-installations. GitHub requests require an HTTPS URL on `api.github.com`, port 443, without embedded credentials.
+External-library requests use the encrypted GitHub library access token in STACK settings, in both
+web and CLI execution. A library-specific token takes precedence over the default token. On HTTP
+401/403/404 access failures, listing retries with the default token if present and different. Rate
+limits, transport errors and server errors do not trigger fallback. Downloads use the credential
+selected by the listing. Without either token, requests are anonymous.
+
+GitHub requests require HTTPS on `api.github.com`, port 443, without embedded credentials.
 Other URLs are rejected before any request; redirects are not followed.
 
-GitHub Actions supplies its temporary token only to the PHPUnit step with `contents: read` permission.
-Code executed by that step can read the token, so do not substitute a production token or a personal
-token with broader access when testing contributions. Live installations should use their own token
-with only the permissions needed to read the intended repositories.
+CI passes its temporary `contents: read` token to `tests/fixtures/setup_github_token.php` on stdin.
+The script saves the token through Moodle's encrypted setting. It generates a PHPUnit bootstrap that
+loads the encrypted value through `forced_plugin_settings` after Moodle starts, then records it in
+PHPUnit's reset state. The encryption key is stored outside the directories PHPUnit clears. CI removes
+the generated bootstrap and key after the tests.
+Code executed by tests can decrypt the credential; use only the temporary CI token when testing
+contributions. STACK does not read a token from the environment.
 
 Retrieval failures report the HTTP status, cURL error number and available numeric rate-limit headers.
 The external-library tests display listing errors before accessing the returned files.

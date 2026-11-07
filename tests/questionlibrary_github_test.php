@@ -33,66 +33,85 @@ require_once(__DIR__ . '/../stack/utils.class.php');
  *
  * @covers \stack_question_library
  */
-final class questionlibrary_github_test extends \basic_testcase {
+final class questionlibrary_github_test extends \advanced_testcase {
     /**
      * Authentication is optional and rejects invalid header values.
      */
     public function test_optional_token(): void {
-        $previous = getenv('STACK_GITHUB_TOKEN');
-        try {
-            putenv('STACK_GITHUB_TOKEN=test-token');
-            $method = new \ReflectionMethod(\stack_question_library::class, 'github_headers');
+        global $CFG;
+        $this->resetAfterTest();
+        unset($CFG->forced_plugin_settings['qtype_stack']['githubtoken']);
+        $method = new \ReflectionMethod(\stack_question_library::class, 'github_headers');
+        foreach (['test-token', '', "invalid\r\nheader"] as $token) {
+            set_config('githubtoken', $token === '' ? '' : \core\encryption::encrypt($token), 'qtype_stack');
             $headers = $method->invoke(null);
-            $this->assertContains('Authorization: Bearer test-token', $headers);
-            putenv('STACK_GITHUB_TOKEN');
-            $this->assertCount(2, $method->invoke(null));
-            putenv("STACK_GITHUB_TOKEN=invalid\r\nheader");
-            $this->assertCount(2, $method->invoke(null));
-        } finally {
-            putenv($previous === false ? 'STACK_GITHUB_TOKEN' : 'STACK_GITHUB_TOKEN=' . $previous);
+            if ($token === 'test-token') {
+                $this->assertContains('Authorization: Bearer test-token', $headers);
+            } else {
+                $this->assertCount(2, $headers);
+            }
         }
+    }
+
+    /**
+     * A web entry point must ignore even a valid environment credential.
+     */
+    public function test_web_requests_ignore_environment_token(): void {
+        $script = 'define("MOODLE_INTERNAL", true); define("CLI_SCRIPT", false);'
+            . 'require ' . var_export(__DIR__ . '/../stack/questionlibrary.class.php', true) . ';'
+            . 'function get_config($component, $name) { return false; }'
+            . 'putenv("STACK_GITHUB_TOKEN=server-secret");'
+            . '$method = new \ReflectionMethod(\stack_question_library::class, "github_headers");'
+            . 'echo json_encode($method->invoke(null));';
+        $pipes = [];
+        $process = proc_open([PHP_BINARY, '-r', $script], [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
+        $this->assertIsResource($process);
+        $output = stream_get_contents($pipes[1]);
+        $errors = stream_get_contents($pipes[2]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        $this->assertSame(0, proc_close($process), $errors);
+        $this->assertSame(['User-Agent: Moodle-STACK', 'Accept: application/vnd.github.v3+json'],
+            json_decode($output, true));
     }
 
     /**
      * Unsupported origins are rejected before executing any request, with or without a token.
      */
     public function test_invalid_urls_are_rejected(): void {
-        $previous = getenv('STACK_GITHUB_TOKEN');
+        global $CFG;
+        $this->resetAfterTest();
+        unset($CFG->forced_plugin_settings['qtype_stack']['githubtoken']);
         $library = new class extends \stack_question_library {
             /**
-             * A rejected URL must never reach the transport.
+             * A rejected URL must never create an HTTP client.
              *
-             * @param resource $ch cURL handle
-             * @return string Response body
+             * @return \curl HTTP client
              */
-            protected static function execute_curl_request($ch) {
+            protected static function github_client(): \curl {
                 throw new \LogicException('Unexpected network request.');
             }
         };
         $method = new \ReflectionMethod($library, 'request_github');
-        try {
-            foreach (['', 'test-token'] as $token) {
-                putenv('STACK_GITHUB_TOKEN=' . $token);
-                $urls = [
-                    'http://api.github.com/repos/example',
-                    'https://api.github.com.example.org/repos/example',
-                    'https://example.org/api.github.com',
-                    'https://api.github.com:8443/repos/example',
-                    'https://user:password@api.github.com/repos/example',
-                    'not a URL',
-                ];
-                foreach ($urls as $url) {
-                    try {
-                        $method->invoke(null, $url);
-                        $this->fail('Unsupported URL was accepted.');
-                    } catch (\stack_exception $exception) {
-                        $this->assertStringContainsString('HTTPS api.github.com URL', $exception->getMessage());
-                        $this->assertStringNotContainsString($url, $exception->getMessage());
-                    }
+        foreach (['', 'test-token'] as $token) {
+            set_config('githubtoken', $token === '' ? '' : \core\encryption::encrypt($token), 'qtype_stack');
+            $urls = [
+                'http://api.github.com/repos/example',
+                'https://api.github.com.example.org/repos/example',
+                'https://example.org/api.github.com',
+                'https://api.github.com:8443/repos/example',
+                'https://user:password@api.github.com/repos/example',
+                'not a URL',
+            ];
+            foreach ($urls as $url) {
+                try {
+                    $method->invoke(null, $url);
+                    $this->fail('Unsupported URL was accepted.');
+                } catch (\stack_exception $exception) {
+                    $this->assertStringContainsString('HTTPS api.github.com URL', $exception->getMessage());
+                    $this->assertStringNotContainsString($url, $exception->getMessage());
                 }
             }
-        } finally {
-            putenv($previous === false ? 'STACK_GITHUB_TOKEN' : 'STACK_GITHUB_TOKEN=' . $previous);
         }
     }
 
@@ -131,8 +150,9 @@ final class questionlibrary_github_test extends \basic_testcase {
              * @param int $timeout Request timeout in seconds
              * @return array Response body, status and diagnostics
              */
-            protected static function request_github(string $url, int $timeout = 0): array {
-                return ['sensitive response', 403, 'HTTP 403, cURL error 0, x-ratelimit-remaining=0'];
+            protected static function request_github(string $url, int $timeout = 0, string $setting = 'githubtoken'): array {
+                return ['sensitive response', 403, 'HTTP 403, cURL error 0, x-ratelimit-remaining=0',
+                    ['x-ratelimit-remaining' => '0']];
             }
         };
     }

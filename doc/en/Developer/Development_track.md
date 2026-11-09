@@ -18,6 +18,7 @@ Issues with [github milestone 4.15.0](https://github.com/maths/moodle-qtype_stac
 4. Fix: the answer tests `Int`, `Antidiff`, `AddConst`, `Diff` and `EqualComAssRules` no longer change the value of `simp` when they return.  Previously `simp:false` could leak out of them, for example when one was called directly in the feedback variables.  Inside a potential response tree `simp` is already local, so marking is unchanged.
 5. Fix: the editing form and import now refuse `[[feedback:...]]` and `[[validation:...]]` placeholders in the general feedback, question note and question description, and `[[validation:...]]` in the specific feedback.  Previously only `[[input:...]]` placeholders were caught, and each was reported three times.
 6. The security map now lists the answer-test functions, such as `ATAlgEquiv`, as available to teachers only.  Behaviour is unchanged: they were already unavailable to students.
+7. Importing a question whose tests repeat a test-case number now keeps every test: the later one gets the next free number, with a warning.  Previously it silently replaced the earlier test.
 
 ## Better testing
 

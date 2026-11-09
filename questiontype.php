@@ -1946,6 +1946,18 @@ class qtype_stack extends question_type {
             $fromform->testcases = [];
             foreach ($xml['#']['qtest'] as $qtestxml) {
                 [$no, $testcase] = $this->import_xml_qtest($qtestxml, $format);
+                if (array_key_exists($no, $fromform->testcases)) {
+                    // Tests are stored by number, so a repeated number would silently replace the
+                    // earlier test. Keep both: give this one the next free number, and say so.
+                    $newno = max(array_keys($fromform->testcases)) + 1;
+                    $testcase->testcase = $newno;
+                    if ($format->displayprogress) {
+                        global $OUTPUT;
+                        echo $OUTPUT->notification(s($fromform->name) . ': ' .
+                            stack_string('multipletestcases', ['number' => $no, 'newnumber' => $newno]), 'warning');
+                    }
+                    $no = $newno;
+                }
                 $fromform->testcases[$no] = $testcase;
             }
         }

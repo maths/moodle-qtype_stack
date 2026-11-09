@@ -813,6 +813,41 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(['prt1-1-T'], $testcase->expectedresults['prt1']->answernotes);
     }
 
+    public function test_xml_import_repeated_testcase_number(): void {
+        // A repeated test-case number keeps both tests: the later one is renumbered, with a warning.
+        $xml = '<question type="stack"><name><text>Repeated tests</text></name>
+            <questiontext><text><![CDATA[<p>[[input:ans1]] [[validation:ans1]]</p>]]></text></questiontext>
+            <specificfeedback><text>[[feedback:prt1]]</text></specificfeedback>
+            <stackversion><text>2026080600</text></stackversion>
+            <questionvariables><text>ta1: 2;</text></questionvariables>
+            <input><name>ans1</name><type>algebraic</type><tans>ta1</tans></input>
+            <prt><name>prt1</name><node><name>0</name><answertest>AlgEquiv</answertest>
+                <sans>ans1</sans><tans>ta1</tans>
+                <trueanswernote>prt1-1-T</trueanswernote><falseanswernote>prt1-1-F</falseanswernote>
+            </node></prt>
+            <qtest><testcase>1</testcase><description>right</description>
+                <testinput><name>ans1</name><value>2</value></testinput>
+                <expected><name>prt1</name><expectedanswernote>prt1-1-T</expectedanswernote></expected>
+            </qtest>
+            <qtest><testcase>1</testcase><description>wrong</description>
+                <testinput><name>ans1</name><value>3</value></testinput>
+                <expected><name>prt1</name><expectedanswernote>prt1-1-F</expectedanswernote></expected>
+            </qtest>
+        </question>';
+        $xmldata = $this->parse_xml($xml);
+
+        $importer = new qformat_xml();
+        $importer->displayprogress = true;
+        $this->expectOutputRegex('~Multiple question tests have the number 1\. The later one has been renumbered 2\.~');
+        $q = $importer->try_importing_using_qtypes($xmldata['question'], null, null, 'stack');
+
+        $this->assertEquals([1, 2], array_keys($q->testcases));
+        $this->assertEquals('right', $q->testcases[1]->description);
+        $this->assertEquals('wrong', $q->testcases[2]->description);
+        $this->assertEquals(2, $q->testcases[2]->testcase);
+        $this->assertEquals(null, $q->validationerrors ?? null);
+    }
+
     public function test_xml_import_placeholders_in_wrong_fields(): void {
         // Each kind of placeholder is reported, once, in a field which must not hold it.
         $importer = new qformat_xml();

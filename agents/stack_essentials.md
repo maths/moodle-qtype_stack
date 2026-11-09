@@ -96,7 +96,11 @@ question does not matter.
 
 **Elements the importer requires.** The question's `<name><text>`, and the
 `<name>` of every `<input>`, `<prt>` and `<node>`, and the `<testcase>` number
-of every `<qtest>`. Without them the import fails.
+of every `<qtest>`. Without them the import fails. Give every `<qtest>` a
+different `<testcase>` number: Moodle's importer stores tests by number
+(`import_from_xml()` in `questiontype.php`). From STACK 4.15.0 it gives a
+repeated number the next free one, with a warning; earlier versions silently
+replace the earlier test.
 
 **Text fields and plain fields.** These fields wrap their content in `<text>`:
 `name`, `questiontext`, `generalfeedback`, `stackversion`, `questionvariables`,

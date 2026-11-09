@@ -778,6 +778,7 @@ $string['missingnextnode'] = 'The PRT structure is malformed. {$a->type} next no
 $string['multipleinputs'] = 'Multiple inputs have the same name: {$a}.';
 $string['multipleprts'] = 'Multiple prts have the same name: {$a}.';
 $string['multiplenodes'] = 'Multiple nodes have the name: {$a->node} in PRT: {$a->prt}.';
+$string['multipletestcases'] = 'Multiple question tests have the number {$a->number}. The later one has been renumbered {$a->newnumber}.';
 
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';

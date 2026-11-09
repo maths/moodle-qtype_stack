@@ -287,11 +287,19 @@ Use `rand(L)`, or simplify the arithmetic explicitly, `ev(rand(6)+1, simp)`.
 ### Deploy variants of a randomised question
 
 Deploying variants is strongly recommended for every question whose question
-variables use randomisation. STACK detects this by the use of `rand`,
-`rand_with_prohib` and the like, `multiselqn` or `stack_seed`
-(`random_variants_check()` in `question.php`). Each `<deployedseed>` fixes one
-variant. Students get one of the deployed variants, and every test is run on
-each of them.
+variables use randomisation. STACK decides this from the question variables
+(`has_random_variants()` in `question.php`). A word that begins with `rand`,
+`multiselqn` or `stack_seed` makes the question random, so do not begin a
+variable's name with `rand`. STACK also follows functions defined in included
+libraries, and counts a call to one that uses a random function. STACK 4.14.0
+and earlier do not: there a random function from an included library whose
+name begins otherwise is missed, the question is treated as fixed, and every
+student gets the same variant, whatever is deployed. For those releases, call
+at least one random function in the question variables themselves. The API's
+test route reports the result as `israndomvariants`.
+
+Each `<deployedseed>` fixes one variant. Students get one of the deployed
+variants, and every test is run on each of them.
 
 Without deployed seeds students may get any variant, including one nobody has
 tested; the bulk tester reports the question, and the API's test route runs no

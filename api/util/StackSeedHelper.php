@@ -45,8 +45,9 @@ class StackSeedHelper {
 
             $question->seed = $seed;
         } else {
-            // We just set any seed here.
-            $question->seed = -1;
+            // Use the seed Moodle gives a question without random variants (start_attempt()
+            // in question.php), so that the API shows the variant students see.
+            $question->seed = 1;
         }
     }
 }

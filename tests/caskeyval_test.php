@@ -454,4 +454,29 @@ final class caskeyval_test extends qtype_stack_testcase {
         $kv = new stack_cas_keyval($tests);
         $this->asserttrue($kv->get_valid());
     }
+
+    public function test_text_uses_random(): void {
+        // Direct calls, and stack_seed.
+        $this->assertTrue(stack_cas_keyval::text_uses_random('a:rand(5);'));
+        $this->assertTrue(stack_cas_keyval::text_uses_random('a:rand_with_prohib(-3,3,[0]);'));
+        $this->assertTrue(stack_cas_keyval::text_uses_random('a:stack_seed+1;'));
+        $this->assertFalse(stack_cas_keyval::text_uses_random('a:5; b:a^2;'));
+        // A definition is random if its body is, directly or through another definition.
+        $this->assertTrue(stack_cas_keyval::text_uses_random('f(L):=rand(L); a:f([1,2]);'));
+        $this->assertTrue(stack_cas_keyval::text_uses_random('f(L):=rand(L); g(L):=[f(L),f(L)]; a:g([1,2]);'));
+        // A random function referred to inside a lambda, or passed by name.
+        $this->assertTrue(stack_cas_keyval::text_uses_random('f(L):=rand(L); a:map(lambda([x],f(x)),[[1,2]]);'));
+        $this->assertTrue(stack_cas_keyval::text_uses_random('f(L):=rand(L); a:map(f,[[1,2]]);'));
+        // Defining a random function without calling it is not random.
+        $this->assertFalse(stack_cas_keyval::text_uses_random('f(L):=rand(L); g(L):=first(L); a:g([1,2]);'));
+    }
+
+    public function test_compile_reports_random(): void {
+        $kv = new stack_cas_keyval('f(L):=rand(L); a:f([1,2]);');
+        $this->assertTrue($kv->get_valid());
+        $this->assertTrue($kv->compile('test')['random']);
+        $kv = new stack_cas_keyval('a:5;');
+        $this->assertTrue($kv->get_valid());
+        $this->assertFalse($kv->compile('test')['random']);
+    }
 }

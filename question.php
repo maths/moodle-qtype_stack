@@ -1557,7 +1557,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return bool whether this question uses randomisation.
      */
     public function has_random_variants() {
-        return $this->random_variants_check($this->questionvariables);
+        // The text check comes first: it needs no compilation, and keeps every question it finds random.
+        // The compiled check also finds a random function defined in an included library.
+        return $this->random_variants_check($this->questionvariables)
+            || $this->get_cached('random-qv') === true;
     }
 
     /**
@@ -1568,6 +1571,23 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public static function random_variants_check($text) {
         return preg_match('~\brand~', $text) || preg_match('~\bmultiselqn~', $text)
             || preg_match('~\bstack_seed~', $text);
+    }
+
+    /**
+     * As random_variants_check(), but also finds a random function defined in an included library.
+     * This fetches any included content, so use it where the question is not compiled, such as
+     * when validating the editing form; a compiled question should use has_random_variants().
+     * @param string $text the question variables.
+     * @return bool whether the question variables use randomisation.
+     */
+    public static function random_variants_check_with_includes($text) {
+        if (self::random_variants_check($text)) {
+            return true;
+        }
+        if (strpos($text, 'stack_include') === false) {
+            return false;
+        }
+        return stack_cas_keyval::text_uses_random($text);
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -2302,6 +2322,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $cc['preamble-qv'] = null;
             $cc['contextvariables-qv'] = null;
             $cc['security-context'] = [];
+            $cc['random-qv'] = false;
         } else {
             $kv = new stack_cas_keyval($questionvariables, $options);
             $kv->get_security($sec);
@@ -2315,6 +2336,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $cc['contextvariables-qv'] = $c['contextvariables'];
             // Store the possible block external features.
             $cc['preamble-qv'] = $c['blockexternal'];
+            // Whether the variables call a random function, including one from an included library.
+            $cc['random-qv'] = $c['random'] ?? false;
             // Finally extend the forbidden keys set if we saw any variables written.
             if (isset($c['references']['write'])) {
                 $forbiddenkeys = array_merge($forbiddenkeys, $c['references']['write']);

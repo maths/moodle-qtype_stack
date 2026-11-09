@@ -43,6 +43,8 @@ use api\controller\RenderController;
 use api\controller\ValidationController;
 use api\controller\TestController;
 use api\util\StackIframeHolder;
+use api\util\StackQuestionLoader;
+use api\util\StackSeedHelper;
 use stack_api_test_data;
 use Psr\Http\Message\ResponseInterface as ResponseInt;
 use Psr\Http\Message\StreamInterface as StreamInt;
@@ -547,6 +549,25 @@ final class api_controller_test extends qtype_stack_testcase {
                 $this->assertEquals(1, $results->results->{'2'}->fails);
             }
         }
+    }
+
+    public function test_seed_helper_matches_moodle(): void {
+        // A question without random variants gets seed 1 whatever is deployed, as start_attempt() gives it in Moodle.
+        $xml = str_replace('</prt>', '</prt><deployedseed>5</deployedseed>',
+            stack_api_test_data::get_question_string('test3'));
+        $question = StackQuestionLoader::loadxml($xml)['question'];
+        StackSeedHelper::initialize_seed($question, 5);
+        $this->assertEquals(1, $question->seed);
+
+        // A randomised question gets the deployed seed asked for.
+        $xml = str_replace(
+            ['<text>ta:a*b</text>', '</prt>'],
+            ['<text>n:rand(2); ta:a*b</text>', '</prt><deployedseed>5</deployedseed><deployedseed>7</deployedseed>'],
+            stack_api_test_data::get_question_string('test3')
+        );
+        $question = StackQuestionLoader::loadxml($xml)['question'];
+        StackSeedHelper::initialize_seed($question, 7);
+        $this->assertEquals(7, $question->seed);
     }
 
     public function test_test_controller_default_test_pass(): void {

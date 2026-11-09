@@ -400,8 +400,9 @@ s_assert(ex1, ex2):= if is(ex1=ex2) then true else
 /* ****************************************************** */
 /* Developer warning: random functions determining        */
 /* whether a question is a singleton.                     */
-/* When adding new "random" functions, also update        */
-/* question->has_random_variants()                        */
+/* When adding new "random" functions, give them the      */
+/* "random" feature in stack/cas/security-map.json, and   */
+/* check question->random_variants_check() finds them.    */
 /* ****************************************************** */
 
 /* Change the random seed */

@@ -2395,7 +2395,7 @@ class qtype_stack extends question_type {
             // Use the same test as deciding whether a question has random variants, so
             // that a note is required exactly when the question can be deployed.
             question_bank::load_question_definition_classes($this->name());
-            if (qtype_stack_question::random_variants_check($fromform['questionvariables'])) {
+            if (qtype_stack_question::random_variants_check_with_includes($fromform['questionvariables'])) {
                 $errors['questionnote'][] = stack_string('questionnotempty');
             }
         } else {

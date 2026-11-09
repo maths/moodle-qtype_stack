@@ -128,9 +128,10 @@ class TestController {
                     // would test every seed against the variant of the first.
                     ['question' => $seedquestion] = StackQuestionLoader::loadxml($data["questionDefinition"], true);
                     $seedquestion->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
-                    $seedquestion->seed = (int) $seed;
+                    // A question without random variants gets the same seed whatever is deployed, as in Moodle.
+                    StackSeedHelper::initialize_seed($seedquestion, (int) $seed);
                     $seedquestion->initialise_question_from_seed();
-                    $testresponse->results[$seed] = $this->qtype_stack_test_question($seedquestion, $testcases, $seed);
+                    $testresponse->results[$seed] = $this->qtype_stack_test_question($seedquestion, $testcases);
                 } catch (\stack_exception $e) {
                     $testresponse->results[$seed] = [
                         'passes' => null,

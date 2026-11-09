@@ -14,7 +14,8 @@ If questions are randomly generated on the fly then errors can, and do result!  
 Notes:
 
 1. If an author does not deploy any variants (not advised!) then the student gets _any_ random variant.
-2. STACK automatically detects randomization.  Questions that don't use randomization cannot be deployed explicitly.
+2. STACK automatically detects randomization.  Questions that don't use randomization cannot be deployed explicitly, and every student gets the same variant.
+3. A word in the question variables beginning `rand`, `multiselqn` or `stack_seed` makes the question count as random, so a variable whose name begins with `rand` does so too.  STACK also follows functions defined in included libraries: a call to one which uses a random function makes the question random.  STACK 4.14.0 and earlier only read the text of the question variables, so in those versions call at least one random function in the question variables themselves.
 
 Once a quiz is underway it is still possible to edit a question, and to re-grade students' attempts.  This is useful in rare cases where there is a mistake, you want to improve the worked solution, you would like to add better feedback/partial credit for a particular etc.  However, do not change anything related to the random generation of questions!  Results are unpredictable, and may well result in a situation when the modified question is different to that answered by students taking the test prior to modifications.
 

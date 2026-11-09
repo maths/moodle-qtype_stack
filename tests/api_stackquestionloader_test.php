@@ -544,6 +544,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                             'name' => 'prt1',
                             'expectedscore' => '1.0000000',
                             'expectedpenalty' => '0.0000000',
+                            'expectedanswernote' => '1-0-T',
                         ],
                         [
                             'name' => 'prt2',
@@ -571,7 +572,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             "deployedseed:\n  - '1'\n  - '2'\n  - '3'\nqtest:\n  - testcase: '1'\n    description: 'A test'\n    " .
             "testinput:\n      - name: ans1\n        value: ta1\n      - name: ans2\n" .
             "        value: ta2\n    expected:\n      - name: prt1" .
-            "\n        expectedscore: '1.0000000'\n        expectedpenalty: '0.0000000'\n      " .
+            "\n        expectedscore: '1.0000000'\n        expectedpenalty: '0.0000000'\n" .
+            "        expectedanswernote: 1-0-T\n      " .
             "- name: prt2\n        expectedscore: '1.0000000'\n        expectedpenalty:" .
             " '0.0000000'\n        expectedanswernote: 2-0-T\n";
         $this->assertStringContainsString($expectedstring, $diff);

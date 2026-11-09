@@ -1661,8 +1661,8 @@ class qtype_stack extends question_type {
         $output .= "    <logicsymbol>{$options->logicsymbol}</logicsymbol>\n";
         $output .= "    <matrixparens>{$options->matrixparens}</matrixparens>\n";
         $output .= "    <isbroken>{$options->isbroken}</isbroken>\n";
-        $output .= "    <prescribedmetadata>{$options->prescribedmetadata}</prescribedmetadata>\n";
-        $output .= "    <metadata>{$options->metadata}</metadata>\n";
+        $output .= "    <prescribedmetadata>{$format->xml_escape($options->prescribedmetadata)}</prescribedmetadata>\n";
+        $output .= "    <metadata>{$format->xml_escape($options->metadata)}</metadata>\n";
         $output .= "    <variantsselectionseed>{$format->xml_escape($options->variantsselectionseed)}</variantsselectionseed>\n";
 
         foreach ($questiondata->inputs as $input) {

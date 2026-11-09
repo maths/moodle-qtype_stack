@@ -29,7 +29,7 @@ stack_linear_algebra_declare(true)$
 /**
  * Is a given algebraic expression a linear combination of column vectors with a linear offset?
  * The use is somewhat limited; it would be nice to have support for other vector input types like lists or ntuples.
- * e.g. c(1,2,3) + t*c(2,3,4) + s*c(1,0,1)
+ * e.g. column_vector(1,2,3) + t*column_vector(2,3,4) + s*column_vector(1,0,1)
  * 
  * @param[expression] ex A vector parametric equation using column vectors
  * @return[boolean] Is the given expression in an expected form?
@@ -47,7 +47,7 @@ linear_combinationp(ex):= block([vars,cm,dir_vecs,cons_vecs],
 /**
  * Get the constant term of the given expression (which may be a matrix)
  *
- * @param[expression] expr An parametric expression which may also be a matrix or c/r-vector
+ * @param[expression] expr An parametric expression which may also be a matrix or vector expression
  * @param[list] exclude_params (Optional) List of variable names to consider constant
  * @return[constant] Constant term (value or matrix) within the expression
  */
@@ -68,7 +68,7 @@ constant_term(expr, [exclude_params]) := block([],
  * A particular use case is obtaining basis vectors from a parametric plane or
  * line equation.
  *
- * @param[expression] vec A parametric expression which may also be a matrix or c/r-vector
+ * @param[expression] vec A parametric expression which may also be a matrix or vector expression
  * @param[list] exclude_params (Optional) List of variable names to consider constant
  * @return[list] A list with three elements:
  *     The constant term within the expression (linear offset)

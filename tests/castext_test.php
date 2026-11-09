@@ -2853,6 +2853,43 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Existing library includes must still enable the convenience vector aliases.
+     *
+     * @dataProvider vector_alias_library_provider
+     * @covers \qtype_stack\stack_cas_keyval
+     * @param string $library Contributed library to include.
+     */
+    public function test_library_enables_vector_aliases(string $library): void {
+        $vars = 'stack_include("contribl://' . $library . '");';
+        $keyval = new stack_cas_keyval($vars, new stack_options(), 123);
+        $this->assertTrue($keyval->get_valid(), implode('; ', $keyval->get_errors()));
+        $session = $keyval->get_session();
+        $result = castext2_evaluatable::make_from_source(
+            '{@is(c(1,2)=column_vector(1,2)) and is(r(1,2)=row_vector(1,2))@}',
+            'vector aliases'
+        );
+        $session->add_statement($result);
+        $session->instantiate();
+        $this->assertEquals('\\({\\mathbf{True}}\\)', $result->get_rendered());
+    }
+
+    /**
+     * Libraries which historically enabled the short vector notation.
+     *
+     * @return array
+     */
+    public static function vector_alias_library_provider(): array {
+        return [
+            ['matrix.mac'],
+            ['vectorspaces.mac'],
+            ['vectorgeometry.mac'],
+            ['matrixfactorizations.mac'],
+            ['eigenlib.mac'],
+            ['linearalgebra_contrib.mac'],
+        ];
+    }
+
+    /**
      * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval

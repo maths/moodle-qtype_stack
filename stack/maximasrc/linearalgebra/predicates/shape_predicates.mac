@@ -22,8 +22,8 @@
  * A 1-by-1 matrix satisfies both `col_vecp` and `row_vecp`.
  *
  * For example, `col_vecp(matrix([a],[b]))` is `true`, but
- * `col_vecp(matrix([a,b]))` and `col_vecp(c(a,b))` are `false`.
- * Use `vec_convert` first when accepting the inert `c`/`r` notation.
+ * `col_vecp(matrix([a,b]))` and `col_vecp(column_vector(a,b))` are `false`.
+ * Use `vec_convert` first when accepting the vector notation.
  * Lists, scalars and `matrix()` return `false`.
  *
  * @param[expression] ex, the object whose shape is checked.
@@ -36,21 +36,21 @@ col_vecp(ex):= block(
 
 s_test_case(simp) := is(col_vecp(matrix([1],[2]))=true)$
 s_test_case(simp) := is(col_vecp(matrix([1,2]))=false)$
-s_test_case(simp) := is(col_vecp(c(1,2))=false)$
+s_test_case(simp) := is(col_vecp(column_vector(1,2))=false)$
 s_test_case(simp) := is(col_vecp(matrix([a]))=true)$
 s_test_case(simp) := is(col_vecp(1)=false)$
 s_test_case(simp) := is(col_vecp([1,2])=false)$
 s_test_case(simp) := is(col_vecp(matrix())=false)$
 s_test_case(simp) := is(col_vecp(matrix([]))=false)$
-s_test_case(simp) := is(col_vecp(vec_convert(c(1,2)))=true)$
+s_test_case(simp) := is(col_vecp(vec_convert(column_vector(1,2)))=true)$
 
 /**
  * Return `true` when the argument is a Maxima matrix with exactly one row.
  * A 1-by-1 matrix satisfies both `row_vecp` and `col_vecp`.
  *
  * For example, `row_vecp(matrix([a,b]))` is `true`, but
- * `row_vecp(matrix([a],[b]))` and `row_vecp(r(a,b))` are `false`.
- * Use `vec_convert` first when accepting the inert `c`/`r` notation.
+ * `row_vecp(matrix([a],[b]))` and `row_vecp(row_vector(a,b))` are `false`.
+ * Use `vec_convert` first when accepting the vector notation.
  * Lists, scalars and `matrix()` return `false`.
  *
  * This is a shape check: `matrix([])` has one row and no columns, so it
@@ -66,18 +66,18 @@ row_vecp(ex):= block(
 
 s_test_case(simp) := is(row_vecp(matrix([1],[2]))=false)$
 s_test_case(simp) := is(row_vecp(matrix([1,2]))=true)$
-s_test_case(simp) := is(row_vecp(r(1,2))=false)$
+s_test_case(simp) := is(row_vecp(row_vector(1,2))=false)$
 s_test_case(simp) := is(row_vecp(matrix([a]))=true)$
 s_test_case(simp) := is(row_vecp(1)=false)$
 s_test_case(simp) := is(row_vecp([1,2])=false)$
 s_test_case(simp) := is(row_vecp(matrix())=false)$
 s_test_case(simp) := is(row_vecp(matrix([]))=true)$
-s_test_case(simp) := is(row_vecp(vec_convert(r(1,2)))=true)$
+s_test_case(simp) := is(row_vecp(vec_convert(row_vector(1,2)))=true)$
 
 /**
  * Return `true` for a matrix accepted by either `col_vecp` or `row_vecp`.
- * This includes 1-by-1 matrices. It does not accept lists or inert `c`/`r`
- * expressions; apply `vec_convert` first if the `c`/`r` forms are permitted.
+ * This includes 1-by-1 matrices. It does not accept lists or vector
+ * expressions; apply `vec_convert` first when accepting vector notation.
  *
  * For example, `vectorp(matrix([a],[b]))` and `vectorp(matrix([a,b]))`
  * are `true`, while `vectorp(matrix([a,b],[c,d]))` is `false`.
@@ -91,11 +91,11 @@ vectorp(ex):= col_vecp(ex) or row_vecp(ex);
 
 s_test_case(simp) := is(vectorp(matrix([1],[2]))=true)$
 s_test_case(simp) := is(vectorp(matrix([1,2]))=true)$
-s_test_case(simp) := is(vectorp(c(1,2))=false)$
+s_test_case(simp) := is(vectorp(column_vector(1,2))=false)$
 s_test_case(simp) := is(vectorp(matrix([a]))=true)$
 s_test_case(simp) := is(vectorp(matrix([1,2],[3,4]))=false)$
 s_test_case(simp) := is(vectorp([1,2])=false)$
-s_test_case(simp) := is(vectorp(r(1,2))=false)$
+s_test_case(simp) := is(vectorp(row_vector(1,2))=false)$
 s_test_case(simp) := is(vectorp(matrix())=false)$
 s_test_case(simp) := is(vectorp(matrix([]))=true)$
 

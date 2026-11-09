@@ -30,6 +30,7 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 require_once(__DIR__ . '/../stack/input/factory.class.php');
+require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
 
 /**
  * Unit tests for stack_algebra_input.
@@ -2829,6 +2830,64 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('[x^3]', $state->contentsmodified);
         $this->assertEquals('\[ \left[ x^3 \right] \]', $state->contentsdisplayed);
         $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \text{[SOME MORE JSON]} \]"));
+    }
+
+    public function test_validate_student_response_vector_constructors(): void {
+        $options = new stack_options();
+        foreach (['column_vector', 'row_vector'] as $constructor) {
+            $model = $constructor . '(1,2)';
+            $answer = $constructor . '(1,a)';
+            $el = stack_input_factory::make('algebraic', 'ans1', $model);
+            $state = $el->validate_student_response(
+                ['ans1' => $answer],
+                $options,
+                $model,
+                new stack_cas_security()
+            );
+            $this->assertSame(stack_input::VALID, $state->status);
+            $this->assertSame($answer, $state->contentsmodified);
+            $this->assertStringContainsString('\\begin{array}', $state->contentsdisplayed);
+
+            $el->set_parameter('forbidWords', $constructor);
+            $state = $el->validate_student_response(
+                ['ans1' => $answer],
+                $options,
+                $model,
+                new stack_cas_security()
+            );
+            $this->assertSame(stack_input::INVALID, $state->status);
+            $this->assertSame('forbiddenFunction', $state->note);
+        }
+    }
+
+    public function test_vector_aliases_require_context(): void {
+        $options = new stack_options();
+        foreach (['c' => 'column_vector', 'r' => 'row_vector'] as $alias => $constructor) {
+            $model = $constructor . '(1,2)';
+            $answer = $alias . '(1,a)';
+            $el = stack_input_factory::make('algebraic', 'ans1', $model);
+            $el->set_parameter('sameType', false);
+            $state = $el->validate_student_response(
+                ['ans1' => $answer],
+                $options,
+                $model,
+                new stack_cas_security()
+            );
+            $this->assertSame($answer, $state->contentsmodified);
+            $this->assertStringNotContainsString('\\begin{array}', $state->contentsdisplayed);
+
+            $el->add_contextsession(new \stack_secure_loader('stack_linear_algebra_declare(true)', 'vector aliases'));
+            $state = $el->validate_student_response(
+                ['ans1' => $answer],
+                $options,
+                $model,
+                new stack_cas_security()
+            );
+            $this->assertSame(stack_input::VALID, $state->status);
+            // Preserve the submitted spelling while evaluating its display in the question context.
+            $this->assertSame($answer, $state->contentsmodified);
+            $this->assertStringContainsString('\\begin{array}', $state->contentsdisplayed);
+        }
     }
 
     public function test_validate_student_response_ntuple(): void {

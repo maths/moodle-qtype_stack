@@ -2,23 +2,34 @@
 
 ## Student input
 
-Students do find typing in matrices very tedious.  The convenient notation
+Use `column_vector(1,2,3)` or `row_vector(1,2,3)` to enter vector components. These forms
+are available in every question and display using the question's matrix parentheses.
+See the [vector constructor reference](../../CAS/Library/linearalgebra/vectors/index.md).
 
-    c(1,2,3)
+These are inert expressions: they retain their row or column identity until converted to
+matrices. For example, `column_vector(1)` and `row_vector(1)` remain distinct, although both
+convert to `matrix([1])`. Before matrix arithmetic or an answer test that expects matrices,
+convert the student and teacher expressions with `vec_convert`.
 
-for column vectors and
+For convenience, `c(...)` and `r(...)` are aliases for column and row vectors. Enable them by
+adding `stack_linear_algebra_declare(true)` to the question variables. For example, `c(1,2,3)`
+then evaluates to `column_vector(1,2,3)`. Contributed libraries that previously enabled this
+notation continue to enable the aliases for existing questions.
 
-    r(1,2,3,4)
+The aliases make longer expressions easier to enter, for example
+`c(1,2) + s*c(3,4) + t*c(5,6)` for column vectors, or
+`r(1,2) + s*r(3,4) + t*r(5,6)` for row vectors.
 
-for row vectors is provided.  By default, these will display as \(c(1,2,3)\) and \(r(1,2,3,4)\), but TeX support (e.g. for student input) is provided by the `stack_linear_algebra_declare(true)` function. If this function is included in the question variables, either by a teacher including it directly or by including one of the linear algebra contributed libraries, they will instead display as column or row vectors using the question's default shape of matrix parentheses.
+Both matrix input types accept vector model answers and return the corresponding vector values.
+The fixed grid infers its dimensions from the answer. The variable-size input accepts
+whitespace-separated components without fixing their number. Vector blocks can also be used in
+augmented matrix inputs.
 
-Once converted into matrices, the student's answer will be evaluated by PRTs as matrices.  Of course, this will not be reflected in the valuation.
-
-Both matrix input types can also collect either form: use `c(...)` or `r(...)` as the model answer and the student's response remains respectively `c(...)` or `r(...)`. The fixed grid infers its dimensions from the answer. The variable-size input accepts whitespace-separated components without fixing their number. This avoids converting a vector to a matrix merely to use a structured matrix input.
-
-* `vec_convert(ex)` Attempts to convert `c` and `r` convenience functions into matrices. If the expression contains multiple `c` and `r` terms that do not conform, the original expression is returned.
-* `vec_convertedp(ex)` A predicate function that checks whether `c` or `r` is present. This is useful in a PRT to ensure that an earlier conversion was successful (i.e. everything conforms) before continuing.
-* `un_vec_convert(ex)` Given a row or column vector, convert it to `c()` or `r()` form.
+* `vec_convert(ex)` converts vector expressions into matrices. If the terms do not conform,
+  the original expression is returned.
+* `vec_convertedp(ex)` checks that no vector constructor remains. Use it to check that an
+  earlier conversion succeeded before continuing a PRT.
+* `un_vec_convert(ex)` converts a row or column matrix to vector notation.
 
 ## Vectors as single entities
 

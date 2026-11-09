@@ -25,7 +25,7 @@
  * Diagonal entries may be zero or symbolic, so this does not test invertibility
  * or row echelon form. Use `trilp` to check the other triangular part.
  *
- * Non-matrix arguments, including lists and inert `c`/`r` expressions, return
+ * Non-matrix arguments, including lists and vector expressions, return
  * `false`. With no entries to reject, `matrix()`, `matrix([])` and
  * `matrix([],[])` return `true`.
  *
@@ -62,7 +62,7 @@ s_test_case(simp) := is(triup(matrix([1,2,3,4],[0,5,6,7],[0,0,9,10]))=true)$
 s_test_case(simp) := is(triup(matrix([1,2,3,4,5,6,7,8,9]))=true)$
 s_test_case(simp) := is(triup(1)=false)$
 s_test_case(simp) := is(triup([1,2])=false)$
-s_test_case(simp) := is(triup(c(1,2))=false)$
+s_test_case(simp) := is(triup(column_vector(1,2))=false)$
 s_test_case(simp) := is(triup(matrix([x]))=true)$
 s_test_case(simp) := is(triup(matrix())=true)$
 s_test_case(simp) := is(triup(matrix([]))=true)$
@@ -82,7 +82,7 @@ s_test_case(simp) := is(triup(matrix([0,1],[0,2]))=true)$
  * Diagonal entries may be zero or symbolic, so this does not test invertibility
  * or row echelon form. Use `triup` to check the other triangular part.
  *
- * Non-matrix arguments, including lists and inert `c`/`r` expressions, return
+ * Non-matrix arguments, including lists and vector expressions, return
  * `false`. With no entries to reject, `matrix()`, `matrix([])` and
  * `matrix([],[])` return `true`.
  *
@@ -119,7 +119,7 @@ s_test_case(simp) := is(trilp(matrix([1,0,0,0],[4,5,0,0],[7,8,9,0]))=true)$
 s_test_case(simp) := is(trilp(transpose([1,2,3,4,5,6,7,8,9]))=true)$
 s_test_case(simp) := is(trilp(1)=false)$
 s_test_case(simp) := is(trilp([1,2])=false)$
-s_test_case(simp) := is(trilp(r(1,2))=false)$
+s_test_case(simp) := is(trilp(row_vector(1,2))=false)$
 s_test_case(simp) := is(trilp(matrix([x]))=true)$
 s_test_case(simp) := is(trilp(matrix())=true)$
 s_test_case(simp) := is(trilp(matrix([]))=true)$

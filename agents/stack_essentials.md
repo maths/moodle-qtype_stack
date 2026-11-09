@@ -120,6 +120,13 @@ contains `[[input:ans1]]`, the importer fills it with `[[feedback:prt1]]`. So
 when the feedback tags are in the question text, write an empty
 `<specificfeedback><text></text></specificfeedback>`.
 
+Where to put the tags is a choice. Both places obey the quiz's "Specific
+feedback" review option, so students see the feedback at the same times either
+way (`formulation_and_controls()` and `feedback()` in `renderer.php`). A tag in
+the question text puts the feedback next to the inputs it is about. A tag in
+`<specificfeedback>` puts it in the feedback area below the question, and with
+more than one PRT that area also shows the overall standard feedback (below).
+
 **Standard PRT feedback.** `<prtcorrect>`, `<prtpartiallycorrect>` and
 `<prtincorrect>` hold the generic feedback, such as "Correct answer, well
 done.", that a PRT shows before its own feedback. Write all three exactly as in

@@ -36,6 +36,9 @@ and tested.
 ta1: n*x^(n-1);</text>
     </questionvariables>
     <specificfeedback><text>[[feedback:prt1]]</text></specificfeedback>
+    <prtcorrect><text><![CDATA[[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]]]></text></prtcorrect>
+    <prtpartiallycorrect><text><![CDATA[[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text></prtpartiallycorrect>
+    <prtincorrect><text><![CDATA[[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]]]></text></prtincorrect>
     <questionnote><text>{@n@}</text></questionnote>
     <input>
       <name>ans1</name>
@@ -116,6 +119,35 @@ question broken. If `<specificfeedback>` is omitted and the question text
 contains `[[input:ans1]]`, the importer fills it with `[[feedback:prt1]]`. So
 when the feedback tags are in the question text, write an empty
 `<specificfeedback><text></text></specificfeedback>`.
+
+**Standard PRT feedback.** `<prtcorrect>`, `<prtpartiallycorrect>` and
+`<prtincorrect>` hold the generic feedback, such as "Correct answer, well
+done.", that a PRT shows before its own feedback. Write all three exactly as in
+the example above, with STACK's `[[commonstring]]` defaults. Never hardcode
+text, icons or colours in them.
+
+- `[[commonstring]]` takes the string from STACK's language pack in the
+  student's language, so the feedback is translated and matches STACK's
+  styling. A hardcoded copy is English-only and drifts from STACK's own. If a
+  question needs other wording, write it with a `[[lang]]` block per language.
+- Write the fields even though they are optional. An omitted field takes the
+  site's setting at import (`qtype_stack | prtcorrect` and so on, defaults in
+  `settings.php`). Sites upgraded from before STACK 4.12.0 may still have the
+  old setting, hardcoded English HTML, and the API uses its own default.
+- Which field is shown depends on the PRT's raw score, before any penalty:
+  correct above 0.999999, incorrect below 0.000001, otherwise partially
+  correct. Nothing is shown when the PRT has a runtime error
+  (`standard_prt_feedback()` in `renderer.php`).
+- Only the PRT feedback style Standard (`<feedbackstyle>` 1, the default)
+  shows these fields. Compact (2) and Symbol only (3) show the symbol from the
+  language pack instead, and Formative (0) shows neither.
+- A question with more than one PRT also shows one of the three at the top of
+  the specific feedback, chosen by the PRTs' weighted total score. It appears
+  only when `<specificfeedback>` is not empty (`specific_feedback()` in
+  `renderer.php`).
+- The fields are CASText evaluated once per variant with the question
+  variables, so they cannot depend on the student's answer. Feedback about the
+  answer belongs in the PRT nodes.
 
 **The question note.** The note is CASText that names the variant. STACK
 treats two variants as the same if and only if their notes are equal: its

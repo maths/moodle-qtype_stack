@@ -92,7 +92,7 @@ E.g. Imagine a question with inputs A and B.
 
 With a formative potential response tree, there is no general feedback such as "Correct answer well done".  There is never a mark (and marks for this PRT do not contribute to the question, or completeness of an answer).
 
-## Response tree feedback: feedbackstyle ##
+## Response tree feedback: feedbackstyle {#feedbackstyle} ##
 
 The feedback created by PRTs has the following parts concatenated together.
 
@@ -102,7 +102,7 @@ The `[Generic feedback]` is a question level option, e.g. "Standard feedback for
 
 <span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.
 
-How PRT feedback is displayed is controlled by the PRT option `feedbackstyle` as follows.  Note the Generic feedback might include the symbol, if you retain the default.
+How PRT feedback is displayed is controlled by the PRT option `feedbackstyle` as follows.  Note the Generic feedback might include the symbol, if you retain the default.  The "Compact" and "Symbol only" styles always take the symbol from the language pack, so they ignore the question's generic feedback options.
 
 Value | Options      | Symbol | Generic feedback | Errors | PRT feedback | Score
 ------|--------------|--------|------------------|--------|--------------|------------------------------------------

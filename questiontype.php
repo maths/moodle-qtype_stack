@@ -2376,18 +2376,24 @@ class qtype_stack extends question_type {
         $errors['specificfeedback'] = [];
         $errors = $this->validate_cas_text($errors, $fromform['specificfeedback']['text'], 'specificfeedback', $fixingdollars);
 
-        $errors['specificfeedback'] += $this->validation_check_no_placeholders(
-            stack_string('specificfeedback'),
-            $fromform['specificfeedback']['text'],
-            ['input', 'validation']
+        $errors['specificfeedback'] = array_merge(
+            $errors['specificfeedback'],
+            $this->validation_check_no_placeholders(
+                stack_string('specificfeedback'),
+                $fromform['specificfeedback']['text'],
+                ['input', 'validation']
+            )
         );
 
         // General feedback.
         $errors['generalfeedback'] = [];
         $errors = $this->validate_cas_text($errors, $fromform['generalfeedback']['text'], 'generalfeedback', $fixingdollars);
-        $errors['generalfeedback'] += $this->validation_check_no_placeholders(
-            get_string('generalfeedback', 'question'),
-            $fromform['generalfeedback']['text']
+        $errors['generalfeedback'] = array_merge(
+            $errors['generalfeedback'],
+            $this->validation_check_no_placeholders(
+                get_string('generalfeedback', 'question'),
+                $fromform['generalfeedback']['text']
+            )
         );
 
         // Question note.
@@ -2403,9 +2409,12 @@ class qtype_stack extends question_type {
             $errors = $this->validate_cas_text($errors, $fromform['questionnote']['text'], 'questionnote', $fixingdollars);
         }
 
-        $errors['questionnote'] += $this->validation_check_no_placeholders(
-            stack_string('questionnote'),
-            $fromform['questionnote']['text']
+        $errors['questionnote'] = array_merge(
+            $errors['questionnote'],
+            $this->validation_check_no_placeholders(
+                stack_string('questionnote'),
+                $fromform['questionnote']['text']
+            )
         );
 
         // Question description.
@@ -2416,9 +2425,12 @@ class qtype_stack extends question_type {
             'questiondescription',
             $fixingdollars
         );
-        $errors['questiondescription'] += $this->validation_check_no_placeholders(
-            stack_string('questiondescription', 'question'),
-            $fromform['questiondescription']['text']
+        $errors['questiondescription'] = array_merge(
+            $errors['questiondescription'],
+            $this->validation_check_no_placeholders(
+                stack_string('questiondescription', 'question'),
+                $fromform['questiondescription']['text']
+            )
         );
 
         $errors['metadata_text'] = [];
@@ -2787,7 +2799,7 @@ class qtype_stack extends question_type {
     ) {
         $problems = [];
         foreach ($placeholders as $placeholder) {
-            if (stack_utils::extract_placeholders($value, 'input')) {
+            if (stack_utils::extract_placeholders($value, $placeholder)) {
                 $problems[] = stack_string(
                     'fieldshouldnotcontainplaceholder',
                     ['field' => $fieldname, 'type' => $placeholder]

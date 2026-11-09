@@ -9,6 +9,21 @@ For an optional review of mathematical purpose, feedback and learner interaction
 see [Question quality review](stack_question_review.md). Agree the intended use
 with the author; technical test success alone does not establish suitability.
 
+### What a STACK question is made of
+
+1. **Question variables**: Maxima code, run once when a variant starts. Random
+   values are chosen here.
+2. **Text fields**, such as the question text and the worked solution, written
+   in CASText: HTML with mathematics and the values of CAS expressions.
+3. **Inputs**: the answer boxes. Each has a name, a type and a teacher's answer.
+4. **Potential response trees (PRTs)**: the marking. Each is a tree of nodes,
+   and each node compares two expressions with one answer test.
+5. **Question tests**: stored answers, each with the expected outcome of every
+   PRT.
+
+A question without tests is not finished: they are the only evidence that it
+marks as intended, and the only check after each change.
+
 ### Write the question as Moodle XML
 
 STACK questions are imported and exported as Moodle XML. Moodle's importer
@@ -191,6 +206,49 @@ site's STACK settings (`get_config('qtype_stack', ...)`, defaults in
 can change these, so the same file may behave differently on two sites. Write
 an element whenever the question depends on its value. A question exported
 from Moodle lists every element.
+
+### Write the text fields in CASText
+
+The question text, specific feedback, general feedback (the worked solution),
+question note, question description, PRT node feedback and the standard PRT
+feedback are CASText: HTML with mathematics and the values of CAS expressions,
+evaluated for each variant.
+
+- **Mathematics.** Use `\(...\)` for inline and `\[...\]` for displayed
+  mathematics. STACK does not support `$...$` or `$$...$$`. Outside
+  mathematics, format with HTML, not LaTeX.
+- **`{@ex@}`** evaluates `ex` and inserts its LaTeX, already as inline
+  mathematics: with `ta1: 2*x`, `{@ta1@}` gives `\({2\cdot x}\)`. Do not
+  wrap it in `\(...\)`; for displayed mathematics write `\[{@ex@}\]`. A string
+  is inserted as plain text. The multiplication sign follows
+  `<multiplicationsign>`.
+- **Inside mathematics**, `{@ex@}` keeps its outer braces, so
+  `\frac{@a@}{@b@}` is correct. On STACK 4.13.1 and earlier, text of 10
+  characters or fewer between two `{@...@}` loses a backslash at its end, so
+  `{@a@} \\{@b@}` gives `\{3}`, not a line break (issue #1910, fixed in
+  4.14.0). There, write `\\ {@b@}`, or build the whole object in the CAS, for
+  example `{@matrix([a], [b])@}`.
+- **`{#ex#}`** inserts the Maxima form, `2*x`: use it to show a student how to
+  type an answer. A string is inserted with its quotes.
+- **Simplification.** Values are simplified according to `<questionsimplify>`,
+  or the PRT's `<autosimplify>` in PRT feedback. To show an expression
+  unsimplified in a simplified question, write `{@ev(1+1, simp=false)@}`, which
+  gives `1+1`.
+- **Variables.** Every CASText field can use the question variables. PRT node
+  feedback can also use the PRT's feedback variables, and so the student's
+  answer. The specific feedback, general feedback and question note cannot use
+  the inputs.
+- **Placeholders.** `[[input:ans1]]` and `[[validation:ans1]]` go in the
+  question text only; `[[feedback:prt1]]` in the question text or the specific
+  feedback (see "The feedback tag"). Never put a placeholder inside mathematics.
+  The general feedback, question note and question description hold none, and
+  the specific feedback no input or validation tag: the editing form refuses
+  them, and an import marks the question broken. Before STACK 4.15.0 only
+  input tags were caught.
+- **Blocks.** CASText also has blocks, such as `[[if test='...']]...[[/if]]`,
+  `[[define x='...'/]]`, `[[comment]]...[[/comment]]` and
+  `[[lang code='en']]...[[/lang]]` (one file per block in
+  `stack/cas/castext2/blocks/`).
 
 ### Choose and configure inputs
 

@@ -37,8 +37,13 @@ from these instructions: take it from the site.
 **The `goemaxima` image** is published for every STACK release. **The
 `stackapi` image** is published for each release by a release workflow, but
 not for some older releases: check the tags of `stackmaths/stackapi` on Docker
-Hub. When there is none for the target version,
-build it from STACK's source at the site's release tag. Set `RELEASE` to that
+Hub. Each tag is the version followed by a build: a numbered build, such as
+`stackmaths/stackapi:2026062900-1` or `mathinstitut/goemaxima:2026062900-1.2.0`,
+names one image, while `-latest` follows whichever build was published last
+for that version, including a faulty one. If the API fails in a way no
+question explains, or to keep a setup reproducible, replace `-latest` with a
+numbered build that works. When there is no `stackapi` image for the target
+version, build it from STACK's source at the site's release tag. Set `RELEASE` to that
 tag, for example `v4.13.1` for a site on STACK 4.13.1:
 
     RELEASE=v4.13.1
@@ -88,7 +93,8 @@ services:
       GOEMAXIMA_QUEUE_LEN: 32
     read_only: true
   stack:
-    # Or stackmaths/stackapi:${STACK_VERSION}-latest, where it is published.
+    # Or stackmaths/stackapi:${STACK_VERSION}-latest, where it is published,
+    # or a numbered build in place of -latest.
     image: stackapi-local:${STACK_VERSION}
     restart: unless-stopped
     environment:

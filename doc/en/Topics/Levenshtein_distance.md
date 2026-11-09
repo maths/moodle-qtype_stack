@@ -90,5 +90,5 @@ You can test in other ways using the feedback variables and the following functi
 
      levenshtein_plv(s, t) := 1.0-levenshtein(s, t)/max(slength(s), slength(t));
 
-`levenshtein_compare_strings(needle, haystack)` looks for the string `needle` in the list of stings `haystack`.  It returns `[maxscore, index_haystack_found]` where `maxscore` is the value of the closest match and `index_haystack_found` is the index to the string found.  The `maxscore` is rounded to five decimal places to help with comparison of floats later.
+`levenshtein_compare_strings(needle, haystack)` looks for the string `needle` in the list of strings `haystack`.  It returns `[maxscore, index_haystack_found]` where `maxscore` is the value of the closest match and `index_haystack_found` is the index to the string found.  The `maxscore` is rounded to five decimal places to help with comparison of floats later.
 

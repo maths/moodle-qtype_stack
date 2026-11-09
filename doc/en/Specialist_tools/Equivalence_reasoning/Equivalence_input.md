@@ -121,7 +121,7 @@ This enables a randomly generated syntax hint to appear in the box.
 
 ### "let" ###
 
-Students can assigne a value to a variable by typing `let v=a`.  This value will be used in all subsequent working.
+Students can assign a value to a variable by typing `let v=a`.  This value will be used in all subsequent working.
 
 For example, try the following in the equiv-reasoning input.
 

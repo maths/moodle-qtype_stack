@@ -248,6 +248,129 @@
   "AntiDifference": {
       "function": "f"
   },
+  "ATAddConst": {
+      "function": "t"
+  },
+  "ATAlgEquiv": {
+      "function": "t"
+  },
+  "ATAlgEquivNouns": {
+      "function": "t"
+  },
+  "ATAntidiff": {
+      "function": "t"
+  },
+  "ATCasEqual": {
+      "function": "t"
+  },
+  "ATCompSquare": {
+      "function": "t"
+  },
+  "ATDiff": {
+      "function": "t"
+  },
+  "ATEqualComAss": {
+      "function": "t"
+  },
+  "ATEqualComAssRules": {
+      "function": "t"
+  },
+  "ATEquiv": {
+      "function": "t"
+  },
+  "ATEquivFirst": {
+      "function": "t"
+  },
+  "ATExpanded": {
+      "function": "t"
+  },
+  "ATFacForm": {
+      "function": "t"
+  },
+  "ATGT": {
+      "function": "t"
+  },
+  "ATGTE": {
+      "function": "t"
+  },
+  "ATInt": {
+      "function": "t"
+  },
+  "ATLevenshtein": {
+      "function": "t"
+  },
+  "ATLowestTerms": {
+      "function": "t"
+  },
+  "ATNumAbsolute": {
+      "function": "t"
+  },
+  "ATNumDecPlaces": {
+      "function": "t"
+  },
+  "ATNumDecPlacesWrong": {
+      "function": "t"
+  },
+  "ATNumRelative": {
+      "function": "t"
+  },
+  "ATNumSigFigs": {
+      "function": "t"
+  },
+  "ATPartFrac": {
+      "function": "t"
+  },
+  "ATPropLogic": {
+      "function": "t"
+  },
+  "ATSRegExp": {
+      "function": "t"
+  },
+  "ATSameType": {
+      "function": "t"
+  },
+  "ATSets": {
+      "function": "t"
+  },
+  "ATSigFigsStrict": {
+      "function": "t"
+  },
+  "ATSingleFrac": {
+      "function": "t"
+  },
+  "ATString": {
+      "function": "t"
+  },
+  "ATStringSloppy": {
+      "function": "t"
+  },
+  "ATSubstEquiv": {
+      "function": "t"
+  },
+  "ATSysEquiv": {
+      "function": "t"
+  },
+  "ATUnits": {
+      "function": "t"
+  },
+  "ATUnitsAbsolute": {
+      "function": "t"
+  },
+  "ATUnitsRelative": {
+      "function": "t"
+  },
+  "ATUnitsStrict": {
+      "function": "t"
+  },
+  "ATUnitsStrictAbsolute": {
+      "function": "t"
+  },
+  "ATUnitsStrictRelative": {
+      "function": "t"
+  },
+  "ATValidator": {
+      "function": "t"
+  },
   "Beta": {
       "function": "s",
       "variable": "s"

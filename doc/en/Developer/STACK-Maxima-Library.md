@@ -8,11 +8,11 @@ documentation of the Maxima side functionalities.
 When transferring old logic or adding new logic follow the following simple
 guidelines.
 
-- Try to store logically simillar functionality in the same file or place
+- Try to store logically similar functionality in the same file or place
   every function in separate files if need.
 - Naming of the `.mac`-files under `stack/maximasrc/` does not matter so
   be as verbose as you wish, the naming of the diorectory structure however
-  is visible and groupping things with it is recommended.
+  is visible and grouping things with it is recommended.
 - Include tests for each new function and try to also include tests for
   options that might affect those functions.
 - Pay attenttion to the warnings of the compiler.

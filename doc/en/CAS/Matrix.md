@@ -104,7 +104,7 @@ For example, if we have the question variable `f:matrix([4*x+4, x<1],[-x^2-4*x-8
 
 STACK generates \[ f(x) := \left\{ {\begin{array}{cc} 4\cdot x+4 & x < 1 \\ -x^2-4\cdot x-8 & x\geq 1 \end{array}} \right. \]
 
-LaTeX automatically sizes the parentheses and puts in `\right.` to represent a matching, but invisible closing parentesis.
+LaTeX automatically sizes the parentheses and puts in `\right.` to represent a matching, but invisible closing parenthesis.
 
 You can control the alignment of the columns of the matrix using the function `stack_matrix_col(m)`. This function takes the matrix, and returns the string of characters "c", "l", or "r" to decide how to format the column in the LaTeX representation of the array.  By default, this is centered with "c". We need a _function_ to count the number of columns.  This is the default function.
 

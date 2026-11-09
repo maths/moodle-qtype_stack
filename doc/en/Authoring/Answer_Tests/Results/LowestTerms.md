@@ -300,7 +300,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1"><td colspan="4">The following terms in your answer are not in lowest terms. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left[ \frac{2}{4} \right] \]</span></span> Please try again.</td></td>
 </tr>
 <tr class="notes">
-  <td class="cell c0"><td colspan="6">Need to rationalize demoninator</td></td>
+  <td class="cell c0"><td colspan="6">Need to rationalize denominator</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>

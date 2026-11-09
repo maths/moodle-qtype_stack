@@ -115,7 +115,7 @@ which encodes the following student's single response:
 }
 ````
 
-If you save your data in a file `data.txt` then the following is minmal Python script to read in and decode the data.
+If you save your data in a file `data.txt` then the following is a minimal Python script to read in and decode the data.
 
 ````
 # Example Python code to load in JSON data from the STACK response analysis download.

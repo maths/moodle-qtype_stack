@@ -21,7 +21,7 @@ The main documentation is arranged as follows.
 * Authoring individual questions. Reference of features, e.g. inputs, castext, answert tests.
 * Maxima reference documentation.
 * Specialist tools - quthoring questions linking many features, e.g. JSXGraph, GeoGebra, Drag and drop questions.
-* STACK question administation (not Moodle quiz features), e.g. testing, deploying random variants, reporting, question library.
+* STACK question administration (not Moodle quiz features), e.g. testing, deploying random variants, reporting, question library.
 * Topics - authoring example questions in different mathematical topics.
 * Moodle-specific features, e.g. setting up a quiz, import/export of moodle questions.
 * Installation of `qtype_stack` into Moodle.

@@ -23,7 +23,7 @@ happen at the correct times. The arguments of that function are as follows:
  4. A list of JSXGraph elements, points etc. that when updated should trigger serialisation.
     Note that this might be a static value during the time of the call of the `custom_bind`
     function but one can extend this list later, as we will see in an example soon. Also note
-    that if your state is not directly tied to objects that the user interracts with you may
+    that if your state is not directly tied to objects that the user interacts with you may
     use a hidden point here and simply trigger `"update"`-events for that point.
 
 Basically, if you can turn the state into a string and back and know the objects you should
@@ -341,6 +341,6 @@ the list to help with mapping indices so that they work better in Maxima. But th
 bit is the use as a handle to the binding-logic. In this code we often build extra state, i.e.,
 those edges after the serialisation has already dealt with the movement of points and we thus
 need to trigger an update for these elements that have not been bound. It is also the backup for
-a situation where all nodes get removed, in that situation the removal of tha last node would
+a situation where all nodes get removed, in that situation the removal of the last node would
 basically be impossible to update to the input as the node would no longer be there to notify
 about its own demise.

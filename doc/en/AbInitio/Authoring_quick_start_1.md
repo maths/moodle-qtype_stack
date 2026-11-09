@@ -40,7 +40,7 @@ You must give the question a name, for example `question1`.
 There should be text in question variables by default.
 
     ta1:?;
-We should replace `?` with the model answer to the question. In this case, this wil be the derivative of \((x-1)^3\), which is \(3(x-1)^2\). So we should replace `?` with `3*(x-1)^2`.
+We should replace `?` with the model answer to the question. In this case, this will be the derivative of \((x-1)^3\), which is \(3(x-1)^2\). So we should replace `?` with `3*(x-1)^2`.
 
     ta1:3*(x-1)^2;
 

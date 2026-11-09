@@ -141,7 +141,7 @@ a given word size.
 
 Note should the number already be wider than the width will not modify it.
 Use [`sbasen_truncate_left`](#sbasen_truncate_left) to throw the extra high digits away if that is
-neeeded.
+needed.
 
 
 

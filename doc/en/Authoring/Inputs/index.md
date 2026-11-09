@@ -58,7 +58,7 @@ Currently STACK supports the following kinds of inputs.  These have a variety of
 4. **Matrix** This provides a grid for students to type in their answer.
 5. **Variable size matrix** This provides a textarea. Students type in expressions and spaces separate items in rows.
 6. **True/False** Simple drop down. A Boolean value is assigned to the variable name.
-7. **Single charater** A single letter can be entered.  This is useful for creating multiple-choice questions, but is not used regularly.
+7. **Single character** A single letter can be entered.  This is useful for creating multiple-choice questions, but is not used regularly.
 8. **String/Notes** Resulting in text-strings being sent to Maxima, or stored. [Text-based inputs](Text_input.md).
 9. **Multi-line input**, either the equivalence reasoning input or the textarea input. 
 

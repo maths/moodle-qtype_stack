@@ -18,7 +18,7 @@ and features we attach to them. The catalogue is stored in
 
 This JSON file is being updated manually and through the data collected by  the census (see developer docs `dev/Census.md`) and can be extended freely to track new features as things progress. This documentation section describes what is currently being contained in that map.
 
-If a function from a maxima library is not in the security map then it is most likley
+If a function from a maxima library is not in the security map then it is most likely
 that we have not reviewed it.  Please contact the developers.
 
 ### Units
@@ -26,7 +26,7 @@ that we have not reviewed it.  Please contact the developers.
 Note that the security-map does not define identifiers that are units and 
 based on the current design you should not declare them there. In 
 the current form if we are in units mode an overlay will be placed on top 
-of the security-map and that overlay will declare are identifers that are 
+of the security-map and that overlay will declare all identifiers that are 
 units `mg`, `K`,... as `constant: 's'` meaning that they are constants that
 the student may use in their inputs as long as they are not declared 
 forbidden through the forbidden words mechanism.
@@ -48,8 +48,8 @@ never written to. This makes it so that you cannot write `%pi:4` but can
 use `%pi` otherwise.
 
 `evflag` is a feature declaring the security level at which a given 
-identifier is to be considered as an evaluation flag. Basically, wether 
-it can be used as a suffix to a statement `sqrt(3),numer` or as a paramter 
+identifier is to be considered as an evaluation flag. Basically, whether 
+it can be used as a suffix to a statement `sqrt(3),numer` or as a parameter 
 to `ev(sqrt(3),numer=true)` and similar functions.
 
 `function` is a feature declaring the security level at which a given 

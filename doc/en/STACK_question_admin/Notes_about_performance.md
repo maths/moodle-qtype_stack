@@ -47,4 +47,4 @@ If you have large numbers of PRTs and are not running 4.4 or later, you might ga
 
 ## Image sizes
 
-We strongly recommend against including images within questions.  Instead use SVG.  Please consider students who may have bandwith issues, especially those students using mobile phones with pay as you go contracts.
+We strongly recommend against including images within questions.  Instead use SVG.  Please consider students who may have bandwidth issues, especially those students using mobile phones with pay as you go contracts.

@@ -317,7 +317,7 @@ If we were dealing with two *numbers*, then Maxima has no problem in establishin
 \[ \frac{-\sqrt{57}-3}{6}-\frac{\sqrt{19}}{2\cdot \sqrt{3}}-\frac{1}{2} = 0\]
 On the maxima command line try `p:(-3 + sqrt(9 + 48))/6+1/2 - sqrt(1/4 + 4/3);` then `radcan(p)`.  Within the AlgEquiv test `radcan` is applied automatically to _numbers_ within an expression, and this returns zero.
 
-The problem with _sets_ is that we don't have the difference between two numbers.  We're trying to write all numbers in an unambiguous form, and then comepare the representation.  This (subtle) difference is the problem.  Instead of looking at equivalence with zero, we need to contol the form of surds explicitly.
+The problem with _sets_ is that we don't have the difference between two numbers.  We're trying to write all numbers in an unambiguous form, and then comepare the representation.  This (subtle) difference is the problem.  Instead of looking at equivalence with zero, we need to control the form of surds explicitly.
 
 ### Control of surds ###
 

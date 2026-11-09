@@ -77,7 +77,7 @@ From this, we can generally estimate what the translation will be, however let u
 |`*geom(x,m)`|`*geometric(x,m)`|
 |`*nbinom(x,m,s)`|`*negative_binomial(x,m,s)`|
 
-For detailed informaion on this see the [distrib package documentation](https://maths.cnam.fr/Membres/wilk/MathMax/help/Maxima/maxima_47.html). This also provides information on calculating skewness and kurtosis.
+For detailed information on this see the [distrib package documentation](https://maths.cnam.fr/Membres/wilk/MathMax/help/Maxima/maxima_47.html). This also provides information on calculating skewness and kurtosis.
 
 ##### Mean variance and standard deviation
 

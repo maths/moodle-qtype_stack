@@ -402,3 +402,22 @@ factorlist(x^3+x^2, true);
 
 cartesian_product({1, 2}, {3, 4});
 {[1, 3], [1, 4], [2, 3], [2, 4]}$
+
+/* Answer tests must not change simp, on any return path.  Each test sets simp:true, */
+/* calls the test, reads simp, and restores the caller's value.                        */
+block([s0:simp, s1], simp:true, ATInt(x^3/3+c, x^3/3, x), s1:simp, simp:s0, s1);
+true$
+block([s0:simp, s1], simp:true, ATInt([1, 2], x^3/3, x), s1:simp, simp:s0, s1);
+true$
+block([s0:simp, s1], simp:true, ATAntidiff(x^3/3, x^3/3, x), s1:simp, simp:s0, s1);
+true$
+block([s0:simp, s1], simp:true, ATAddConst(x^3/3+c, x^3/3, x), s1:simp, simp:s0, s1);
+true$
+block([s0:simp, s1], simp:true, ATDiff(x^2, x^2, x), s1:simp, simp:s0, s1);
+true$
+block([s0:simp, s1], simp:true, ATDiff([1, 2], x^2, x), s1:simp, simp:s0, s1);
+true$
+block([s0:simp, s1], simp:true, ATEqualComAssRules(x+1, 1+x, [comAdd]), s1:simp, simp:s0, s1);
+true$
+block([s0:simp, s1], simp:true, equals_commute_associate(x+1, 1+x), s1:simp, simp:s0, s1);
+true$

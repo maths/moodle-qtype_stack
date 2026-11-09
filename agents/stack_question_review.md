@@ -15,6 +15,9 @@ or a particular teaching method. Record those choices with the author.
 - Define the accepted answers and any required form. For non-unique tasks,
   test the defining properties rather than equality with one example: a basis
   may differ in order, scaling or choice of vectors.
+- Check that nothing shown with the question gives away a graded answer, for
+  example a prompt "Show that \(\ldots = {@ta1@}\)" that prints the value an
+  input asks for.
 - Make question-specific symbols and conventions clear wherever they are first
   needed, including independently displayed feedback. Keep the task usable
   when it is reused outside its original worksheet.

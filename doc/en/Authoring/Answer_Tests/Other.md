@@ -8,6 +8,8 @@ This test deals with equality of sets.  The algebraic equivalence functions give
 
 The test simplifies both sets, and does a comparison based on the simplified versions.  The comparison relies on `ev(..., simp, nouns)` to undertake the simplification.  If you need stronger simplification (e.g. trig) then you will need to add this to the arguments of the function first.
 
+Elements are compared exactly after simplification, so a float and a rational are different elements: \(\{98.9\}\) and \(\{989/10\}\) are not equal sets, although algebraic equivalence treats the numbers as equal.  Compare floats with floats, e.g. by applying `float` to both arguments.
+
 ### Equiv and EquivFirstLast ###
 
 These answer tests are used with [equivalence reasoning](../../Specialist_tools/Equivalence_reasoning/index.md).  See the separate documentation.

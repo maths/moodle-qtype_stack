@@ -240,8 +240,9 @@ message for invalid.
   `every(lambda([v], member(v, [x1,x2,x3])), listofvars(ex))`.
 - It takes one argument, the student's answer, and must not name an input. It
   can use the other question variables, such as the teacher's answer.
-- Students cannot type the name of any question variable, so an allowed
-  variable name must not also be a question variable.
+- Students cannot type the name of a question variable unless the input lists
+  it in `<allowwords>`, so an allowed variable name should not also be a
+  question variable.
 - An error inside the validator makes the answer invalid.
 - STACK supplies `stack_multi_validator`, `stack_seq_validator` and
   `validate_nofunctions` (`stack/maxima/validator.mac`).
@@ -269,6 +270,62 @@ works. On STACK 4.14.0 and earlier a test of a `matrix` input expecting `NULL`
 fails as "Empty question tests are not permitted!" when `<mustverify>` is 0
 (`process_results()` in `stack/questiontest.php`, fixed in 4.15.0): there, also
 fill in a non-matrix input, or set `<mustverify>` 1.
+
+### Choose the answer test
+
+Each PRT node compares two expressions with an answer test: `<sans>`, usually
+the student's answer, and `<tans>`, usually the teacher's, with options in
+`<testoptions>`. Pick the test for what the question assesses.
+
+**Value and form.** `AlgEquiv` simplifies both arguments fully, so it tests
+value and ignores form: it accepts `(1+2*x)^3` when the question says
+"expand". When the question asks for a form, follow the `AlgEquiv` node with a
+node testing the form, such as `EqualComAss` (equal up to commutativity and
+associativity), `FacForm` (factored) or `CompSquare` (completed square), and
+give each failure its own feedback.
+
+**What the form test sees.** An input passes the student's answer to the PRT
+as typed: `<questionsimplify>` does not simplify it. Most answer tests,
+including `EqualComAss` and `FacForm`, are called with `simp:false`
+(`compile_node()` in `stack/prt.class.php`, the `$pops` table in
+`stack/answertest/controller.class.php`), so they see that form. Two things are
+simplified:
+
+- the teacher's answer, and anything else computed in the question variables,
+  when `<questionsimplify>` is 1. So `ta1: 5*x*x^2` is stored as `5*x^3`;
+- anything computed in the feedback variables, when the PRT's `<autosimplify>`
+  is 1. So `sa: ans1*1` turns the student's `5*x*x^2` into `5*x^3`, and a
+  form test on `sa` passes whatever the student typed.
+
+Give a form test the input itself, or compute from it with `<autosimplify>` 0.
+
+**Quiet.** Many answer tests add feedback of their own, for example naming the
+entries of a matrix that are wrong. `<quiet>1</quiet>` on a node hides it; the
+test's own answer note is still recorded. Make a node quiet when that feedback
+would mislead, typically when `<sans>` is not what the student typed but
+something computed from it.
+
+**Integration.** `Int` accepts any antiderivative of the right function, with a
+constant of integration of any name. `<tans>` is the antiderivative, with or
+without a constant, never the integrand: `Int` differentiates both. The option
+is the variable, `x`, or a list such as `[x, NOCONST]` to accept a missing
+constant. `Int` requires a constant by default, so it rejects the correct
+answer to a question with one particular antiderivative, such as a definite
+integral or "find \(F\) with \(F(0)=3\)": use `AlgEquiv` there.
+
+**Numbers.**
+
+- `AlgEquiv` treats `98.9` and `989/10` as equal, but `Sets` compares
+  simplified elements exactly, so they differ there. Compare floats with
+  floats.
+- `NumSigFigs`, `NumDecPlaces` and the other tests that count digits read the
+  student's raw input. A test input is evaluated first, and Maxima drops
+  trailing zeros from a float, so the test value `28.8000` arrives as `28.8`.
+  Write `dispdp(28.8, 4)` instead.
+
+**Sets.** There is no `set` input type: `<type>set</type>` fails with "unknown
+input type set". Use `algebraic`; the student types `{1, 2}`. The `Sets` test
+gives feedback on which elements are wrong or missing.
 
 ### Test every question
 
@@ -357,6 +414,38 @@ So:
 
 Before STACK 4.13.0 only the last note was compared. A single note is still
 read that way, so older tests pass; the full route is the form to write now.
+
+### Write the question variables
+
+`<questionvariables>` is Maxima code, run once when a variant starts. Its
+values are available everywhere else in the question: the text fields, inputs,
+PRTs and tests. Write one statement per line, each ending with `;`.
+
+- `name: expression` assigns; `f(x) := x^2 + 1` defines a function. An `=`
+  makes an equation and assigns nothing, without any error: after `a = 3;`,
+  `ta1: a + 1;` leaves `ta1` as `a + 1`, and a student typing `4` is marked
+  wrong.
+- The inputs do not exist yet. `ans1` in the question variables is only a
+  symbol: compute anything that depends on the student's answer in the PRT's
+  feedback variables.
+- STACK forbids about 300 names of Maxima system and option variables,
+  including short words such as `tab`, `title`, `values`, `key`, `grid`,
+  `error`, `delay` and `font` (`stack/cas/security-map.json`). Assigning one
+  stops the whole block with "The expression tab is forbidden.", so no
+  variant runs. Choose descriptive names that are not Maxima's.
+- A name assigned here cannot be typed by a student, unless the input lists
+  it in `<allowwords>` (`is_allowed_to_read()` in
+  `stack/cas/cassecurity.class.php`). So do not use a name the student needs,
+  such as `c` in an integration question.
+- With `<questionsimplify>` 0 the question variables are not simplified (see
+  "Simplification" below).
+- Maxima's `addrow(M, r)` appends a row to a matrix; STACK's row operation
+  "add `k` times row `j` to row `i`" is `rowadd(M, i, j, k)`. On STACK 4.9.0 to
+  4.13.1 the text `addrow`, even inside a longer name, in the question
+  variables, a text field or the feedback variables is reported as an upgrade
+  error, and the question's tests do not run (`validate_against_stackversion()`
+  in `question.php`, fixed in 4.14.0). There, build the matrix from lists
+  instead, for example `matrix([1, 2], [3, 4])`.
 
 ### Randomise with STACK's functions
 

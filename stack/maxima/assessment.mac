@@ -368,7 +368,6 @@ lgtex(ex) := block([n, b],
     b:10,
     if length(args(ex)) = 1 then n:first(args(ex)),
     if length(args(ex)) = 2 then (n:first(args(ex)), b:second(args(ex))),
-    oldsimp:simp,
     return(concat("\\log_{", stack_disp_strip_dollars(tex(b, false)), "}\\left(", stack_disp_strip_dollars(tex(n, false)), "\\right)"))
 )$
 texput(lg, lgtex);

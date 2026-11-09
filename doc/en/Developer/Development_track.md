@@ -14,6 +14,7 @@ Issues with [github milestone 4.15.0](https://github.com/maths/moodle-qtype_stac
    * The version number is a record of the version of STACK the question was last edited with.  It does not change how a question runs: STACK always uses the code installed on the site.
    * A question with a version number newer than the site's STACK now gives a warning, on the question dashboard and in the bulk tester.  It is only a warning: many such questions use no new features, so their tests still run.  The API's test route returns it in a new `warnings` field, and not in `messages`, so it does not count as an error.
 2. Fix: a question test which enters an invalid value in a matrix input and expects `NULL` no longer fails as "Empty question tests are not permitted!" when the input does not require verification.
+3. Fix: the answer tests `Int`, `Antidiff`, `AddConst`, `Diff` and `EqualComAssRules` no longer change the value of `simp` when they return.  Previously `simp:false` could leak out of them, for example when one was called directly in the feedback variables.  Inside a potential response tree `simp` is already local, so marking is unchanged.
 
 ## Better testing
 

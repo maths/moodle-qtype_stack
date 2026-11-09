@@ -422,4 +422,16 @@ final class question_test extends qtype_stack_testcase {
         $q->stackversion = get_config('qtype_stack', 'version');
         $this->assertEquals('', $q->validate_stackversion_newer());
     }
+
+    public function test_random_variants_check(): void {
+        // This test decides both whether a question can be deployed and whether its note may be empty.
+        $this->assertTrue((bool) qtype_stack_question::random_variants_check('a:rand(5);'));
+        $this->assertTrue((bool) qtype_stack_question::random_variants_check('a:rand_with_prohib(-3,3,[0]);'));
+        $this->assertTrue((bool) qtype_stack_question::random_variants_check('p:random_permutation([1,2,3]);'));
+        $this->assertTrue((bool) qtype_stack_question::random_variants_check('[ta,mc]:multiselqn(L,2,[1]);'));
+        $this->assertTrue((bool) qtype_stack_question::random_variants_check('s:stack_seed;'));
+        $this->assertFalse((bool) qtype_stack_question::random_variants_check('a:5;'));
+        // A word that merely contains "rand" is not a random function.
+        $this->assertFalse((bool) qtype_stack_question::random_variants_check('operand:x+1;'));
+    }
 }

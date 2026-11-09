@@ -117,10 +117,24 @@ contains `[[input:ans1]]`, the importer fills it with `[[feedback:prt1]]`. So
 when the feedback tags are in the question text, write an empty
 `<specificfeedback><text></text></specificfeedback>`.
 
-**The question note.** If the question variables call a random function such
-as `rand()`, the note must not be empty (`questionnotempty`). It names the
-variant, so it must show every random value: two deployed variants with the
-same note are reported as duplicates. An omitted note becomes `{@ta1@}`.
+**The question note.** The note is CASText that names the variant. STACK
+treats two variants as the same if and only if their notes are equal: its
+reports group attempts by note, and each attempt stores its note when it
+starts, so editing the note later does not change past attempts. In a
+randomised question:
+
+- the note must not be empty. The editing form refuses an empty note when the
+  question variables use a random function (`questionnotempty`), but neither
+  an XML import nor the API checks this;
+- it must show every value that distinguishes one variant from another, so
+  that different variants get different notes. Show the answer too, so the
+  note alone answers a student's query about their variant, for example
+  `\(p = {@p@}\), answer \({@ta1@}\)`;
+- it holds text and mathematics only: images, plots and files are not shown
+  in most places the note appears.
+
+A question without randomisation may leave the note empty. An omitted
+`<questionnote>` becomes `{@ta1@}` on import.
 
 **Tests and deployed seeds.** Each `<qtest>` gives a `<testinput>` for every
 input and an `<expected>` result for every PRT; each `<deployedseed>` is one
@@ -242,7 +256,10 @@ How many depends on the question: enough for students to see genuinely
 different variants, but each one must be checked. For each seed:
 
 - its question note must differ from every other deployed seed's, since STACK
-  treats variants with the same note as the same variant;
+  treats variants with the same note as the same variant. STACK skips a
+  duplicate only when it chooses seeds itself, and its question dashboard
+  warns about duplicates, but neither an XML import nor the API checks: render
+  each seed and compare the notes;
 - it has no runtime errors and passes every test;
 - it meets the intended learning objective: exclude accidental simplifications
   or coincidences that invalidate a diagnostic test. Zero coefficients and

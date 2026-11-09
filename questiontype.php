@@ -2392,14 +2392,10 @@ class qtype_stack extends question_type {
         // Question note.
         $errors['questionnote'] = [];
         if ('' == $fromform['questionnote']['text']) {
-            $foundrandom = false;
-            foreach (stack_cas_security::get_all_with_feature('random') as $rndid) {
-                if (!(false === strpos($fromform['questionvariables'], $rndid))) {
-                    $foundrandom = true;
-                    break;
-                }
-            }
-            if ($foundrandom) {
+            // Use the same test as deciding whether a question has random variants, so
+            // that a note is required exactly when the question can be deployed.
+            question_bank::load_question_definition_classes($this->name());
+            if (qtype_stack_question::random_variants_check($fromform['questionvariables'])) {
                 $errors['questionnote'][] = stack_string('questionnotempty');
             }
         } else {

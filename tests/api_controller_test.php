@@ -324,7 +324,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(['unique-0-T'], $this->output->prtresults->unique->prtanswernotes);
         $this->assertEquals(0, count((array)$this->output->gradingassets));
         $this->assertEquals(
-            'Seed: -1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; ' .
+            'Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; ' .
             'even: # = 1 | even-0-T; odd: # = 1 | odd-0-T; oddeven: # = 1 | ODD | EVEN; ' .
             'poly: # = 1 [formative] | ATLogic_True. | poly-1-T; unique: # = 1 | ATLogic_True. | unique-0-T',
             $this->output->responsesummary
@@ -354,7 +354,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(null, $this->output->prts->oddeven ?? null);
         $this->assertEquals(0, count((array)$this->output->gradingassets));
         $this->assertEquals(
-            'Seed: -1; ans1: x^3 [score]; ans2: * [invalid]; ans4: true [score]; even: !; ' .
+            'Seed: 1; ans1: x^3 [score]; ans2: * [invalid]; ans4: true [score]; even: !; ' .
             'odd: # = 1 | odd-0-T; oddeven: !; poly: !; unique: # = 1 | ATLogic_True. | unique-0-T',
             $this->output->responsesummary
         );
@@ -384,7 +384,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals('<p>[[feedback:prt1]]</p>', $this->output->specificfeedback);
         $this->assertStringContainsString('correct', $this->output->prts->prt1);
         $this->assertEquals(
-            'Seed: -1; ans1: 1 [score]; prt1: # = 1 | prt1-1-T',
+            'Seed: 1; ans1: 1 [score]; prt1: # = 1 | prt1-1-T',
             $this->output->responsesummary
         );
     }
@@ -409,7 +409,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEqualsWithDelta(0.1, $this->output->scoreweights->prt4, 0.0001);
         $this->assertEquals(10, $this->output->scoreweights->total);
         $this->assertEquals(
-            'Seed: -1; ans1: c [score]; ans2: 1 [score]; ans3: 0 [score]; ans4: 0 [score]; prt1: # = 1 | prt1-1-T; ' .
+            'Seed: 1; ans1: c [score]; ans2: 1 [score]; ans3: 0 [score]; ans4: 0 [score]; prt1: # = 1 | prt1-1-T; ' .
                 'prt2: # = 1 | prt2-1-T; prt3: # = 0 | prt3-1-F; prt4: # = 1 | prt4-1-T',
             $this->output->responsesummary
         );

@@ -145,7 +145,8 @@ Writing bespoke validators is an advanced feature, but offers two significant be
 
 1. Students are less likely to be penalised on a technicality, especially in high-stakes situations;
 2. Potential response tree authoring becomes much easier and more reliable because the validation acts as a "guard clause" only allowing correctly structured information through to the PRT.  This means type-checking need not be done in the PRT before assessment.
-3. The extra option `validator` is designed to allow you to choose extra expressions to be invalid.  The extra option `feedback` will simply print an additional message to students in the validation feedback.
+
+The extra option `validator` is designed to allow you to choose extra expressions to be invalid.  The extra option `feedback` will simply print an additional message to students in the validation feedback.
 
 ### Extra option: monospace ###
 

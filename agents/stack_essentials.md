@@ -101,8 +101,10 @@ outside CDATA is a parse error, so use the character itself or a numeric
 reference such as `&#160;`.
 
 **Inputs.** Each `[[input:ans1]]` in the question text needs an `<input>` named
-`ans1` and a `[[validation:ans1]]` tag. `<tans>` is the teacher's answer, an
-expression in the question variables.
+`ans1` and a `[[validation:ans1]]` tag, each exactly once, in the question
+text. `<tans>` is the teacher's answer, an expression in the question
+variables. How to choose and configure inputs is in "Choose and configure
+inputs" below.
 
 **PRTs.** A potential response tree is a graph of `<node>`s named `0`, `1`, ….
 `<truenextnode>` and `<falsenextnode>` name the next node; `-1`, the default,
@@ -189,6 +191,84 @@ site's STACK settings (`get_config('qtype_stack', ...)`, defaults in
 can change these, so the same file may behave differently on two sites. Write
 an element whenever the question depends on its value. A question exported
 from Moodle lists every element.
+
+### Choose and configure inputs
+
+STACK separates validity from correctness. Validation decides whether the
+student's entry is a well-formed answer of the expected kind; only a valid
+answer reaches the PRT, and an invalid one costs no penalty. So put every check
+of form on the input (its type, options or a validator), and keep the PRT for
+the mathematics. A PRT that tests for floats, the wrong variables or the wrong
+type of object marks a student wrong, with a penalty, for a slip of entry.
+
+**Placeholders.** Each `[[input:ans1]]` and `[[validation:ans1]]` appears
+exactly once, in the question text. The editing form refuses a repeat, and an
+XML import marks the question broken (`validate_fromform()` in
+`questiontype.php`), but the API does not check: its tests pass. To refer to an
+input twice, refer to it in words.
+
+**Layout.** `[[validation:ans1]]` becomes a `<div>`, or a `<span>` for compact
+validation (`<showvalidation>` 3) and equivalence-reasoning inputs
+(`replace_validation_tags()` in `stack/input/inputbase.class.php`). HTML closes
+an open `<p>` at a `<div>`, so a line holding an input and its validation goes
+in a `<div>`, not a `<p>`.
+
+**The input type.** Pick the type that rejects what the answer cannot be:
+
+- A single number uses `numerical`, not `algebraic`. It always rejects
+  variables ("This input expects a number, and so may not contain variables"),
+  so it needs no validator. With `<forbidfloat>` 1 and
+  `<requirelowestterms>` 0 it accepts `1/2`, `2/4`, `-3` and `sqrt(2)` as
+  exact values, and rejects `0.5`.
+- The no-variables check is numerical-only. A `matrix` input accepts symbolic
+  entries, so a matrix of numbers needs a validator, for example
+  `validate_numeric(ex) := if listofvars(ex) = [] then "" else "Enter numbers only.";`.
+
+**Variables.** The extra option `checkvars:1` (in `<options>`) makes an answer
+invalid if it contains a variable that the teacher's answer does not;
+`checkvars:2` flags a missing variable, `checkvars:3` both. Where the allowed
+set differs from the teacher's answer's variables, write a validator.
+
+**Validators.** The extra option `validator:validate_vars` calls a function
+the question variables define. It returns `""` (or `true`) for valid and a
+message for invalid.
+
+- It runs only after STACK's own validation has passed, and always with
+  `simp:false`. A set literal is then not put into canonical order, so
+  `subsetp(setify(listofvars(ex)), {x1,x2,x3})` rejects the correct `x2+x1`.
+  Wrap such tests in `ev(..., simp)`, or test membership with
+  `every(lambda([v], member(v, [x1,x2,x3])), listofvars(ex))`.
+- It takes one argument, the student's answer, and must not name an input. It
+  can use the other question variables, such as the teacher's answer.
+- Students cannot type the name of any question variable, so an allowed
+  variable name must not also be a question variable.
+- An error inside the validator makes the answer invalid.
+- STACK supplies `stack_multi_validator`, `stack_seq_validator` and
+  `validate_nofunctions` (`stack/maxima/validator.mac`).
+
+**Subscripts.** A student may type `x_1` for `x1`. With the extra option
+`consolidatesubscripts`, STACK changes any atom of the form letters, `_`,
+digits to the same name without the `_` before validation and marking
+(`420_consolidate_subscripts`). Without it `x_1` is a different variable, and
+is marked wrong.
+
+**Forbidden words.** Students may call Maxima functions such as `diff`,
+`integrate`, `factor`, `expand` and `solve`. When a question asks the student
+to do by hand what one of these does, list it in `<forbidwords>`. Forbid only
+the operation being assessed.
+
+**Syntax hints.** `<syntaxhint>` pre-fills the box, for example `sqrt(?)` or
+`matrix([?,?],[?,?])`. With `<syntaxattribute>` 1 it is a greyed placeholder
+that disappears when the student types; with 0 it is text the student edits.
+Keep a hint generic: never give the shape or values of the answer.
+
+**Test the validation.** For each input that relies on validation, add a test
+entering an invalid answer and expecting `NULL` (see "Test every question").
+Run it: a validator that never rejects anything looks the same as one that
+works. On STACK 4.14.0 and earlier a test of a `matrix` input expecting `NULL`
+fails as "Empty question tests are not permitted!" when `<mustverify>` is 0
+(`process_results()` in `stack/questiontest.php`, fixed in 4.15.0): there, also
+fill in a non-matrix input, or set `<mustverify>` 1.
 
 ### Test every question
 

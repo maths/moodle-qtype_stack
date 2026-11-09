@@ -123,7 +123,14 @@ class TestController {
         } else {
             foreach ($question->deployedseeds as $seed) {
                 try {
-                    $testresponse->results[$seed] = $this->qtype_stack_test_question($question, $testcases, $seed);
+                    // Load a fresh question for each seed, as the bulk tester does. A question
+                    // keeps its variables, runtime errors and graded responses, so reusing one
+                    // would test every seed against the variant of the first.
+                    ['question' => $seedquestion] = StackQuestionLoader::loadxml($data["questionDefinition"], true);
+                    $seedquestion->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
+                    $seedquestion->seed = (int) $seed;
+                    $seedquestion->initialise_question_from_seed();
+                    $testresponse->results[$seed] = $this->qtype_stack_test_question($seedquestion, $testcases, $seed);
                 } catch (\stack_exception $e) {
                     $testresponse->results[$seed] = [
                         'passes' => null,

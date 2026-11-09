@@ -239,6 +239,48 @@ So:
 Before STACK 4.13.0 only the last note was compared. A single note is still
 read that way, so older tests pass; the full route is the form to write now.
 
+### Randomise with STACK's functions
+
+Generate random values in the question variables with STACK's functions.
+Maxima's own `random()` is forbidden. The functions draw in turn from one
+generator, started from the variant's seed (`stack_seed` holds it), so a seed
+fixes a variant only for the question variables as they are now. Adding,
+removing or reordering a random call changes the variant of every seed:
+afterwards, check every deployed seed again.
+
+- `rand(n)`: an integer from 0 to n-1. `n` must be positive: `rand(0)` is a
+  runtime error. `rand(n.0)` is a float from 0 to n.
+- `rand(L)`: one element of the list or set `L`; `rand(M)` applies `rand` to
+  each entry of the matrix `M`.
+- `rand_with_step(lower, upper, step)`: one of `lower`, `lower+step`, ... up to
+  `upper`.
+- `rand_with_prohib(lower, upper, L)`: an integer from `lower` to `upper` that
+  is not in the list `L`, for example `rand_with_prohib(-5, 5, [0])`. If `L`
+  rules out every value it returns `[]`, with no error.
+- `rand_selection(L, n)`: `n` different elements of `L`;
+  `rand_selection_with_replacement(L, n)`, `random_subset(S)`,
+  `random_subset_n(S, n)`, `random_ne_subset(S)` and `random_permutation(L)`
+  likewise.
+
+These are defined in `stack/maxima/stackmaxima.mac` in the STACK source.
+
+**Build backwards.** Choose the random values so that every variant has a good
+answer: pick the answer first and build the question from it, or pick from a
+list of good cases, `p: rand([2, 3, 5, 7])`. Do not loop until a random value
+meets a condition: the loop runs whenever the variant is generated, and can
+time out.
+
+**Assert what the variant needs.** `s_assert(ex, v)` is a runtime error unless
+`is(ex = v)`. Put it at the end of the question variables to state what every
+variant must satisfy, for example `s_assert(is(b^2 - 4*a*c > 0), true)`. A
+variant that breaks the assertion fails all its tests, and STACK will not
+deploy it.
+
+**Simplification.** With `<questionsimplify>0</questionsimplify>` the question
+variables are not simplified either: `rand(6)+1` stays `1+1` and displays so,
+and `L[rand(3)+1]` is a runtime error because the index is not an integer.
+Use `rand(L)`, or simplify the arithmetic explicitly, `ev(rand(6)+1, simp)`.
+
 ### Deploy variants of a randomised question
 
 Deploying variants is strongly recommended for every question whose question
@@ -302,6 +344,12 @@ Then check:
   which of score, penalty and answer note did not match.
 - An empty `results` is not a pass. A randomised question with no deployed
   seeds is not tested at all.
+
+**One seed per request on STACK 4.14.0 and earlier.** In these releases the
+test route generates the variant of the first deployed seed only, and runs
+every seed's tests against it. Send each seed in its own request, a copy of
+the question with that one `<deployedseed>`, until the API runs a release
+with this fixed.
 
 **It is not the final gate.** The API fills omitted elements from its own
 defaults, not a site's settings, and a site may have plugins or settings the

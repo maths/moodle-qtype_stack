@@ -515,6 +515,40 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(0, $results->results->noseed->passes);
     }
 
+    public function test_test_controller_instantiates_each_seed(): void {
+        // Each seed must be tested against its own variant, whichever order the seeds are deployed in.
+        // The first question variables fail an s_assert only for seed 2. In the second, the
+        // test answer a*b is correct only for seed 1, so a grade cached from one seed would be wrong.
+        $qtest = '<qtest><testcase>1</testcase><testinput><name>ans1</name><value>a*b</value></testinput>' .
+            '<expected><name>prt1</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty>' .
+            '<expectedanswernote>prt1-1-T</expectedanswernote></expected></qtest>';
+        $cases = [
+            ['n:rand(2); s_assert(stack_seed, 1); ta:a*b', ''],
+            ['n:rand(2); ta:stack_seed*a*b', $qtest],
+        ];
+        foreach ($cases as [$questionvariables, $tests]) {
+            foreach (['1', '2'] as $first) {
+                $second = ($first === '1') ? '2' : '1';
+                $this->requestdata['questionDefinition'] = str_replace(
+                    ['<text>ta:a*b</text>', '<tans>wrong</tans>', '</prt>'],
+                    ['<text>' . $questionvariables . '</text>', '<tans>ta</tans>',
+                        '</prt><deployedseed>' . $first . '</deployedseed><deployedseed>' . $second . '</deployedseed>' .
+                        $tests],
+                    stack_api_test_data::get_question_string('test3')
+                );
+                $this->requestdata['filepath'] = 'testpath/test.xml';
+                $tc = new TestController();
+                $tc->__invoke($this->request, $this->response, []);
+                $results = $this->output;
+                $this->assertEquals(true, $results->israndomvariants);
+                $this->assertEquals(1, $results->results->{'1'}->passes);
+                $this->assertEquals(0, $results->results->{'1'}->fails);
+                $this->assertEquals(0, $results->results->{'2'}->passes);
+                $this->assertEquals(1, $results->results->{'2'}->fails);
+            }
+        }
+    }
+
     public function test_test_controller_default_test_pass(): void {
 
         $this->requestdata['questionDefinition'] =

@@ -151,6 +151,11 @@ what did not match (score, penalty or answer note), and its PRT outcomes give
 the actual and expected `answernote`. On versions where the test-level reason
 is empty, inspect the PRT-level reasons too.
 
+**On STACK 4.14.0 and earlier, send one seed per request.** These releases
+generate the variant of the first deployed seed only and run every seed's
+tests against it, so the other seeds' results are wrong. Send a copy of the
+question with a single `<deployedseed>` for each seed.
+
 **Reconcile execution with the submitted question.** Before sending a request,
 enumerate its deployed seeds and explicit `<qtest>/<testcase>` IDs. Then:
 

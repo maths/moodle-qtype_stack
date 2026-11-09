@@ -65,11 +65,15 @@ class stack_question_library {
 
     /**
      * Stable setting key for an entry in the external library catalogue.
+     *
+     * Moodle setting names may only contain letters, digits and underscores,
+     * while catalogue keys can be any text. A short hash of the key gives a valid
+     * name that stays the same when the library's display name changes.
      * @param string $libraryid Catalogue key (independent of the display name)
      * @return string Encrypted configuration setting name
      */
     public static function github_token_setting(string $libraryid): string {
-        return 'githubtoken_' . hash('sha256', $libraryid);
+        return 'githubtoken_' . substr(hash('sha256', $libraryid), 0, 16);
     }
 
     /**

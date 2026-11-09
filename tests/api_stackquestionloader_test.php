@@ -40,6 +40,15 @@ use Symfony\Component\Yaml\Yaml;
  * @covers \qtype_stack
  */
 final class api_stackquestionloader_test extends qtype_stack_testcase {
+    /**
+     * Some tests replace the cached defaults with a fixture. Clear the cache after
+     * every test, so that no test inherits another test's defaults.
+     */
+    public function tearDown(): void {
+        StackQuestionLoader::$defaults = null;
+        parent::tearDown();
+    }
+
     public function test_question_loader(): void {
 
         $xml = stack_api_test_data::get_question_string('matrices');

@@ -778,13 +778,26 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
+    /**
+     * Parse an XML string as Moodle's question import does, on old and new Moodle.
+     * @param string $xml the XML.
+     * @return array the parsed data.
+     */
+    private function parse_xml(string $xml): array {
+        if (class_exists('\core\xml_parser') && method_exists('\core\xml_parser', 'parse')) {
+            $parser = new \core\xml_parser();
+            return $parser->parse($xml);
+        }
+        return xmlize($xml);
+    }
+
     public function test_xml_import_qtest_default_expectedanswernote(): void {
         // An omitted expected answer note is empty, which the test reports as a construction error.
         $importer = new qformat_xml();
         $method = new \ReflectionMethod($this->qtype, 'import_xml_qtest');
         $method->setAccessible(true);
 
-        $xml = xmlize('<qtest><testcase>1</testcase>
+        $xml = $this->parse_xml('<qtest><testcase>1</testcase>
                 <testinput><name>ans1</name><value>2</value></testinput>
                 <expected><name>prt1</name></expected>
             </qtest>');
@@ -792,7 +805,7 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(1, $number);
         $this->assertEquals([''], $testcase->expectedresults['prt1']->answernotes);
 
-        $xml = xmlize('<qtest><testcase>2</testcase>
+        $xml = $this->parse_xml('<qtest><testcase>2</testcase>
                 <testinput><name>ans1</name><value>2</value></testinput>
                 <expected><name>prt1</name><expectedanswernote>prt1-1-T</expectedanswernote></expected>
             </qtest>');
@@ -823,7 +836,7 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
                     <sans>ans1</sans><tans>ta1</tans>
                     <trueanswernote>prt1-1-T</trueanswernote><falseanswernote>prt1-1-F</falseanswernote>
                 </node></prt></question>';
-            $xmldata = xmlize($xml);
+            $xmldata = $this->parse_xml($xml);
             return $importer->try_importing_using_qtypes($xmldata['question'], null, null, 'stack');
         };
         $message = function (string $field, string $type): string {

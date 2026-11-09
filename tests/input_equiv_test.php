@@ -1231,16 +1231,19 @@ final class input_equiv_test extends qtype_stack_testcase {
         $this->assertEquals($ta, $val);
     }
 
-    public function test_maxima_to_response_array_decimals(): void {
-        // A value from the CAS always separates list elements with commas, whatever the decimal separator.
-        $options = new stack_options();
-        $options->set_option('decimals', ',');
+    public function test_get_correct_response_decimals(): void {
+        // "Fill in correct response" must give every line of the teacher's answer, whatever the decimal separator.
         $ta = '[-6*x+3*y = -6,3*y = -2+6*x,y = -2+2*x]';
-        $el = stack_input_factory::make('equiv', 'sans1', $ta, $options);
-        $this->assertEquals(
-            "-6*x+3*y = -6\n3*y = -2+6*x\ny = -2+2*x",
-            $el->maxima_to_response_array($ta)['sans1']
-        );
+        foreach ([',', '.'] as $decimals) {
+            $options = new stack_options();
+            $options->set_option('decimals', $decimals);
+            $el = stack_input_factory::make('equiv', 'sans1', $ta, $options);
+            $this->assertEquals(
+                "-6*x+3*y = -6\n3*y = -2+6*x\ny = -2+2*x",
+                $el->get_correct_response($ta)['sans1'],
+                'decimals ' . $decimals
+            );
+        }
     }
 
     public function test_validate_student_response_firstline_decimals(): void {

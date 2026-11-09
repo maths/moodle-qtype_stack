@@ -422,15 +422,19 @@ final class input_textarea_test extends qtype_stack_testcase {
         );
     }
 
-    public function test_maxima_to_response_array_decimals(): void {
-        // A value from the CAS always separates list elements with commas, whatever the decimal separator.
-        $options = new stack_options();
-        $options->set_option('decimals', ',');
-        $el = stack_input_factory::make('textArea', 'sans1', '[x=1,y=2]', $options);
-        $this->assertEquals(
-            "-6*x+3*y = -6\n3*y = -2+6*x\ny = -2+2*x",
-            $el->maxima_to_response_array('[-6*x+3*y = -6,3*y = -2+6*x,y = -2+2*x]')['sans1']
-        );
+    public function test_get_correct_response_decimals(): void {
+        // "Fill in correct response" must give every line of the teacher's answer, whatever the decimal separator.
+        $ta = '[-6*x+3*y = -6,3*y = -2+6*x,y = -2+2*x]';
+        foreach ([',', '.'] as $decimals) {
+            $options = new stack_options();
+            $options->set_option('decimals', $decimals);
+            $el = stack_input_factory::make('textArea', 'sans1', $ta, $options);
+            $this->assertEquals(
+                "-6*x+3*y = -6\n3*y = -2+6*x\ny = -2+2*x",
+                $el->get_correct_response($ta)['sans1'],
+                'decimals ' . $decimals
+            );
+        }
     }
 
     public function test_validate_student_response_decimals_equations(): void {

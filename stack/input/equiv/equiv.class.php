@@ -249,14 +249,11 @@ class stack_equiv_input extends stack_input {
      * Transforms a Maxima list into raw input.
      *
      * @param string $in
-     * @param bool $fromcas true if $in is a value written by Maxima, which always separates list
-     *      elements with commas.  Otherwise, e.g. for a syntax hint, $in uses the question's list
-     *      separator, which is a semicolon when the decimal separator is a comma.
      * @return string
      */
-    private function maxima_to_raw_input($in, bool $fromcas = false) {
+    private function maxima_to_raw_input($in) {
         $delim = ',';
-        if (!$fromcas && $this->options->get_option('decimals') === ',') {
+        if ($this->options->get_option('decimals') === ',') {
             $delim = ';';
         }
         $values = stack_utils::list_to_array($in, false, $delim);
@@ -281,8 +278,7 @@ class stack_equiv_input extends stack_input {
      * @return string
      */
     public function maxima_to_response_array($in) {
-        // The value here comes from the CAS, e.g. the teacher's answer, so its elements are separated by commas.
-        $response[$this->name] = $this->maxima_to_raw_input($in, true);
+        $response[$this->name] = $this->maxima_to_raw_input($in);
         if ($this->requires_validation()) {
             $response[$this->name . '_val'] = $in;
         }
@@ -495,7 +491,10 @@ class stack_equiv_input extends stack_input {
         $ca = stack_ast_container::make_from_teacher_source('stack_calculus:' . $calculus);
         $ca->get_valid();
 
-        $tresponse = $this->maxima_to_response_array($teacheranswer);
+        // The teacher's answer comes from Maxima, which separates list elements with commas. Write it as a
+        // student types it, as get_correct_response() does, so that it splits into its lines whatever the
+        // question's decimal and list separators.
+        $tresponse = $this->get_correct_response($teacheranswer);
         $tcontents = $this->response_to_contents($tresponse);
         // Has the student used the correct first line?
         $fl = stack_ast_container::make_from_teacher_source('firstline:true');

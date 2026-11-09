@@ -189,14 +189,11 @@ class stack_textarea_input extends stack_input {
      * Transforms a Maxima list into raw input.
      *
      * @param string $in
-     * @param bool $fromcas true if $in is a value written by Maxima, which always separates list
-     *      elements with commas.  Otherwise, e.g. for a syntax hint, $in uses the question's list
-     *      separator, which is a semicolon when the decimal separator is a comma.
      * @return string
      */
-    protected function maxima_to_raw_input($in, bool $fromcas = false) {
+    protected function maxima_to_raw_input($in) {
         $delim = ',';
-        if (!$fromcas && $this->options->get_option('decimals') === ',') {
+        if ($this->options->get_option('decimals') === ',') {
             $delim = ';';
         }
         $values = stack_utils::list_to_array($in, false, $delim);
@@ -220,6 +217,17 @@ class stack_textarea_input extends stack_input {
     }
 
     /**
+     * The teacher's answer comes from Maxima, which separates list elements with commas.
+     * Write it as a student types it, as get_correct_response() does, so that it splits into
+     * its lines whatever the question's decimal and list separators.
+     * @param string $teacheranswer the teacher's answer, as written by Maxima.
+     * @return array the response.
+     */
+    protected function teacher_answer_to_response_array($teacheranswer) {
+        return $this->get_correct_response($teacheranswer);
+    }
+
+    /**
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
      *
@@ -227,8 +235,7 @@ class stack_textarea_input extends stack_input {
      * @return string
      */
     public function maxima_to_response_array($in) {
-        // The value here comes from the CAS, e.g. the teacher's answer, so its elements are separated by commas.
-        $response[$this->name] = $this->maxima_to_raw_input($in, true);
+        $response[$this->name] = $this->maxima_to_raw_input($in);
         if ($this->requires_validation()) {
             $response[$this->name . '_val'] = $in;
         }

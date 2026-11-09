@@ -286,7 +286,7 @@ Use `rand(L)`, or simplify the arithmetic explicitly, `ev(rand(6)+1, simp)`.
 
 ### Deploy variants of a randomised question
 
-Deploying variants is strongly recommended for every question whose question
+Deploying variants is essential for every question whose question
 variables use randomisation. STACK decides this from the question variables
 (`has_random_variants()` in `question.php`). A word that begins with `rand`,
 `multiselqn` or `stack_seed` makes the question random, so do not begin a
@@ -303,7 +303,14 @@ variants, and every test is run on each of them.
 
 Without deployed seeds students may get any variant, including one nobody has
 tested; the bulk tester reports the question, and the API's test route runs no
-tests at all.
+tests at all. A broken variant in a live quiz is often impossible to repair:
+each attempt keeps the seed it started with, and changing the random
+generation to fix it changes the question under students who have already
+answered it. Random generation, deployed variants and question tests work as
+one system, and deploying and testing variants prevents this in most cases.
+If a user asks for a randomised question without deployed variants, explain
+this and recommend deploying them; if they still decline, say in your report
+that the variants are untested.
 
 How many depends on the question: enough for students to see genuinely
 different variants, but each one must be checked. For each seed:

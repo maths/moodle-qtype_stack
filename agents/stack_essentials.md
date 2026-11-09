@@ -265,10 +265,13 @@ afterwards, check every deployed seed again.
 These are defined in `stack/maxima/stackmaxima.mac` in the STACK source.
 
 **Build backwards.** Choose the random values so that every variant has a good
-answer: pick the answer first and build the question from it, or pick from a
-list of good cases, `p: rand([2, 3, 5, 7])`. Do not loop until a random value
-meets a condition: the loop runs whenever the variant is generated, and can
-time out.
+answer and a good worked solution: every variant must take the same steps, by
+the same method, with no step that disappears or needs a different method.
+Pick the answer first and build the question from it, or pick from a list of
+good cases, `p: rand([2, 3, 5, 7])`. Where good cases are hard to construct,
+generate and check them in advance, outside the question, and pick from that
+list with `rand`. Do not loop until a random value meets a condition: the loop
+runs whenever the variant is generated, and can time out.
 
 **Assert what the variant needs.** `s_assert(ex, v)` is a runtime error unless
 `is(ex = v)`. Put it at the end of the question variables to state what every

@@ -1230,4 +1230,45 @@ final class input_equiv_test extends qtype_stack_testcase {
         $ta = $el->get_teacher_answer();
         $this->assertEquals($ta, $val);
     }
+
+    public function test_maxima_to_response_array_decimals(): void {
+        // A value from the CAS always separates list elements with commas, whatever the decimal separator.
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $ta = '[-6*x+3*y = -6,3*y = -2+6*x,y = -2+2*x]';
+        $el = stack_input_factory::make('equiv', 'sans1', $ta, $options);
+        $this->assertEquals(
+            "-6*x+3*y = -6\n3*y = -2+6*x\ny = -2+2*x",
+            $el->maxima_to_response_array($ta)['sans1']
+        );
+    }
+
+    public function test_validate_student_response_firstline_decimals(): void {
+        // With a decimal comma, the first line of the teacher's answer must still be its first element.
+        // Before, the whole answer stayed as one line, and a wrong first line was accepted.
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $ta = '[-6*x+3*y = -6,3*y = -2+6*x,y = -2+2*x]';
+
+        $el = stack_input_factory::make('equiv', 'sans1', $ta, $options);
+        $el->set_parameter('options', 'firstline');
+        $state = $el->validate_student_response(
+            ['sans1' => "x+y=100\nx=100-y"],
+            $options,
+            $ta,
+            new stack_cas_security()
+        );
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals(stack_string('equivfirstline'), $state->errors);
+
+        $el = stack_input_factory::make('equiv', 'sans1', $ta, $options);
+        $el->set_parameter('options', 'firstline');
+        $state = $el->validate_student_response(
+            ['sans1' => "-6*x+3*y=-6\n3*y=-2+6*x\ny=-2+2*x"],
+            $options,
+            $ta,
+            new stack_cas_security()
+        );
+        $this->assertEquals(stack_input::VALID, $state->status);
+    }
 }

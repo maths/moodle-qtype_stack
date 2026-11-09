@@ -107,15 +107,17 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $endmark = '<STACK-OUTPUT-ENDS';
 
         $split = $raw;
+        // Without STACK's output, Maxima either timed out or stopped at an error of its own.
+        $caserror = stack_connection_helper::maxima_reported_error($errmsg);
         if (mb_strpos($split, $startmark) === false) {
             $this->debug->log('Timedout', true);
-            return ['timeout' => true, 'debug' => $split, 'timeoutdebug' => $errmsg];
+            return ['timeout' => true, 'caserror' => $caserror, 'debug' => $split, 'timeoutdebug' => $errmsg];
         }
         $split = mb_substr($split, mb_strpos($split, $startmark) + mb_strlen($startmark));
 
         if (mb_strpos($split, $endmark) === false) {
             $this->debug->log('Timedout', 'in the middle of output');
-            return ['timeout' => true, 'debug' => $split, 'timeoutdebug' => $errmsg];
+            return ['timeout' => true, 'caserror' => $caserror, 'debug' => $split, 'timeoutdebug' => $errmsg];
         }
         $split = mb_substr($split, 0, mb_strpos($split, $endmark));
 

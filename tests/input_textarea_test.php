@@ -421,6 +421,35 @@ final class input_textarea_test extends qtype_stack_testcase {
             $el->get_teacher_answer_display('[x=3.14,"Not sure"]', 'Some LaTeX')
         );
     }
+
+    public function test_maxima_to_response_array_decimals(): void {
+        // A value from the CAS always separates list elements with commas, whatever the decimal separator.
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('textArea', 'sans1', '[x=1,y=2]', $options);
+        $this->assertEquals(
+            "-6*x+3*y = -6\n3*y = -2+6*x\ny = -2+2*x",
+            $el->maxima_to_response_array('[-6*x+3*y = -6,3*y = -2+6*x,y = -2+2*x]')['sans1']
+        );
+    }
+
+    public function test_validate_student_response_decimals_equations(): void {
+        // With a decimal comma and type checking, the teacher's answer must be split into its lines.
+        // Before, it stayed as one line, read "-6,3" as a decimal, and every line failed in the CAS.
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $ta = '[-6*x+3*y = -6,3*y = -2+6*x,y = -2+2*x]';
+        $el = stack_input_factory::make('textArea', 'sans1', $ta, $options);
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(
+            ['sans1' => "-6*x+3*y=-6\n3*y=-2+6*x\ny=-2+2*x"],
+            $options,
+            $ta,
+            new stack_cas_security()
+        );
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals(stack_input::VALID, $state->status);
+    }
 }
 
 /**

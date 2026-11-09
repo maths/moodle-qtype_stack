@@ -249,11 +249,14 @@ class stack_equiv_input extends stack_input {
      * Transforms a Maxima list into raw input.
      *
      * @param string $in
+     * @param bool $fromcas true if $in is a value written by Maxima, which always separates list
+     *      elements with commas.  Otherwise, e.g. for a syntax hint, $in uses the question's list
+     *      separator, which is a semicolon when the decimal separator is a comma.
      * @return string
      */
-    private function maxima_to_raw_input($in) {
+    private function maxima_to_raw_input($in, bool $fromcas = false) {
         $delim = ',';
-        if ($this->options->get_option('decimals') === ',') {
+        if (!$fromcas && $this->options->get_option('decimals') === ',') {
             $delim = ';';
         }
         $values = stack_utils::list_to_array($in, false, $delim);
@@ -278,7 +281,8 @@ class stack_equiv_input extends stack_input {
      * @return string
      */
     public function maxima_to_response_array($in) {
-        $response[$this->name] = $this->maxima_to_raw_input($in);
+        // The value here comes from the CAS, e.g. the teacher's answer, so its elements are separated by commas.
+        $response[$this->name] = $this->maxima_to_raw_input($in, true);
         if ($this->requires_validation()) {
             $response[$this->name . '_val'] = $in;
         }

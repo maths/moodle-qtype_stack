@@ -454,6 +454,25 @@ final class input_textarea_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals(stack_input::VALID, $state->status);
     }
+
+    public function test_render_pre_syntaxhint_decimal_comma(): void {
+        // A syntax hint in the question's own syntax: semicolons between lines, commas in decimals.
+        // It must split into its lines, shown as content or as a placeholder.
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        foreach (['0' => '>x=0,5' . "\n" . 'y = ?</textarea>', '1' => 'placeholder="x=0,5' . "\n" . 'y = ?"'] as $attr => $expected) {
+            $el = stack_input_factory::make(
+                'textArea',
+                'test',
+                null,
+                $options,
+                ['syntaxHint' => '[x=0,5;y=?]', 'syntaxAttribute' => $attr]
+            );
+            $html = $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''), 'st_ans1', false, null);
+            $this->assertStringContainsString('data-stack-input-decimal-separator=","', $html);
+            $this->assertStringContainsString($expected, $html, 'syntaxAttribute ' . $attr);
+        }
+    }
 }
 
 /**

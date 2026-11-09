@@ -1274,4 +1274,52 @@ final class input_equiv_test extends qtype_stack_testcase {
         );
         $this->assertEquals(stack_input::VALID, $state->status);
     }
+
+    public function test_validate_student_response_decimal_comma(): void {
+        // A student types a decimal with the question's decimal comma.
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $val = '[4*x=2,x=1/2]';
+        $el = stack_input_factory::make('equiv', 'sans1', $val, $options);
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(
+            ['sans1' => "4*x=2\nx=0,5"],
+            $options,
+            $val,
+            new stack_cas_security()
+        );
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('[4*x = 2,x = dispdp(0.5,1)]', $state->contentsmodified);
+        $this->assertStringContainsString('x=0{,}5', $state->contentsdisplayed);
+    }
+
+    public function test_render_syntaxhint_decimal_comma(): void {
+        // A syntax hint in the question's own syntax: semicolons between lines, commas in decimals.
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('equiv', 'ans1', '[]', $options);
+        $el->set_parameter('syntaxHint', '[x=0,5;y=1]');
+        $html = $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''), 'stack1__ans1', false, null);
+        $this->assertStringContainsString('data-stack-input-decimal-separator=","', $html);
+        $this->assertStringContainsString(">x=0,5\ny = 1</textarea>", $html);
+    }
+
+    public function test_render_firstline_decimal_comma(): void {
+        // The first line of the teacher's answer, which Maxima writes with a decimal point, is shown
+        // as a student types it: with the question's decimal comma.
+        foreach ([',' => 'x = 0,5', '.' => 'x = 0.5'] as $decimals => $expected) {
+            $options = new stack_options();
+            $options->set_option('decimals', $decimals);
+            $el = stack_input_factory::make('equiv', 'ans1', '[]', $options);
+            $el->set_parameter('syntaxHint', 'firstline');
+            $html = $el->render(
+                new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
+                'stack1__ans1',
+                false,
+                '[x=0.5,y=1]'
+            );
+            $this->assertStringContainsString('>' . $expected . '</textarea>', $html, 'decimals ' . $decimals);
+        }
+    }
 }

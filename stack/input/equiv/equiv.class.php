@@ -83,7 +83,8 @@ class stack_equiv_input extends stack_input {
                 if (array_key_exists(0, $values) && !is_null($values[0])) {
                     $cs = stack_ast_container::make_from_teacher_source($values[0]);
                     $cs->get_valid();
-                    $current = $cs->get_inputform();
+                    // Write it as a student types it, with the question's decimal separator.
+                    $current = $cs->get_inputform(false, null, false, $this->options->get_option('decimals'));
                 }
             }
             // Remove % characters, e.g. %pi should be printed just as "pi".

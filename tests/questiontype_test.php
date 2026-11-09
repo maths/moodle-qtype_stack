@@ -778,6 +778,28 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
+    public function test_xml_import_qtest_default_expectedanswernote(): void {
+        // An omitted expected answer note is empty, which the test reports as a construction error.
+        $importer = new qformat_xml();
+        $method = new \ReflectionMethod($this->qtype, 'import_xml_qtest');
+        $method->setAccessible(true);
+
+        $xml = xmlize('<qtest><testcase>1</testcase>
+                <testinput><name>ans1</name><value>2</value></testinput>
+                <expected><name>prt1</name></expected>
+            </qtest>');
+        [$number, $testcase] = $method->invoke($this->qtype, $xml['qtest'], $importer);
+        $this->assertEquals(1, $number);
+        $this->assertEquals([''], $testcase->expectedresults['prt1']->answernotes);
+
+        $xml = xmlize('<qtest><testcase>2</testcase>
+                <testinput><name>ans1</name><value>2</value></testinput>
+                <expected><name>prt1</name><expectedanswernote>prt1-1-T</expectedanswernote></expected>
+            </qtest>');
+        [$number, $testcase] = $method->invoke($this->qtype, $xml['qtest'], $importer);
+        $this->assertEquals(['prt1-1-T'], $testcase->expectedresults['prt1']->answernotes);
+    }
+
     public function test_get_input_names_from_question_text_input_only(): void {
 
         $qtype = new qtype_stack();

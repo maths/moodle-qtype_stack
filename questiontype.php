@@ -2200,7 +2200,8 @@ class qtype_stack extends question_type {
                 $name  = $format->getpath($expectedxml, ['#', 'name', 0, '#'], 'prt1');
                 $expectedscore = $format->getpath($expectedxml, ['#', 'expectedscore', 0, '#'], '');
                 $expectedpenalty = $format->getpath($expectedxml, ['#', 'expectedpenalty', 0, '#'], '');
-                $expectedanswernote = $format->getpath($expectedxml, ['#', 'expectedanswernote', 0, '#'], '1-0-T');
+                // An omitted note is empty, so the test fails with a clear message rather than a mismatch.
+                $expectedanswernote = $format->getpath($expectedxml, ['#', 'expectedanswernote', 0, '#'], '');
 
                 $testcase->add_expected_result($name, new stack_potentialresponse_tree_state(
                     1,

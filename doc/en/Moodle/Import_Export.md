@@ -10,6 +10,8 @@ Go to
 
 Choose "Moodle XML format" and the question bank category you wish to import your questions to.  Then select files to import. 
 
+An import always creates new questions, even if a question with the same name already exists.  To update a question which is already in use, open its action menu in the question bank and choose "Import a new version".  This uses the [import question as new version](https://github.com/maths/moodle-qbank_importasversion) plugin, which STACK requires.  The file must contain exactly one question, and should be a question of the same type: the plugin does not check this.  Quizzes which use the latest version of the question will then use the new version, and attempts already started keep the version they began with.
+
 STACK also comes with a large [question bank](Question_bank.md).
 
 ## The STACK version stamp

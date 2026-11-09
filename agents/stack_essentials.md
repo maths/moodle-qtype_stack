@@ -406,6 +406,9 @@ So:
   Leave the expected score and penalty blank with it.
 - `prt1-bail` expects the PRT to stop in its feedback variables.
 - Never use `()`, which accepts anything.
+- Never omit `<expectedanswernote>`. From STACK 4.15.0 an omitted note is empty
+  and the test fails with "Expected result is empty"; earlier versions use
+  `1-0-T`, which no PRT produces, so the test fails with a confusing mismatch.
 - Notes are compared as exact strings, so each must be distinct within its PRT.
 - Write the route the PRT is designed to take, and let the test confirm it.
   Never copy the actual notes into the expectation: that records what the PRT
@@ -581,6 +584,22 @@ with this fixed.
 defaults, not a site's settings, and a site may have plugins or settings the
 API does not. Before a question is used, run its tests on the target site too:
 on the question dashboard, or with the bulk tester.
+
+### Update a question already in use
+
+Moodle's question import always creates new questions, even when a question
+with the same name already exists: it never matches by name. To change a
+question that is already in a quiz, import the corrected XML as a new version
+of it, with "Import a new version" in that question's menu in the question
+bank (the `qbank_importasversion` plugin, which STACK requires). The file must
+hold exactly one question (`classes/importer.php` in that plugin). The plugin
+does not check that the question type matches, so keep it a STACK question. Quizzes that use the latest version of the question then use the new
+one, and attempts already started keep the version they began with.
+
+So when you hand back a corrected question, say whether it replaces an existing
+one, and supply it as a file with that question alone. Keep its `<name>`
+unless the author asks for a new one: the name is how people recognise the
+question in the bank and in reports.
 
 ### Stamp the target STACK version
 

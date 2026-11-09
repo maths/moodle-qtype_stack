@@ -406,6 +406,26 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('Fallback', $default);
     }
 
+    public function test_question_loader_default_expectedanswernote(): void {
+        // An omitted expected answer note is empty, which the test reports as a construction error.
+        $xml = '<quiz><question type="stack">
+                    <qtest><testcase>1</testcase>
+                        <testinput><name>ans1</name><value>ta1</value></testinput>
+                        <expected><name>prt1</name></expected>
+                    </qtest>
+                    <qtest><testcase>2</testcase>
+                        <testinput><name>ans1</name><value>ta1</value></testinput>
+                        <expected><name>prt1</name><expectedanswernote>prt1-1-T</expectedanswernote></expected>
+                    </qtest>
+                </question></quiz>';
+        foreach ([true, false] as $stackapi) {
+            set_config('stackapi', $stackapi, 'qtype_stack');
+            $testcases = StackQuestionLoader::loadXML($xml, true)['testcases'];
+            $this->assertEquals([''], $testcases[0]->expectedresults['prt1']->answernotes);
+            $this->assertEquals(['prt1-1-T'], $testcases[1]->expectedresults['prt1']->answernotes);
+        }
+    }
+
     public function test_detect_difference(): void {
         if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
             $this->markTestSkipped('Symfony YAML extension is not available.');

@@ -83,7 +83,8 @@ class stack_equiv_input extends stack_input {
                 if (array_key_exists(0, $values) && !is_null($values[0])) {
                     $cs = stack_ast_container::make_from_teacher_source($values[0]);
                     $cs->get_valid();
-                    $current = $cs->get_inputform();
+                    // Write it as a student types it, with the question's decimal separator.
+                    $current = $cs->get_inputform(false, null, false, $this->options->get_option('decimals'));
                 }
             }
             // Remove % characters, e.g. %pi should be printed just as "pi".
@@ -491,7 +492,10 @@ class stack_equiv_input extends stack_input {
         $ca = stack_ast_container::make_from_teacher_source('stack_calculus:' . $calculus);
         $ca->get_valid();
 
-        $tresponse = $this->maxima_to_response_array($teacheranswer);
+        // The teacher's answer comes from Maxima, which separates list elements with commas. Write it as a
+        // student types it, as get_correct_response() does, so that it splits into its lines whatever the
+        // question's decimal and list separators.
+        $tresponse = $this->get_correct_response($teacheranswer);
         $tcontents = $this->response_to_contents($tresponse);
         // Has the student used the correct first line?
         $fl = stack_ast_container::make_from_teacher_source('firstline:true');

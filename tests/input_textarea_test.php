@@ -421,6 +421,58 @@ final class input_textarea_test extends qtype_stack_testcase {
             $el->get_teacher_answer_display('[x=3.14,"Not sure"]', 'Some LaTeX')
         );
     }
+
+    public function test_get_correct_response_decimals(): void {
+        // "Fill in correct response" must give every line of the teacher's answer, whatever the decimal separator.
+        $ta = '[-6*x+3*y = -6,3*y = -2+6*x,y = -2+2*x]';
+        foreach ([',', '.'] as $decimals) {
+            $options = new stack_options();
+            $options->set_option('decimals', $decimals);
+            $el = stack_input_factory::make('textArea', 'sans1', $ta, $options);
+            $this->assertEquals(
+                "-6*x+3*y = -6\n3*y = -2+6*x\ny = -2+2*x",
+                $el->get_correct_response($ta)['sans1'],
+                'decimals ' . $decimals
+            );
+        }
+    }
+
+    public function test_validate_student_response_decimals_equations(): void {
+        // With a decimal comma and type checking, the teacher's answer must be split into its lines.
+        // Before, it stayed as one line, read "-6,3" as a decimal, and every line failed in the CAS.
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $ta = '[-6*x+3*y = -6,3*y = -2+6*x,y = -2+2*x]';
+        $el = stack_input_factory::make('textArea', 'sans1', $ta, $options);
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(
+            ['sans1' => "-6*x+3*y=-6\n3*y=-2+6*x\ny=-2+2*x"],
+            $options,
+            $ta,
+            new stack_cas_security()
+        );
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals(stack_input::VALID, $state->status);
+    }
+
+    public function test_render_pre_syntaxhint_decimal_comma(): void {
+        // A syntax hint in the question's own syntax: semicolons between lines, commas in decimals.
+        // It must split into its lines, shown as content or as a placeholder.
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        foreach (['0' => '>x=0,5' . "\n" . 'y = ?</textarea>', '1' => 'placeholder="x=0,5' . "\n" . 'y = ?"'] as $attr => $expected) {
+            $el = stack_input_factory::make(
+                'textArea',
+                'test',
+                null,
+                $options,
+                ['syntaxHint' => '[x=0,5;y=?]', 'syntaxAttribute' => $attr]
+            );
+            $html = $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''), 'st_ans1', false, null);
+            $this->assertStringContainsString('data-stack-input-decimal-separator=","', $html);
+            $this->assertStringContainsString($expected, $html, 'syntaxAttribute ' . $attr);
+        }
+    }
 }
 
 /**

@@ -144,6 +144,24 @@ abstract class stack_connection_helper {
     }
 
     /**
+     * Find an error reported by Maxima itself in raw Maxima output, for example a syntax error.
+     * Maxima stops at such an error without writing STACK's output, which otherwise looks the
+     * same as a timeout.
+     * @param string $output raw output from Maxima.
+     * @return string the first line of Maxima's error message, or '' if there is none.
+     */
+    public static function maxima_reported_error(string $output): string {
+        $patterns = ['~^.*syntax error.*$~mi', '~^.*incorrect syntax.*$~mi', '~^.*Maxima encountered a Lisp error.*$~mi',
+            '~^.*\S.*(?=\R\s*-- an error\.)~m'];
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $output, $matches)) {
+                return trim($matches[0]);
+            }
+        }
+        return '';
+    }
+
+    /**
      * Check the result of a CAS computation to see if a time-out occurred.
      * @param array $result as returned from stack_cas_connection::compute.
      * @return bool whether the CAS timed out.

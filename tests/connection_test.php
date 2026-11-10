@@ -96,4 +96,22 @@ final class connection_test extends qtype_stack_testcase {
         $expected = [];
         $this->assertEquals($expected, $return);
     }
+
+    public function test_maxima_reported_error(): void {
+        // Raw output when Maxima stops at a syntax error, as returned for a garbled list of equations.
+        $raw = "(%i7) \nSTACK-ERR-OUTPUT-BEGINS> \n(%i8) \n" .
+            "syntax error: Found LOGICAL expression where ALGEBRAIC expression expected\n" .
+            " -- an error. To debug this try: debugmode(true);\n(%i9) \n";
+        $this->assertEquals(
+            'syntax error: Found LOGICAL expression where ALGEBRAIC expression expected',
+            stack_connection_helper::maxima_reported_error($raw)
+        );
+        // Another error, reported only by the line before Maxima's "-- an error.".
+        $this->assertEquals(
+            'Some other error message',
+            stack_connection_helper::maxima_reported_error("(%i3) \nSome other error message\n -- an error.\n")
+        );
+        // Output cut off by a timeout has no error from Maxima.
+        $this->assertEquals('', stack_connection_helper::maxima_reported_error("(%i7) \nSTACK-ERR-OUTPUT-BEGINS> \n(%i8) "));
+    }
 }

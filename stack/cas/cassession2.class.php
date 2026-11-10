@@ -69,6 +69,12 @@ class stack_cas_session2 {
     private $timeoutdebug = '';
 
     /**
+     * @var string if Maxima returned nothing because it reported an error of its own, rather
+     * than because it timed out, the first line of that error.
+     */
+    private $caserror = '';
+
+    /**
      * @var string the name of the error-wrapper-class, tuneable for use in
      * other contexts, e.g. Stateful.
      */
@@ -224,7 +230,7 @@ class stack_cas_session2 {
         $errors = [];
 
         if ($this->timeoutdebug !== '') {
-            $errors[] = [stack_string('stackCas_failedtimeout')];
+            $errors[] = [$this->failed_return_message()];
         }
 
         foreach ($this->statements as $num => $statement) {
@@ -410,8 +416,9 @@ class stack_cas_session2 {
             if (array_key_exists('timeoutdebug', $results)) {
                 $this->timeoutdebug = $results['timeoutdebug'];
             }
+            $this->caserror = $results['caserror'] ?? '';
             foreach ($this->statements as $num => $statement) {
-                $errors = [new $this->errclass(stack_string('stackCas_failedtimeout'), '')];
+                $errors = [new $this->errclass($this->failed_return_message(), '')];
                 $statement->set_cas_status($errors, [], []);
             }
             return false;
@@ -575,6 +582,17 @@ class stack_cas_session2 {
             }
         }
         return trim($keyvals);
+    }
+
+    /**
+     * The message for a session which got nothing back from Maxima: a timeout, or an error Maxima reported.
+     * @return string
+     */
+    private function failed_return_message(): string {
+        if ($this->caserror !== '') {
+            return stack_string('stackCas_failederror', htmlspecialchars($this->caserror, ENT_COMPAT));
+        }
+        return stack_string('stackCas_failedtimeout');
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

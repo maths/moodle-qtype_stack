@@ -217,6 +217,17 @@ class stack_textarea_input extends stack_input {
     }
 
     /**
+     * The teacher's answer comes from Maxima, which separates list elements with commas.
+     * Write it as a student types it, as get_correct_response() does, so that it splits into
+     * its lines whatever the question's decimal and list separators.
+     * @param string $teacheranswer the teacher's answer, as written by Maxima.
+     * @return array the response.
+     */
+    protected function teacher_answer_to_response_array($teacheranswer) {
+        return $this->get_correct_response($teacheranswer);
+    }
+
+    /**
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
      *

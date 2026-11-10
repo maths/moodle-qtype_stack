@@ -423,7 +423,7 @@ final class input_textarea_test extends qtype_stack_testcase {
     }
 
     public function test_get_correct_response_decimals(): void {
-        // "Fill in correct response" must give every line of the teacher's answer, whatever the decimal separator.
+        // The "Fill in correct response" button must give every line of the teacher's answer, whatever the decimal separator.
         $ta = '[-6*x+3*y = -6,3*y = -2+6*x,y = -2+2*x]';
         foreach ([',', '.'] as $decimals) {
             $options = new stack_options();
@@ -460,7 +460,11 @@ final class input_textarea_test extends qtype_stack_testcase {
         // It must split into its lines, shown as content or as a placeholder.
         $options = new stack_options();
         $options->set_option('decimals', ',');
-        foreach (['0' => '>x=0,5' . "\n" . 'y = ?</textarea>', '1' => 'placeholder="x=0,5' . "\n" . 'y = ?"'] as $attr => $expected) {
+        $cases = [
+            '0' => '>x=0,5' . "\n" . 'y = ?</textarea>',
+            '1' => 'placeholder="x=0,5' . "\n" . 'y = ?"',
+        ];
+        foreach ($cases as $attr => $expected) {
             $el = stack_input_factory::make(
                 'textArea',
                 'test',

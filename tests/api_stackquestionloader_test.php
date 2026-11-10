@@ -976,8 +976,11 @@ XML;
         $this->assertEquals(0, count($question->inputs));
     }
 
-    /*
+    /**
      * A helper function returning minimal STACK XML.
+     *
+     * @param string $extra XML to insert inside the question element.
+     * @return string
      */
     private function get_minimal_question_xml(string $extra = ''): string {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" .

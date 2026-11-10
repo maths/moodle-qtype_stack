@@ -357,8 +357,10 @@ final class question_test extends qtype_stack_testcase {
 
         foreach (['', ' ', '4.13.1', 'v2026080600'] as $stamp) {
             $q->stackversion = $stamp;
-            $this->assertStringStartsWith('This question does not have a valid STACK version number',
-                $q->validate_against_stackversion(context_system::instance()));
+            $this->assertStringStartsWith(
+                'This question does not have a valid STACK version number',
+                $q->validate_against_stackversion(context_system::instance())
+            );
         }
     }
 
@@ -414,10 +416,14 @@ final class question_test extends qtype_stack_testcase {
         $q = test_question_maker::make_question('stack', 'test2');
         $q->stackversion = (string) ((int) get_config('qtype_stack', 'version') + 1);
         $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
-        $this->assertStringNotContainsString('which is newer than the version of STACK on this site',
-            $q->validate_for_bulk(context_system::instance()));
-        $this->assertStringContainsString('which is newer than the version of STACK on this site',
-            $q->validate_stackversion_newer());
+        $this->assertStringNotContainsString(
+            'which is newer than the version of STACK on this site',
+            $q->validate_for_bulk(context_system::instance())
+        );
+        $this->assertStringContainsString(
+            'which is newer than the version of STACK on this site',
+            $q->validate_stackversion_newer()
+        );
 
         $q->stackversion = get_config('qtype_stack', 'version');
         $this->assertEquals('', $q->validate_stackversion_newer());

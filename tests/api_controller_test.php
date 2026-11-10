@@ -553,8 +553,11 @@ final class api_controller_test extends qtype_stack_testcase {
 
     public function test_seed_helper_matches_moodle(): void {
         // A question without random variants gets seed 1 whatever is deployed, as start_attempt() gives it in Moodle.
-        $xml = str_replace('</prt>', '</prt><deployedseed>5</deployedseed>',
-            stack_api_test_data::get_question_string('test3'));
+        $xml = str_replace(
+            '</prt>',
+            '</prt><deployedseed>5</deployedseed>',
+            stack_api_test_data::get_question_string('test3')
+        );
         $question = StackQuestionLoader::loadxml($xml)['question'];
         StackSeedHelper::initialize_seed($question, 5);
         $this->assertEquals(1, $question->seed);

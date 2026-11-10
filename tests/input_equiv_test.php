@@ -1232,7 +1232,7 @@ final class input_equiv_test extends qtype_stack_testcase {
     }
 
     public function test_get_correct_response_decimals(): void {
-        // "Fill in correct response" must give every line of the teacher's answer, whatever the decimal separator.
+        // The "Fill in correct response" button must give every line of the teacher's answer, whatever the decimal separator.
         $ta = '[-6*x+3*y = -6,3*y = -2+6*x,y = -2+2*x]';
         foreach ([',', '.'] as $decimals) {
             $options = new stack_options();

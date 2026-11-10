@@ -179,6 +179,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             $parseroptions->basen = true;
         }
 
+        // The no-floats filter quotes an example decimal in its error message.
+        if (!isset($filteroptions['101_no_floats'])) {
+            $filteroptions['101_no_floats'] = ['decimals' => (strpos($decimals, ',') === 0) ? ',' : '.'];
+        }
+
         // Force the security filter to use 's'.
         if (isset($filteroptions['998_security'])) {
             $filteroptions['998_security']['security'] = 's';

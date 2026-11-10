@@ -24,6 +24,8 @@ Maxima, and hence STACK, uses the form `key:value`, to assign a value to a varia
 * Adding `;` at the end of each statement is optional, but makes it easier to cut and paste into a Maxima session.  Please add these.
 * If you type a string not in the form `key : value`, a variable name such as `dumvar3` will be assigned automatically to keep track of the command in the list of question variables.
 * The `key` must be a simple variable name.  It must start with letters, and can contain numbers and underscore characters.
+* An equation such as `a = 3` does not assign a value, and gives no error: it is stored under an automatic name, and `a` remains a variable.
+* You cannot assign to the names of Maxima's system and option variables, such as `tab`, `title`, `values` or `key`.  Doing so stops the question variables with an error such as "The expression tab is forbidden".
 * If a student uses a variable which has been assigned a value in the question variables then the attempt will be rejected as invalid.  You can use the "allowed words" to enable students' expressions with question variables to be considered valid.
     Hence, it is a sensible idea to use variable names which are not used as parameters in the question, or likely to occur in the student's answer. For example if you set an integration question then you should avoid using the variable `c`, otherwise students won't be able to write `+c` in the normal way to indicate a constant of integration.
 * You can include C-style block comments for increased clarity, and these may appear on separate lines

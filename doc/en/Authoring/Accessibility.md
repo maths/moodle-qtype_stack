@@ -1,4 +1,4 @@
-# Accessibility​ for Question Authors
+# Accessibility for Question Authors
 
 It is important that we make course materials and content as accessible as possible. Higher education institutions have a legal responsibility to ensure their content meets accessibility standards. This page gives guidelines and resources on what we can do to improve accessibility.
 Authoring accessible STACK questions is simpler than writing accessible materials from scratch, particularly in comparison to PDF LaTeX documents.
@@ -22,7 +22,7 @@ Please consider/check the following key points:
 * JSXGraphs:
   * JSXGraphs are figures so must have alternative text. To add a description to a JSXGraph, use the `description` attribute in the board setup. For example:
   `description: 'Graph of the function f(x) = x squared'`.
-  * Pay specific attention to refering exclusively to colour in a graph.
+  * Pay specific attention to referring exclusively to colour in a graph.
   * Consider users may be using keyboard navigation, be careful with interactive assesseed tasks requiring the user to click on the board to add points. Add an `add point` button.
   
 Detailed guidance on digital accessibility is given by the WCAG 2.1 Accessibility Guidelines.

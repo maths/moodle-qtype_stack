@@ -22,7 +22,7 @@ Then we define the LCM as the product of the ALL the primes in both \({@a@}\) an
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>a:2^rand([0,1,2])*3^rand([0,1,2])*5^rand([0,1])*7^rand([0,1]);

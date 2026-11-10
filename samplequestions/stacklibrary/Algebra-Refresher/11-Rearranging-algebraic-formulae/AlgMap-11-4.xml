@@ -23,7 +23,7 @@ Now you have an equation for \(p\).</text>
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>cf1:rand(6)+1;

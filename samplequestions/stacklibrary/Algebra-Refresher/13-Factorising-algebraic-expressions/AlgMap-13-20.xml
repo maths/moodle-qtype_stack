@@ -27,7 +27,7 @@ Then factor out \(x+y\) to give:
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>ta:factor(a*x+a*y-b*x-b*y);</text>

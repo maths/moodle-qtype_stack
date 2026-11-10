@@ -33,11 +33,11 @@ Notes:
 2. If the validator function returns a non-empty string, then the student's answer will be considered invalid, and the string displayed to the student as a validation error message as part of the input validation.  Any string returned by the feedback function is displayed to the student, and validity is not changed.
 3. If the validator function returns an empty string or `true` then the student's input is considered to be valid.  The use of an empty string here for valid is designed to encourage teachers to write meaningful error messages to students!
 4. The function can reference other question variables, e.g. the teacher's answer.
-5. The function is always executed with `simp:false` regardless of the question settings.
+5. The function is always executed with `simp:false` regardless of the question settings.  So, for example, a set literal is not put into canonical order, and `subsetp(setify(listofvars(ex)), {x1,x2,x3})` rejects `x2+x1`.  Wrap such tests in `ev(..., simp)`, as in the example in the section on language support below.
 6. The function is called after the built-in validation checks, and only if the expression is already valid otherwise.  So, you cannot replace basic validation (by design).  This means you will/should have an expression which Maxima can evaluate if it gets as far as your validator function.  E.g. no missing `*` or mismatched brackets.
-8. The student still cannot use any of the variable names defined in the question variables.
-9. Validators only operate on a single input, and there is no mechanism to validate a combination of inputs at once.
-10. The recommended style for naming validator functions is to begin the name with `validate_` or `feedback_`.
+7. The student still cannot use any of the variable names defined in the question variables.
+8. Validators only operate on a single input, and there is no mechanism to validate a combination of inputs at once.
+9. The recommended style for naming validator functions is to begin the name with `validate_` or `feedback_`.
 
 A single validator function can be re-used on multiple inputs within a single question. If you regularly copy validator functions from question to question please consider contributing this as a function to the core of STACK (see below for details). We expect to collect and support regularly used validators in future.
 
@@ -87,11 +87,11 @@ You can [post your suggestion on the project's GitHub site](https://github.com/m
 
 It is possible to include the student's answer, or part of the answer, in the validation feedback. This needs more work, of course.
 
-The validator must return a string.  One way to include the studnet's answer in the message is to use `sconcat`, e.g. as follows
+The validator must return a string.  One way to include the student's answer in the message is to use `sconcat`, e.g. as follows
 
     sconcat("User-defined functions are not permitted in this input. In your answer ", stack_disp(op1, "i"), " appears to be used as a function. ")
 
-Another option is to use the `castext` function.  Note, that the castext function has to be used only at the top level.  An example is given in the next section on language support.  You cannot currently return the result of multiple `castext` calls in a concatinated string.
+Another option is to use the `castext` function.  Note, that the castext function has to be used only at the top level.  An example is given in the next section on language support.  You cannot currently return the result of multiple `castext` calls in a concatenated string.
 
 An example of how to construct such a validator is `validate_nofunctions` in the contributed validators.
 
@@ -145,7 +145,7 @@ Note, when injecting a value `m0='X'` the `X` must be a Maxima expression, not a
 1. to inject the Maxima expression `X` with `{@...@}` injection (without wrapping like `\(...\)`) to a named placeholder `m0` use `m0='X'`.
 1. to inject the Maxima expression `X` with `{#...#}` injection, to get raw values, to a named placeholder `m0` use `raw_m0='X'`.
 
-For other prefix options see the [documentaiton for the commonstring block](../Authoring/Question_blocks/Static_blocks.md#commonstring-block).
+For other prefix options see the [documentation for the commonstring block](../Authoring/Question_blocks/System_blocks.md).
 
 ## Further examples
 

@@ -194,9 +194,7 @@ sort_nouns(ex, opcomset) := block([exl],
 )$
 
 /* Returns true iff ex1 and ex2 are equal up to commutativity and associativity. */
-equals_commute_associate(ex1, ex2) := block([oldsimp, ret, ex1n, ex2n],
-    oldsimp:simp,
-    simp:false,
+equals_commute_associate(ex1, ex2) := block([simp:false, ret, ex1n, ex2n],
     ret:false,
     ex1n:equals_commute_prepare(ex1),
     ex2n:equals_commute_prepare(ex2),
@@ -204,7 +202,6 @@ equals_commute_associate(ex1, ex2) := block([oldsimp, ret, ex1n, ex2n],
     if debug then print([ex1n, ex2n]),
 
     if is(ex1n=ex2n) then ret:true,
-    simp:oldsimp,
     return(ret)
 )$
 
@@ -244,9 +241,7 @@ alias(ATEqual_com_ass, ATEqualComAss)$
 
 /* An answer test in the context of commutative+associative addition and multiplication, with identities. */
 ATEqualComAssRules(sa, sb, so) :=
-    block([Validity, RawMark, FeedBack, AnswerNote, ret, SAA, SBB, SOO, debugtest],
-    oldsimp:simp,
-    simp:false,
+    block([simp:false, Validity, RawMark, FeedBack, AnswerNote, ret, SAA, SBB, SOO, debugtest],
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
 
     SAA:errcatch(ev(sa, simp, nouns)),

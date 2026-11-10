@@ -15,7 +15,7 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[a:rand_with_step(2, 6, 1);

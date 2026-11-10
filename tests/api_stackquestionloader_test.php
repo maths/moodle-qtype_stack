@@ -40,6 +40,15 @@ use Symfony\Component\Yaml\Yaml;
  * @covers \qtype_stack
  */
 final class api_stackquestionloader_test extends qtype_stack_testcase {
+    /**
+     * Some tests replace the cached defaults with a fixture. Clear the cache after
+     * every test, so that no test inherits another test's defaults.
+     */
+    public function tearDown(): void {
+        StackQuestionLoader::$defaults = null;
+        parent::tearDown();
+    }
+
     public function test_question_loader(): void {
 
         $xml = stack_api_test_data::get_question_string('matrices');
@@ -406,6 +415,26 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('Fallback', $default);
     }
 
+    public function test_question_loader_default_expectedanswernote(): void {
+        // An omitted expected answer note is empty, which the test reports as a construction error.
+        $xml = '<quiz><question type="stack">
+                    <qtest><testcase>1</testcase>
+                        <testinput><name>ans1</name><value>ta1</value></testinput>
+                        <expected><name>prt1</name></expected>
+                    </qtest>
+                    <qtest><testcase>2</testcase>
+                        <testinput><name>ans1</name><value>ta1</value></testinput>
+                        <expected><name>prt1</name><expectedanswernote>prt1-1-T</expectedanswernote></expected>
+                    </qtest>
+                </question></quiz>';
+        foreach ([true, false] as $stackapi) {
+            set_config('stackapi', $stackapi, 'qtype_stack');
+            $testcases = StackQuestionLoader::loadXML($xml, true)['testcases'];
+            $this->assertEquals([''], $testcases[0]->expectedresults['prt1']->answernotes);
+            $this->assertEquals(['prt1-1-T'], $testcases[1]->expectedresults['prt1']->answernotes);
+        }
+    }
+
     public function test_detect_difference(): void {
         if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
             $this->markTestSkipped('Symfony YAML extension is not available.');
@@ -515,6 +544,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                             'name' => 'prt1',
                             'expectedscore' => '1.0000000',
                             'expectedpenalty' => '0.0000000',
+                            'expectedanswernote' => '1-0-T',
                         ],
                         [
                             'name' => 'prt2',
@@ -542,7 +572,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             "deployedseed:\n  - '1'\n  - '2'\n  - '3'\nqtest:\n  - testcase: '1'\n    description: 'A test'\n    " .
             "testinput:\n      - name: ans1\n        value: ta1\n      - name: ans2\n" .
             "        value: ta2\n    expected:\n      - name: prt1" .
-            "\n        expectedscore: '1.0000000'\n        expectedpenalty: '0.0000000'\n      " .
+            "\n        expectedscore: '1.0000000'\n        expectedpenalty: '0.0000000'\n" .
+            "        expectedanswernote: 1-0-T\n      " .
             "- name: prt2\n        expectedscore: '1.0000000'\n        expectedpenalty:" .
             " '0.0000000'\n        expectedanswernote: 2-0-T\n";
         $this->assertStringContainsString($expectedstring, $diff);

@@ -4,7 +4,7 @@ This page documents the STACK library example *Doc-Examples > Specialist-Tools >
 
 ## Features of the example
 
-The example question uses a JSXGraph to plot a list of (x,y) coordinates as a curve, i.e, it plots a function. However, the thign that it does differently is that it generates those coordinates inside custom validation feedback so that the plotting can happen in response to instant validation. A validation state listener is used to detect when new feedback arrives and then trigger an update of the graph.
+The example question uses a JSXGraph to plot a list of (x,y) coordinates as a curve, i.e, it plots a function. However, the thing that it does differently is that it generates those coordinates inside custom validation feedback so that the plotting can happen in response to instant validation. A validation state listener is used to detect when new feedback arrives and then trigger an update of the graph.
 
 ### Bespoke validation
 
@@ -16,7 +16,7 @@ The primary problem of this question is related to the feedback generator, 200 p
 
 ### STACK-JS in JSXGraph
 
-In this question we use a [JSXGraph](../JSXGraph/index.md) to do the plotting and in this case we do not connect that JSXGraph to the input, thus we do not use any of the input references or binding-functions one migth normally use. Instead, we use a validation state listener (`stack_js.register_validation_state_listener`) and react to various states of the validation differently:
+In this question we use a [JSXGraph](../JSXGraph/index.md) to do the plotting and in this case we do not connect that JSXGraph to the input, thus we do not use any of the input references or binding-functions one might normally use. Instead, we use a validation state listener (`stack_js.register_validation_state_listener`) and react to various states of the validation differently:
 
  1. When the validation starts we mimic normal validation displays by greying out the plotted curve if present.
  2. When the validation completes and states that the input is invalid, or validation fails, we throw the whole curve out.

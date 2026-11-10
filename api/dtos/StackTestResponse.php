@@ -32,6 +32,8 @@ class StackTestResponse {
     public $messages = '';
     /** @var bool */
     public $isupgradeerror = false;
+    /** @var string Warnings which did not stop the tests, e.g. a question stamped with a newer STACK. */
+    public $warnings = '';
     /** @var bool */
     public $isgeneralfeedback = false;
     /** @var bool */

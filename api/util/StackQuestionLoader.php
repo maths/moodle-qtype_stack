@@ -578,7 +578,7 @@ class StackQuestionLoader {
                             [
                                 (array) $expected->expectedanswernote ?
                                 (string) $expected->expectedanswernote :
-                                self::get_default('expected', 'expectedanswernote', '1-0-T'),
+                                self::get_default('expected', 'expectedanswernote', ''),
                             ]
                         )
                     );

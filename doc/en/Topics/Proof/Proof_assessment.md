@@ -169,7 +169,7 @@ An example question illustrating these features is given in the sample questions
 
 ## 3. General tools in `builder.mac` to provide bespoke feedback
 
-The last option is to encode specific dependencies, with feedback for each.  The advantage is that teachers can mange meaningful feedback for individual steps, but of course that is more work than using the auto-generated feedback.
+The last option is to encode specific dependencies, with feedback for each.  The advantage is that teachers can manage meaningful feedback for individual steps, but of course that is more work than using the auto-generated feedback.
 
 You can load the optional library `builder.mac` to use tools to manage bespoke feedback.
 

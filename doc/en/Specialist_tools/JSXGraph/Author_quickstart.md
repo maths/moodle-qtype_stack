@@ -98,7 +98,7 @@ The first line creates a reference `ref_A` that is linked to the STACK input `an
 
 If you preview the question now, you will notice that as you drag the point around, the input field `ans1` reflects the current coordinates of the point. You will also notice that you get validation errors ("This answer is invalid. Your answer contains floating point numbers, ...") if you drag the point to non-integer coordinates.
 
-By default, STACK does not allow floating point numbers in algebraic input fields. Go to the properties of the input `ans1` and set _Forbid float_ to _No_. In general, as JSXGraph works using floating point numbers rather than exact arithmetics, you'll generally want to allow floating points numbers for JSXGraph-linked input fields.
+By default, STACK does not allow floating point numbers in algebraic input fields. Go to the properties of the input `ans1` and set _Forbid float_ to _No_. In general, as JSXGraph works using floating point numbers rather than exact arithmetic, you'll generally want to allow floating points numbers for JSXGraph-linked input fields.
 
 ## Feedback
 
@@ -118,7 +118,7 @@ and in the PRT1, we compare `student_slope` and `slope` using the answer test `N
 
 ### JSXGraph in feedback
 
-JSXGraph plots can not only be used in the question text, but also in the feedback. For example, in our question, if the student gets the answer incorrect, we could display a plot showing the function f(x) as well as the student answer, for comparsion. Add the following to the false feedback for PRT1:
+JSXGraph plots can not only be used in the question text, but also in the feedback. For example, in our question, if the student gets the answer incorrect, we could display a plot showing the function f(x) as well as the student answer, for comparison. Add the following to the false feedback for PRT1:
 
 ```
 <p>The slope of your line is different from the slope of {@expr@}, see below:</p>

@@ -26,6 +26,10 @@ Feedback as to the syntactic validity of a response is positioned using a corres
 
 This tag must be included even if validation is suppressed with an option (see below) and is automatically generated after the input if it does not exist.
 
+Each input tag and each validation tag must appear exactly once, in the question text.  A question in which a tag is repeated cannot be saved, and is marked as broken on import.  If you need to refer to an input twice, refer to it in words.
+
+Validation is displayed in a `<div>` (a `<span>` for compact validation).  A browser closes an open `<p>` when it meets a `<div>`, so put a line containing an input and its validation inside a `<div>`, not a `<p>`.
+
 We expose the exact behaviour of the validation by giving registered users access to STACK's test suite validation of student's answers.  This can be found on a live server at `https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/adminui/studentinputs.php`
 
 Each input may have a number of options and this is potentially complex area with a large range of possibilities.
@@ -54,7 +58,7 @@ Currently STACK supports the following kinds of inputs.  These have a variety of
 4. **Matrix** This provides a grid for students to type in their answer.
 5. **Variable size matrix** This provides a textarea. Students type in expressions and spaces separate items in rows.
 6. **True/False** Simple drop down. A Boolean value is assigned to the variable name.
-7. **Single charater** A single letter can be entered.  This is useful for creating multiple-choice questions, but is not used regularly.
+7. **Single character** A single letter can be entered.  This is useful for creating multiple-choice questions, but is not used regularly.
 8. **String/Notes** Resulting in text-strings being sent to Maxima, or stored. [Text-based inputs](Text_input.md).
 9. **Multi-line input**, either the equivalence reasoning input or the textarea input. 
 

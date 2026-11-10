@@ -21,6 +21,8 @@ With the aim to reduce these disadvantages at the cost of using several PRT node
 This test is designed for a general indefinite integration question: it is passed if both the arguments are indefinite integrals of the same expression. The first argument is the student's answer.
 The second argument is the model answer. The answer test option needs to be the variable with respect to which integration is assumed to take place, or a list (see below).
 
+The model answer is an antiderivative, with or without a constant of integration, not the integrand: the test differentiates both arguments.  By default the test requires the student to include a constant of integration, so do not use it when the question has one particular antiderivative as its answer, e.g. a definite integral or "find \(F\) with \(F(0)=3\)".  Use algebraic equivalence there.
+
 Getting this test to work in a general setting is a very difficult challenge.
 In particular, the test assumes that the constant of integration is expressed in a form similar to \(+c\), although which variable used is not important.
 
@@ -50,10 +52,10 @@ For example, if the teacher's answer is \( \log(x)+c \) (i.e. no absolute value)
 
 If the teacher's answer is \( \log(|x|)+c \) (i.e. with absolute value) then all the following are considered to be correct.
 \[ \log(|x|)+c,\ \log(k|x|),\ \log(|k, x|)\ \]
-Now, the following are rejected as incorrect, as the studnet should have used \(|..|\)
+Now, the following are rejected as incorrect, as the student should have used \(|..|\)
 \[\log(x)+c,\ \log(k\,x)\]
 
-Note that STACK sets the value of Maxima's `logabs:true`, which is not the default in Maxima.  This has the effect of adding the absolute value funtion when `integrate` is used.
+Note that STACK sets the value of Maxima's `logabs:true`, which is not the default in Maxima.  This has the effect of adding the absolute value function when `integrate` is used.
 
 In the case of partial  fractions where there are more than one term of the form \(\log(x-a)\) then
 we insist the student is at least consistent.  If the teacher has *any*  \(\log(|x-a|)\) then the student must use \(|...|\) in *all* of them.  If the teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the

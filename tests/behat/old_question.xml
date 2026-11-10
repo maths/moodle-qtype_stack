@@ -15,7 +15,7 @@
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <stackversion>
-      <text></text>
+      <text>2017072900</text>
     </stackversion>
     <questionvariables>
       <text>n:rand(5)+3;

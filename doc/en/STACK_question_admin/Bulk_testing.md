@@ -9,7 +9,7 @@ To make use of the bulk test users require the capability `qtype/stack:usediagno
 
 Bulk testing does the following.
 
-1. Validate the STACK question against it's `stackversion` number.  STACK questions store the version of the STACK plug-in _last used_ to edit the question.  The bulk tester checks for changes with the current STACK plug-in version.
+1. Check the STACK question for features which are no longer supported, such as the "mul" input option or the RegExp answer test, and suggest an alternative where there is one.  A few checks only apply to questions older than a given version, so they use the question's `stackversion` number: the version of the STACK plug-in _last used_ to edit the question (see [the STACK version stamp](../Moodle/Import_Export.md#the-stack-version-stamp)).
 2. Runs all question tests on all variants of each STACK question.
 3. Catch any run-time errors generated in the above.
 4. List questions with deficiencies:

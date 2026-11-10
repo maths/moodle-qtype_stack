@@ -43,6 +43,8 @@ use api\controller\RenderController;
 use api\controller\ValidationController;
 use api\controller\TestController;
 use api\util\StackIframeHolder;
+use api\util\StackQuestionLoader;
+use api\util\StackSeedHelper;
 use stack_api_test_data;
 use Psr\Http\Message\ResponseInterface as ResponseInt;
 use Psr\Http\Message\StreamInterface as StreamInt;
@@ -322,7 +324,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(['unique-0-T'], $this->output->prtresults->unique->prtanswernotes);
         $this->assertEquals(0, count((array)$this->output->gradingassets));
         $this->assertEquals(
-            'Seed: -1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; ' .
+            'Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; ' .
             'even: # = 1 | even-0-T; odd: # = 1 | odd-0-T; oddeven: # = 1 | ODD | EVEN; ' .
             'poly: # = 1 [formative] | ATLogic_True. | poly-1-T; unique: # = 1 | ATLogic_True. | unique-0-T',
             $this->output->responsesummary
@@ -352,7 +354,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(null, $this->output->prts->oddeven ?? null);
         $this->assertEquals(0, count((array)$this->output->gradingassets));
         $this->assertEquals(
-            'Seed: -1; ans1: x^3 [score]; ans2: * [invalid]; ans4: true [score]; even: !; ' .
+            'Seed: 1; ans1: x^3 [score]; ans2: * [invalid]; ans4: true [score]; even: !; ' .
             'odd: # = 1 | odd-0-T; oddeven: !; poly: !; unique: # = 1 | ATLogic_True. | unique-0-T',
             $this->output->responsesummary
         );
@@ -382,7 +384,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals('<p>[[feedback:prt1]]</p>', $this->output->specificfeedback);
         $this->assertStringContainsString('correct', $this->output->prts->prt1);
         $this->assertEquals(
-            'Seed: -1; ans1: 1 [score]; prt1: # = 1 | prt1-1-T',
+            'Seed: 1; ans1: 1 [score]; prt1: # = 1 | prt1-1-T',
             $this->output->responsesummary
         );
     }
@@ -407,7 +409,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEqualsWithDelta(0.1, $this->output->scoreweights->prt4, 0.0001);
         $this->assertEquals(10, $this->output->scoreweights->total);
         $this->assertEquals(
-            'Seed: -1; ans1: c [score]; ans2: 1 [score]; ans3: 0 [score]; ans4: 0 [score]; prt1: # = 1 | prt1-1-T; ' .
+            'Seed: 1; ans1: c [score]; ans2: 1 [score]; ans3: 0 [score]; ans4: 0 [score]; prt1: # = 1 | prt1-1-T; ' .
                 'prt2: # = 1 | prt2-1-T; prt3: # = 0 | prt3-1-F; prt4: # = 1 | prt4-1-T',
             $this->output->responsesummary
         );
@@ -513,6 +515,59 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(stack_string('defaulttestfail'), $results->results->noseed->messages);
         $this->assertEquals(1, $results->results->noseed->fails);
         $this->assertEquals(0, $results->results->noseed->passes);
+    }
+
+    public function test_test_controller_instantiates_each_seed(): void {
+        // Each seed must be tested against its own variant, whichever order the seeds are deployed in.
+        // The first question variables fail an s_assert only for seed 2. In the second, the
+        // test answer a*b is correct only for seed 1, so a grade cached from one seed would be wrong.
+        $qtest = '<qtest><testcase>1</testcase><testinput><name>ans1</name><value>a*b</value></testinput>' .
+            '<expected><name>prt1</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty>' .
+            '<expectedanswernote>prt1-1-T</expectedanswernote></expected></qtest>';
+        $cases = [
+            ['n:rand(2); s_assert(stack_seed, 1); ta:a*b', ''],
+            ['n:rand(2); ta:stack_seed*a*b', $qtest],
+        ];
+        foreach ($cases as [$questionvariables, $tests]) {
+            foreach (['1', '2'] as $first) {
+                $second = ($first === '1') ? '2' : '1';
+                $this->requestdata['questionDefinition'] = str_replace(
+                    ['<text>ta:a*b</text>', '<tans>wrong</tans>', '</prt>'],
+                    ['<text>' . $questionvariables . '</text>', '<tans>ta</tans>',
+                        '</prt><deployedseed>' . $first . '</deployedseed><deployedseed>' . $second . '</deployedseed>' .
+                        $tests],
+                    stack_api_test_data::get_question_string('test3')
+                );
+                $this->requestdata['filepath'] = 'testpath/test.xml';
+                $tc = new TestController();
+                $tc->__invoke($this->request, $this->response, []);
+                $results = $this->output;
+                $this->assertEquals(true, $results->israndomvariants);
+                $this->assertEquals(1, $results->results->{'1'}->passes);
+                $this->assertEquals(0, $results->results->{'1'}->fails);
+                $this->assertEquals(0, $results->results->{'2'}->passes);
+                $this->assertEquals(1, $results->results->{'2'}->fails);
+            }
+        }
+    }
+
+    public function test_seed_helper_matches_moodle(): void {
+        // A question without random variants gets seed 1 whatever is deployed, as start_attempt() gives it in Moodle.
+        $xml = str_replace('</prt>', '</prt><deployedseed>5</deployedseed>',
+            stack_api_test_data::get_question_string('test3'));
+        $question = StackQuestionLoader::loadxml($xml)['question'];
+        StackSeedHelper::initialize_seed($question, 5);
+        $this->assertEquals(1, $question->seed);
+
+        // A randomised question gets the deployed seed asked for.
+        $xml = str_replace(
+            ['<text>ta:a*b</text>', '</prt>'],
+            ['<text>n:rand(2); ta:a*b</text>', '</prt><deployedseed>5</deployedseed><deployedseed>7</deployedseed>'],
+            stack_api_test_data::get_question_string('test3')
+        );
+        $question = StackQuestionLoader::loadxml($xml)['question'];
+        StackSeedHelper::initialize_seed($question, 7);
+        $this->assertEquals(7, $question->seed);
     }
 
     public function test_test_controller_default_test_pass(): void {

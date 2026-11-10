@@ -778,6 +778,130 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
+    /**
+     * Parse an XML string as Moodle's question import does, on old and new Moodle.
+     * @param string $xml the XML.
+     * @return array the parsed data.
+     */
+    private function parse_xml(string $xml): array {
+        if (class_exists('\core\xml_parser') && method_exists('\core\xml_parser', 'parse')) {
+            $parser = new \core\xml_parser();
+            return $parser->parse($xml);
+        }
+        return xmlize($xml);
+    }
+
+    public function test_xml_import_qtest_default_expectedanswernote(): void {
+        // An omitted expected answer note is empty, which the test reports as a construction error.
+        $importer = new qformat_xml();
+        $method = new \ReflectionMethod($this->qtype, 'import_xml_qtest');
+        $method->setAccessible(true);
+
+        $xml = $this->parse_xml('<qtest><testcase>1</testcase>
+                <testinput><name>ans1</name><value>2</value></testinput>
+                <expected><name>prt1</name></expected>
+            </qtest>');
+        [$number, $testcase] = $method->invoke($this->qtype, $xml['qtest'], $importer);
+        $this->assertEquals(1, $number);
+        $this->assertEquals([''], $testcase->expectedresults['prt1']->answernotes);
+
+        $xml = $this->parse_xml('<qtest><testcase>2</testcase>
+                <testinput><name>ans1</name><value>2</value></testinput>
+                <expected><name>prt1</name><expectedanswernote>prt1-1-T</expectedanswernote></expected>
+            </qtest>');
+        [$number, $testcase] = $method->invoke($this->qtype, $xml['qtest'], $importer);
+        $this->assertEquals(['prt1-1-T'], $testcase->expectedresults['prt1']->answernotes);
+    }
+
+    public function test_xml_import_repeated_testcase_number(): void {
+        // A repeated test-case number keeps both tests: the later one is renumbered, with a warning.
+        $xml = '<question type="stack"><name><text>Repeated tests</text></name>
+            <questiontext><text><![CDATA[<p>[[input:ans1]] [[validation:ans1]]</p>]]></text></questiontext>
+            <specificfeedback><text>[[feedback:prt1]]</text></specificfeedback>
+            <stackversion><text>2026080600</text></stackversion>
+            <questionvariables><text>ta1: 2;</text></questionvariables>
+            <input><name>ans1</name><type>algebraic</type><tans>ta1</tans></input>
+            <prt><name>prt1</name><node><name>0</name><answertest>AlgEquiv</answertest>
+                <sans>ans1</sans><tans>ta1</tans>
+                <trueanswernote>prt1-1-T</trueanswernote><falseanswernote>prt1-1-F</falseanswernote>
+            </node></prt>
+            <qtest><testcase>1</testcase><description>right</description>
+                <testinput><name>ans1</name><value>2</value></testinput>
+                <expected><name>prt1</name><expectedanswernote>prt1-1-T</expectedanswernote></expected>
+            </qtest>
+            <qtest><testcase>1</testcase><description>wrong</description>
+                <testinput><name>ans1</name><value>3</value></testinput>
+                <expected><name>prt1</name><expectedanswernote>prt1-1-F</expectedanswernote></expected>
+            </qtest>
+        </question>';
+        $xmldata = $this->parse_xml($xml);
+
+        $importer = new qformat_xml();
+        $importer->displayprogress = true;
+        $this->expectOutputRegex('~Multiple question tests have the number 1\. The later one has been renumbered 2\.~');
+        $q = $importer->try_importing_using_qtypes($xmldata['question'], null, null, 'stack');
+
+        $this->assertEquals([1, 2], array_keys($q->testcases));
+        $this->assertEquals('right', $q->testcases[1]->description);
+        $this->assertEquals('wrong', $q->testcases[2]->description);
+        $this->assertEquals(2, $q->testcases[2]->testcase);
+        $this->assertEquals(null, $q->validationerrors ?? null);
+    }
+
+    public function test_xml_import_placeholders_in_wrong_fields(): void {
+        // Each kind of placeholder is reported, once, in a field which must not hold it.
+        $importer = new qformat_xml();
+        $importer->displayprogress = false;
+        $import = function (array $fields) use ($importer) {
+            $fields += [
+                'specificfeedback' => '',
+                'generalfeedback' => '',
+                'questionnote' => '',
+                'questiondescription' => '',
+            ];
+            $xml = '<question type="stack"><name><text>Placeholders</text></name>
+                <questiontext><text><![CDATA[<p>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>]]></text></questiontext>
+                <stackversion><text>2026080600</text></stackversion>
+                <questionvariables><text>ta1: 2;</text></questionvariables>';
+            foreach ($fields as $field => $text) {
+                $xml .= "<{$field}><text><![CDATA[{$text}]]></text></{$field}>";
+            }
+            $xml .= '<input><name>ans1</name><type>algebraic</type><tans>ta1</tans></input>
+                <prt><name>prt1</name><node><name>0</name><answertest>AlgEquiv</answertest>
+                    <sans>ans1</sans><tans>ta1</tans>
+                    <trueanswernote>prt1-1-T</trueanswernote><falseanswernote>prt1-1-F</falseanswernote>
+                </node></prt></question>';
+            $xmldata = $this->parse_xml($xml);
+            return $importer->try_importing_using_qtypes($xmldata['question'], null, null, 'stack');
+        };
+        $message = function (string $field, string $type): string {
+            return stack_string('fieldshouldnotcontainplaceholder', ['field' => $field, 'type' => $type]);
+        };
+
+        // The baseline question is valid.
+        $q = $import([]);
+        $this->assertEquals(null, $q->validationerrors ?? null);
+
+        $generalfeedback = get_string('generalfeedback', 'question');
+        $cases = [
+            [['generalfeedback' => '[[feedback:prt1]]'], $message($generalfeedback, 'feedback')],
+            [['generalfeedback' => '[[validation:ans1]]'], $message($generalfeedback, 'validation')],
+            [['questionnote' => '[[input:ans1]]'], $message(stack_string('questionnote'), 'input')],
+            [['specificfeedback' => '[[validation:ans1]]'], $message(stack_string('specificfeedback'), 'validation')],
+        ];
+        foreach ($cases as [$fields, $expected]) {
+            $q = $import($fields);
+            $this->assertEquals(1, substr_count($q->validationerrors ?? '', $expected), $expected);
+        }
+
+        // A feedback tag is allowed in the specific feedback.
+        $q = $import(['specificfeedback' => '[[feedback:prt1]]']);
+        $this->assertStringNotContainsString(
+            $message(stack_string('specificfeedback'), 'feedback'),
+            $q->validationerrors ?? ''
+        );
+    }
+
     public function test_get_input_names_from_question_text_input_only(): void {
 
         $qtype = new qtype_stack();

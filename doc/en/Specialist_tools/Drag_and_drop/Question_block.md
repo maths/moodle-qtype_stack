@@ -118,7 +118,7 @@ To create a random order, you must define steps as Maxima objects using a `proof
 
 ## Block connection with Maxima
 
-All communication to and from the Parsons block uses the JSON format.  However, internally STACK uses maxima objets.  We therefore need to convert between Maxima syntax and JSON format.
+All communication to and from the Parsons block uses the JSON format.  However, internally STACK uses maxima objects.  We therefore need to convert between Maxima syntax and JSON format.
 
 1. The maxima function `parsons_encode(proof_steps)` will convert a list of `proof_steps` into a JSON string with hashed keys.
 2. The maxima function `parsons_decode(ans1)` will convert a JSON string into a [proof construction function](../../Topics/Proof/Proof_CAS_library.md).

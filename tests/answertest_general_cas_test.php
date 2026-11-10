@@ -21,6 +21,7 @@ use stack_ans_test_controller;
 use stack_answertest_general_cas;
 use stack_ast_container;
 use stack_cas_security;
+use stack_cas_session2;
 use stack_options;
 
 defined('MOODLE_INTERNAL') || die();
@@ -38,6 +39,7 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/options.class.php');
 require_once(__DIR__ . '/../stack/answertest/controller.class.php');
 require_once(__DIR__ . '/../stack/answertest/at_general_cas.class.php');
+require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 
 /**
  * Add description here.
@@ -782,5 +784,35 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('x^3/3+c', 'x^3/3', 'Antidiff', 'x');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
+    }
+
+    public function test_answertests_do_not_change_simp(): void {
+        // Each call sets simp:true, calls an answer test, records simp, and restores the caller's value.
+        // An answer test which leaks simp:false, on any return path, gives false.
+        $calls = [
+            'ATInt(x^3/3+c, x^3/3, x)',
+            'ATInt([1, 2], x^3/3, x)', // Early return: not an expression.
+            'ATAntidiff(x^3/3, x^3/3, x)',
+            'ATAddConst(x^3/3+c, x^3/3, x)',
+            'ATDiff(x^2, x^2, x)',
+            'ATDiff([1, 2], x^2, x)', // Early return: not an expression.
+            'ATEqualComAssRules(x+1, 1+x, [comAdd])',
+            'equals_commute_associate(x+1, 1+x)',
+        ];
+        $statements = [];
+        foreach ($calls as $i => $call) {
+            $cs = stack_ast_container::make_from_teacher_source(
+                "block([s0:simp, s1], simp:true, {$call}, s1:simp, simp:s0, s1)",
+                "simpleak{$i}",
+                new stack_cas_security()
+            );
+            $this->assertTrue($cs->get_valid(), $call);
+            $statements[] = $cs;
+        }
+        $session = new stack_cas_session2($statements);
+        $session->instantiate();
+        foreach ($calls as $i => $call) {
+            $this->assertEquals('true', $statements[$i]->get_value(), $call);
+        }
     }
 }

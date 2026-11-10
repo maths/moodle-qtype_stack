@@ -78,7 +78,7 @@ Note that the variable `proof_steps` is a _list_ of lists:  `[ ["key", "step", (
 P2:proof_iff(proof("assodd","\\(\\cdots\\)","conc_odd"), proof("contrapos","assnotodd","\\(\\cdots\\)","conc_even"));
 ````
 
-When displayed, the keys `"\\(\\cdots\\)"` do not occur in `proof_steps`, so are returned unchanged.  (Alteratively a teacher could add keys to `proof_steps` for such situations.)
+When displayed, the keys `"\\(\\cdots\\)"` do not occur in `proof_steps`, so are returned unchanged.  (Alternatively a teacher could add keys to `proof_steps` for such situations.)
 
 `proof_parsons_key_json(ta, proof_steps)` is used to construct the _model answer_ in an input.  This function separates the keys in `proof_steps` into those used in `ta` and those which are unused.  This enables the _model_answer_ to construct a Parson's block as the teacher might leave it, with both the model answer and some strings unused.  Use `proof_parsons_key_json(ta, [])` to omit displaying any unused steps when showing the model answer.
 

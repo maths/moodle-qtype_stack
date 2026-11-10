@@ -132,9 +132,9 @@ Each rule has a predicate function, which decides if the rule can be applied _at
 
 To deal with unary minus we transform it into multiplication with a special tag `UNARY_MINUS`. For example `-x` becomes `UNARY_MINUS * x`.  This approach looks odd at first, but does not confuse `UNARY_MINUS` with the integer \(-1\) or the unary function "minus".  In this way multiple unary minus operations commute to the front of an expression.  E.g. `(-x)*(-y) = UNARY_MINUS * UNARY_MINUS * x * y` (when `*` is assumed to be commutative and associative, of course!)
 
-Similarly, division is also conveted to `UNARY_RECIP`.  E.g. `(-x)/(-y) = UNARY_MINUS nounmul UNARY_RECIP(UNARY_MINUS nounmul y) nounmul x`.
+Similarly, division is also converted to `UNARY_RECIP`.  E.g. `(-x)/(-y) = UNARY_MINUS nounmul UNARY_RECIP(UNARY_MINUS nounmul y) nounmul x`.
 
-We the use the rule `negDiv` to pull out the unary minus outside the devision (pulls `UNARY_MINUS` outside `UNARY_RECIP`), but we also need the rules `assMul` (associativity) and `comMul` (commutativity).  E.g. try the following in the STACK-maxima sandbox.
+We the use the rule `negDiv` to pull out the unary minus outside the division (pulls `UNARY_MINUS` outside `UNARY_RECIP`), but we also need the rules `assMul` (associativity) and `comMul` (commutativity).  E.g. try the following in the STACK-maxima sandbox.
 
     ex:(-x)/(-y);
     ex:equals_commute_prepare(ex);

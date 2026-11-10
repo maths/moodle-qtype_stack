@@ -102,6 +102,8 @@ class TestController {
             $response->getBody()->write(json_encode($testresponse));
             return $response->withHeader('Content-Type', 'application/json');
         }
+        // A newer stamp is only a warning: the tests still run.
+        $testresponse->warnings = $question->validate_stackversion_newer();
 
         // Create test results for each deployed seed. If no random variants, then use 'noseed' as
         // array index.
@@ -121,7 +123,15 @@ class TestController {
         } else {
             foreach ($question->deployedseeds as $seed) {
                 try {
-                    $testresponse->results[$seed] = $this->qtype_stack_test_question($question, $testcases, $seed);
+                    // Load a fresh question for each seed, as the bulk tester does. A question
+                    // keeps its variables, runtime errors and graded responses, so reusing one
+                    // would test every seed against the variant of the first.
+                    ['question' => $seedquestion] = StackQuestionLoader::loadxml($data["questionDefinition"], true);
+                    $seedquestion->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
+                    // A question without random variants gets the same seed whatever is deployed, as in Moodle.
+                    StackSeedHelper::initialize_seed($seedquestion, (int) $seed);
+                    $seedquestion->initialise_question_from_seed();
+                    $testresponse->results[$seed] = $this->qtype_stack_test_question($seedquestion, $testcases);
                 } catch (\stack_exception $e) {
                     $testresponse->results[$seed] = [
                         'passes' => null,

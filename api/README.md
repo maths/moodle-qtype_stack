@@ -176,6 +176,7 @@ The test route returns the following fields:
 - string: `name`: The name of the question.
 - string: `messages`: Question level error messages.
 - boolean: `isupgradeerror`: Are there any issues related to questions being non-compliant with a STACK upgrade?
+- string: `warnings`: Question level warnings which did not stop the tests, for example a question last edited with a newer version of STACK than the API's.
 - boolean: `isgeneralfeedback`: Does the question have general feedback?
 - boolean: `isdeployedseeds`: Does the question have deployed seeds?
 - boolean: `israndomvariants`: Does the question use random variants?
@@ -235,6 +236,24 @@ Example result object:
   ```
 
 If a question has no tests, a default test will be run to check if the model answers return a score of 1.
+
+#### Interpreting `/test` results in automated question authoring
+
+An HTTP success or positive `passes` count does **not** establish that author-supplied question tests ran. The `istests` field indicates whether explicit test cases were loaded. If no test cases are supplied and the question has PRTs, the API runs a fallback check: it enters the teacher's answers and expects full marks from every PRT. This does not check how other answers are graded. With no test cases and no PRTs, nothing runs, and `passes` and `fails` are both 0.
+
+The following **suggested client-side reporting labels are not fields returned by the API**. The first four examples correspond to cases in the existing [API controller tests](../tests/api_controller_test.php); they are not results of a new API run. The fifth is the early return in `api/controller/TestController.php` for a random question without deployed seeds.
+
+| Observed response (selected fields) | Suggested report | Scope |
+| --- | --- | --- |
+| `istests: false`, `results.noseed.passes: 1`, `fails: 0` | **DEFAULT_CHECK_ONLY** | Teacher-answer fallback passed; no explicit tests were run. |
+| `istests: true`, `results.noseed.fails: 2` | **EXPLICIT_TESTS_FAILED** | At least one supplied test failed. |
+| `isupgradeerror: true`, `results: []` | **NOT_VERIFIED** | Validation stopped testing; no successful run can be inferred. |
+| `istests: true`, a returned seed has `passes: 4`, `fails: 0`, and empty `messages` | **CHECK_THIS_SEED** | Check the case-level `outcomes` and the other expected seeds before claiming coverage. |
+| `israndomvariants: true`, `isdeployedseeds: false`, `results: []` | **NOT_VERIFIED** | The question is random but has no deployed variants, so no test ran. No error is reported: `isupgradeerror` is `false` and `messages` is empty. |
+
+A client may report **explicit question tests passed for the evaluated seeds** only if `istests` is `true`, `isupgradeerror` is `false`, top-level `messages` is empty, and `results` contains a non-empty set of seed results. For **every** reported seed, require non-null `passes > 0`, `fails: 0`, empty seed-level `messages`, non-empty `outcomes`, and `passed: true` on every reported test case. Require `passes + fails` to equal the number of reported test-case outcomes. Missing, inconsistent, or empty results are **inconclusive**, not passes. Explicit failed cases or non-empty error messages must be reported rather than hidden by other passing cases. The top-level `warnings` field, for example for a question stamped with a newer STACK version than the API's, does not stop the tests and is not an error, but should be reported.
+
+For a claim covering **all deployed variants**, additionally check that `israndomvariants` / `isdeployedseeds` and the returned seed keys are consistent with the deployed seeds in the submitted question. On STACK 4.14.0 and earlier, `/test` builds the variant of the first deployed seed only and runs every seed's tests against it, so on those versions send one request per deployed seed, each with a copy of the question holding that single `<deployedseed>`. A successful test result certifies only the evaluated test cases; it does not establish mathematical correctness for all possible answers. See [testing and quality control](../doc/en/STACK_question_admin/Testing.md) for guidance on including both correct-answer and incorrect-answer test cases.
 
 ### Diff route
 
@@ -408,7 +427,9 @@ At this point a user should just need a working Docker setup and an up-to-date `
 
 This will download the goemaxima and stack-api images and run the containers in an enclosing container. Obviously, config will be the same as for whoever built the stack-api Docker image.
 
-Version numbers will need to match the latest STACK release in `docker-compose.dev.yml`, `docker-compose.yml`, `config_sample.txt` and `config.php`. **(Remember: config.php needs updated locally before building.)**
+The goemaxima image in `docker-compose.dev.yml` and `docker-compose.yml` must have the same version number as the STACK code, `$plugin->version` in `version.php`. The API reads its own version numbers from the code (`version.php` and `stack/maxima/stackmaxima.mac`), so `config.php` only needs them to override that. The build needs an `api/config.php`: copy `config_sample.txt` if you have none.
+
+A GitHub workflow, `.github/workflows/publish_api_image.yml`, builds and publishes `stackmaths/stackapi:<version>-latest` when a release tag is pushed.
 
 Pre-built API images are available on Docker Hub at `stackmaths/stackapi`.
 

@@ -19,7 +19,7 @@ When adding fractions with linear expressions the method remains the same. First
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>v:rand([x,y,z,t]);

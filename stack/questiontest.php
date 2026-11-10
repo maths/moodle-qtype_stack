@@ -157,7 +157,9 @@ class stack_question_test {
                 } else if (array_key_exists($inputname . '_val', $response)) {
                     $inputresponse = $response[$inputname . '_val'];
                 }
-                if ($inputresponse != '') {
+                // A matrix input without verification has neither entry in the response,
+                // so also count the value the test itself gives for this input.
+                if ($inputresponse != '' || trim((string) ($this->inputs[$inputname] ?? '')) !== '') {
                     $emptytestcase = false;
                 }
                 $inputerrors = $inputstate->errors;

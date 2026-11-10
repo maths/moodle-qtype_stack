@@ -215,7 +215,7 @@ The "Input" should be set exactly as in the previous example.
 3. Set the option "Student must verify" to "No".
 4. Set the option "Show the validation" to "No".
 
-### Potential reponse tree
+### Potential response tree
 
 As before, define the feedback variables to interpret the JSON as a proof:
 

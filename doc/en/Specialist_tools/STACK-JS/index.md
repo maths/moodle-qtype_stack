@@ -104,7 +104,7 @@ Changes the styling of the target element, if `show` is `true` will set `display
 
 #### `stack_js.switch_content(elementid, newcontent)`
 
-Replaces the `innerHTML` of the target element with the given string of content. The content will be filtered for scripts and other things previously dicussed. Should no element of matching id be found an error will be made visible (assuming execution in non hidden sandbox).
+Replaces the `innerHTML` of the target element with the given string of content. The content will be filtered for scripts and other things previously discussed. Should no element of matching id be found an error will be made visible (assuming execution in non hidden sandbox).
 
 #### `stack_js.get_content(elementid)`
 
@@ -159,11 +159,11 @@ in `[[geogebra]]` blocks. This library is probably only sensible inside
 that block.
 
 [../Drag_and_drop/](Parsons-problems or the drag and drop) feature also 
-has its own tool library, `stack_sortable`. Again probaly only sensible
+has its own tool library, `stack_sortable`. Again probably only sensible
 inside the related block.
 
 `stack_css_utils` is first of the libraries independent of blocks. It does
-one thing and thign only. It writes local context CSS stylesheets into
+one thing and one thing only. It writes local context CSS stylesheets into
 element level definitions. So that one can style thing inside an iframe with
 stylesheets and then transfer those things outside of the iframe with
 the styles inlined.

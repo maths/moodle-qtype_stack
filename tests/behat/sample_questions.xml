@@ -15,7 +15,7 @@
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <stackversion>
-      <text></text>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>n:rand(5)+3;
@@ -172,7 +172,7 @@ ta:(v-a)^(n+1)/(n+1);</text>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <stackversion>
-      <text></text>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>rn:-1*(rand(4)+2);
@@ -601,7 +601,7 @@ tas2:setify(map(rhs,solve(ta2,x)));</text>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <stackversion>
-      <text></text>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[A:ev(rand(matrix([5,5],[5,5]))+matrix([2,2],[2,2]),simp);
@@ -823,7 +823,7 @@ C:C;]]></text>
     <penalty>0.0000000</penalty>
     <hidden>0</hidden>
     <stackversion>
-      <text></text>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[x0 : -1;
@@ -1096,7 +1096,7 @@ ta : matrix([1,x,x^2,x^3]).CS2;]]></text>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <stackversion>
-      <text></text>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>a : ev(2+rand(15),simp);
@@ -1675,7 +1675,7 @@ sa2:ans3-subst(x=-x,ans3);</text>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <stackversion>
-      <text></text>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>n1:2

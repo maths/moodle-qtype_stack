@@ -38,7 +38,7 @@ An alternative approach on a Microsoft operating system is to copy the contents 
 
     %USERPROFILE%/Maxima/stacklocal.mac
 
-Using `load("stacklocal")` in any worksheet will load the STACK environement.
+Using `load("stacklocal")` in any worksheet will load the STACK environment.
 On Linux you can copy the file `stacklocal.mac` to your home directory `~/.maxima/`.
 
 ### Using the answer tests
@@ -114,13 +114,13 @@ Create the additional directories:
   2. `maxima_userdir/tmp/`
 
 
-On Windows the directories are afterwords
+On Windows the directories are afterwards
   1. `%USERPROFILE%\maxima\moodle-qtype_stack_master\`
   1. `%USERPROFILE%\maxima\moodle-qtype_stack_master\tmp\`
   1. `%USERPROFILE%\maxima\plots\`
   1. `%USERPROFILE%\maxima\tmp\`
 
-On Linux the directories are afterwords
+On Linux the directories are afterwards
   1. `~/.maxima/moodle-qtype_stack_master/`
   1. `~/.maxima/moodle-qtype_stack_master/tmp/`
   1. `~/.maxima/plots/`

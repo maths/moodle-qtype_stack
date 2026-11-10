@@ -87,7 +87,7 @@ Alternatively, get the code using git by running the following command in the to
 Alternatively, get the code using git by running the following command in the top level folder of your Moodle install:
 
         git clone https://github.com/maths/moodle-qbehaviour_adaptivemultipart.git question/behaviour/adaptivemultipart
-4. Obtain importasversion code. You can [download the zip file](https://github.com/maths/moodle-qbank_importasversion/archive/refs/heads/main.zip), unzip it, and place it in the directory `moodle/question/bank/importasversion`. (You will need to rename the directory `moodle-qbehaviour_importasversion  -> importasversion`.)
+4. Obtain importasversion code. You can [download the zip file](https://github.com/maths/moodle-qbank_importasversion/archive/refs/heads/main.zip), unzip it, and place it in the directory `moodle/question/bank/importasversion`. (You will need to rename the directory `moodle-qbank_importasversion-main  -> importasversion`.)
 
 Alternatively, get the code using git by running the following command in the top level folder of your Moodle install:
 

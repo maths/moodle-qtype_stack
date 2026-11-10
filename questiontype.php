@@ -1946,6 +1946,18 @@ class qtype_stack extends question_type {
             $fromform->testcases = [];
             foreach ($xml['#']['qtest'] as $qtestxml) {
                 [$no, $testcase] = $this->import_xml_qtest($qtestxml, $format);
+                if (array_key_exists($no, $fromform->testcases)) {
+                    // Tests are stored by number, so a repeated number would silently replace the
+                    // earlier test. Keep both: give this one the next free number, and say so.
+                    $newno = max(array_keys($fromform->testcases)) + 1;
+                    $testcase->testcase = $newno;
+                    if ($format->displayprogress) {
+                        global $OUTPUT;
+                        echo $OUTPUT->notification(s($fromform->name) . ': ' .
+                            stack_string('multipletestcases', ['number' => $no, 'newnumber' => $newno]), 'warning');
+                    }
+                    $no = $newno;
+                }
                 $fromform->testcases[$no] = $testcase;
             }
         }
@@ -2200,7 +2212,8 @@ class qtype_stack extends question_type {
                 $name  = $format->getpath($expectedxml, ['#', 'name', 0, '#'], 'prt1');
                 $expectedscore = $format->getpath($expectedxml, ['#', 'expectedscore', 0, '#'], '');
                 $expectedpenalty = $format->getpath($expectedxml, ['#', 'expectedpenalty', 0, '#'], '');
-                $expectedanswernote = $format->getpath($expectedxml, ['#', 'expectedanswernote', 0, '#'], '1-0-T');
+                // An omitted note is empty, so the test fails with a clear message rather than a mismatch.
+                $expectedanswernote = $format->getpath($expectedxml, ['#', 'expectedanswernote', 0, '#'], '');
 
                 $testcase->add_expected_result($name, new stack_potentialresponse_tree_state(
                     1,
@@ -2375,40 +2388,45 @@ class qtype_stack extends question_type {
         $errors['specificfeedback'] = [];
         $errors = $this->validate_cas_text($errors, $fromform['specificfeedback']['text'], 'specificfeedback', $fixingdollars);
 
-        $errors['specificfeedback'] += $this->validation_check_no_placeholders(
-            stack_string('specificfeedback'),
-            $fromform['specificfeedback']['text'],
-            ['input', 'validation']
+        $errors['specificfeedback'] = array_merge(
+            $errors['specificfeedback'],
+            $this->validation_check_no_placeholders(
+                stack_string('specificfeedback'),
+                $fromform['specificfeedback']['text'],
+                ['input', 'validation']
+            )
         );
 
         // General feedback.
         $errors['generalfeedback'] = [];
         $errors = $this->validate_cas_text($errors, $fromform['generalfeedback']['text'], 'generalfeedback', $fixingdollars);
-        $errors['generalfeedback'] += $this->validation_check_no_placeholders(
-            get_string('generalfeedback', 'question'),
-            $fromform['generalfeedback']['text']
+        $errors['generalfeedback'] = array_merge(
+            $errors['generalfeedback'],
+            $this->validation_check_no_placeholders(
+                get_string('generalfeedback', 'question'),
+                $fromform['generalfeedback']['text']
+            )
         );
 
         // Question note.
         $errors['questionnote'] = [];
         if ('' == $fromform['questionnote']['text']) {
-            $foundrandom = false;
-            foreach (stack_cas_security::get_all_with_feature('random') as $rndid) {
-                if (!(false === strpos($fromform['questionvariables'], $rndid))) {
-                    $foundrandom = true;
-                    break;
-                }
-            }
-            if ($foundrandom) {
+            // Use the same test as deciding whether a question has random variants, so
+            // that a note is required exactly when the question can be deployed.
+            question_bank::load_question_definition_classes($this->name());
+            if (qtype_stack_question::random_variants_check_with_includes($fromform['questionvariables'])) {
                 $errors['questionnote'][] = stack_string('questionnotempty');
             }
         } else {
             $errors = $this->validate_cas_text($errors, $fromform['questionnote']['text'], 'questionnote', $fixingdollars);
         }
 
-        $errors['questionnote'] += $this->validation_check_no_placeholders(
-            stack_string('questionnote'),
-            $fromform['questionnote']['text']
+        $errors['questionnote'] = array_merge(
+            $errors['questionnote'],
+            $this->validation_check_no_placeholders(
+                stack_string('questionnote'),
+                $fromform['questionnote']['text']
+            )
         );
 
         // Question description.
@@ -2419,9 +2437,12 @@ class qtype_stack extends question_type {
             'questiondescription',
             $fixingdollars
         );
-        $errors['questiondescription'] += $this->validation_check_no_placeholders(
-            stack_string('questiondescription', 'question'),
-            $fromform['questiondescription']['text']
+        $errors['questiondescription'] = array_merge(
+            $errors['questiondescription'],
+            $this->validation_check_no_placeholders(
+                stack_string('questiondescription', 'question'),
+                $fromform['questiondescription']['text']
+            )
         );
 
         $errors['metadata_text'] = [];
@@ -2790,7 +2811,7 @@ class qtype_stack extends question_type {
     ) {
         $problems = [];
         foreach ($placeholders as $placeholder) {
-            if (stack_utils::extract_placeholders($value, 'input')) {
+            if (stack_utils::extract_placeholders($value, $placeholder)) {
                 $problems[] = stack_string(
                     'fieldshouldnotcontainplaceholder',
                     ['field' => $fieldname, 'type' => $placeholder]

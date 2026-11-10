@@ -15,7 +15,7 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>c1:matrix([rand_with_step(-9,9,1)],[rand_with_step(-9,9,1)],[rand_with_step(-9,9,1)]);

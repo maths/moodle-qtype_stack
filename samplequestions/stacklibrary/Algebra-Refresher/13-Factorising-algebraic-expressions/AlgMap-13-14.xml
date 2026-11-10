@@ -26,7 +26,7 @@ Now, substituting these back into \((a-b)(a+b)\) and removing any constant facto
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>cf1:rand(2)+3;

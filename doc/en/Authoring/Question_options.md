@@ -24,6 +24,10 @@ This is the percentage of the marks deducted from each different and valid attem
 
 Note that Moodle stores scores to 7 decimal places, so, \(1/3\) should be entered as \(0.3333333\), and \(2/3\) as \(0.6666667\). If you input any number close to \(1/3\), but with less precision, then the extra digits will automatically be added. The exact range affected is that any penalty \(\ge 0.33\) and \(\le 0.34\) is changed to \(0.3333333\), and any penalty \(\ge 0.66\) and \(\le 0.67\) is changed to \(0.6666667\).
 
+### Standard feedback {#standard_feedback} ###
+
+The three options "Standard feedback for correct", "Standard feedback for partially correct" and "Standard feedback for incorrect" hold the generic feedback a potential response tree shows before its own feedback.  New questions take their values from the site's STACK settings.  We recommend keeping the defaults, which use the language pack so the feedback is shown in the student's language.  See [generic feedback](Feedback.md) for details.
+
 ## Output ##
 
 The following options affect how mathematics is displayed.
@@ -151,7 +155,7 @@ If you are using \(i,j,k\) as basis vectors then consider the following in your 
     p:3*i+4*j+5*k;
     q:a*i+b*j+c*k;
 
-Then, your expressions `p` and `q` will be displayed repectively as \[{3\cdot \vec{i}+4\cdot \vec{j}+5\cdot \vec{k}}\] and \[{a\cdot \vec{i}+b\cdot \vec{j}+c\cdot \vec{k}}.\]
+Then, your expressions `p` and `q` will be displayed respectively as \[{3\cdot \vec{i}+4\cdot \vec{j}+5\cdot \vec{k}}\] and \[{a\cdot \vec{i}+b\cdot \vec{j}+c\cdot \vec{k}}.\]
 Further examples are given in the [vectors](../CAS/Matrix.md#vectors).documentation.
 
 

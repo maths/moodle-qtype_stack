@@ -400,8 +400,9 @@ s_assert(ex1, ex2):= if is(ex1=ex2) then true else
 /* ****************************************************** */
 /* Developer warning: random functions determining        */
 /* whether a question is a singleton.                     */
-/* When adding new "random" functions, also update        */
-/* question->has_random_variants()                        */
+/* When adding new "random" functions, give them the      */
+/* "random" feature in stack/cas/security-map.json, and   */
+/* check question->random_variants_check() finds them.    */
 /* ****************************************************** */
 
 /* Change the random seed */
@@ -1179,7 +1180,6 @@ set output ", afn),
     if plotdebug then print([sysp,sysr]),
     system(sysp),
     if not(plotdebug) then system(sysr),
-    simp: old_simp,
     return(ufn)
 )$
 
@@ -2987,9 +2987,7 @@ strip_int_const(ex, v) := block([ex2,fargs],
 /* sa is the students' answer,                                      */
 /* sbl is a list consisting of (1) the answer, and (2) the variable */
 /********************************************************************/
-ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sbdisp, ret, cont, constint, acceptformal, atoptions],
-    oldsimp:simp,
-    simp:false,
+ATInt(sa, sb, so) := block([simp:false, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sbdisp, ret, cont, constint, acceptformal, atoptions],
     Validity:true, RawMark:false,
     FeedBack:"", AnswerNote:"",
     keepfloat:true,
@@ -3049,7 +3047,6 @@ ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Ans
         keepfloat:true,
         ret:Intfun(sa, sb, sbdisp, constint, acceptformal, var)
         ),
-    simp:oldsimp,
     return(ret)
     )$
 
@@ -3247,8 +3244,7 @@ ATIntGetVar(ex):= block(
 /* An answer test for antiderivative questions.                     */
 /********************************************************************/
 
-ATAntidiff(sa, sb, so) := block([var, sbdisp],
-    simp:false,
+ATAntidiff(sa, sb, so) := block([simp:false, var, sbdisp],
     /* How to display the teacher's answer? */
     sbdisp:[],
 
@@ -3297,8 +3293,7 @@ ATAntidiff(sa, sb, so) := block([var, sbdisp],
 /* This answer test ignores the teacher answer completely.          */
 /********************************************************************/
 
-ATAddConst(sa, sb, so) := block([oldsimp, SAresult, SAnote, SBresult, SBnote],
-    simp: false,
+ATAddConst(sa, sb, so) := block([simp:false, SAresult, SAnote, SBresult, SBnote],
 
     SAA:errcatch(ev(sa, simp, nouns)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then
@@ -3387,8 +3382,8 @@ hasAddConst(expr, vars) := block([othervars, const, deriv, allvariables, strict]
 /* sbl is a list consisting of (1) the answer, and (2) the variable */
 /********************************************************************/
 ATDiff(sa, sb, so) :=
-    block([old_simp, keepfloat, RawMark, FeedBack, AnswerNote, ret, str, da, db, dd, dc, var, cont, SAA, SBB, SOO],
-    old_simp:simp, simp:false, RawMark:false, FeedBack:"", AnswerNote:"",
+    block([simp:false, keepfloat, RawMark, FeedBack, AnswerNote, ret, str, da, db, dd, dc, var, cont, SAA, SBB, SOO],
+    RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
 
     SAA:errcatch(ev(sa, nouns, simp)),
@@ -3405,7 +3400,6 @@ ATDiff(sa, sb, so) :=
         keepfloat:true,
         ret:Difffun(sa, sb, so)
         ),
-    simp:old_simp,
     return(ret)
 )$
 

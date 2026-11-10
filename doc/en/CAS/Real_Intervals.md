@@ -30,7 +30,7 @@ Basic manipulation of intervals.
 
 1. `interval_simple_union(I1, I2)` join two simple intervals.
 2. `interval_sort(I)` takes a list of intervals and sorts them into ascending order by their left hand ends.  Returns a list.
-3. `interval_connect(S)` Given a `%union` of intervals, checks whether any intervals are connected, and if so, joins them up and returns the ammended union.
+3. `interval_connect(S)` Given a `%union` of intervals, checks whether any intervals are connected, and if so, joins them up and returns the amended union.
 4. `interval_tidy(S)`  Given a union of sets, returns the "canonical form" of this union.
 5. `interval_intersect(S1, S2)` intersect two two simple intervals or two real sets, e.g. `%union` sets.
 6. `interval_intersect_list(ex)` intersect a list of real sets.
@@ -68,6 +68,6 @@ Students will sometimes enter a closed interval as `[a, b]` or an open interval 
 
     ans1interval : if listp(ans1) then cc(first(ans1), last(ans1)) else ans1;
 
-Similary, the answer `(a,b)` is interpreted as `ntuple(a,b)`, see [Sets, lists, sequences n-tuples](Maxima_background.md#sets-lists-sequences-n-tuples). There is no direct predicate function for n-tuples, but this answer can be converted into `oo(a,b)` using
+Similarly, the answer `(a,b)` is interpreted as `ntuple(a,b)`, see [Sets, lists, sequences n-tuples](Maxima_background.md#sets-lists-sequences-n-tuples). There is no direct predicate function for n-tuples, but this answer can be converted into `oo(a,b)` using
 
     ans1interval : if is(safe_op(ans1) = "ntuple") then oo(first(ans1), last(ans1)) else ans1;

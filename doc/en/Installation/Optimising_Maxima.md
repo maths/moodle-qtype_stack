@@ -4,7 +4,7 @@ There are several ways to reduce the access and execution time of this CAS which
 
 The instructions for both CLISP and SBCL have been tested and work in STACK 3.  As of November 2020, these are working with all versions between Maxima 5.36.1 and Maxima 5.44.0.
 
-The procees of creating an optimised Maxima image is now automated.  This should be built automatically when installing STACK, and on upgrade.  However, you should use the plugin healthcheck script to confirm you have a fully working system.
+The process of creating an optimised Maxima image is now automated.  This should be built automatically when installing STACK, and on upgrade.  However, you should use the plugin healthcheck script to confirm you have a fully working system.
 
 For developers the code to automatically generate the LISP images is described below.
 

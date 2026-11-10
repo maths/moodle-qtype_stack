@@ -14,6 +14,17 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 Issues with [github milestone 4.15.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.15.0) include
 
+1. Upgrade use of version numbers for import/export and testing.  See [the STACK version stamp](../Moodle/Import_Export.md#the-stack-version-stamp).
+   * Every STACK question _must_ now have a version number, the `<stackversion>` field in Moodle XML.  A question without one, or with something other than a version number such as `2026080600`, has an upgrade error.  The question dashboard reports it, and the bulk tester and the API's test route do not run the question's tests.  To fix a question, save it in the editing form, which stamps the site's current version, or set `<stackversion>` in its XML.  Existing questions which have not been saved since STACK 4.2 (July 2018) have no version number, and will need to be saved again.
+   * The version number is a record of the version of STACK the question was last edited with.  It does not change how a question runs: STACK always uses the code installed on the site.
+   * A question with a version number newer than the site's STACK now gives a warning, on the question dashboard and in the bulk tester.  It is only a warning: many such questions use no new features, so their tests still run.  The API's test route returns it in a new `warnings` field, and not in `messages`, so it does not count as an error.
+2. Fix: a question test which enters an invalid value in a matrix input and expects `NULL` no longer fails as "Empty question tests are not permitted!" when the input does not require verification.
+3. A question test which omits the expected answer note now fails with "Expected result is empty", rather than expecting the note `1-0-T`, which no tree produces.  This applies to Moodle's import and to the API.
+4. Fix: the answer tests `Int`, `Antidiff`, `AddConst`, `Diff` and `EqualComAssRules` no longer change the value of `simp` when they return.  Previously `simp:false` could leak out of them, for example when one was called directly in the feedback variables.  Inside a potential response tree `simp` is already local, so marking is unchanged.
+5. Fix: the editing form and import now refuse `[[feedback:...]]` and `[[validation:...]]` placeholders in the general feedback, question note and question description, and `[[validation:...]]` in the specific feedback.  Previously only `[[input:...]]` placeholders were caught, and each was reported three times.
+6. The security map now lists the answer-test functions, such as `ATAlgEquiv`, as available to teachers only.  Behaviour is unchanged: they were already unavailable to students.
+7. Importing a question whose tests repeat a test-case number now keeps every test: the later one gets the next free number, with a warning.  Previously it silently replaced the earlier test.
+
 ## Better testing
 
 ### Add in a new keyvals field "test variables".

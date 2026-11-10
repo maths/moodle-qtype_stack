@@ -55,14 +55,14 @@ To preview the quiz, click on it, then click `Preview quiz now`.
 
 If you have students who need extra time you need to set up `Groups` with these students in. Here is an example for a group of students who need 25% extra time.  
 
-1. Under `Course Adminstration`, click on `Users`, then `Groups`, then `Create group`.  
+1. Under `Course Administration`, click on `Users`, then `Groups`, then `Create group`.  
 2. Give the group a name, e.g. "25% extra time".  You can put more details of who the group is for in the `Group description` box.  Click `Save changes`. 
 3. `Add/remove users`, then click on the ID for a particular student for this group and click `Add` to put them in the group.  Repeat for each student who needs to be in this group.  
-4. Go back and click on the Moodle quiz. In the `Quiz Adminstration`, click on `Group overrides`, then click `Add group override`, choose the relevant group, set the appropriate `Time limit` for the quiz for that group and click `Save`. 
+4. Go back and click on the Moodle quiz. In the `Quiz Administration`, click on `Group overrides`, then click `Add group override`, choose the relevant group, set the appropriate `Time limit` for the quiz for that group and click `Save`. 
 
 ### Viewing results
 
-To see the students' results in for a particular quiz, go the the quiz, then under `Quiz adminstration` click on `Results`,  then `Grades`. This will let you see all attempts, with the overall grade and the grade for each question. You can choose to download the results in Excel here as well.
+To see the students' results in for a particular quiz, go to the quiz, then under `Quiz administration` click on `Results`,  then `Grades`. This will let you see all attempts, with the overall grade and the grade for each question. You can choose to download the results in Excel here as well.
 
 # Next steps
 

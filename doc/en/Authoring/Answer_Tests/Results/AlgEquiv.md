@@ -4482,7 +4482,7 @@ t(1/4 + 4/3), x = (-1/2 - sqrt
   <td class="cell c6"></td>
 </tr>
 <tr class="notes">
-  <td class="cell c0"><td colspan="6">Unevaluated derviatives</td></td>
+  <td class="cell c0"><td colspan="6">Unevaluated derivatives</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>

@@ -80,7 +80,7 @@ __Changes and new features.__
 3. Validation of XML imports. XML files that fail validation will be marked as broken but still imported where possible.
 4. Editing of question XML within STACK from link in STACK dashboard. STACK now requires the importasversion plugin to make this possible.
 5. Much code tidying to comply with updated to Moodle Code Checker.
-6. Add in suppport for `style` in Parsons blocks.  E.g. you can now use `style="compact"` to get smaller, tighter items.
+6. Add in support for `style` in Parsons blocks.  E.g. you can now use `style="compact"` to get smaller, tighter items.
 7. Facilitate bulk test for questions in a particular quiz.  (Issue #1521)  Follow the link from the question dashboard to see quizzes in which that question is used.
 8. STACK library now imports whole quizzes - look for a `.json` file in the library.
 9. Add in support for [local stack libraries](../STACK_question_admin/Library/index.md) of questions in the `stack/sitelibrary` directory within the Moodle data directory.
@@ -301,7 +301,7 @@ Major rewrite of the PRT and CASText systems, focus on performance and limitatio
 4. The marks and penalty fields in the PRTs can be numbers, or other variables defined elsewhere in the question.
 5. Change behaviour of UnitsAbsolute in response to discussion of issue #448.
 6. CASText2 is the new [CASText-system](../Authoring/Question_blocks/index.md) and it supports mixed formats and provides new blocks for declaring formats.
-7. Markdown is now a supportted format and value injections into it will get correctly escaped. Use triple slashes for math-mode...
+7. Markdown is now a supported format and value injections into it will get correctly escaped. Use triple slashes for math-mode...
 8. There are now means of [including external](../Authoring/Inclusions.md) code and CASText fragments from an URL.
 9. One can now generate [text-files for download](../Authoring/Serving_out_data.md) with a special block in the question-text. CSV:s of student specific random data etc.
 10. Inline CASText is now a feature, it will become more relevant in the future input-system. For now you may [use it in MCQ labels](../Authoring/Inputs/Multiple_choice_input.md#castextlabels).
@@ -328,7 +328,7 @@ Released December 2021.
 
 1. Add in filter `420_consolidate_subscripts` to consolidate students' input with subscripts from `M_1` to `M1`.
 2. Support [variant matching](../STACK_question_admin/Deploying_matched_variants.md).
-3. Add in the option `arccos(x)/arcosh(x)` for display of trig.  This notation exists becase `arcsin` gives the arc length on the unit circle for a given y-coordinate. `arsinh` gives an area enclosed by a hyperbola and two rays from the origin for a given y-coordinate.
+3. Add in the option `arccos(x)/arcosh(x)` for display of trig.  This notation exists because `arcsin` gives the arc length on the unit circle for a given y-coordinate. `arsinh` gives an area enclosed by a hyperbola and two rays from the origin for a given y-coordinate.
 4. Allow students to type `arccos` etc. and treat these as synonyms of the trig functions.
 5. Substantially improve the basic question usage report.
 
@@ -419,7 +419,7 @@ Released April 2020.  Bug fixes and features which require DB changes.
 
 ## Version 4.3
 
-Released April 2020.  This has been tested successfully during the spring semester, at three insitutions with large groups.  STACK 4.3 is, because of the new parser, slightly slower than previous releases.
+Released April 2020.  This has been tested successfully during the spring semester, at three institutions with large groups.  STACK 4.3 is, because of the new parser, slightly slower than previous releases.
 
 Version 4.3 requires the PHP package `mbstring` (which will be required from Moodle 3.9 anyway).  Do not attempt to upgrade without checking you have `mbstring` on your server.  Navigate to this page on Moodle to confirm.
 
@@ -432,7 +432,7 @@ There have been a number of changes:
 * In the forbidden words we now match whole words not substrings.
 * Removed the RegExp answer test.  Added the SRegExp answer test using Maxima's `regex_match` function.
 * Use of units is now reflected throughout a question.  This reduces the need to declare units in all contexts.
-* Internally, the "+-" operator has been replaced with a new infix operation "#pm#".  Instead of `a+-b` teachers now must type `a#pm#b`.  This change was necessary to deal with differences between versions of Maxima when dealing with expresions.
+* Internally, the "+-" operator has been replaced with a new infix operation "#pm#".  Instead of `a+-b` teachers now must type `a#pm#b`.  This change was necessary to deal with differences between versions of Maxima when dealing with expressions.
 
 New features in v4.3:
 

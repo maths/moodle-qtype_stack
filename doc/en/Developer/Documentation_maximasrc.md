@@ -15,7 +15,7 @@ which do not yet provide these functions in core. Edit the maintained source, no
 
 The directory tree under `/stack/maximasrc/` can be as deep as one wishes and
 can be modified with no effect to the actual systems behaviour it will however
-change the documentation addressess and thus affect any links someone might
+change the documentation addresses and thus affect any links someone might
 have to the documentation.
 
 *TODO: we should have a method for linking directly to identifiers no matter
@@ -104,7 +104,7 @@ default_foobar: fooo;
 
 /**
  * In the above one `fooo` is obviously somewhat special, and possibly it is
- * an unbound variable with no definition and should not be bound globaly
+ * an unbound variable with no definition and should not be bound globally
  * we should document that. We can do it by adding a documentation block
  * somewhere where it is not immediately being followed by some definition
  * of an relevant object. And adding a special annotation to that block to name
@@ -118,7 +118,7 @@ default_foobar: fooo;
 
 Finally, inert-functions require the same kind of a documentation block as
 normal functions, but as with unbound variables that block must not be placed
-immediately before defintion of something else and must contain an annotation
+immediately before definition of something else and must contain an annotation
 to to the documentation to the identifier. It also needs to define
 the parameters at same time, e.g, `@inertfunction[] some_function(x,y,z)`.
 See the source of the documentation for `stackunits` or `stackbasen` for

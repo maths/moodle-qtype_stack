@@ -1530,6 +1530,9 @@
   "colorbox": {
       "variable": "f"
   },
+  "column_vector": {
+      "function": "s"
+  },
   "columnop": {
       "function": "s",
       "built-in": true
@@ -6907,6 +6910,9 @@
   "row": {
       "function": "s",
       "built-in": true
+  },
+  "row_vector": {
+      "function": "s"
   },
   "rowop": {
       "function": "s",

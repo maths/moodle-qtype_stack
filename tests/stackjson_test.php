@@ -42,7 +42,6 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
  * @covers \stack_cas_session2
  */
 final class stackjson_test extends qtype_stack_testcase {
-
     /**
      * Evaluate Maxima statements in one CAS session and return their values.
      * @param string[] $statements Maxima code, one statement each.

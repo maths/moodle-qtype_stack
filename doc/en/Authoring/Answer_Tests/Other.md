@@ -8,7 +8,9 @@ This test deals with equality of sets.  The algebraic equivalence functions give
 
 The test simplifies both sets, and does a comparison based on the simplified versions.  The comparison relies on `ev(..., simp, nouns)` to undertake the simplification.  If you need stronger simplification (e.g. trig) then you will need to add this to the arguments of the function first.
 
-Elements are compared exactly after simplification, so a float and a rational are different elements: \(\{98.9\}\) and \(\{989/10\}\) are not equal sets, although algebraic equivalence treats the numbers as equal.  Compare floats with floats, e.g. by applying `float` to both arguments.
+Elements which are still different after simplification, and are expressions, are then compared with algebraic equivalence, in both directions.  So \(\{\tfrac{1}{2}+\tfrac{\sqrt{5}}{2}\}\) and \(\{\tfrac{1+\sqrt{5}}{2}\}\) are equal sets.  Elements which are not expressions, such as lists, equations and inequalities, are only compared structurally.  The feedback lists the elements of the student's set which are not equivalent to any element of the teacher's set, and the elements of the teacher's set which are missing.
+
+If the student's set contains two forms of the same element, such as \(\{5, 5(1+i)-5i\}\), the test gives the answer note `ATSets_duplicates` and tells the student.  Duplicates do not make the answer wrong: \(\{5, 5(1+i)-5i\}\) and \(\{5\}\) are equal sets.
 
 ### Equiv and EquivFirstLast ###
 

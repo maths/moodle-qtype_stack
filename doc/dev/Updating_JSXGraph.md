@@ -7,7 +7,7 @@ Download JSXGraph: [https://github.com/jsxgraph/jsxgraph](https://github.com/jsx
 1. Copy over minified files `jsxgraph.min.css` and `jsxgraphcore.min.js`, there is no need to copy the non minified versions.
 2. Add frozen CDN URLs to the named version map in stack/cas/castext2/blocks/jsxgraph.block.php.
 3. Test that the healthcheck example works, the binding in particular and the render of the formula.
-4. Test the binding in more detail by checking that samplequestions/stack_jxg.binding-demo-4.4.xml still does sensible things.
+4. Test the binding in more detail by checking that `samplequestions/Doc-Examples/Specialist-Tools-Docs/JSXGraphs/` still do sensible things.
 5. If all looks good and keeps looking good after Moodle JavaScript reset, NOOP edit of question to recompile it and running in private-mode/incognito-mode to ensure that things are new and not coming from any cache. Then things should be fine.
 6. Check Meclib materials, and further testing!
 

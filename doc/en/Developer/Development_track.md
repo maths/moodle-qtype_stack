@@ -12,6 +12,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 3. When Maxima stops at an error of its own, such as a syntax error, before returning any results, STACK now reports "CAS failed to return any data because Maxima reported an error", followed by Maxima's message.  Previously this was reported as a timeout, which made such faults hard to diagnose.
 4. Fix: with a comma as the decimal separator, the equivalence reasoning input's `firstline` syntax hint wrote a decimal in the teacher's first line with a point, so the pre-filled line was invalid.  It now uses the question's decimal separator.
 5. Add in support for complex arguments to vector functions. Fix to issue #1944.
+6. Update JSXGraph to 1.14.3.
 
 Issues with [github milestone 4.15.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.15.0) include
 

@@ -142,6 +142,7 @@ final class questionlibrary_test extends qtype_stack_testcase {
                 'https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest',
                 stack_question_library::GITHUB
             );
+        $this->assertFalse(isset($files->error), $files->error ?? '');
         $this->assertEquals(2, count($files->children));
         $this->assertEquals('Course1', $files->children[0]->label);
         $this->assertEquals('Course1_quiz_quiz-1', $files->children[1]->label);

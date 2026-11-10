@@ -2166,3 +2166,11 @@ $string['varmatrixaugmentedstructure'] = 'You need to enter a matrix with the co
 $string['varmatrixaugmentedellipsis'] = 'The dots (...) stand for optional extra entries.';
 $string['varmatrixaugmentedrows'] = 'Choose the number of rows; keep block widths consistent.';
 $string['varmatrixaugmentedonerow'] = 'Use only one row.';
+
+$string['settinggithubtoken'] = 'Default GitHub access token';
+$string['settinggithubtoken_desc'] = '<p>Optional token for GitHub libraries that have no token of their own, or whose token is denied access. Leave blank to access public libraries without a default token. To add a token for one library, save its entry in the external library settings first.</p>
+<p>Use a fine-grained personal access token with read-only Contents permission for the repositories you want to share. Users allowed to use external libraries share this access. Anyone with a preview image URL can view that image without logging in.</p>
+<p>Moodle encrypts saved tokens. Include its encryption key in site backups.</p>';
+
+$string['settinggithublibrarytoken'] = 'GitHub access token for {$a}';
+$string['settinggithublibrarytoken_desc'] = 'Optional token to use first for this library. If GitHub denies access, STACK tries the default token once. Rate limits and connection errors do not trigger a retry with another token. Leave blank to use the default token.';

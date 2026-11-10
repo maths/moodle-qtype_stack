@@ -11,6 +11,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 2. Fix: a textarea input with a comma as the decimal separator and "Check the type of the response" set no longer fails to validate when the teacher's answer is a list of equations, each line reporting a CAS failure.  The equivalence reasoning input had the same fault: with a comma as the decimal separator, its `firstline` option accepted a wrong first line.  Validation now writes the teacher's answer as a student types it, as "Fill in correct response" does, before splitting it into lines.
 3. When Maxima stops at an error of its own, such as a syntax error, before returning any results, STACK now reports "CAS failed to return any data because Maxima reported an error", followed by Maxima's message.  Previously this was reported as a timeout, which made such faults hard to diagnose.
 4. Fix: with a comma as the decimal separator, the equivalence reasoning input's `firstline` syntax hint wrote a decimal in the teacher's first line with a point, so the pre-filled line was invalid.  It now uses the question's decimal separator.
+5. Add in support for complex arguments to vector functions. Fix to issue #1944.
 
 Issues with [github milestone 4.15.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.15.0) include
 

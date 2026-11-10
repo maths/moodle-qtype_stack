@@ -36,45 +36,50 @@ unit_vecp(ex):= if vectorp(ex) then is(ev(ex.conjugate(ex),simp)=1) else false;
 
 /**
  * Compute the orthogonal projection of v onto u with respect to scalar product sp.
+ * Can handle complex vectors: if sp is omitted, the standard inner product is used,
+ * the dot product for real vectors and x . conjugate(y) for complex vectors (linear in the first slot).
  *
  * @param[matrix] u a mx1 matrix
  * @param[matrix] v a mx1 matrix
- * @param[function] sp A bilinear form, i.e. a function mapping pairs of vectors to scalars
+ * @param[function] sp An inner product, i.e. a function mapping pairs of vectors to scalars, linear in the first slot
  * @return[matrix] Orthogonal projection of v onto u as a mx1 matrix
  */
 proj(u, v, [sp]) := block(
-    sp: if emptyp(sp) then "." else first(sp),
+    sp: if emptyp(sp) then lambda([x, y], if freeof(%i, [x, y]) then x . y else x . conjugate(y)) else first(sp),
     return(ev(sp(v,u)/sp(u,u)*u, simp))
 );
 
 /**
  * Orthogonalize column vectors  with respect to a scalar product sp
  * Returns [] if the input is malformed.
+ * Can handle complex vectors: if sp is omitted, the standard inner product is used, as in proj.
  *
  * @param[] L a mxn matrix or list of column vectors, see cols_to_matrix
- * @param[function] sp A bilinear form, i.e. a function mapping pairs of vectors to scalars
+ * @param[function] sp An inner product, i.e. a function mapping pairs of vectors to scalars, linear in the first slot
  * @return[] An mxn matrix or list of column vectors with the same
  *                 column space as L and orthogonal columns with respect to sp
  */
 orthogonalize(L, [sp]) := block([M, Morth],
-    sp: if emptyp(sp) then "." else first(sp),
+    sp: if emptyp(sp) then lambda([x, y], if freeof(%i, [x, y]) then x . y else x . conjugate(y)) else first(sp),
     M: cols_to_matrix(L),
     if M = matrix([null]) then return([]),
-    Morth: transpose(apply('matrix, ev(gramschmidt(transpose(M), sp), simp))),
+    /* Maxima's gramschmidt expects a product that is linear in the second slot, so swap the arguments. */
+    Morth: transpose(apply('matrix, ev(gramschmidt(transpose(M), lambda([x, y], sp(y, x))), simp))),
     return(if matrixp(L) then Morth else matrix_to_cols(Morth))
 );
 
 /**
  * Normalize column vectors with respect to a scalar product sp
  * Returns [] if the input is malformed.
+ * Can handle complex vectors: if sp is omitted, the standard inner product is used, as in proj.
  *
  * @param[] M a mxn matrix or list of column vectors, see cols_to_matrix
- * @param[function] sp A bilinear form, i.e. a function mapping pairs of vectors to scalars
+ * @param[function] sp An inner product, i.e. a function mapping pairs of vectors to scalars, linear in the first slot
  * @return[] An mxn matrix or list of column vectors with the columns
  *                 of M normalized with respect to sp
  */
 normalize(M, [sp]) := block([L],
-    sp: if emptyp(sp) then "." else first(sp),
+    sp: if emptyp(sp) then lambda([x, y], if freeof(%i, [x, y]) then x . y else x . conjugate(y)) else first(sp),
     L: cols_to_cols(M),
     if L = [] then return([]),
     L: map(lambda([v], ev(v/sqrt(sp(v,v)), simp)), L),
@@ -203,7 +208,7 @@ basisify(M,[orth]):= block([ex_op, m, n, vecs, new_vecs, ii],
   ),
   if orth then block(
     vecs: ev(gramschmidt(apply('matrix, vecs)), simp),
-    vecs: ev(map(lambda([ex], ex/sqrt(ex.ex)), vecs), simp)
+    vecs: ev(map(lambda([ex], ex/sqrt(if freeof(%i, ex) then ex.ex else ex.conjugate(ex))), vecs), simp)
   ),
   if is(ex_op="matrix") then return(transpose(apply('matrix, vecs))) else return(vecs)
 );
@@ -232,13 +237,15 @@ nullTspace(M):= ev(nullspace(transpose(M)),simp);
 
 /**
  * Find the matrix that projects orthogonally onto the column space of M
- * Computed by removing linearly dependent columns and then using M.(M^T.M)^^-1.M^T
+ * Computed by removing linearly dependent columns and then using M.(M^*.M)^^-1.M^*,
+ * where M^* is the conjugate transpose (M^T for a real M).
  *
- * @param[matrix] M An mxn matrix
- * @return[matrix] A symmetric, idempotent mxm matrix that projects mx1 vectors into the columnspace of M
+ * @param[matrix] M An mxn matrix, real or complex
+ * @return[matrix] A Hermitian (symmetric, for a real M), idempotent mxm matrix that projects mx1 vectors into the columnspace of M
  */
-projection_matrix(M):= block([reduced_M],
+projection_matrix(M):= block([reduced_M, MH],
   if ev(zeromatrixp(M),simp) then return(0),
   reduced_M: mat_unblocker(matrix(args(ev(columnspace(M),simp)))),
-  return(ev(reduced_M . invert(mat_unblocker(matrix([transpose(reduced_M) . reduced_M]))) . transpose(reduced_M),simp))
+  MH: if freeof(%i, reduced_M) then transpose(reduced_M) else ctranspose(reduced_M),
+  return(ev(reduced_M . invert(mat_unblocker(matrix([MH . reduced_M]))) . MH,simp))
 );

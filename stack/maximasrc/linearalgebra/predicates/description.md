@@ -7,8 +7,9 @@ in row echelon form.
 
 Use `REFp` for row echelon form, `symp` for symmetry, `invertiblep` for
 invertibility, and `diagonalizablep` for diagonalizability. The orthogonality
-predicates test columns using the ordinary dot product or a supplied scalar
-product.
+predicates test columns using the standard inner product (the dot product for
+real vectors, conjugated in the second slot for complex vectors) or a supplied
+scalar product.
 
 Most predicates require a Maxima matrix. `orthogonal_columnsp` and
 `orthonormal_columnsp` also accept lists of column vectors through

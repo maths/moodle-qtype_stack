@@ -316,7 +316,7 @@ class stack_parsing_rule_factory {
                 $filter = self::build_from_name($value);
                 // And we need to push in the parameters.
                 // Key example being 's'/'t' for 998_security.
-                $filter->set_filter_parameters($settings[$value]);
+                $filter->set_filter_parameters($settings[$value] ?? []);
             }
             $tobeincluded[$value] = $filter;
         }

@@ -422,6 +422,26 @@ final class input_algebraic_test extends qtype_stack_testcase {
         );
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Illegal_floats', $state->note);
+        $this->assertStringContainsString('<code>0.3333</code>', $state->errors);
+        $this->assertStringNotContainsString('0,3333', $state->errors);
+    }
+
+    public function test_validate_student_response_algebraic_8_comma(): void {
+        // With a comma as the decimal separator the example in the error uses a comma too.
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x^2+1/3', $options);
+        $el->set_parameter('forbidFloats', true);
+        $state = $el->validate_student_response(
+            ['sans1' => 'x^2+0,33'],
+            $options,
+            'x^2+1/3',
+            new stack_cas_security(false, '', '', ['tans'])
+        );
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Illegal_floats', $state->note);
+        $this->assertStringContainsString('<code>0,3333</code>', $state->errors);
+        $this->assertStringNotContainsString('0.3333', $state->errors);
     }
 
     public function test_validate_student_response_algebraic_9(): void {

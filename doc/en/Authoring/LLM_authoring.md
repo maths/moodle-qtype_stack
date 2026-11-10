@@ -1,6 +1,6 @@
 # Authoring STACK questions with an LLM
 
-Many STACK authors are using LLMs/AI to assist with question writing.  
+Many STACK authors are using LLMs/AI to assist with question writing.
 
 In the autumn of 2026 we published a case study [From print to interactive: an SMP A-level textbook built in STACK with AI agents](https://stack-assessment.org/CaseStudies/2026/SMP_Textbook/) describing success in generating a complete mathematics textbook using Claude.
 

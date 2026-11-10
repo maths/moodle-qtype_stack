@@ -172,31 +172,289 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">Sets</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{5, -3, 5*(1+i)-5*i}</pre></td>
+  <td class="cell c3"><pre>{5, -3}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSets_duplicates.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries!</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{(x-a)^6000}</pre></td>
   <td class="cell c3"><pre>{(a-x)^6000}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{(x-a)^6000}</pre></td>
+  <td class="cell c3"><pre>{(a-x)^5999}</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
   <td class="cell c6">ATSets_wrongentries. ATSets_missingentries.</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{{\left(x-a\right)}^{6000} \right \}\]</span></span> The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{{\left(a-x\right)}^{6000} \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{{\left(x-a\right)}^{6000} \right \}\]</span></span> The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{{\left(a-x\right)}^{5999} \right \}\]</span></span></td></td>
 </tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{}</pre></td>
+  <td class="cell c3"><pre>{}</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5"></td>
+  <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{}</pre></td>
+  <td class="cell c3"><pre>{1}</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSets_missingentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{1 \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{1}</pre></td>
+  <td class="cell c3"><pre>{}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSets_wrongentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{1 \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{1/2+sqrt(5)/2,1/2-sqrt(5)/2}</pre></td>
+  <td class="cell c3"><pre>{(1+sqrt(5))/2,(1-sqrt(5))/2}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
   <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{1/2+sqrt(5)/2,7}</pre></td>
+  <td class="cell c3"><pre>{(1+sqrt(5))/2,(1-sqrt(5))/2}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSets_wrongentries. ATSets_missingentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{7 \right \}\]</span></span> The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{\frac{1-\sqrt{5}}{2} \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{-sqrt(2)/sqrt(3)}</pre></td>
+  <td class="cell c3"><pre>{-2/sqrt(6)}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{x*(x+1),2}</pre></td>
+  <td class="cell c3"><pre>{x^2+x,2}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{%i*(1+%i)}</pre></td>
+  <td class="cell c3"><pre>{%i-1}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{-4*(1+%i),-4+4*%i,3}</pre></td>
+  <td class="cell c3"><pre>{-4-4*%i,-4+4*%i,3}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{-4*(1+%i),-4+4*%i,2}</pre></td>
+  <td class="cell c3"><pre>{-4-4*%i,-4+4*%i,3}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSets_wrongentries. ATSets_missingentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{2 \right \}\]</span></span> The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{3 \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{5,5*(1+%i)-5*%i}</pre></td>
+  <td class="cell c3"><pre>{5}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSets_duplicates.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries!</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{sqrt(2)+1,1/(sqrt(2)-1)}</pre></td>
+  <td class="cell c3"><pre>{1+sqrt(2)}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSets_duplicates.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries!</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{(x-1)*(x+1),x^2-1,x^2+1}</pre></td>
+  <td class="cell c3"><pre>{x^2-1,x^2+1}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSets_duplicates.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries!</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{x*(x+1),x^2+x}</pre></td>
+  <td class="cell c3"><pre>{x^2+x}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSets_duplicates.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries!</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{x&gt;1,x-1&gt;0}</pre></td>
+  <td class="cell c3"><pre>{x&gt;1}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSets_duplicates.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries!</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{5,5*(1+%i)-5*%i}</pre></td>
+  <td class="cell c3"><pre>{5,-3}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSets_duplicates. ATSets_missingentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries! The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{-3 \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{5,5*(1+%i)-5*%i,7}</pre></td>
+  <td class="cell c3"><pre>{5,-3}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSets_duplicates. ATSets_wrongentries. ATSets_missingentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries! These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{7 \right \}\]</span></span> The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{-3 \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{1/2+sqrt(5)/2,(1+sqrt(5))/2}</pre></td>
+  <td class="cell c3"><pre>{(1+sqrt(5))/2,(1-sqrt(5))/2}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSets_duplicates. ATSets_missingentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your set appears to contain duplicate entries! The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{\frac{1-\sqrt{5}}{2} \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{x=1,1/2+sqrt(5)/2}</pre></td>
+  <td class="cell c3"><pre>{x=1,(1+sqrt(5))/2}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{[2/4,1]}</pre></td>
+  <td class="cell c3"><pre>{[1/2,1]}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{[-sqrt(2)/sqrt(3),0]}</pre></td>
+  <td class="cell c3"><pre>{[-2/sqrt(6),0]}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSets_wrongentries. ATSets_missingentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{\left[ -\frac{\sqrt{2}}{\sqrt{3}} , 0 \right] \right \}\]</span></span> The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{\left[ -\frac{2}{\sqrt{6}} , 0 \right] \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Sets</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{x-1=0,x&gt;1 and 5&gt;x}</pre></td>
+  <td class="cell c3"><pre>{x&gt;1 and x&lt;5,x=2}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSets_wrongentries. ATSets_missingentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">These entries should not be elements of your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{x-1=0 \right \}\]</span></span> The following are missing from your set. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{x-2=0 \right \}\]</span></span></td></td>
 </tr></tbody></table></div>

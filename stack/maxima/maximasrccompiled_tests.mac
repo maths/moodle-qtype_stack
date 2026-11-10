@@ -414,11 +414,11 @@ s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:99",18)$
 s_test_case(simp):=is(orthonormal_columnsp(ev(matrix([1,1],[1,-1])/sqrt(2),simp)) = true)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:100",19)$
 s_test_case(simp):=is(orthonormal_columnsp(1) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:94",20)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:101",20)$
 s_test_case(simp):=is(orthonormal_columnsp([column_vector(1,0),column_vector(0,1)]) = true)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:95",21)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:102",21)$
 s_test_case(simp):=is(orthonormal_columnsp([column_vector(1,0),column_vector(0,1,0)]) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:96",22)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:103",22)$
 s_test_case(simp):=is(orthonormal_columnsp(ident(2)) = true)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:104",23)$
 s_test_case(simp):=is(orthonormal_columnsp(matrix([2,1],[2,-1])) = false)$
@@ -442,9 +442,9 @@ s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:126",32)$
 s_test_case(simp):=block([M:"untouched",checkmat:"untouched"],orthogonal_columnsp(ident(2)),is(M = "untouched" and checkmat = "untouched"))$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:129",33)$
 s_test_case(simp):=block([M:"untouched",checkmat:"untouched"],orthonormal_columnsp(ident(2)),is(M = "untouched" and checkmat = "untouched"))$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:124",34)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:131",34)$
 s_test_case(simp):=is(orth_matrixp([column_vector(1,0),column_vector(0,1)]) = false)$
-s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:126",35)$
+s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:133",35)$
 s_test_case(simp):=is(orthogonal_columnsp(matrix([1,0],[0,0])) = true)$
 s_exec_test("linearalgebra/predicates/orthogonal_predicates.mac:134",36)$
 s_test_case(simp):=is(orthonormal_columnsp(matrix([1,0],[0,0])) = false)$

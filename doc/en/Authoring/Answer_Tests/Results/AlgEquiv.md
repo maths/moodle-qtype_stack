@@ -1736,16 +1736,24 @@ i/10)</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>[1,2,[2-x&lt;0,{1,2,2,2, 1,3}]
-]</pre></td>
+  <td class="cell c2"><pre>[1,2,[2-x&lt;0,{1,2,2,2,1,3}]]</pre></td>
   <td class="cell c3"><pre>[1,2,[2-x&lt;0,{1,2}]]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(ATList_wrongentries 3: (ATList_wrongentries 2: ATSet_wrongsz)).</td>
+  <td class="cell c6">(ATList_wrongentries 3: (ATList_wrongentries 2: ATSet_wrongentries)).</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">The entries underlined in red below are those that are incorrect. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left[ 1 , 2 , \left[ 2-x < 0 , \left \{1 , 2 , 3 \right \} \right] \right] \]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[1,2,[2-x&lt;0,{1,2,2,2,1,3}]]</pre></td>
+  <td class="cell c3"><pre>[1,2,[2-x&lt;0,{1,2,3}]]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -1929,6 +1937,77 @@ i,i),i,8)</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{5, -3, 5*(1+i)-5*i}</pre></td>
+  <td class="cell c3"><pre>{5, -3}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{5,5*(1+%i)-5*%i}</pre></td>
+  <td class="cell c3"><pre>{5}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{sqrt(2)+1,1/(sqrt(2)-1)}</pre></td>
+  <td class="cell c3"><pre>{1+sqrt(2)}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{5,5*(1+%i)-5*%i}</pre></td>
+  <td class="cell c3"><pre>{5,-3}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSet_wrongentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{5,5*(1+%i)-5*%i,7}</pre></td>
+  <td class="cell c3"><pre>{5,-3}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSet_wrongentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{7 \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{}</pre></td>
+  <td class="cell c3"><pre>{}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{}</pre></td>
+  <td class="cell c3"><pre>{1}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSet_wrongsz.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your set should have <span class="filter_mathjaxloader_equation"><span class="nolink">\(1\)</span></span> different elements, but it actually has <span class="filter_mathjaxloader_equation"><span class="nolink">\(0\)</span></span>.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{2/4, 1/3}</pre></td>
   <td class="cell c3"><pre>{1/2, 1/3}</pre></td>
   <td class="cell c4"></td>
@@ -2015,47 +2094,25 @@ i,i),i,8)</pre></td>
   <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{5-x &gt; 0\,{\text{ and }}\, x-1 > 0 \right \}\]</span></span></td></td>
 </tr>
 <tr class="notes">
-  <td class="cell c0"><td colspan="6">Equivalence for elements of sets is different from expressions: see docs.</td></td>
+  <td class="cell c0"><td colspan="6">Elements of sets which are expressions are compared with algebraic_equivalence: see docs.</td></td>
 </tr>
-<tr class="expectedfail">
+<tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{-sqrt(2)/sqrt(3)}</pre></td>
   <td class="cell c3"><pre>{-2/sqrt(6)}</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">-3</td>
-  <td class="cell c6">ATSet_wrongentries.</td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
-<tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{-\frac{\sqrt{2}}{\sqrt{3}} \right \}\]</span></span></td></td>
-</tr>
-<tr class="expectedfail">
+<tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
-  <td class="cell c2"><pre>{[-sqrt(2)/sqrt(3),0],[2/sqrt(
-6),0]}</pre></td>
-  <td class="cell c3"><pre>{[2/sqrt(6),0],[-2/sqrt(6),0]}</pre></td>
-  <td class="cell c4"></td>
-  <td class="cell c5">-3</td>
-  <td class="cell c6">ATSet_wrongentries.</td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{\left[ -\frac{\sqrt{2}}{\sqrt{3}} , 0 \right] \right \}\]</span></span></td></td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{5/4*%e^(%i*%pi/6)}</pre></td>
   <td class="cell c3"><pre>{5*sqrt(3)/8+5/8*%i}</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">-3</td>
-  <td class="cell c6">ATSet_wrongentries.</td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{\frac{5\cdot \mathrm{i}+5\cdot \sqrt{3}}{8} \right \}\]</span></span></td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -2146,12 +2203,8 @@ p)</pre></td>
   <td class="cell c2"><pre>{(2-2^(5/2))/2,(2^(5/2)+2)/2}</pre></td>
   <td class="cell c3"><pre>{1-2^(3/2),2^(3/2)+1}</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">0</td>
-  <td class="cell c6">ATSet_wrongentries.</td>
-</tr>
-<tr class="pass">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{\frac{2-2^{\frac{5}{2}}}{2} , \frac{2^{\frac{5}{2}}+2}{2} \right \}\]</span></span></td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -2169,12 +2222,70 @@ p)</pre></td>
   <td class="cell c2"><pre>{(x-a)^6000}</pre></td>
   <td class="cell c3"><pre>{(a-x)^6000}</pre></td>
   <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{(x-a)^6000}</pre></td>
+  <td class="cell c3"><pre>{(a-x)^5999}</pre></td>
+  <td class="cell c4"></td>
   <td class="cell c5">0</td>
   <td class="cell c6">ATSet_wrongentries.</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{{\left(x-a\right)}^{6000} \right \}\]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{1/2+sqrt(5)/2,1/2-sqrt(5)/2}</pre></td>
+  <td class="cell c3"><pre>{(1+sqrt(5))/2,(1-sqrt(5))/2}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{2/(sqrt(5)-1),-2/(1+sqrt(5))}</pre></td>
+  <td class="cell c3"><pre>{(1+sqrt(5))/2,(1-sqrt(5))/2}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{1/2+sqrt(5)/2,(1+sqrt(5))/2}</pre></td>
+  <td class="cell c3"><pre>{(1+sqrt(5))/2,(1-sqrt(5))/2}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSet_wrongentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{-4*(1+%i),-4+4*%i,3}</pre></td>
+  <td class="cell c3"><pre>{-4-4*%i,-4+4*%i,3}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>{-4*(1+%i),-4+4*%i,2}</pre></td>
+  <td class="cell c3"><pre>{-4-4*%i,-4+4*%i,3}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATSet_wrongentries.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{2 \right \}\]</span></span></td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -2186,6 +2297,20 @@ k^2+4*k-12)}</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c2"><pre>{[-sqrt(2)/sqrt(3),0],[2/sqrt(
+6),0]}</pre></td>
+  <td class="cell c3"><pre>{[2/sqrt(6),0],[-2/sqrt(6),0]}</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">-3</td>
+  <td class="cell c6">ATSet_wrongentries.</td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{\left[ -\frac{\sqrt{2}}{\sqrt{3}} , 0 \right] \right \}\]</span></span></td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Matrices</td></td>
@@ -2223,7 +2348,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The entries underlined in red below are those that are incorrect. <span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[\begin{array}{cc} 1 & 2 \\ 2 & {\color{red}{\underline{3}}} \end{array}\right]\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is shown below, possibly simplified. Incorrect entries are underlined in red. <span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[\begin{array}{cc} 1 & 2 \\ 2 & {\color{red}{\underline{3}}} \end{array}\right]\]</span></span></td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -2236,7 +2361,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The entries underlined in red below are those that are incorrect. <span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[\begin{array}{cc} {\color{red}{\underline{0.33}}} & 1 \\ 1 & 1 \end{array}\right]\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is shown below, possibly simplified. Incorrect entries are underlined in red. <span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[\begin{array}{cc} {\color{red}{\underline{0.33}}} & 1 \\ 1 & 1 \end{array}\right]\]</span></span></td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -2267,7 +2392,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The entries underlined in red below are those that are incorrect. <span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[\begin{array}{cc} {\color{red}{\underline{\varepsilon_{2}}}} & 2 \\ 2 & {\color{red}{\underline{x^2}}} \end{array}\right]\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is shown below, possibly simplified. Incorrect entries are underlined in red. <span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[\begin{array}{cc} {\color{red}{\underline{\varepsilon_{2}}}} & 2 \\ 2 & {\color{red}{\underline{x^2}}} \end{array}\right]\]</span></span></td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -2293,7 +2418,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The entries underlined in red below are those that are incorrect. <span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[\begin{array}{cc} x > 4 & \left \{1 , x^2 \right \} \\ \left[ 1 , 2 \right] & \left[ 1 , {\color{red}{\underline{3}}} \right] \end{array}\right]\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is shown below, possibly simplified. Incorrect entries are underlined in red. <span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[\begin{array}{cc} x > 4 & \left \{1 , x^2 \right \} \\ \left[ 1 , 2 \right] & \left[ 1 , {\color{red}{\underline{3}}} \right] \end{array}\right]\]</span></span></td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Vectors</td></td>

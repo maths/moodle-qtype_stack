@@ -468,6 +468,11 @@
         "description":"Information on writing STACK questions for several languages."
         },
         {
+        "file":"LLM_authoring.md",
+        "title":"Authoring STACK questions with an LLM - STACK Documentation",
+        "description":"Information on authoring STACK questions with an LLM."
+        },
+        {
         "file":"Metadata.md",
         "title":"Question Metadata - STACK Documentation",
         "description":"Information on STACK question metadata."

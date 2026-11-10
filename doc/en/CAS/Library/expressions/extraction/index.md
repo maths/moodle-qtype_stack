@@ -19,7 +19,7 @@ Note this is largely the same as Maximas format packages `matching_parts`.
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
-| predicate | lambda/function | a single argument predicate function |
+| predicate | lamda/function | a single argument predicate function |
 | expression | expression | an expression that may contain parts matching that predicate |
 
 

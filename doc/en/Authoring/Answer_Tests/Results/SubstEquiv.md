@@ -258,7 +258,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The entries underlined in red below are those that are incorrect. <span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[\begin{array}{cc} {\color{red}{\underline{B}}} & {\color{red}{\underline{A^2+A+1}}} \\ 2 & {\color{red}{\underline{C}}} \end{array}\right]\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is shown below, possibly simplified. Incorrect entries are underlined in red. <span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left[\begin{array}{cc} {\color{red}{\underline{B}}} & {\color{red}{\underline{A^2+A+1}}} \\ 2 & {\color{red}{\underline{C}}} \end{array}\right]\]</span></span></td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Lists</td></td>

@@ -222,7 +222,22 @@ FORBIDDEN_SYMBOLS_SET: {"%th", "adapth_depth", "alias", "aliases", "alphabetic",
   "throw", "time", "timer", "timer_devalue", "timer_info", "to_lisp", "trace", "trace_options",
   "transcompile", "translate", "translate_file", "transrun", "ttyoff", "untimer",
   "untrace", "user_preamble", "values", "with_stdout", "write_binary_data", "write_data", "writefile",
-  "%_ce_rem"
+  "%_ce_rem",
+  /* Functions that run commands, evaluate Lisp, read Lisp or write files. */
+  "eval_string_lisp", "cl_eval", "common_lisp", "to_cl", "oid_to_octets",
+  "read_string", "read_Lisp_string", "readvexp", "gnuplot_send",
+  "contour_plot", "remove_plot_option", "reset_plot_options",
+  "texend", "texinit", "delete_file", "rename_file", "copy_file", "rmdir",
+  "gentran", "gentranout", "flush_output", "adjust_external_format",
+  /* STACK's plot settings.  Maxima is case sensitive: see del_cmd above. */
+  "GNUPLOT_CMD", "DEL_CMD", "IMAGE_DIR", "PLOT_TERMINAL", "PLOT_TERM_OPT",
+  "PLOT_SIZE", "PLOT_TAGS", "URL_BASE", "MAXIMA_PLATFORM",
+  /* Maxima's plotting and help commands and options. */
+  "gnuplot_command", "gnuplot_file_args", "gnuplot_view_args",
+  "geomview_command", "xmaxima_plot_command", "draw_renderer",
+  "gnuplot_svg_term_command", "gnuplot_png_term_command",
+  "gnuplot_postamble", "svg_file", "show_openplot",
+  "browser", "url_base", "output_format_for_help"
 }$
 
 /* This is the allowed version of concat that blocks the possibility to construct certain dangerous things. */

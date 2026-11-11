@@ -7,7 +7,7 @@ It is written for AI coding agents and LLMs assisting human question authors.
 A project or authoring kit may add its own conventions on top of these.
 For an optional review of mathematical purpose, feedback and learner interaction,
 see [Question quality review](stack_question_review.md). Agree the intended use
-with the author; technical test success alone does not establish suitability.
+with the author; technical test success alone does not establish educational suitability.
 
 ### What a STACK question is made of
 

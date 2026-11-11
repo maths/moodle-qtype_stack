@@ -24,7 +24,7 @@ Before 4.4 the contents of the block needed to be syntactically correct CASText.
 
     [[todo]] Place requests to collaborators here. This will not appear to students. [[/todo]]
 
-Any question with a todo will flag an error in the bulk tester.  This will _not_ throw an error in the editing form.
+Any question with a todo will flag an error in the bulk tester.  The editing form does not refuse to save the question, but shows a warning: "You have un-resolved todo blocks in ...", naming the field.
 
 The `[[todo]]` can contain optional `tags` e.g.
 

@@ -254,6 +254,84 @@ evaluated for each variant.
   `[[lang code='en']]...[[/lang]]` (one file per block in
   `stack/cas/castext2/blocks/`).
 
+### Leave notes for a human in todo blocks
+
+When something needs a human, say so in the question itself as well as in your
+report. A `[[todo]]...[[/todo]]` block is STACK's channel for this. The page
+`question/type/stack/adminui/todo.php` (linked as "Find [[todo]] blocks" from
+`adminui/index.php`) lists every question with one, grouped by tag, for each
+teacher who can edit it. Do not use HTML comments, `[[comment]]` blocks or
+"TODO" in the text: nothing finds them. The block needs STACK 4.4.5 or later,
+and its tags 4.8.0 or later; check the question's `<stackversion>` first.
+
+- **Where.** At the end of the question description. Students never see it,
+  and STACK replaces each block with `<!--- stack_todo --->` in any field.
+  The todo page searches the question text, question note, general feedback,
+  specific feedback and question description only: a block in PRT feedback
+  is not listed there.
+- **Content is CASText.** A block's content is not shown, but it must parse
+  as CASText, so a note that quotes code can break the question. Wrap anything
+  containing code which you don't want evaluated, `{@...@}`, `[[...]]` or a
+  backslash in `[[escape]]`:
+  `[[todo]][[escape]]prt1 node 2 compares ans1 with {0}.[[/escape]][[/todo]]`.
+- **Tags.** `[[todo tags="tag1, tag2"]]`: a comma-separated list, trimmed.
+  Tag every block, so the todo page groups it: one tag for who raised it or
+  what kind of note it is, and one for where it belongs (a quiz or section).
+  Any teacher on the site sees every tag, and issues are grouped by tags for
+  teachers.
+- **One block per issue.** Say where it is (input, PRT node, test case,
+  sentence of the worked solution), what is wrong or undecided, and the action
+  you propose. Keep it short enough to read in the editing form.
+- **Only for a human decision.** An editorial or pedagogic choice, an ambiguity
+  in the source, a defect you found and were not asked to fix. Anything you can
+  and should fix, fix.
+- **Visual checks.** You cannot see how a question renders. For anything whose
+  display matters (a figure, a JSXGraph board, a wide matrix or table, a long
+  radio list, a drag area) and need a human to confirm, leave a block naming
+  what to look at, rather than reporting that the layout is fine.
+- **Workarounds for STACK defects.** A workaround is code that avoids a bug,
+  or a missing feature, in the STACK version the question targets, which may
+  be older than the current release. Record each one in the question that
+  uses it, so it can be found and removed once STACK is fixed:
+  - a todo block tagged `stack-workaround` and the issue,
+    `tags="stack-workaround, iss1234"`, naming the issue, the STACK version
+    the question targets (its `<stackversion>`), the version that fixes it if
+    known, and the code to restore;
+  - a Maxima comment, `/* iss1234 */`, on each line of the workaround in the
+    question variables, feedback variables or PRT, because a todo block
+    cannot go in Maxima code.
+
+  Before writing a workaround, search the project for a `stack-workaround`
+  block with the same issue and reuse its code and tag, so that every question
+  avoids the defect in the same way. If there is no issue yet, tell the user
+  and give a minimal reproduction; do not raise issues yourself. These blocks
+  are markers, not requests: leave them until the question targets a STACK
+  version with the fix, then restore the code, delete the block and the
+  comments, and re-run the question tests.
+- **Recurring bespoke code.** When the same hand-written code recurs across
+  questions (random generation, a validator, feedback variables, a test for a
+  property), tell the user it may belong in STACK, with an example. That is a
+  candidate improvement, not a workaround: do not tag it.
+- **Effects.** A block does not stop validation, import, preview or the
+  question tests. The editing form warns "You have un-resolved todo blocks",
+  and the bulk tester reports the question as needing attention. Both are
+  intended.
+- **Blocks the bulk tester writes.** From STACK 4.10.0, the bulk tester run
+  with `--addtags` (command line) or `&addtags=true` (web page) appends a block
+  to the question description of each question with a problem: an error
+  loading or upgrading it, a validation problem, no deployed seeds, no question
+  tests, or failing question tests. Its tags begin with `bulktest-`, for
+  example `tags="bulktest-20261111,question_tests"`. Such a block reports a
+  defect, not a decision: fix the defect, re-run the question tests, then
+  delete the block. Never begin a tag of your own with `bulktest`: the bulk
+  tester adds no block to a question that already has one. It writes straight
+  to the database, so the question on the site can differ from your copy of
+  it: export it before you overwrite it.
+- **Removing.** Delete a block when its issue is resolved, never before. Do not
+  delete a block you did not raise and have not resolved, and never to quieten
+  the bulk tester. A resolved block is never left in place. Once all are
+  resolved, the question description is free for an audit trail or metadata.
+
 ### Choose and configure inputs
 
 STACK separates validity from correctness. Validation decides whether the

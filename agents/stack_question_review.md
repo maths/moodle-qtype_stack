@@ -86,6 +86,13 @@ who performed automated checks, AI-assisted review and human mathematical or
 pedagogical review. Never imply that passing tests or an agent's approval is
 human approval. The author or responsible reviewer decides readiness for use.
 
+Check the question's `[[todo]]` blocks (essentials, "Leave notes for a human in
+todo blocks"). Each open block says where its issue is and proposes an action,
+and no block remains whose issue is resolved. Each `stack-workaround` block
+matches the `/* ... */` comments at its code, and the workaround is still
+needed in the STACK version the question targets. A `bulktest-` block is
+removed only once its defect is fixed and the question tests pass.
+
 After use, where access and data-handling rules permit, inspect missed response
 classes and whether feedback supports a useful revision. Turn material cases
 into synthetic regression tests without copying student identities or private

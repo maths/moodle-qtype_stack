@@ -92,6 +92,21 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Select a question category using the Moodle version's existing form step.
+     *
+     * @When I select the STACK question category :category
+     * @param string $category category name.
+     */
+    public function i_select_the_stack_question_category(string $category): void {
+        $questioncontext = behat_context_helper::get('behat_core_question');
+        if (method_exists($questioncontext, 'i_apply_question_bank_filter')) {
+            $this->execute('behat_core_question::i_apply_question_bank_filter', ['Category', $category]);
+        } else {
+            $this->execute('behat_forms::i_set_the_field_to', ['Select a category', $category]);
+        }
+    }
+
+    /**
      * Get the xpath for a given input element.
      * @param string $name the input name, like 'ans1'.
      * @return string the xpath expression.

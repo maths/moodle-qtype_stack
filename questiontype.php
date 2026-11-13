@@ -574,7 +574,7 @@ class qtype_stack extends question_type {
             in_array($PAGE->pagetype, ['question-type-stack', 'question-type-stack-questionxmledit']) &&
             (empty($fromform->import_process) || !$hasatlasid)
         ) {
-            // Preserve an Atlas ID supplied by an XML source such as NRW. If
+            // Preserve an Atlas ID supplied by an XML source such as ATLAS. If
             // there is no Atlas ID, generate one as for an ordinary save.
             $questiondata = question_bank::load_question_data($fromform->id);
             $format = new qformat_xml();

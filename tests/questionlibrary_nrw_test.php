@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for the STACK NRW library integration.
+ * Unit tests for the ATLAS library integration.
  *
  * @package    qtype_stack
  * @copyright  2026 The University of Edinburgh
@@ -35,7 +35,7 @@ require_once($CFG->dirroot . '/question/type/stack/locallib.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/questionlibrary.class.php');
 
 /**
- * Test double for stack_question_library NRW API calls.
+ * Test double for stack_question_library ATLAS API calls.
  */
 class stack_question_library_nrw_testable extends \stack_question_library {
     /** @var array mocked curl_exec responses */
@@ -87,7 +87,7 @@ class stack_question_library_nrw_testable extends \stack_question_library {
 }
 
 /**
- * Tests of NRW search/download/upload behavior.
+ * Tests of ATLAS search/download/upload behavior.
  *
  * @group qtype_stack
  * @covers \stack_question_library::list_nrw_search

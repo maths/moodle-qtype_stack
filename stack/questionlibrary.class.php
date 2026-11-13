@@ -53,12 +53,12 @@ class stack_question_library {
      */
     public const STACKLIB = 'stacklibrary';
     /**
-     * NRW API identifier
+     * ATLAS API identifier
      * @var string
      */
     public const NRWSEARCH = 'nrwsearch';
     /**
-     * NRW API base URL
+     * ATLAS API base URL
      * @var string
      */
     public const NRWAPIBASE = 'https://vmits1614.vm.ruhr-uni-bochum.de/dev/api';
@@ -564,10 +564,10 @@ class stack_question_library {
     }
 
     /**
-     * Upload a Moodle question object to the NRW API.
+     * Upload a Moodle question object to the ATLAS API.
      *
      * @param object $questiondata Question data from question_bank::load_question_data().
-     * @param string $apikey NRW API key.
+     * @param string $apikey ATLAS API key.
      * @return array Upload result for template output.
      */
     public static function upload_nrw_question(object $questiondata, string $apikey): array {
@@ -617,7 +617,7 @@ class stack_question_library {
 
         // POST /uploads is the only write route open to an LMS key (role `lms`).
         // atlas-api imports the file in the background and answers with a claim
-        // link: whoever opens it takes over the upload in the STACK.nrw hub
+        // link: whoever opens it takes over the upload in the ATLAS hub
         // (metadata, duplicates, predecessor) and publishes it from there.
         $apiurl = self::NRWAPIBASE . '/uploads';
         $postfields = [

@@ -44,7 +44,7 @@ question_require_capability_on($questiondata, 'view');
 require_capability('qtype/stack:exporttoexternallibraries', $context);
 
 if (!get_config('qtype_stack', 'nrwupload')) {
-    throw new moodle_exception('nopermissions', 'error', '', 'export to NRW');
+    throw new moodle_exception('nopermissions', 'error', '', 'export to ATLAS');
 }
 
 $PAGE->set_context($context);

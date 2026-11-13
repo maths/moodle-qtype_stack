@@ -29,6 +29,9 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../question.php');
 require_once(__DIR__ . '/../../stack/questiontest.php');
 require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
+require_once(__DIR__ . '/../../stack/graphlayout/graph.php');
+require_once(__DIR__ . '/../../stack/mathsoutput/fact_sheets.class.php');
+require_once(__DIR__ . '/../../lang/multilang.php');
 
 /**
  * TO-DO: Rework, dont use legacy classes
@@ -40,6 +43,11 @@ class StackQuestionLoader {
 
     /** Maximum accepted XML element count after parsing or YAML conversion. */
     private const MAX_XML_NODE_COUNT = 50000;
+
+    /** XML text formats accepted by Moodle's XML importer. */
+    private const XML_TEXT_FORMATS = [
+        'moodle_auto_format', 'html', 'plain_text', 'wiki_like', 'markdown',
+    ];
 
     /**
      * @var array|null Default values for the question.
@@ -93,7 +101,7 @@ class StackQuestionLoader {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests = false) {
         try {
-            $xmldata = self::parse_question_definition($xml);
+            $xmldata = self::parse_question_definition($xml, $includetests);
         } catch (\stack_exception $e) {
             throw $e;
         } catch (\Exception $e) {
@@ -121,18 +129,11 @@ class StackQuestionLoader {
             throw $nonstackerror;
         }
 
-        // Collect included files.
-        $files = [];
-        if ($xmldata->question->questiontext) {
-            $files = array_merge($files, self::handlefiles($xmldata->question->questiontext->file));
+        if ($includetests) {
+            self::assert_text_formats_are_portable($xmldata->question);
         }
-        if ($xmldata->question->generalfeedback) {
-            $files = array_merge($files, self::handlefiles($xmldata->question->generalfeedback->file));
-        }
-        if ($xmldata->question->specificfeedback) {
-            $files = array_merge($files, self::handlefiles($xmldata->question->specificfeedback->file));
-        }
-        $question->pluginfiles = $files;
+
+        $question->pluginfiles = self::collect_files($xmldata->question);
 
         // Based on moodles base question type.
         $question->name = (string) $xmldata->question->name->text ?
@@ -147,6 +148,10 @@ class StackQuestionLoader {
         $question->questiontextformat =
             isset($xmldata->question->questiontext['format']) ? (string) $xmldata->question->questiontext['format'] :
             self::get_default('question', 'questiontextformat', 'html');
+        if ($includetests) {
+            self::assert_valid_castext($question->questiontext, 'questiontext');
+        }
+        self::assert_validation_placeholders($question->questiontext);
         $question->generalfeedback =
             isset($xmldata->question->generalfeedback->text) ? (string) $xmldata->question->generalfeedback->text :
             self::get_default('question', 'generalfeedback', '');
@@ -157,8 +162,12 @@ class StackQuestionLoader {
         // empty() returns true if element is 0. Casting to array returns [] and [0] which return false and true respectively.
         $question->defaultmark = (array) $xmldata->question->defaultgrade ? (float) $xmldata->question->defaultgrade :
             self::get_default('question', 'defaultgrade', 1);
-        $question->penalty = (array) $xmldata->question->penalty ? (float) $xmldata->question->penalty :
+        $penalty = (array) $xmldata->question->penalty ? (string) $xmldata->question->penalty :
             self::get_default('question', 'penalty', 0.1);
+        if (!is_numeric($penalty) || $penalty < 0 || $penalty > 1) {
+            throw new \stack_exception(\stack_string('penaltyerror'));
+        }
+        $question->penalty = (float) $penalty;
 
         // Based on initialise_question_instance from questiontype.php.
         $question->stackversion              =
@@ -190,6 +199,12 @@ class StackQuestionLoader {
                 isset($xmldata->question->specificfeedback['format']) ?
                 (string) $xmldata->question->specificfeedback['format'] :
                 self::get_default('question', 'specificfeedbackformat', 'html');
+        if ($includetests) {
+            self::assert_question_text_placeholders_are_portable(
+                $question->questiontext,
+                $question->specificfeedback
+            );
+        }
         $question->questiondescription       =
             isset($xmldata->question->questiondescription->text) ? (string) $xmldata->question->questiondescription->text :
             self::get_default('question', 'questiondescription', '');
@@ -252,6 +267,14 @@ class StackQuestionLoader {
             self::get_default('question', 'isbroken', 0);
         $question->metadata     =
             (string) $xmldata->question->metadata ? (string) $xmldata->question->metadata : '';
+        if ($includetests) {
+            if (mb_strlen($question->metadata) > 32000) {
+                throw new \stack_exception(\stack_string('JSONtoolong'));
+            }
+            if ($question->metadata && !json_decode($question->metadata)) {
+                throw new \stack_exception(\stack_string('JSONbroken'));
+            }
+        }
         $question->prescribedmetadata     =
             (string) $xmldata->question->prescribedmetadata ? (string) $xmldata->question->prescribedmetadata : '';
         $question->options = new \stack_options();
@@ -340,7 +363,11 @@ class StackQuestionLoader {
 
         $inputmap = [];
         foreach ($xmldata->question->input as $input) {
-            $inputmap[(string) $input->name] = $input;
+            $inputname = (string) $input->name;
+            if (in_array($inputname, array_keys($inputmap))) {
+                throw new \stack_exception(\stack_string('multipleinputs', $inputname));
+            }
+            $inputmap[$inputname] = $input;
         }
 
         if (empty($inputmap)) {
@@ -353,6 +380,18 @@ class StackQuestionLoader {
             } else {
                 // We've not got any inputs. Set default mark to 0.
                 $question->defaultmark = 0;
+            }
+        }
+
+        if ($includetests) {
+            self::assert_input_placeholders($question->questiontext, array_keys($inputmap));
+            foreach (array_keys($inputmap) as $inputname) {
+                if (strlen($inputname) > 18) {
+                    throw new \stack_exception(\stack_string('inputnamelength', $inputname));
+                }
+                if (!preg_match('/^([a-zA-Z]+|[a-zA-Z]+[0-9a-zA-Z_]*[0-9a-zA-Z]+)$/', $inputname)) {
+                    throw new \stack_exception(\stack_string('inputnameform', $inputname));
+                }
             }
         }
 
@@ -401,6 +440,12 @@ class StackQuestionLoader {
                 'options'         => isset($inputdata->options) ? (string) $inputdata->options :
                     self::get_default('input', 'options', ''),
             ];
+            if (strlen($allparameters['syntaxHint']) > 255) {
+                throw new \stack_exception(\stack_string('syntaxhint_toolong'));
+            }
+            if ($includetests) {
+                self::assert_valid_castext($allparameters['syntaxHint'], $name . 'syntaxhint');
+            }
             $parameters = [];
             $inputtype = (string) $inputdata->type ? (string) $inputdata->type :
                 self::get_default('input', 'type', 'algebraic');
@@ -410,20 +455,109 @@ class StackQuestionLoader {
                 }
                 $parameters[$paramname] = $allparameters[$paramname];
             }
+            $teacheranswer = isset($inputdata->tans) ? (string) $inputdata->tans :
+                self::get_default('input', 'tans', 'ta1');
+            if ($includetests) {
+                self::assert_valid_cas_string($teacheranswer, 'nonempty');
+            }
             $question->inputs[$name] = \stack_input_factory::make(
                 $inputtype,
                 (string) $name,
-                (string) $inputdata->tans,
+                $teacheranswer,
                 $question->options,
                 $parameters
             );
+            if ($includetests) {
+                foreach ($parameters as $parameter => $value) {
+                    if ($parameter !== 'options' && !$question->inputs[$name]->validate_parameter($parameter, $value)) {
+                        throw new \stack_exception(\stack_string('inputinvalidparamater'));
+                    }
+                }
+                $question->inputs[$name]->validate_extra_options();
+                $inputerrors = $question->inputs[$name]->get_errors();
+                if ($inputerrors) {
+                    throw new \stack_exception(implode(' ', $inputerrors));
+                }
+            }
+            if ($parameters['mustVerify'] && $parameters['showValidation'] == 0) {
+                throw new \stack_exception(\stack_string('mustverifyshowvalidation'));
+            }
+        }
+
+        if ($includetests && trim($question->questionvariables) !== '') {
+            $inputnames = array_unique(array_merge(
+                \stack_utils::extract_placeholders($question->questiontext, 'input'),
+                \stack_utils::extract_placeholders($question->questiontext, 'validation')
+            ));
+            $keyval = new \stack_cas_keyval($question->questionvariables, $question->options, 1);
+            if (!$keyval->get_valid($inputnames)) {
+                throw new \stack_exception(implode(' ', $keyval->get_errors()));
+            }
+        }
+
+        if ($includetests) {
+            self::assert_valid_castext($question->specificfeedback, 'specificfeedback');
+            foreach (['input', 'validation'] as $type) {
+                if (\stack_utils::extract_placeholders($question->specificfeedback, $type)) {
+                    throw new \stack_exception(\stack_string(
+                        'fieldshouldnotcontainplaceholder',
+                        ['field' => \stack_string('specificfeedback'), 'type' => $type]
+                    ));
+                }
+            }
+        }
+
+        if ($includetests) {
+            self::assert_valid_castext($question->generalfeedback, 'generalfeedback');
+            foreach (['input', 'validation', 'feedback'] as $type) {
+                if (\stack_utils::extract_placeholders($question->generalfeedback, $type)) {
+                    throw new \stack_exception(\stack_string(
+                        'fieldshouldnotcontainplaceholder',
+                        ['field' => \get_string('generalfeedback', 'question'), 'type' => $type]
+                    ));
+                }
+            }
+        }
+
+        if ($includetests) {
+            if ($question->questionnote === '') {
+                if (\qtype_stack_question::random_variants_check_with_includes($question->questionvariables)) {
+                    throw new \stack_exception(\stack_string('questionnotempty'));
+                }
+            } else {
+                self::assert_valid_castext($question->questionnote, 'questionnote');
+            }
+            foreach (['input', 'validation', 'feedback'] as $type) {
+                if (\stack_utils::extract_placeholders($question->questionnote, $type)) {
+                    throw new \stack_exception(\stack_string(
+                        'fieldshouldnotcontainplaceholder',
+                        ['field' => \stack_string('questionnote'), 'type' => $type]
+                    ));
+                }
+            }
+        }
+
+        if ($includetests) {
+            self::assert_valid_castext($question->questiondescription, 'questiondescription');
+            foreach (['input', 'validation', 'feedback'] as $type) {
+                if (\stack_utils::extract_placeholders($question->questiondescription, $type)) {
+                    throw new \stack_exception(\stack_string(
+                        'fieldshouldnotcontainplaceholder',
+                        ['field' => \stack_string('questiondescription'), 'type' => $type]
+                    ));
+                }
+            }
         }
 
         $totalvalue = 0;
         $allformative = true;
         $prtmap = [];
         foreach ($xmldata->question->prt as $prt) {
-            $prtmap[(string) $prt->name] = $prt;
+            $prtname = (string) $prt->name;
+            if (in_array($prtname, array_keys($prtmap))) {
+                throw new \stack_exception(\stack_string('multipleprts', $prtname));
+            }
+            $prtmap[$prtname] = $prt;
         }
 
         if (empty($prtmap)) {
@@ -441,10 +575,34 @@ class StackQuestionLoader {
             }
         }
 
+        if ($includetests) {
+            foreach (array_keys($prtmap) as $prtname) {
+                if (strlen($prtname) > 18) {
+                    throw new \stack_exception(\stack_string('prtnamelength', $prtname));
+                }
+            }
+            self::assert_prt_feedback_placeholders(
+                $question->questiontext,
+                $question->specificfeedback,
+                array_keys($prtmap)
+            );
+            if (
+                !\stack_utils::extract_placeholders($question->questiontext, 'input') &&
+                \stack_utils::extract_placeholders($question->questiontext . $question->specificfeedback, 'feedback')
+            ) {
+                throw new \stack_exception(\stack_string('noprtsifnoinputs'));
+            }
+        }
+
         foreach ($prtmap as $prtdata) {
+            $value = isset($prtdata->value) ? (string) $prtdata->value :
+                self::get_default('prt', 'value', 1);
+            if ($value < 0) {
+                throw new \stack_exception(\stack_string('questionvaluepostive'));
+            }
             // At this point we do not have the PRT method is_formative() available to us.
             if (!isset($prtdata->feedbackstyle) || ((int) $prtdata->feedbackstyle) > 0) {
-                $totalvalue += isset($prtdata->value) ? (float) $prtdata->value : self::get_default('prt', 'value', 1);
+                $totalvalue += (float) $value;
                 $allformative = false;
             }
         }
@@ -473,14 +631,41 @@ class StackQuestionLoader {
 
             $data->feedbackvariables = isset($prtdata->feedbackvariables->text) ? (string) $prtdata->feedbackvariables->text :
                 self::get_default('prt', 'feedbackvariables', '');
+            if ($includetests && trim($data->feedbackvariables) !== '') {
+                $inputnames = array_unique(array_merge(
+                    \stack_utils::extract_placeholders($question->questiontext, 'input'),
+                    \stack_utils::extract_placeholders($question->questiontext, 'validation')
+                ));
+                $keyval = new \stack_cas_keyval($data->feedbackvariables, $question->options, 1);
+                if (!$keyval->get_valid($inputnames)) {
+                    throw new \stack_exception(implode(' ', $keyval->get_errors()));
+                }
+            }
 
             $data->nodes = [];
+            $answernotes = [];
+            $truefeedbackformat = null;
             foreach ($prtdata->node as $node) {
+                if ($includetests && !isset($node->name)) {
+                    throw new \stack_exception(\stack_string('missingprtnodename'));
+                }
+                if ($includetests && !preg_match('/^-?\d+$/', (string) $node->name)) {
+                    throw new \stack_exception(\stack_string('prtnodenameinteger', (string) $node->name));
+                }
                 $newnode = new \stdClass();
 
                 $newnode->nodename = (string) $node->name;
+                if (in_array($newnode->nodename, array_keys($data->nodes))) {
+                    throw new \stack_exception(\stack_string('multiplenodes', [
+                        'prt' => $data->name,
+                        'node' => $newnode->nodename,
+                    ]));
+                }
                 $newnode->description = isset($node->description) ? (string) $node->description :
                     self::get_default('node', 'description', '');
+                if (mb_strlen($newnode->description) > 255) {
+                    throw new \stack_exception(\stack_string('description_err'));
+                }
                 self::parse_answertest($node);
                 $newnode->answertest = isset($node->answertest) ? (string) $node->answertest :
                     self::get_default('node', 'answertest', 'AlgEquiv');
@@ -489,8 +674,35 @@ class StackQuestionLoader {
                     self::get_default('node', 'sans', 'ans1');
                 $newnode->tans = isset($node->tans) ? (string) $node->tans :
                     self::get_default('node', 'tans', 'ta1');
+                if ($includetests) {
+                    self::assert_valid_cas_string($newnode->sans, 'sansrequired');
+                    self::assert_valid_cas_string($newnode->tans, 'tansrequired');
+                }
                 $newnode->testoptions = isset($node->testoptions) ? (string) $node->testoptions :
                     self::get_default('node', 'testoptions', '');
+                $testoptions = trim($newnode->testoptions);
+                $optionsrequired = \stack_ans_test_controller::required_atoptions($newnode->answertest);
+                if ($optionsrequired === true && $testoptions === '') {
+                    throw new \stack_exception(\stack_string('testoptionsrequired'));
+                }
+                if ($optionsrequired !== false && strlen($testoptions) > 255) {
+                    throw new \stack_exception(\stack_string('testoptionsinvalid', \stack_string('strlengtherror')));
+                }
+                if (
+                    $includetests &&
+                    ($optionsrequired === true || ($optionsrequired === 'optional' && $testoptions !== ''))
+                ) {
+                    $casstring = \stack_ast_container::make_from_teacher_source(
+                        'null',
+                        '',
+                        new \stack_cas_security()
+                    );
+                    $answertest = new \stack_ans_test_controller($newnode->answertest, $casstring, $casstring);
+                    [$valid, $message] = $answertest->validate_atoptions($testoptions);
+                    if (!$valid) {
+                        throw new \stack_exception(\stack_string('testoptionsinvalid', $message));
+                    }
+                }
                 $newnode->quiet = isset($node->quiet) ? self::parseboolean($node->quiet) :
                     self::get_default('node', 'quiet', false);
 
@@ -509,6 +721,17 @@ class StackQuestionLoader {
                 $newnode->truefeedbackformat =
                     (string) $node->truefeedback['format'] ?
                     (string) $node->truefeedback['format'] : self::get_default('node', 'truefeedbackformat', 'html');
+                if ($includetests) {
+                    self::assert_valid_castext(
+                        $newnode->truefeedback,
+                        $data->name . 'truefeedback[' . $newnode->nodename . ']'
+                    );
+                    if ($truefeedbackformat === null) {
+                        $truefeedbackformat = $newnode->truefeedbackformat;
+                    } else if ($truefeedbackformat != $newnode->truefeedbackformat) {
+                        throw new \stack_exception(\stack_string('allnodefeedbackmustusethesameformat'));
+                    }
+                }
 
                 $newnode->falsescoremode = (array) $node->falsescoremode ?
                     (string) $node->falsescoremode : self::get_default('node', 'falsescoremode', '=');
@@ -526,8 +749,46 @@ class StackQuestionLoader {
                     (string) $node->falsefeedback['format'] ?
                     (string) $node->falsefeedback['format'] :
                     self::get_default('node', 'falsefeedbackformat', 'html');
+                if ($includetests) {
+                    self::assert_valid_castext(
+                        $newnode->falsefeedback,
+                        $data->name . 'falsefeedback[' . $newnode->nodename . ']'
+                    );
+                }
+
+                foreach (['truescore', 'falsescore'] as $field) {
+                    $score = $newnode->{$field};
+                    if (is_numeric($score) && ($score < 0 || $score > 1)) {
+                        throw new \stack_exception(\stack_string('scoreerror'));
+                    }
+                }
+                foreach (['truepenalty', 'falsepenalty'] as $field) {
+                    $penalty = $newnode->{$field};
+                    if ('' != $penalty && is_numeric($penalty) && ($penalty < 0 || $penalty > 1)) {
+                        throw new \stack_exception(\stack_string('penaltyerror2'));
+                    }
+                }
+                foreach (['trueanswernote', 'falseanswernote'] as $field) {
+                    $answernote = $newnode->{$field};
+                    if ($answernote === '') {
+                        throw new \stack_exception(\stack_string('answernoterequired'));
+                    }
+                    if (str_contains($answernote, '|')) {
+                        throw new \stack_exception(\stack_string('answernote_err'));
+                    }
+                    if (str_contains($answernote, ';') || str_contains($answernote, ':')) {
+                        throw new \stack_exception(\stack_string('answernote_err2'));
+                    }
+                    if (in_array($answernote, $answernotes, true)) {
+                        throw new \stack_exception(\stack_string('answernoteunique'));
+                    }
+                    $answernotes[] = $answernote;
+                }
 
                 $data->nodes[(int) $node->name] = $newnode;
+            }
+            if ($includetests) {
+                self::assert_prt_graph_is_portable($data);
             }
 
             $question->prts[(string) $prtdata->name] = new \stack_potentialresponse_tree_lite(
@@ -535,6 +796,14 @@ class StackQuestionLoader {
                 $prtvalue,
                 $question
             );
+        }
+
+        if ($includetests) {
+            foreach ($xmldata->question->hint as $index => $hint) {
+                $hinttext = isset($hint->text) ? (string) $hint->text :
+                    (isset($hint->hintcontent->text) ? (string) $hint->hintcontent->text : '');
+                self::assert_valid_castext($hinttext, 'hint[' . $index . ']');
+            }
         }
 
         $deployedseeds = [];
@@ -546,6 +815,7 @@ class StackQuestionLoader {
         $testcases = [];
 
         if ($includetests) {
+            $testcasenumbers = [];
             foreach ($xmldata->question->qtest as $test) {
                 $testinputs = [];
                 foreach ($test->testinput as $testinput) {
@@ -557,8 +827,15 @@ class StackQuestionLoader {
                 }
                 $testdescription = isset($test->description) ? (string) $test->description :
                     self::get_default('qtest', 'description', '');
-                $testtestcase = (array) $test->testcase ? (string) $test->testcase :
+                if ($includetests && !isset($test->testcase)) {
+                    throw new \stack_exception(\stack_string('missingtestcasenumber'));
+                }
+                $testtestcase = isset($test->testcase) ? (string) $test->testcase :
                     self::get_default('qtest', 'testcase', '1');
+                if (in_array($testtestcase, $testcasenumbers, true)) {
+                    throw new \stack_exception(\stack_string('duplicatetestcase', $testtestcase));
+                }
+                $testcasenumbers[] = $testtestcase;
                 $testcase = new \stack_question_test($testdescription, $testinputs, $testtestcase);
                 foreach ($test->expected as $expected) {
                     $testename = isset($expected->name) ? (string) $expected->name :
@@ -622,6 +899,43 @@ class StackQuestionLoader {
         return $data;
     }
 
+    /**
+     * Collect files attached to Moodle XML text fields.
+     *
+     * @param \SimpleXMLElement $question XML question element.
+     * @return array filename => base64 content.
+     */
+    private static function collect_files(\SimpleXMLElement $question): array {
+        $files = [];
+        $textfields = [
+            'questiontext', 'generalfeedback', 'specificfeedback', 'questionnote', 'questiondescription',
+            'prtcorrect', 'prtpartiallycorrect', 'prtincorrect',
+        ];
+
+        foreach ($textfields as $field) {
+            foreach ($question->{$field} as $element) {
+                $files = array_merge($files, self::handlefiles($element->file));
+            }
+        }
+        foreach ($question->prt as $prt) {
+            foreach ($prt->node as $node) {
+                foreach (['truefeedback', 'falsefeedback'] as $field) {
+                    foreach ($node->{$field} as $element) {
+                        $files = array_merge($files, self::handlefiles($element->file));
+                    }
+                }
+            }
+        }
+        foreach ($question->hint as $hint) {
+            $files = array_merge($files, self::handlefiles($hint->file));
+            foreach ($hint->hintcontent as $content) {
+                $files = array_merge($files, self::handlefiles($content->file));
+            }
+        }
+
+        return $files;
+    }
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private static function parseboolean(\SimpleXMLElement $element) {
         $v = (string) $element;
@@ -680,17 +994,22 @@ class StackQuestionLoader {
      * Parse an XML or YAML question definition with limits suitable for untrusted API input.
      *
      * @param string $definition XML or YAML question definition.
+     * @param bool $validatexmltextfields Whether to apply Moodle XML portability checks.
      * @return SimpleXMLElement parsed question definition.
      */
-    private static function parse_question_definition(string $definition): SimpleXMLElement {
+    private static function parse_question_definition(
+        string $definition,
+        bool $validatexmltextfields = false
+    ): SimpleXMLElement {
         self::assert_source_size($definition);
 
         if (strpos($definition, '<question type=') !== false) {
-            $xmldata = self::parse_xml_definition($definition);
+            $xmldata = self::parse_xml_definition($definition, $validatexmltextfields);
         } else {
             $xmldata = self::yaml_to_xml($definition);
         }
 
+        self::trim_xml_text_fields($xmldata);
         self::assert_xml_node_limit($xmldata);
         return $xmldata;
     }
@@ -699,9 +1018,10 @@ class StackQuestionLoader {
      * Reject XML features that are unsafe for untrusted API input and parse the document.
      *
      * @param string $xml raw XML.
+     * @param bool $validatexmltextfields Whether to apply Moodle XML portability checks.
      * @return SimpleXMLElement parsed XML document.
      */
-    private static function parse_xml_definition(string $xml): SimpleXMLElement {
+    private static function parse_xml_definition(string $xml, bool $validatexmltextfields): SimpleXMLElement {
         self::assert_no_doctype($xml);
 
         $previous = libxml_use_internal_errors(true);
@@ -714,6 +1034,10 @@ class StackQuestionLoader {
                 throw new \stack_exception(\get_string('api_invalid_xml', 'qtype_stack'));
             }
 
+            if ($validatexmltextfields) {
+                self::assert_text_fields_are_strings($dom);
+            }
+
             $xmldata = simplexml_import_dom($dom);
             if (!$xmldata instanceof SimpleXMLElement) {
                 throw new \stack_exception(\get_string('api_invalid_xml', 'qtype_stack'));
@@ -724,6 +1048,336 @@ class StackQuestionLoader {
         }
 
         return $xmldata;
+    }
+
+    /**
+     * Moodle XML text fields must contain a string, not nested XML elements.
+     *
+     * This is checked only by /test, which is the API's portability gate.
+     * Other routes retain their existing permissive handling of nested HTML.
+     * HTML destined for Moodle must be escaped or wrapped in CDATA. SimpleXML
+     * accepts nested HTML, unlike Moodle's importer which rejects the XML as
+     * malformed question data.
+     *
+     * @param \DOMDocument $dom Parsed XML document.
+     */
+    private static function assert_text_fields_are_strings(\DOMDocument $dom): void {
+        foreach ($dom->getElementsByTagName('text') as $textnode) {
+            $parent = $textnode->parentNode;
+            if (
+                !$parent instanceof \DOMElement ||
+                (!in_array($parent->tagName, self::TEXTFIELDS) &&
+                    !in_array($parent->tagName, ['hint', 'hintcontent']))
+            ) {
+                continue;
+            }
+
+            foreach ($textnode->childNodes as $child) {
+                if ($child instanceof \DOMElement) {
+                    throw new \stack_exception(\get_string('api_xml_text_field_not_string', 'qtype_stack'));
+                }
+            }
+        }
+    }
+
+    /**
+     * Apply Moodle XML import's trimming to scalar text fields.
+     *
+     * @param \SimpleXMLElement $xmldata Parsed question definition.
+     */
+    private static function trim_xml_text_fields(\SimpleXMLElement $xmldata): void {
+        foreach ($xmldata->xpath('//text') as $text) {
+            if (count($text->children()) === 0) {
+                $text[0] = trim((string) $text);
+            }
+        }
+    }
+
+    /**
+     * Reject XML text formats which Moodle replaces with HTML during import.
+     *
+     * @param \SimpleXMLElement $question Question XML to inspect.
+     */
+    private static function assert_text_formats_are_portable(\SimpleXMLElement $question): void {
+        $fields = [
+            'questiontext', 'generalfeedback', 'specificfeedback', 'questionnote', 'questiondescription',
+            'prtcorrect', 'prtpartiallycorrect', 'prtincorrect', 'hint', 'hintcontent',
+        ];
+        foreach ($fields as $field) {
+            foreach ($question->{$field} as $element) {
+                self::assert_text_format_is_portable($element);
+            }
+        }
+        foreach ($question->prt as $prt) {
+            foreach ($prt->node as $node) {
+                foreach (['truefeedback', 'falsefeedback'] as $field) {
+                    foreach ($node->{$field} as $element) {
+                        self::assert_text_format_is_portable($element);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Reject one unrecognised XML text format.
+     *
+     * @param \SimpleXMLElement $element XML text-field wrapper.
+     */
+    private static function assert_text_format_is_portable(\SimpleXMLElement $element): void {
+        if (!isset($element['format'])) {
+            return;
+        }
+        $format = trim((string) $element['format']);
+        if (!in_array($format, self::XML_TEXT_FORMATS, true)) {
+            throw new \stack_exception(\stack_string('unknownxmltextformat', $format));
+        }
+    }
+
+    /**
+     * Require the input and validation placeholders that Moodle requires in
+     * the question text.
+     *
+     * @param string $questiontext Question text to inspect.
+     */
+    private static function assert_validation_placeholders(string $questiontext): void {
+        $inputs = array_count_values(\stack_utils::extract_placeholders($questiontext, 'input'));
+        $validations = array_count_values(\stack_utils::extract_placeholders($questiontext, 'validation'));
+        $inputnames = array_unique(array_merge(array_keys($inputs), array_keys($validations)));
+        foreach ($inputnames as $inputname) {
+            $inputcount = $inputs[$inputname] ?? 0;
+            $validationcount = $validations[$inputname] ?? 0;
+            if ($inputcount === 0) {
+                throw new \stack_exception(\stack_string('questiontextmustcontain', "[[input:{$inputname}]]"));
+            }
+            if ($inputcount > 1) {
+                throw new \stack_exception(\stack_string('questiontextonlycontain', "[[input:{$inputname}]]"));
+            }
+            if ($validationcount === 0) {
+                throw new \stack_exception(\stack_string('questiontextmustcontain', "[[validation:{$inputname}]]"));
+            }
+            if ($validationcount > 1) {
+                throw new \stack_exception(\stack_string('questiontextonlycontain', "[[validation:{$inputname}]]"));
+            }
+        }
+    }
+
+    /**
+     * Require input definitions and question-text placeholders to correspond.
+     *
+     * Moodle discards an input definition which no longer has placeholders in
+     * the question text. Conversely, a non-default input introduced only by
+     * placeholders has no form configuration after import. Both cases are
+     * rejected by /test as non-portable.
+     *
+     * @param string $questiontext Question text to inspect.
+     * @param string[] $configuredinputs Names of the XML input definitions.
+     */
+    private static function assert_input_placeholders(string $questiontext, array $configuredinputs): void {
+        $placeholders = array_unique(array_merge(
+            \stack_utils::extract_placeholders($questiontext, 'input'),
+            \stack_utils::extract_placeholders($questiontext, 'validation')
+        ));
+        foreach ($configuredinputs as $inputname) {
+            if (!in_array($inputname, $placeholders, true)) {
+                throw new \stack_exception(\stack_string('inputwillberemoved', $inputname));
+            }
+        }
+        foreach ($placeholders as $inputname) {
+            if (!in_array($inputname, $configuredinputs, true)) {
+                throw new \stack_exception(\stack_string('inputmustbesetup', $inputname));
+            }
+        }
+    }
+
+    /**
+     * Apply Moodle's question-text placeholder checks which are specific to
+     * multilingual questions.
+     *
+     * @param string $questiontext Question text to inspect.
+     * @param string $specificfeedback Specific feedback to inspect.
+     */
+    private static function assert_question_text_placeholders_are_portable(
+        string $questiontext,
+        string $specificfeedback
+    ): void {
+        $multilang = new \stack_multilang();
+        $combinedtext = $questiontext . $specificfeedback;
+        $languages = $multilang->languages_used($combinedtext);
+        if ($languages) {
+            $reference = null;
+            foreach ($languages as $language) {
+                $feedbacks = array_count_values(
+                    \stack_utils::extract_placeholders($multilang->filter($combinedtext, $language), 'feedback')
+                );
+                if ($reference !== null && $feedbacks != $reference) {
+                    throw new \stack_exception(\stack_string('questiontextfeedbacklanguageproblems'));
+                }
+                $reference = $feedbacks;
+            }
+        }
+
+        $sloppytags = \stack_utils::extract_placeholders_sloppy($questiontext, 'input');
+        $sloppytags = array_merge(\stack_utils::extract_placeholders_sloppy($questiontext, 'validation'), $sloppytags);
+        $sloppytags = array_merge(\stack_utils::extract_placeholders_sloppy($questiontext, 'prt'), $sloppytags);
+        foreach ($sloppytags as $placeholder) {
+            throw new \stack_exception(\stack_string('questiontextplaceholderswhitespace', $placeholder));
+        }
+
+        $languages = $multilang->languages_used($questiontext);
+        if ($languages) {
+            $reference = null;
+            foreach ($languages as $language) {
+                $text = $multilang->filter($questiontext, $language);
+                $inputs = array_count_values(\stack_utils::extract_placeholders($text, 'input'));
+                $validations = array_count_values(\stack_utils::extract_placeholders($text, 'validation'));
+                $names = array_unique(array_merge(array_keys($inputs), array_keys($validations)));
+                $counts = [];
+                foreach ($names as $name) {
+                    $counts[$name] = [$inputs[$name] ?? 0, $validations[$name] ?? 0];
+                }
+                if ($reference !== null && $counts != $reference) {
+                    throw new \stack_exception(\stack_string('inputlanguageproblems'));
+                }
+                $reference = $counts;
+            }
+        }
+    }
+
+    /**
+     * Require every PRT feedback placeholder to be unique and to match a PRT.
+     *
+     * Moodle derives the PRTs to save from feedback placeholders. Consequently,
+     * duplicate placeholders are invalid, a placeholder without configuration
+     * cannot be saved, and a configured PRT without a placeholder is dropped.
+     * The test route reports all of these portability problems.
+     *
+     * @param string $questiontext Question text to inspect.
+     * @param string $specificfeedback Specific feedback to inspect.
+     * @param string[] $prtnames Configured PRT names.
+     */
+    private static function assert_prt_feedback_placeholders(
+        string $questiontext,
+        string $specificfeedback,
+        array $prtnames
+    ): void {
+        $feedbacks = array_count_values(
+            \stack_utils::extract_placeholders($questiontext . $specificfeedback, 'feedback')
+        );
+        foreach ($feedbacks as $prtname => $count) {
+            if ($count > 1) {
+                throw new \stack_exception(
+                    \stack_string('questiontextfeedbackonlycontain', "[[feedback:{$prtname}]]")
+                );
+            }
+            if (!in_array($prtname, $prtnames, true)) {
+                throw new \stack_exception(\stack_string('prtmustbesetup'));
+            }
+        }
+        foreach ($prtnames as $prtname) {
+            if (!isset($feedbacks[$prtname])) {
+                throw new \stack_exception(\stack_string('prtwillberemoved', $prtname));
+            }
+        }
+    }
+
+    /**
+     * Apply Moodle's CASText validation to a syntax hint.
+     *
+     * @param string $castext Source text to validate.
+     * @param string $fieldname Field name for CASText error context.
+     */
+    private static function assert_valid_castext(string $castext, string $fieldname): void {
+        if ($castext && strpos($castext, '$$') !== false) {
+            throw new \stack_exception(\stack_string('forbiddendoubledollars'));
+        }
+
+        $evaluatable = \castext2_evaluatable::make_from_source($castext, 'validation-' . $fieldname);
+        if (!$evaluatable->get_valid()) {
+            throw new \stack_exception($evaluatable->get_errors());
+        }
+
+        $unrecognisedtags = \stack_fact_sheets::get_unrecognised_tags($castext);
+        if ($unrecognisedtags) {
+            throw new \stack_exception(\stack_string(
+                'unrecognisedfactstags',
+                ['tags' => implode(', ', $unrecognisedtags)]
+            ));
+        }
+        if ($evaluatable->get_errors()) {
+            throw new \stack_exception($evaluatable->get_errors());
+        }
+    }
+
+    /**
+     * Apply Moodle's validation for a short CAS expression.
+     *
+     * @param string $casstring Source text to validate.
+     * @param string $requiredmessage String identifier for a blank value.
+     */
+    private static function assert_valid_cas_string(string $casstring, string $requiredmessage): void {
+        if (trim($casstring) === '') {
+            throw new \stack_exception(\stack_string($requiredmessage));
+        }
+        if (strlen($casstring) > 255) {
+            throw new \stack_exception(\stack_string('strlengtherror'));
+        }
+        $container = \stack_ast_container::make_from_teacher_source(
+            $casstring,
+            '',
+            new \stack_cas_security()
+        );
+        if (!$container->get_valid()) {
+            throw new \stack_exception($container->get_errors());
+        }
+        if (substr(trim($casstring), -1) === ';') {
+            throw new \stack_exception(\stack_string('nosemicolon'));
+        }
+    }
+
+    /**
+     * Reject PRT graph structures which Moodle cannot import unchanged.
+     *
+     * Moodle imports these questions as broken, or repairs a missing next node
+     * to stop. The API's test route instead reports them as non-portable while
+     * all other routes preserve their permissive behaviour.
+     *
+     * @param \stdClass $prtdata PRT data assembled by the loader.
+     */
+    private static function assert_prt_graph_is_portable(\stdClass $prtdata): void {
+        $graph = new \stack_abstract_graph();
+        foreach ($prtdata->nodes as $node) {
+            foreach ([
+                'true' => $node->truenextnode,
+                'false' => $node->falsenextnode,
+            ] as $branch => $nextnode) {
+                if ($nextnode != -1 && !array_key_exists((int) $nextnode, $prtdata->nodes)) {
+                    throw new \stack_exception(\stack_string('missingnextnode', [
+                        'type' => ucfirst($branch),
+                        'prt' => $prtdata->name,
+                        'node' => $node->nodename,
+                    ]));
+                }
+            }
+            $graph->add_prt_node(
+                (int) $node->nodename + 1,
+                $node->description,
+                $node->truenextnode == -1 ? null : (int) $node->truenextnode + 1,
+                $node->falsenextnode == -1 ? null : (int) $node->falsenextnode + 1
+            );
+        }
+        $graph->layout();
+
+        $roots = $graph->get_roots();
+        if (count($roots) === 0) {
+            throw new \stack_exception(\stack_string('noroots'));
+        }
+        if (count($roots) > 1) {
+            throw new \stack_exception(\stack_string('nodenotused'));
+        }
+        if ($graph->get_broken_cycles()) {
+            throw new \stack_exception(\stack_string('nodeloopdetected'));
+        }
     }
 
     /**

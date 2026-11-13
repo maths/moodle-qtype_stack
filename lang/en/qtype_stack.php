@@ -241,6 +241,7 @@ $string['inputvalidatorerrcouldnot'] = 'The optional validator threw internal Ma
 $string['inputvalidatorerrors'] = 'The optional validator returned errors {$a->err}.';
 $string['inputopterr'] = 'The value of the option <code>{$a->opt}</code> cannot be given as <code>{$a->val}</code>.';
 $string['inputwillberemoved'] = 'This input is no longer referred to in the question text. If you save the question now, the data about this input will be lost. Please confirm that you want to do this. Alternatively edit the question text to put back the \'[[input:{$a}]]\' and \'[[validation:{$a}]]\' placeholders.';
+$string['inputmustbesetup'] = 'The input \'{$a}\' must be set up before the question can be saved.';
 $string['insertstars'] = 'Insert stars';
 $string['insertstars_help'] = 'This option provides a number of different options for inserting stars where multiplication is implied.  Please read the more detailed documentation.';
 $string['insertstars_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Insert_Stars';
@@ -253,6 +254,7 @@ $string['insertstarsspacessinglechar'] = 'Insert stars assuming single-character
 $string['insertspacesfunctions'] = 'Insert stars for implied multiplication, spaces, and no user-functions';
 $string['insertspacesfunctionssingle'] = 'Insert stars for implied multiplication, spaces, no user-functions and assuming single-character var';
 $string['decimals'] = 'Decimal separator';
+$string['duplicatetestcase'] = 'Multiple question tests have the number {$a}. Moodle renumbers later duplicates during import; the API test route requires unique test numbers.';
 $string['decimals_help'] = 'Choose the symbol, and options, for the decimal separator.';
 $string['decimals_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#decimals';
 $string['scientificnotation'] = 'Scientific notation';
@@ -775,10 +777,13 @@ $string['importwillfail'] = 'This question cannot be saved or imported in its cu
 $string['noroots'] = 'The graph of this PRT has no roots. Does it have nodes?';
 $string['structuralproblem'] = 'The PRT structure is malformed.';
 $string['missingnextnode'] = 'The PRT structure is malformed. {$a->type} next node for PRT {$a->prt} node {$a->node} is invalid. It has been set to stop.';
+$string['missingprtnodename'] = 'Missing PRT node name in the XML.';
+$string['prtnodenameinteger'] = 'The PRT node name \'{$a}\' must be an integer.';
 $string['multipleinputs'] = 'Multiple inputs have the same name: {$a}.';
 $string['multipleprts'] = 'Multiple prts have the same name: {$a}.';
 $string['multiplenodes'] = 'Multiple nodes have the name: {$a->node} in PRT: {$a->prt}.';
 $string['multipletestcases'] = 'Multiple question tests have the number {$a->number}. The later one has been renumbered {$a->newnumber}.';
+$string['missingtestcasenumber'] = 'Missing testcase number in the XML.';
 
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';
@@ -1138,6 +1143,7 @@ $string['stackBlock_elif_out_of_an_if']      = '"elif" cannot exist outside an i
 $string['stackBlock_multiple_else']          = 'Multiple else branches in an if block.';
 $string['stackBlock_elif_after_else']        = '"elif" after an "else" in an if block.';
 $string['unrecognisedfactstags']             = 'The following facts tag(s) are not recognized: {$a->tags}.';
+$string['unknownxmltextformat'] = 'Unknown XML text format \'{$a}\'.';
 $string['unknown_block']                     = 'Unknown block of type {$a->type} requested!';
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
@@ -2147,6 +2153,7 @@ $string['api_submit'] = 'Submit Answers';
 $string['api_too_many_nodes'] = 'The provided XML or YAML exceeds the maximum allowed node count';
 $string['api_valid_all_parts'] = 'Please enter valid answers for all parts of the question.';
 $string['api_which_typed'] = 'which can be typed as follows';
+$string['api_xml_text_field_not_string'] = 'An XML text field contains XML elements. Escape HTML or wrap it in CDATA for import to Moodle.';
 
 $string['parsertester'] = 'Parser-tester';
 $string['parsertester_settings'] = 'Parser settings';

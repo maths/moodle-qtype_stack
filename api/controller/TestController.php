@@ -48,8 +48,16 @@ class TestController {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
         current_language($data['lang'] ?? null);
+        $strictmoodlecompatibility = filter_var(
+            $data['strictMoodleCompatibility'] ?? false,
+            FILTER_VALIDATE_BOOLEAN
+        );
 
-        ['question' => $question, 'testcases' => $testcases] = StackQuestionLoader::loadxml($data["questionDefinition"], true);
+        ['question' => $question, 'testcases' => $testcases] = StackQuestionLoader::loadxml(
+            $data["questionDefinition"],
+            true,
+            $strictmoodlecompatibility
+        );
         $question->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
 
         $testresponse = new StackTestResponse();
@@ -126,7 +134,11 @@ class TestController {
                     // Load a fresh question for each seed, as the bulk tester does. A question
                     // keeps its variables, runtime errors and graded responses, so reusing one
                     // would test every seed against the variant of the first.
-                    ['question' => $seedquestion] = StackQuestionLoader::loadxml($data["questionDefinition"], true);
+                    ['question' => $seedquestion] = StackQuestionLoader::loadxml(
+                        $data["questionDefinition"],
+                        true,
+                        $strictmoodlecompatibility
+                    );
                     $seedquestion->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
                     // A question without random variants gets the same seed whatever is deployed, as in Moodle.
                     StackSeedHelper::initialize_seed($seedquestion, (int) $seed);

@@ -260,6 +260,43 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
 
+    public function test_question_loader_collects_files_from_all_text_fields(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text><file name="questiontext.txt">cXRleHQ=</file></questiontext>' .
+            '<generalfeedback><text></text><file name="generalfeedback.txt">Z2ZlZWRiYWNr</file></generalfeedback>' .
+            '<specificfeedback><text></text><file name="specificfeedback.txt">c2ZlZWRiYWNr</file></specificfeedback>' .
+            '<questionnote><text></text><file name="questionnote.txt">bm90ZQ==</file></questionnote>' .
+            '<questiondescription><text></text><file name="questiondescription.txt">ZGVzY3JpcHRpb24=</file></questiondescription>' .
+            '<prtcorrect><text></text><file name="prtcorrect.txt">Y29ycmVjdA==</file></prtcorrect>' .
+            '<prtpartiallycorrect><text></text><file name="prtpartiallycorrect.txt">cGFydGlhbA==</file></prtpartiallycorrect>' .
+            '<prtincorrect><text></text><file name="prtincorrect.txt">aW5jb3JyZWN0</file></prtincorrect>' .
+            '<prt><name>prt1</name><node><name>0</name><trueanswernote>T</trueanswernote>' .
+            '<truefeedback><text></text><file name="truefeedback.txt">dHJ1ZQ==</file></truefeedback>' .
+            '<falseanswernote>F</falseanswernote>' .
+            '<falsefeedback><text></text><file name="falsefeedback.txt">ZmFsc2U=</file></falsefeedback>' .
+            '</node></prt>' .
+            '<hint><text></text><file name="hint.txt">aGludA==</file></hint>' .
+            '<hint><hintcontent><text></text><file name="legacyhint.txt">bGVnYWN5</file></hintcontent></hint>'
+        );
+
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+
+        $this->assertEquals([
+            'questiontext.txt' => 'cXRleHQ=',
+            'generalfeedback.txt' => 'Z2ZlZWRiYWNr',
+            'specificfeedback.txt' => 'c2ZlZWRiYWNr',
+            'questionnote.txt' => 'bm90ZQ==',
+            'questiondescription.txt' => 'ZGVzY3JpcHRpb24=',
+            'prtcorrect.txt' => 'Y29ycmVjdA==',
+            'prtpartiallycorrect.txt' => 'cGFydGlhbA==',
+            'prtincorrect.txt' => 'aW5jb3JyZWN0',
+            'truefeedback.txt' => 'dHJ1ZQ==',
+            'falsefeedback.txt' => 'ZmFsc2U=',
+            'hint.txt' => 'aGludA==',
+            'legacyhint.txt' => 'bGVnYWN5',
+        ], $question->pluginfiles);
+    }
+
     public function test_loadxml_summary_default(): void {
         if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
             $this->markTestSkipped('Symfony YAML extension is not available.');
@@ -782,6 +819,1001 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('forbidden DOCTYPE');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_accepts_html_in_text_field_without_cdata_outside_test_route(): void {
+        $xml = $this->get_minimal_question_xml(
+            '    <prt><name>prt1</name><node><name>0</name>' .
+            '<truefeedback><text><p>Correct.</p></text></truefeedback>' .
+            '</node></prt>'
+        );
+
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+
+        $this->assertCount(1, $question->prts['prt1']->get_nodes_summary());
+    }
+
+    public function test_question_loader_test_route_rejects_html_in_text_field_without_cdata(): void {
+        $xml = $this->get_minimal_question_xml(
+            '    <prt><name>prt1</name><node><name>0</name>' .
+            '<truefeedback><text><p>Correct.</p></text></truefeedback>' .
+            '</node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Escape HTML or wrap it in CDATA');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_html_in_hint_without_cdata(): void {
+        $xml = $this->get_minimal_question_xml('<hint><text><p>Try again.</p></text></hint>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Escape HTML or wrap it in CDATA');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_html_in_legacy_hint_without_cdata(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<hint><hintcontent><text><p>Try again.</p></text></hintcontent></hint>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Escape HTML or wrap it in CDATA');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_unknown_text_format(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext format="unknown"><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage("Unknown XML text format 'unknown'");
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_trims_xml_text_fields(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>  [[input:ans1]] [[validation:ans1]]  </text></questiontext>'
+        );
+
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+
+        $this->assertEquals('[[input:ans1]] [[validation:ans1]]', $question->questiontext);
+    }
+
+    public function test_question_loader_accepts_cdata_html_in_text_field(): void {
+        $xml = $this->get_minimal_question_xml(
+            '    <prt><name>prt1</name><node><name>0</name>' .
+            '<truefeedback><text><![CDATA[<p>Correct.</p>]]></text></truefeedback>' .
+            '</node></prt>'
+        );
+
+        $question = StackQuestionLoader::loadXML($xml, true)['question'];
+
+        $this->assertCount(1, $question->prts['prt1']->get_nodes_summary());
+    }
+
+    public function test_question_loader_requires_validation_placeholder(): void {
+        $xml = $this->get_minimal_question_xml(
+            '    <questiontext><text>[[input:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1</tans></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('[[validation:ans1]]');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_duplicate_input_placeholder(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[input:ans1]] [[validation:ans1]]</text></questiontext>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('[[input:ans1]]');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_duplicate_validation_placeholder(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[validation:ans1]]</text></questiontext>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('[[validation:ans1]]');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_validation_placeholder_without_input(): void {
+        $xml = $this->get_minimal_question_xml('<questiontext><text>[[validation:ans1]]</text></questiontext>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('[[input:ans1]]');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_test_route_rejects_unreferenced_input(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans2</name><tans>ta2</tans></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Input is no longer referred to in the question text');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_unconfigured_input_placeholder(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans2]] [[validation:ans2]]</text></questiontext>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage("input 'ans2' must be set up");
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_requires_visible_validation_when_verification_is_required(): void {
+        $xml = $this->get_minimal_question_xml(
+            '    <questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1</tans><showvalidation>0</showvalidation></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('cannot choose to require two step validation');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_allows_hidden_validation_when_verification_is_disabled(): void {
+        $xml = $this->get_minimal_question_xml(
+            '    <questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1</tans><mustverify>0</mustverify>' .
+            '<showvalidation>0</showvalidation></input>'
+        );
+
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+
+        $this->assertFalse($question->inputs['ans1']->get_parameter('mustVerify'));
+        $this->assertSame(0, $question->inputs['ans1']->get_parameter('showValidation'));
+    }
+
+    public function test_question_loader_requires_required_answer_test_options(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name><answertest>Int</answertest></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Test options are required');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_long_answer_test_options(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name><answertest>Int</answertest>' .
+            '<testoptions>' . str_repeat('x', 256) . '</testoptions></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('may not exceed 255 characters');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_invalid_answer_test_options(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name><answertest>Int</answertest>' .
+            '<testoptions>)</testoptions></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('The test options are invalid');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+
+    public function test_question_loader_requires_answer_notes(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name>' .
+            '<trueanswernote></trueanswernote><falseanswernote>false-note</falseanswernote>' .
+            '</node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Answer note must not be empty');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_reserved_answer_note_characters(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name>' .
+            '<trueanswernote>true|note</trueanswernote><falseanswernote>false-note</falseanswernote>' .
+            '</node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Answer notes may not contain the character |');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_answer_note_separators(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name>' .
+            '<trueanswernote>true;note</trueanswernote><falseanswernote>false-note</falseanswernote>' .
+            '</node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Answer notes may not contain ; or : characters');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_requires_unique_answer_notes(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name>' .
+            '<trueanswernote>same-note</trueanswernote><falseanswernote>same-note</falseanswernote>' .
+            '</node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Duplicate answer notes detected');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_requires_a_penalty_between_zero_and_one(): void {
+        $xml = $this->get_minimal_question_xml('<penalty>1.1</penalty>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('The penalty must be a numeric value between 0 and 1');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_requires_non_negative_prt_values(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><value>-1</value><node><name>0</name></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Question value must be non-negative');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_requires_scores_between_zero_and_one(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name><truescore>1.1</truescore></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('The score must be a numeric value between 0 and 1');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_requires_penalties_between_zero_and_one(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name><falsepenalty>-0.1</falsepenalty></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('The penalty must empty, or be a numeric value between 0 and 1');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_test_route_rejects_missing_prt_node(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name><truenextnode>1</truenextnode></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('True next node for PRT prt1 node 0 is invalid');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_requires_prt_node_name(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<specificfeedback><text>[[feedback:prt1]]</text></specificfeedback>' .
+            '<prt><name>prt1</name><node><sans>ans1</sans><tans>ta1</tans></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Missing PRT node name in the XML');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_requires_integer_prt_node_names(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<specificfeedback><text>[[feedback:prt1]]</text></specificfeedback>' .
+            '<prt><name>prt1</name><node><name>root</name></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage("PRT node name 'root' must be an integer");
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_prt_cycle(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name>' .
+            '<node><name>0</name><truenextnode>1</truenextnode></node>' .
+            '<node><name>1</name><truenextnode>1</truenextnode></node>' .
+            '</prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('This link creates a cycle in this PRT');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_disconnected_prt_node(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name></node><node><name>1</name></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('No other nodes in the PRT link to this node');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_prt_without_nodes(): void {
+        $xml = $this->get_minimal_question_xml('<prt><name>prt1</name></prt>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('graph of this PRT has no roots');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+
+    public function test_question_loader_rejects_long_syntax_hints(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1</tans><syntaxhint>' . str_repeat('x', 256) .
+            '</syntaxhint></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('syntax hint field is limited to 255');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_invalid_input_parameters(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1</tans><showvalidation>4</showvalidation></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Invalid parameter');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_input_options(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1</tans><options>unknown</options></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('does not support the option');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_rejects_long_prt_node_descriptions(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name><description>' . str_repeat('x', 256) .
+            '</description></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('node description is longer than 255 characters');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_invalid_metadata_json(): void {
+        $xml = $this->get_minimal_question_xml('<metadata>{invalid}</metadata>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Metadata is invalid JSON');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_rejects_oversized_metadata(): void {
+        $xml = $this->get_minimal_question_xml('<metadata>{"value":"' . str_repeat('x', 32000) . '"}</metadata>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('There is too much metadata');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_legacy_syntax_hint_delimiters(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1</tans><syntaxhint>$$x$$</syntaxhint></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('are not permitted');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_unknown_syntax_hint_facts_tags(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1</tans><syntaxhint>[[facts:not_real]]</syntaxhint></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('facts tag(s) are not recognized: not_real');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_duplicate_prt_feedback_placeholders(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[feedback:prt1]] [[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback>' .
+            '<prt><name>prt1</name><node><name>0</name></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('should only contain the token \'[[feedback:prt1]]\' once');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_feedback_placeholder_without_prt(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[feedback:prt2]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('This PRT must be set up before the question can be saved');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_prt_without_feedback_placeholder(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>Question wording</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback>' .
+            '<prt><name>prt1</name><node><name>0</name></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('no longer referred to in the question text or specific feedback');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_long_input_names(): void {
+        $inputname = str_repeat('a', 19);
+        $xml = $this->get_minimal_question_xml(
+            "<questiontext><text>[[input:{$inputname}]] [[validation:{$inputname}]]</text></questiontext>" .
+            "<input><name>{$inputname}</name><tans>ta1</tans></input>"
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Input names cannot be longer than 18 characters');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_input_name_form(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans_]] [[validation:ans_]]</text></questiontext>' .
+            '<input><name>ans_</name><tans>ta1</tans></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage("Input names must only be letters followed (optionally) by numbers. 'ans_' is illegal");
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_long_prt_names(): void {
+        $prtname = str_repeat('p', 19);
+        $xml = $this->get_minimal_question_xml(
+            "<questiontext><text>[[feedback:{$prtname}]]</text></questiontext>" .
+            '<specificfeedback><text></text></specificfeedback>' .
+            "<prt><name>{$prtname}</name><node><name>0</name></node></prt>"
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('PRT names cannot be longer than 18 characters');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_whitespace_in_input_placeholder(): void {
+        $xml = $this->get_minimal_question_xml('<questiontext><text>[[input: ans1]]</text></questiontext>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Placeholders may not contain whitespace');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_whitespace_in_validation_placeholder(): void {
+        $xml = $this->get_minimal_question_xml('<questiontext><text>[[ validation :ans1]]</text></questiontext>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Placeholders may not contain whitespace');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_whitespace_in_prt_placeholder(): void {
+        $xml = $this->get_minimal_question_xml('<questiontext><text>[[prt: prt1]]</text></questiontext>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Placeholders may not contain whitespace');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+
+    public function test_question_loader_test_route_rejects_multilang_input_placeholder_mismatches(): void {
+        $questiontext = '<span lang="en" class="multilang">[[input:ans1]] [[validation:ans1]]</span>' .
+            '<span lang="fi" class="multilang">[[input:ans2]] [[validation:ans2]]</span>';
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text><![CDATA[' . $questiontext . ']]></text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1</tans></input>' .
+            '<input><name>ans2</name><tans>ta2</tans></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('inconsistencies in the input and validation tags between languages');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_multilang_feedback_placeholder_mismatches(): void {
+        $questiontext = '<span lang="en" class="multilang">[[feedback:prt1]]</span>' .
+            '<span lang="fi" class="multilang">[[feedback:prt2]]</span>';
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text><![CDATA[' . $questiontext . ']]></text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback>' .
+            '<prt><name>prt1</name><node><name>0</name></node></prt>' .
+            '<prt><name>prt2</name><node><name>0</name></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('inconsistencies in the feedback tags between languages');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_prts_without_inputs(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback>' .
+            '<prt><name>prt1</name><node><name>0</name></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('A question with no inputs cannot have any PRTs');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_question_variables(): void {
+        $xml = $this->get_minimal_question_xml('<questionvariables><text>x:(</text></questionvariables>');
+
+        $this->expectException(\stack_exception::class);
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_question_variables_that_define_an_input(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<questionvariables><text>ans1:1;</text></questionvariables>' .
+            '<input><name>ans1</name><tans>ta1</tans></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('You may not use input names as variables');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_specific_feedback_castext(): void {
+        $xml = $this->get_minimal_question_xml('<specificfeedback><text>$$x$$</text></specificfeedback>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('are not permitted');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_input_placeholders_in_specific_feedback(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<specificfeedback><text>[[input:ans1]]</text></specificfeedback>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Specific feedback should not contain any [[input:...]] placeholders');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_validation_placeholders_in_specific_feedback(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<specificfeedback><text>[[validation:ans1]]</text></specificfeedback>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Specific feedback should not contain any [[validation:...]] placeholders');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_general_feedback_castext(): void {
+        $xml = $this->get_minimal_question_xml('<generalfeedback><text>$$x$$</text></generalfeedback>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('are not permitted');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_input_placeholders_in_general_feedback(): void {
+        $xml = $this->get_minimal_question_xml('<generalfeedback><text>[[input:ans1]]</text></generalfeedback>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('should not contain any [[input:...]] placeholders');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_validation_placeholders_in_general_feedback(): void {
+        $xml = $this->get_minimal_question_xml('<generalfeedback><text>[[validation:ans1]]</text></generalfeedback>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('should not contain any [[validation:...]] placeholders');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_feedback_placeholders_in_general_feedback(): void {
+        $xml = $this->get_minimal_question_xml('<generalfeedback><text>[[feedback:prt1]]</text></generalfeedback>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('should not contain any [[feedback:...]] placeholders');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_question_note_castext(): void {
+        $xml = $this->get_minimal_question_xml('<questionnote><text>$$x$$</text></questionnote>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('are not permitted');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_input_placeholders_in_question_note(): void {
+        $xml = $this->get_minimal_question_xml('<questionnote><text>[[input:ans1]]</text></questionnote>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Question note should not contain any [[input:...]] placeholders');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_validation_placeholders_in_question_note(): void {
+        $xml = $this->get_minimal_question_xml('<questionnote><text>[[validation:ans1]]</text></questionnote>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Question note should not contain any [[validation:...]] placeholders');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_feedback_placeholders_in_question_note(): void {
+        $xml = $this->get_minimal_question_xml('<questionnote><text>[[feedback:prt1]]</text></questionnote>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Question note should not contain any [[feedback:...]] placeholders');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_requires_question_note_for_random_variables(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questionvariables><text>x:rand(1);</text></questionvariables>' .
+            '<questionnote><text></text></questionnote>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('question note cannot be empty when rand() appears');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_question_description_castext(): void {
+        $xml = $this->get_minimal_question_xml('<questiondescription><text>$$x$$</text></questiondescription>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('are not permitted');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_input_placeholders_in_question_description(): void {
+        $xml = $this->get_minimal_question_xml('<questiondescription><text>[[input:ans1]]</text></questiondescription>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Question description should not contain any [[input:...]] placeholders');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_validation_placeholders_in_question_description(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiondescription><text>[[validation:ans1]]</text></questiondescription>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Question description should not contain any [[validation:...]] placeholders');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_feedback_placeholders_in_question_description(): void {
+        $xml = $this->get_minimal_question_xml('<questiondescription><text>[[feedback:prt1]]</text></questiondescription>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Question description should not contain any [[feedback:...]] placeholders');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_requires_input_teacher_answers(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans></tans></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('This must not be empty');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_accepts_missing_input_teacher_answers(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name></input>'
+        );
+
+        $question = StackQuestionLoader::loadXML($xml, true)['question'];
+
+        $this->assertArrayHasKey('ans1', $question->inputs);
+        $this->assertSame('ta1', $question->inputs['ans1']->get_teacher_answer());
+    }
+
+    public function test_question_loader_uses_the_default_for_missing_input_teacher_answers(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name></input>'
+        );
+
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+
+        $this->assertSame('ta1', $question->inputs['ans1']->get_teacher_answer());
+    }
+
+    public function test_question_loader_test_route_rejects_long_input_teacher_answers(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>' . str_repeat('x', 256) . '</tans></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('may not exceed 255 characters');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_input_teacher_answers(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>x:(</tans></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_input_teacher_answers_ending_in_semicolons(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1;</tans></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('must not end Maxima expressions with a semicolon');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_prt_feedback_variables(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback>' .
+            '<input><name>ans1</name><tans>ta1</tans></input>' .
+            '<prt><name>prt1</name><feedbackvariables><text>x:(</text></feedbackvariables>' .
+            '<node><name>0</name></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_prt_feedback_variables_that_define_an_input(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback>' .
+            '<input><name>ans1</name><tans>ta1</tans></input>' .
+            '<prt><name>prt1</name><feedbackvariables><text>ans1:1;</text></feedbackvariables>' .
+            '<node><name>0</name></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('You may not use input names as variables');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_requires_prt_node_student_answers(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback><input><name>ans1</name><tans>ta1</tans></input>' .
+            '<prt><name>prt1</name><node><name>0</name><sans></sans></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('SAns must not be empty');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_requires_prt_node_teacher_answers(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback><input><name>ans1</name><tans>ta1</tans></input>' .
+            '<prt><name>prt1</name><node><name>0</name><tans></tans></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('TAns must not be empty');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_long_prt_node_answers(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback><input><name>ans1</name><tans>ta1</tans></input>' .
+            '<prt><name>prt1</name><node><name>0</name><sans>' . str_repeat('x', 256) . '</sans></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('may not exceed 255 characters');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_prt_node_answers(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback><input><name>ans1</name><tans>ta1</tans></input>' .
+            '<prt><name>prt1</name><node><name>0</name><tans>x:(</tans></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_prt_node_answers_ending_in_semicolons(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback><input><name>ans1</name><tans>ta1</tans></input>' .
+            '<prt><name>prt1</name><node><name>0</name><sans>ans1;</sans></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('must not end Maxima expressions with a semicolon');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_true_feedback_castext(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback><input><name>ans1</name><tans>ta1</tans></input>' .
+            '<prt><name>prt1</name><node><name>0</name><truefeedback><text>$$x$$</text></truefeedback></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('are not permitted');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_false_feedback_castext(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback><input><name>ans1</name><tans>ta1</tans></input>' .
+            '<prt><name>prt1</name><node><name>0</name><falsefeedback><text>$$x$$</text></falsefeedback></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('are not permitted');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_requires_consistent_true_feedback_formats(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
+            '<specificfeedback><text></text></specificfeedback><input><name>ans1</name><tans>ta1</tans></input>' .
+            '<prt><name>prt1</name>' .
+            '<node><name>0</name><truenextnode>1</truenextnode>' .
+            '<truefeedback format="html"><text>Correct.</text></truefeedback></node>' .
+            '<node><name>1</name><truefeedback format="plain_text"><text>Correct.</text></truefeedback></node>' .
+            '</prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('All the feedback for all the nodes in a PRT must use the same text format');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_legacy_question_text_delimiters(): void {
+        $xml = $this->get_minimal_question_xml('<questiontext><text>$$x$$</text></questiontext>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('are not permitted');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_unknown_question_text_facts_tags(): void {
+        $xml = $this->get_minimal_question_xml('<questiontext><text>[[facts:not_real]]</text></questiontext>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('facts tag(s) are not recognized: not_real');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_hint_castext(): void {
+        $xml = $this->get_minimal_question_xml('<hint><text>$$x$$</text></hint>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('are not permitted');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_duplicate_testcase_numbers(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<qtest><testcase>1</testcase></qtest>' .
+            '<qtest><testcase>1</testcase></qtest>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Multiple question tests have the number 1');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_requires_testcase_number(): void {
+        $xml = $this->get_minimal_question_xml('<qtest><description>A test</description></qtest>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Missing testcase number in the XML');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_test_route_rejects_invalid_legacy_hint_castext(): void {
+        $xml = $this->get_minimal_question_xml('<hint><hintcontent><text>$$x$$</text></hintcontent></hint>');
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('are not permitted');
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_rejects_duplicate_input_definitions(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1</tans></input>' .
+            '<input><name>ans1</name><tans>ta2</tans></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Multiple inputs have the same name: ans1');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_duplicate_prt_definitions(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name></node></prt>' .
+            '<prt><name>prt1</name><node><name>0</name></node></prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Multiple prts have the same name: prt1');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_duplicate_node_definitions(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name>' .
+            '<node><name>0</name></node><node><name>0</name></node>' .
+            '</prt>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Multiple nodes have the name: 0 in PRT: prt1');
         StackQuestionLoader::loadXML($xml);
     }
 

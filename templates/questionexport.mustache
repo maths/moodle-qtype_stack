@@ -46,7 +46,9 @@
         "issuccess": 1,
         "iswarning": 0,
         "iserror": 0,
-        "message": "Question uploaded to NRW."
+        "message": "The question has been sent to ATLAS.",
+        "claimurl": "https://example.org/claim/abc",
+        "claimexpires": "Friday, 27 November 2026, 10:00 AM"
       }
     }
 }}
@@ -63,17 +65,25 @@
       <a class="nav-link" href="{{{general.editquestionlink}}}">{{#str}} editquestioninthequestionbank, qtype_stack {{/str}}</a>
     </li>
   </ul>
-  <h2>{{#str}} exporttonrw, qtype_stack {{/str}}</h2>
+  <h2>{{#str}} exporttoatlas, qtype_stack {{/str}}</h2>
   <h2>{{question.name}}</h2>
   <p>{{#str}} version, qtype_stack {{/str}} {{question.version}}<p>
   <form action="{{{general.uploadurl}}}" method="post">
     <input type="hidden" name="sesskey" value="{{general.sesskey}}">
     <input type="hidden" name="uploadtonrw" value="1">
-    <button type="submit" class="btn btn-primary">{{#str}} nrwuploadbutton, qtype_stack {{/str}}</button>
+    <button type="submit" class="btn btn-primary">{{#str}} atlasuploadbutton, qtype_stack {{/str}}</button>
   </form>
   {{#uploadresult}}
     <div class="alert alert-{{#issuccess}}success{{/issuccess}}{{#iswarning}}warning{{/iswarning}}{{#iserror}}danger{{/iserror}} mt-3" role="alert">
       {{message}}
+      {{#claimurl}}
+        <p class="mt-2 mb-0">
+          <a class="btn btn-success" href="{{claimurl}}" target="_blank" rel="noopener">{{#str}} atlasuploadclaimlink, qtype_stack {{/str}}</a>
+        </p>
+        {{#claimexpires}}
+          <p class="mt-2 mb-0 small">{{#str}} atlasuploadclaimexpires, qtype_stack, {{claimexpires}} {{/str}}</p>
+        {{/claimexpires}}
+      {{/claimurl}}
     </div>
   {{/uploadresult}}
   <p>{{#str}} questionexportplaceholder, qtype_stack {{/str}}</p>

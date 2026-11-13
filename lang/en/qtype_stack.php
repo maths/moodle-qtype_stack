@@ -568,10 +568,10 @@ $string['settingexternallibraries_desc'] = 'JSON object listing display names an
 <br>&nbsp;&nbsp;&nbsp;&nbsp;"name": "External: sample library"
 <br>&nbsp;&nbsp;}
 <br>}';
-$string['settingnrwapikey'] = 'STACK.nrw databse API key';
-$string['settingnrwapikey_desc'] = 'Allows access to the STACK.nrw question database via the STACK library page. Access can be restricted on a per user basis using Moodle permission qtype/stack:useexternallibraries.';
-$string['settingnrwupload'] = 'STACK.nrw upload allowed';
-$string['settingnrwupload_desc'] = 'Allows questions to be uploaded to the STACK.nrw question database via the STACK question dashboard. Access can be restricted on a per user basis using Moodle permission qtype/stack:exporttoexternallibraries.';
+$string['settingatlasapikey'] = 'ATLAS database API key';
+$string['settingatlasapikey_desc'] = 'Allows access to the ATLAS question database via the STACK library page. Access can be restricted on a per user basis using Moodle permission qtype/stack:useexternallibraries.';
+$string['settingatlasupload'] = 'ATLAS upload allowed';
+$string['settingatlasupload_desc'] = 'Allows questions to be uploaded to the ATLAS question database via the STACK question dashboard. Access can be restricted on a per user basis using Moodle permission qtype/stack:exporttoexternallibraries.';
 
 // Strings used by replace dollars script.
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
@@ -728,7 +728,7 @@ $string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit qu
 $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';
 $string['exportthisquestion'] = '<i class="fa fa-download"></i> Export as Moodle XML';
 $string['exportthisquestion_help'] = 'This will create a Moodle XML export file containing just this one question. One example of when this is useful if you think this question demonstrates a bug in STACK that you would like to report to the developers.';
-$string['exporttonrw'] = '<i class="fa fa-cloud-arrow-up"></i> Export to STACK.nrw';
+$string['exporttoatlas'] = '<i class="fa fa-cloud-arrow-up"></i> Export to ATLAS';
 $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs';
 $string['tidyquestion_txt'] = 'Tidy inputs and PRTs';
 $string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
@@ -741,19 +741,19 @@ $string['seetodolist_help'] = 'Clicking on the question name takes you to the da
 $string['bulktestquiz'] = '<i class="fa fa-certificate"></i> Bulk test quiz';
 $string['bulktestquiznotes'] = 'Bulk test the latest version of all the questions in a quiz containing this question.';
 $string['history'] = '<i class="fa fa-list-alt"></i> Question history';
-$string['questionexportplaceholder'] = 'This page is a placeholder for the NRW export workflow.';
-$string['nrwuploadbutton'] = 'Upload to STACK.nrw';
-$string['nrwuploadcreated'] = 'Question uploaded to NRW successfully. ATLAS ID: {$a}.';
-$string['nrwuploadduplicate'] = 'This XML already exists in NRW. Existing ATLAS ID: {$a}.';
-$string['nrwuploadvalidationerror'] = 'NRW rejected the upload: XML failed validation.';
-$string['nrwuploadfailed'] = 'NRW upload failed.';
-$string['nrwuploadunexpected'] = 'Unexpected response from NRW upload endpoint.';
-$string['nrwuploadapikeymissing'] = 'Cannot upload: NRW API key is not configured.';
-$string['nrwuploadxmlerror'] = 'Could not export this question to XML for upload.';
-$string['nrwuploadpayloadencodeerror'] = 'Could not encode upload payload.';
-$string['nrwuploadduplicateapi'] = 'Duplicate question already exists.';
-$string['nrwuploadcreatedapi'] = 'Question uploaded successfully.';
-$string['nrwuploadxmlvalidationapifailed'] = 'XML failed validation.';
+$string['questionexportplaceholder'] = 'This page is a placeholder for the ATLAS export workflow.';
+$string['atlasuploadbutton'] = 'Upload to ATLAS';
+$string['atlasuploadqueued'] = 'The question has been sent to ATLAS. Open the link below to check its metadata and publish it there.';
+$string['atlasuploadclaimlink'] = 'Continue in ATLAS';
+$string['atlasuploadclaimexpires'] = 'The link works once, until {$a}. Until it is opened, the question is not visible in ATLAS.';
+$string['atlasuploadrejected'] = 'ATLAS rejected the upload:';
+$string['atlasuploadfailed'] = 'ATLAS upload failed.';
+$string['atlasuploadunexpected'] = 'Unexpected response from ATLAS upload endpoint.';
+$string['atlasuploadapikeymissing'] = 'Cannot upload: ATLAS API key is not configured.';
+$string['atlasuploadxmlerror'] = 'Could not export this question to XML for upload.';
+$string['atlasuploadduplicateapi'] = 'Duplicate question already exists.';
+$string['atlasuploadcreatedapi'] = 'Question uploaded successfully.';
+$string['atlasuploadxmlvalidationapifailed'] = 'XML failed validation.';
 $string['bulktestquizselect'] = 'Select a quiz';
 
 $string['basicquestionreport'] = '<i class="fa fa-bar-chart"></i> Analyze responses';
@@ -2099,7 +2099,7 @@ $string['stack_library_refresh'] = 'Refresh library contents';
 $string['stack_library_selected'] = 'Displayed question:';
 $string['stack_library_select'] = 'Select library:';
 $string['stack_library_source'] = 'Source';
-$string['stack_library_nrw'] = 'Search NRW database';
+$string['stack_library_atlas'] = 'Search ATLAS database';
 $string['stack_library_subject'] = 'Subject';
 $string['stack_library_success'] = 'Successful import of:';
 $string['stack_library_not_stack'] = 'This is not a STACK question and so cannot be fully rendered here but you can still import it.';

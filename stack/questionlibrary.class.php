@@ -53,12 +53,12 @@ class stack_question_library {
      */
     public const STACKLIB = 'stacklibrary';
     /**
-     * NRW API identifier
+     * ATLAS API identifier
      * @var string
      */
     public const NRWSEARCH = 'nrwsearch';
     /**
-     * NRW API base URL
+     * ATLAS API base URL
      * @var string
      */
     public const NRWAPIBASE = 'https://vmits1614.vm.ruhr-uni-bochum.de/dev/api';
@@ -639,7 +639,7 @@ class stack_question_library {
         curl_setopt($ch, CURLOPT_USERAGENT, 'Moodle-STACK'); // GitHub requires a user agent.
         curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer {$apikey}"]);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        $apiurl = "{$apibase}{$requestedid}?fields=xml";
+        $apiurl = "{$apibase}{$requestedid}?fields=export_xml";
         curl_setopt($ch, CURLOPT_URL, $apiurl);
         $response = static::execute_curl_request($ch);
         $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
@@ -648,18 +648,18 @@ class stack_question_library {
         }
 
         $json = json_decode($response, true);
-        if (!$json) {
+        if (!is_array($json) || !isset($json['export_xml']) || !is_string($json['export_xml'])) {
             throw new \stack_exception('Invalid JSON.');
         }
 
-        return $json['xml'];
+        return $json['export_xml'];
     }
 
     /**
-     * Upload a Moodle question object to the NRW API.
+     * Upload a Moodle question object to the ATLAS API.
      *
      * @param object $questiondata Question data from question_bank::load_question_data().
-     * @param string $apikey NRW API key.
+     * @param string $apikey ATLAS API key.
      * @return array Upload result for template output.
      */
     public static function upload_nrw_question(object $questiondata, string $apikey): array {
@@ -670,7 +670,7 @@ class stack_question_library {
         if (empty($apikey)) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadapikeymissing'),
+                'message' => stack_string('atlasuploadapikeymissing'),
             ];
         }
 
@@ -696,24 +696,27 @@ class stack_question_library {
         if (!$qformat->exportpreprocess()) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadxmlerror'),
+                'message' => stack_string('atlasuploadxmlerror'),
             ];
         }
         $xmlstring = $qformat->exportprocess(true);
         if (!$xmlstring) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadxmlerror'),
+                'message' => stack_string('atlasuploadxmlerror'),
             ];
         }
 
-        $apiurl = self::NRWAPIBASE . '/questions/upload';
-        $payload = json_encode(['xml' => $xmlstring]);
-        if ($payload === false) {
-            return [
-                'iserror' => true,
-                'message' => stack_string('nrwuploadpayloadencodeerror'),
-            ];
+        // POST /uploads is the only write route open to an LMS key (role `lms`).
+        // atlas-api imports the file in the background and answers with a claim
+        // link: whoever opens it takes over the upload in the ATLAS hub
+        // (metadata, duplicates, predecessor) and publishes it from there.
+        $apiurl = self::NRWAPIBASE . '/uploads';
+        $postfields = [
+            'file' => new \CURLStringFile($xmlstring, 'question.xml', 'application/xml'),
+        ];
+        if (!empty($questiondata->name)) {
+            $postfields['collection_title'] = \core_text::substr($questiondata->name, 0, 255);
         }
 
         $ch = curl_init();
@@ -721,18 +724,19 @@ class stack_question_library {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Moodle-STACK');
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        // An array makes curl send multipart/form-data.
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Authorization: Bearer ' . $apikey,
-            'Content-Type: application/json',
+            'Accept: application/json',
         ]);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
         $response = static::execute_curl_request($ch);
         $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
         if ($response === false) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadfailed') . ': ' . curl_error($ch),
+                'message' => stack_string('atlasuploadfailed') . ': ' . curl_error($ch),
             ];
         }
 
@@ -740,34 +744,52 @@ class stack_question_library {
         if (!is_array($json)) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
+                'message' => stack_string('atlasuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
             ];
         }
-        $id = $json['id'] ?? null;
 
-        if ($httpcode === 201) {
-            if ($json['status'] === 'duplicate') {
+        if ($httpcode === 202) {
+            if (empty($json['claim_url'])) {
                 return [
-                    'iswarning' => true,
-                    'message' => stack_string('nrwuploadduplicate', $id ?? '-'),
+                    'iserror' => true,
+                    'message' => stack_string('atlasuploadunexpected') . ' HTTP ' . $httpcode . ': ' . $response,
                 ];
             }
+            $expires = !empty($json['claim_expires_at']) ? strtotime($json['claim_expires_at']) : false;
             return [
                 'issuccess' => true,
-                'message' => stack_string('nrwuploadcreated', $id ?? '-'),
+                'message' => stack_string('atlasuploadqueued'),
+                'claimurl' => $json['claim_url'],
+                'claimexpires' => $expires ? userdate($expires) : '',
             ];
         }
 
         if ($httpcode === 400) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadvalidationerror') . ' ' . ($json['detail']['error_message'] ?? ''),
+                'message' => stack_string('atlasuploadrejected') . ' ' . static::nrw_error_detail($json),
             ];
         }
 
         return [
             'iserror' => true,
-            'message' => stack_string('nrwuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
+            'message' => stack_string('atlasuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
         ];
+    }
+
+    /**
+     * The human-readable part of an atlas-api error body.
+     *
+     * `detail` is either a string or an object with `message` (and `error`).
+     *
+     * @param array $json Decoded error body.
+     * @return string
+     */
+    protected static function nrw_error_detail(array $json): string {
+        $detail = $json['detail'] ?? '';
+        if (is_array($detail)) {
+            $detail = $detail['message'] ?? $detail['error'] ?? json_encode($detail);
+        }
+        return (string) $detail;
     }
 }

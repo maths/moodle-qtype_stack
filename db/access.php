@@ -35,20 +35,20 @@ $capabilities = [
             'manager' => CAP_ALLOW,
         ],
     ],
-    // Users with this in the system context can use external question libraries.
+    // Users with this in the course context can use external question libraries.
     'qtype/stack:useexternallibraries' => [
         'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
+        'contextlevel' => CONTEXT_COURSE,
         'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
         ],
         'clonepermissionsfrom' => 'moodle/question:add',
     ],
-    // Users with this in the system context can export to external question libraries.
+    // Users with this in the course context can export to external question libraries.
     'qtype/stack:exporttoexternallibraries' => [
         'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
+        'contextlevel' => CONTEXT_COURSE,
         'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,

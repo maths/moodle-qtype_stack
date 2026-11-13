@@ -843,7 +843,6 @@ final class library_import_test extends externallib_advanced_testcase {
         $context = context_course::instance($this->course->id);
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
-        role_assign($managerroleid, $this->user->id, \context_system::instance()->id);
         $sink = $this->redirectEvents();
 
         $returnvalue = library_import::import_execute(
@@ -884,8 +883,9 @@ final class library_import_test extends externallib_advanced_testcase {
         global $DB;
         $this->set_external();
         $context = context_course::instance($this->course->id);
-        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
-        role_assign($managerroleid, $this->user->id, $context->id);
+        $teacherroleid = $DB->get_field('role', 'id', ['shortname' => 'teacher']);
+        role_assign($teacherroleid, $this->user->id, $context->id);
+        $this->getDataGenerator()->enrol_user($this->user->id, $this->course->id);
 
         $this->expectException(required_capability_exception::class);
         library_import::import_execute(
@@ -908,7 +908,6 @@ final class library_import_test extends externallib_advanced_testcase {
         $context = context_course::instance($this->course->id);
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
-        role_assign($managerroleid, $this->user->id, \context_system::instance()->id);
         $sink = $this->redirectEvents();
 
         $returnvalue = library_import::import_execute(
@@ -956,7 +955,6 @@ final class library_import_test extends externallib_advanced_testcase {
         $quizfilepath = 'Course1_quiz_quiz-1/quiz-1_quiz.json';
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
-        role_assign($managerroleid, $this->user->id, \context_system::instance()->id);
         $sink = $this->redirectEvents();
 
         $returnvalue = library_import::import_execute(

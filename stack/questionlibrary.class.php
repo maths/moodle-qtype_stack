@@ -615,13 +615,16 @@ class stack_question_library {
             ];
         }
 
-        $apiurl = self::NRWAPIBASE . '/questions/upload';
-        $payload = json_encode(['xml' => $xmlstring]);
-        if ($payload === false) {
-            return [
-                'iserror' => true,
-                'message' => stack_string('nrwuploadpayloadencodeerror'),
-            ];
+        // POST /uploads is the only write route open to an LMS key (role `lms`).
+        // atlas-api imports the file in the background and answers with a claim
+        // link: whoever opens it takes over the upload in the STACK.nrw hub
+        // (metadata, duplicates, predecessor) and publishes it from there.
+        $apiurl = self::NRWAPIBASE . '/uploads';
+        $postfields = [
+            'file' => new \CURLStringFile($xmlstring, 'question.xml', 'application/xml'),
+        ];
+        if (!empty($questiondata->name)) {
+            $postfields['collection_title'] = \core_text::substr($questiondata->name, 0, 255);
         }
 
         $ch = curl_init();
@@ -629,12 +632,13 @@ class stack_question_library {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Moodle-STACK');
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        // An array makes curl send multipart/form-data.
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Authorization: Bearer ' . $apikey,
-            'Content-Type: application/json',
+            'Accept: application/json',
         ]);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
         $response = static::execute_curl_request($ch);
         $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
         if ($response === false) {
@@ -651,25 +655,27 @@ class stack_question_library {
                 'message' => stack_string('nrwuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
             ];
         }
-        $id = $json['id'] ?? null;
 
-        if ($httpcode === 201) {
-            if ($json['status'] === 'duplicate') {
+        if ($httpcode === 202) {
+            if (empty($json['claim_url'])) {
                 return [
-                    'iswarning' => true,
-                    'message' => stack_string('nrwuploadduplicate', $id ?? '-'),
+                    'iserror' => true,
+                    'message' => stack_string('nrwuploadunexpected') . ' HTTP ' . $httpcode . ': ' . $response,
                 ];
             }
+            $expires = !empty($json['claim_expires_at']) ? strtotime($json['claim_expires_at']) : false;
             return [
                 'issuccess' => true,
-                'message' => stack_string('nrwuploadcreated', $id ?? '-'),
+                'message' => stack_string('nrwuploadqueued'),
+                'claimurl' => $json['claim_url'],
+                'claimexpires' => $expires ? userdate($expires) : '',
             ];
         }
 
         if ($httpcode === 400) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadvalidationerror') . ' ' . ($json['detail']['error_message'] ?? ''),
+                'message' => stack_string('nrwuploadrejected') . ' ' . static::nrw_error_detail($json),
             ];
         }
 
@@ -677,5 +683,21 @@ class stack_question_library {
             'iserror' => true,
             'message' => stack_string('nrwuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
         ];
+    }
+
+    /**
+     * The human-readable part of an atlas-api error body.
+     *
+     * `detail` is either a string or an object with `message` (and `error`).
+     *
+     * @param array $json Decoded error body.
+     * @return string
+     */
+    protected static function nrw_error_detail(array $json): string {
+        $detail = $json['detail'] ?? '';
+        if (is_array($detail)) {
+            $detail = $detail['message'] ?? $detail['error'] ?? json_encode($detail);
+        }
+        return (string) $detail;
     }
 }

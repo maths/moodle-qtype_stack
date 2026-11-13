@@ -285,46 +285,62 @@ final class questionlibrary_nrw_test extends advanced_testcase {
         );
     }
 
-    public function test_upload_nrw_question_returns_success_for_created_question(): void {
+    public function test_upload_nrw_question_returns_claim_link_for_accepted_upload(): void {
         $questiondata = $this->create_stack_question_data();
         stack_question_library_nrw_testable::set_mock_curl_responses([
-            json_encode(['status' => 'created', 'id' => 'ATLAS-123']),
-        ], [201]);
+            json_encode([
+                'upload_id' => 'b1c2',
+                'status' => 'queued',
+                'poll' => null,
+                'claim_url' => 'https://hub.example.org/claim/TOKEN',
+                'claim_expires_at' => '2026-11-27T10:00:00+00:00',
+            ]),
+        ], [202]);
 
         $result = stack_question_library_nrw_testable::upload_nrw_question($questiondata, 'secret');
 
         $this->assertTrue($result['issuccess']);
-        $this->assertEquals(stack_string('nrwuploadcreated', 'ATLAS-123'), $result['message']);
+        $this->assertEquals(stack_string('nrwuploadqueued'), $result['message']);
+        $this->assertEquals('https://hub.example.org/claim/TOKEN', $result['claimurl']);
+        $this->assertEquals(userdate(strtotime('2026-11-27T10:00:00+00:00')), $result['claimexpires']);
     }
 
-    public function test_upload_nrw_question_returns_warning_for_duplicate(): void {
+    public function test_upload_nrw_question_reports_accepted_upload_without_claim_link(): void {
         $questiondata = $this->create_stack_question_data();
-        stack_question_library_nrw_testable::set_mock_curl_responses([
-            json_encode(['status' => 'duplicate', 'id' => 'ATLAS-999']),
-        ], [201]);
+        $response = json_encode(['upload_id' => 'b1c2', 'status' => 'queued', 'poll' => '/uploads/b1c2']);
+        stack_question_library_nrw_testable::set_mock_curl_responses([$response], [202]);
 
         $result = stack_question_library_nrw_testable::upload_nrw_question($questiondata, 'secret');
 
-        $this->assertTrue($result['iswarning']);
-        $this->assertEquals(stack_string('nrwuploadduplicate', 'ATLAS-999'), $result['message']);
+        $this->assertTrue($result['iserror']);
+        $this->assertEquals(stack_string('nrwuploadunexpected') . ' HTTP 202: ' . $response, $result['message']);
     }
 
-    public function test_upload_nrw_question_returns_validation_error_for_http_400(): void {
+    public function test_upload_nrw_question_returns_rejection_for_http_400_string_detail(): void {
         $questiondata = $this->create_stack_question_data();
         stack_question_library_nrw_testable::set_mock_curl_responses([
-            json_encode(['detail' => ['error_message' => 'Unexpected tag <foo>.']]),
+            json_encode(['detail' => 'The uploaded file is empty']),
         ], [400]);
 
         $result = stack_question_library_nrw_testable::upload_nrw_question($questiondata, 'secret');
 
         $this->assertTrue($result['iserror']);
-        $this->assertEquals(
-            stack_string('nrwuploadvalidationerror') . ' Unexpected tag <foo>.',
-            $result['message']
-        );
+        $this->assertEquals(stack_string('nrwuploadrejected') . ' The uploaded file is empty', $result['message']);
     }
 
-    public function test_upload_nrw_question_returns_generic_error_for_non_201_non_400_json_response(): void {
+    public function test_upload_nrw_question_returns_rejection_for_http_400_object_detail(): void {
+        $questiondata = $this->create_stack_question_data();
+        stack_question_library_nrw_testable::set_mock_curl_responses([
+            json_encode(['detail' => ['error' => 'unknown_home_collection', 'message' => 'No such collection.']]),
+        ], [400]);
+
+        $result = stack_question_library_nrw_testable::upload_nrw_question($questiondata, 'secret');
+
+        $this->assertTrue($result['iserror']);
+        $this->assertEquals(stack_string('nrwuploadrejected') . ' No such collection.', $result['message']);
+    }
+
+    public function test_upload_nrw_question_returns_generic_error_for_other_json_response(): void {
         $questiondata = $this->create_stack_question_data();
         $response = json_encode(['status' => 'forbidden']);
         stack_question_library_nrw_testable::set_mock_curl_responses([$response], [403]);

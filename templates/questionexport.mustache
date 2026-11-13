@@ -46,7 +46,9 @@
         "issuccess": 1,
         "iswarning": 0,
         "iserror": 0,
-        "message": "Question uploaded to NRW."
+        "message": "The question has been sent to STACK.nrw.",
+        "claimurl": "https://example.org/claim/abc",
+        "claimexpires": "Friday, 27 November 2026, 10:00 AM"
       }
     }
 }}
@@ -74,6 +76,14 @@
   {{#uploadresult}}
     <div class="alert alert-{{#issuccess}}success{{/issuccess}}{{#iswarning}}warning{{/iswarning}}{{#iserror}}danger{{/iserror}} mt-3" role="alert">
       {{message}}
+      {{#claimurl}}
+        <p class="mt-2 mb-0">
+          <a class="btn btn-success" href="{{claimurl}}" target="_blank" rel="noopener">{{#str}} nrwuploadclaimlink, qtype_stack {{/str}}</a>
+        </p>
+        {{#claimexpires}}
+          <p class="mt-2 mb-0 small">{{#str}} nrwuploadclaimexpires, qtype_stack, {{claimexpires}} {{/str}}</p>
+        {{/claimexpires}}
+      {{/claimurl}}
     </div>
   {{/uploadresult}}
   <p>{{#str}} questionexportplaceholder, qtype_stack {{/str}}</p>

@@ -460,6 +460,21 @@ final class api_controller_test extends qtype_stack_testcase {
         );
     }
 
+    public function test_test_controller_moodle_compatibility_is_opt_in(): void {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('empty');
+        $tc = new TestController();
+
+        // API defaults make this a testable API question.
+        $tc->__invoke($this->request, $this->response, []);
+        $this->assertSame('Default', $this->output->name);
+
+        // Moodle cannot import the API-created input configuration.
+        $this->requestdata['strictMoodleCompatibility'] = true;
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage("input 'ans1' must be set up");
+        $tc->__invoke($this->request, $this->response, []);
+    }
+
     public function test_test_controller_fail(): void {
 
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('test');

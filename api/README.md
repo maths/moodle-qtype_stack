@@ -170,6 +170,7 @@ The `POST /test` route is used to run a question's test cases.
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
 - `lang`: Optional language code used for STACK `[[lang]]` blocks and translated strings. If omitted, the `Accept-Language` HTTP header is used.
+- `strictMoodleCompatibility`: Optional boolean, default `false`. Set this to `true` to also reject definitions which the Moodle XML importer cannot preserve. Without it, `/test` uses API defaults for omitted fields and reports only problems that prevent the API question from being tested reliably. Moodle also defaults many omitted fields; strict mode concerns omissions where Moodle requires a value or would use a materially different result.
 
 The test route returns the following fields:
 

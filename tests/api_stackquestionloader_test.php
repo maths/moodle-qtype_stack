@@ -843,7 +843,19 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Escape HTML or wrap it in CDATA');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
+    }
+
+    public function test_question_loader_ignores_strict_moodle_compatibility_without_tests(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<prt><name>prt1</name><node><name>0</name>' .
+            '<truefeedback><text><p>Correct.</p></text></truefeedback>' .
+            '</node></prt>'
+        );
+
+        $question = StackQuestionLoader::loadXML($xml, false, true)['question'];
+
+        $this->assertCount(1, $question->prts['prt1']->get_nodes_summary());
     }
 
     public function test_question_loader_test_route_rejects_html_in_hint_without_cdata(): void {
@@ -851,7 +863,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Escape HTML or wrap it in CDATA');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_html_in_legacy_hint_without_cdata(): void {
@@ -861,7 +873,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Escape HTML or wrap it in CDATA');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_unknown_text_format(): void {
@@ -871,7 +883,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage("Unknown XML text format 'unknown'");
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_trims_xml_text_fields(): void {
@@ -943,7 +955,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Input is no longer referred to in the question text');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_unconfigured_input_placeholder(): void {
@@ -953,7 +965,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage("input 'ans2' must be set up");
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_requires_visible_validation_when_verification_is_required(): void {
@@ -1117,7 +1129,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Missing PRT node name in the XML');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_requires_integer_prt_node_names(): void {
@@ -1128,7 +1140,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage("PRT node name 'root' must be an integer");
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_prt_cycle(): void {
@@ -1213,7 +1225,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Metadata is invalid JSON');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_rejects_oversized_metadata(): void {
@@ -1221,7 +1233,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('There is too much metadata');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_legacy_syntax_hint_delimiters(): void {
@@ -1255,7 +1267,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('should only contain the token \'[[feedback:prt1]]\' once');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_feedback_placeholder_without_prt(): void {
@@ -1266,7 +1278,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('This PRT must be set up before the question can be saved');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_prt_without_feedback_placeholder(): void {
@@ -1278,7 +1290,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('no longer referred to in the question text or specific feedback');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_long_input_names(): void {
@@ -1290,7 +1302,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Input names cannot be longer than 18 characters');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_invalid_input_name_form(): void {
@@ -1301,7 +1313,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage("Input names must only be letters followed (optionally) by numbers. 'ans_' is illegal");
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_long_prt_names(): void {
@@ -1314,7 +1326,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('PRT names cannot be longer than 18 characters');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_whitespace_in_input_placeholder(): void {
@@ -1322,7 +1334,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Placeholders may not contain whitespace');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_whitespace_in_validation_placeholder(): void {
@@ -1330,7 +1342,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Placeholders may not contain whitespace');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_whitespace_in_prt_placeholder(): void {
@@ -1338,7 +1350,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Placeholders may not contain whitespace');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
 
@@ -1353,7 +1365,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('inconsistencies in the input and validation tags between languages');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_multilang_feedback_placeholder_mismatches(): void {
@@ -1368,7 +1380,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('inconsistencies in the feedback tags between languages');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_prts_without_inputs(): void {
@@ -1380,7 +1392,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('A question with no inputs cannot have any PRTs');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_invalid_question_variables(): void {
@@ -1497,12 +1509,13 @@ XML;
     public function test_question_loader_test_route_requires_question_note_for_random_variables(): void {
         $xml = $this->get_minimal_question_xml(
             '<questionvariables><text>x:rand(1);</text></questionvariables>' .
-            '<questionnote><text></text></questionnote>'
+            '<questionnote><text></text></questionnote>' .
+            '<input><name>ans1</name><tans>ta1</tans></input>'
         );
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('question note cannot be empty when rand() appears');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_invalid_question_description_castext(): void {
@@ -1550,16 +1563,27 @@ XML;
         StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_test_route_accepts_missing_input_teacher_answers(): void {
+    public function test_question_loader_test_route_accepts_missing_input_teacher_answers_without_strict_moodle_compatibility(): void {
         $xml = $this->get_minimal_question_xml(
             '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
             '<input><name>ans1</name></input>'
         );
 
-        $question = StackQuestionLoader::loadXML($xml, true)['question'];
+        $question = StackQuestionLoader::loadXML($xml, true, false)['question'];
 
         $this->assertArrayHasKey('ans1', $question->inputs);
         $this->assertSame('ta1', $question->inputs['ans1']->get_teacher_answer());
+    }
+
+    public function test_question_loader_strict_moodle_compatibility_requires_input_teacher_answers(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
+            '<input><name>ans1</name></input>'
+        );
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('This must not be empty');
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_uses_the_default_for_missing_input_teacher_answers(): void {
@@ -1720,15 +1744,17 @@ XML;
             '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
             '<specificfeedback><text></text></specificfeedback><input><name>ans1</name><tans>ta1</tans></input>' .
             '<prt><name>prt1</name>' .
-            '<node><name>0</name><truenextnode>1</truenextnode>' .
+            '<node><name>0</name><sans>ans1</sans><tans>ta1</tans><trueanswernote>T0</trueanswernote>' .
+            '<falseanswernote>F0</falseanswernote><truenextnode>1</truenextnode>' .
             '<truefeedback format="html"><text>Correct.</text></truefeedback></node>' .
-            '<node><name>1</name><truefeedback format="plain_text"><text>Correct.</text></truefeedback></node>' .
+            '<node><name>1</name><sans>ans1</sans><tans>ta1</tans><trueanswernote>T1</trueanswernote>' .
+            '<falseanswernote>F1</falseanswernote><truefeedback format="plain_text"><text>Correct.</text></truefeedback></node>' .
             '</prt>'
         );
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('All the feedback for all the nodes in a PRT must use the same text format');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_legacy_question_text_delimiters(): void {
@@ -1771,7 +1797,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Missing testcase number in the XML');
-        StackQuestionLoader::loadXML($xml, true);
+        StackQuestionLoader::loadXML($xml, true, true);
     }
 
     public function test_question_loader_test_route_rejects_invalid_legacy_hint_castext(): void {

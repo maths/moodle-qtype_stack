@@ -98,10 +98,20 @@ class StackQuestionLoader {
      */
     private const BAD_FILENAME_CHARACTERS = '/[\/\\\\?%\'*:|"<>$!`&\t ]+/'; // phpcs:ignore moodle.Strings.ForbiddenStrings.Found
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function loadxml($xml, $includetests = false) {
+    /**
+     * Load an API question definition.
+     *
+     * @param string $xml XML or YAML question definition.
+     * @param bool $includetests Whether to load question tests and validate executable question content.
+     * @param bool $strictmoodlecompatibility Whether to apply Moodle XML import checks when tests are included.
+     * @return array Loaded question and, optionally, test cases.
+     */
+    public static function loadxml($xml, $includetests = false, $strictmoodlecompatibility = false) {
         try {
-            $xmldata = self::parse_question_definition($xml, $includetests);
+            // The test route needs test cases, but not every testable API question is
+            // intended for Moodle XML import. Keep the import-specific checks opt-in.
+            $strictmoodlecompatibility = $includetests && $strictmoodlecompatibility;
+            $xmldata = self::parse_question_definition($xml, $strictmoodlecompatibility);
         } catch (\stack_exception $e) {
             throw $e;
         } catch (\Exception $e) {
@@ -129,7 +139,7 @@ class StackQuestionLoader {
             throw $nonstackerror;
         }
 
-        if ($includetests) {
+        if ($strictmoodlecompatibility) {
             self::assert_text_formats_are_portable($xmldata->question);
         }
 
@@ -199,7 +209,7 @@ class StackQuestionLoader {
                 isset($xmldata->question->specificfeedback['format']) ?
                 (string) $xmldata->question->specificfeedback['format'] :
                 self::get_default('question', 'specificfeedbackformat', 'html');
-        if ($includetests) {
+        if ($strictmoodlecompatibility) {
             self::assert_question_text_placeholders_are_portable(
                 $question->questiontext,
                 $question->specificfeedback
@@ -267,7 +277,7 @@ class StackQuestionLoader {
             self::get_default('question', 'isbroken', 0);
         $question->metadata     =
             (string) $xmldata->question->metadata ? (string) $xmldata->question->metadata : '';
-        if ($includetests) {
+        if ($strictmoodlecompatibility) {
             if (mb_strlen($question->metadata) > 32000) {
                 throw new \stack_exception(\stack_string('JSONtoolong'));
             }
@@ -369,6 +379,9 @@ class StackQuestionLoader {
             }
             $inputmap[$inputname] = $input;
         }
+        // Keep the XML definitions separate from API-created defaults. Moodle
+        // drops or cannot configure the latter, whereas the API can use them.
+        $configuredinputnames = array_keys($inputmap);
 
         if (empty($inputmap)) {
             $inputname = self::get_default('input', 'name', 'ans1');
@@ -383,8 +396,8 @@ class StackQuestionLoader {
             }
         }
 
-        if ($includetests) {
-            self::assert_input_placeholders($question->questiontext, array_keys($inputmap));
+        if ($strictmoodlecompatibility) {
+            self::assert_input_placeholders($question->questiontext, $configuredinputnames);
             foreach (array_keys($inputmap) as $inputname) {
                 if (strlen($inputname) > 18) {
                     throw new \stack_exception(\stack_string('inputnamelength', $inputname));
@@ -457,6 +470,9 @@ class StackQuestionLoader {
             }
             $teacheranswer = isset($inputdata->tans) ? (string) $inputdata->tans :
                 self::get_default('input', 'tans', 'ta1');
+            if ($strictmoodlecompatibility && !isset($inputdata->tans)) {
+                throw new \stack_exception(\stack_string('nonempty'));
+            }
             if ($includetests) {
                 self::assert_valid_cas_string($teacheranswer, 'nonempty');
             }
@@ -521,11 +537,16 @@ class StackQuestionLoader {
 
         if ($includetests) {
             if ($question->questionnote === '') {
-                if (\qtype_stack_question::random_variants_check_with_includes($question->questionvariables)) {
+                if ($strictmoodlecompatibility &&
+                    \qtype_stack_question::random_variants_check_with_includes($question->questionvariables)) {
                     throw new \stack_exception(\stack_string('questionnotempty'));
                 }
             } else {
                 self::assert_valid_castext($question->questionnote, 'questionnote');
+            }
+            if ($strictmoodlecompatibility && !isset($xmldata->question->questionnote->text) &&
+                \qtype_stack_question::random_variants_check_with_includes($question->questionvariables)) {
+                throw new \stack_exception(\stack_string('questionnotempty'));
             }
             foreach (['input', 'validation', 'feedback'] as $type) {
                 if (\stack_utils::extract_placeholders($question->questionnote, $type)) {
@@ -559,6 +580,7 @@ class StackQuestionLoader {
             }
             $prtmap[$prtname] = $prt;
         }
+        $configuredprtnames = array_keys($prtmap);
 
         if (empty($prtmap)) {
             $prtname = self::get_default('prt', 'name', 'prt1');
@@ -575,7 +597,7 @@ class StackQuestionLoader {
             }
         }
 
-        if ($includetests) {
+        if ($strictmoodlecompatibility) {
             foreach (array_keys($prtmap) as $prtname) {
                 if (strlen($prtname) > 18) {
                     throw new \stack_exception(\stack_string('prtnamelength', $prtname));
@@ -584,7 +606,7 @@ class StackQuestionLoader {
             self::assert_prt_feedback_placeholders(
                 $question->questiontext,
                 $question->specificfeedback,
-                array_keys($prtmap)
+                $configuredprtnames
             );
             if (
                 !\stack_utils::extract_placeholders($question->questiontext, 'input') &&
@@ -646,10 +668,10 @@ class StackQuestionLoader {
             $answernotes = [];
             $truefeedbackformat = null;
             foreach ($prtdata->node as $node) {
-                if ($includetests && !isset($node->name)) {
+                if ($strictmoodlecompatibility && !isset($node->name)) {
                     throw new \stack_exception(\stack_string('missingprtnodename'));
                 }
-                if ($includetests && !preg_match('/^-?\d+$/', (string) $node->name)) {
+                if ($strictmoodlecompatibility && !preg_match('/^-?\d+$/', (string) $node->name)) {
                     throw new \stack_exception(\stack_string('prtnodenameinteger', (string) $node->name));
                 }
                 $newnode = new \stdClass();
@@ -674,6 +696,9 @@ class StackQuestionLoader {
                     self::get_default('node', 'sans', 'ans1');
                 $newnode->tans = isset($node->tans) ? (string) $node->tans :
                     self::get_default('node', 'tans', 'ta1');
+                if ($strictmoodlecompatibility && (!isset($node->sans) || !isset($node->tans))) {
+                    throw new \stack_exception(\stack_string(!isset($node->sans) ? 'sansrequired' : 'tansrequired'));
+                }
                 if ($includetests) {
                     self::assert_valid_cas_string($newnode->sans, 'sansrequired');
                     self::assert_valid_cas_string($newnode->tans, 'tansrequired');
@@ -728,7 +753,7 @@ class StackQuestionLoader {
                     );
                     if ($truefeedbackformat === null) {
                         $truefeedbackformat = $newnode->truefeedbackformat;
-                    } else if ($truefeedbackformat != $newnode->truefeedbackformat) {
+                    } else if ($strictmoodlecompatibility && $truefeedbackformat != $newnode->truefeedbackformat) {
                         throw new \stack_exception(\stack_string('allnodefeedbackmustusethesameformat'));
                     }
                 }
@@ -770,6 +795,9 @@ class StackQuestionLoader {
                 }
                 foreach (['trueanswernote', 'falseanswernote'] as $field) {
                     $answernote = $newnode->{$field};
+                    if ($strictmoodlecompatibility && !isset($node->{$field})) {
+                        throw new \stack_exception(\stack_string('answernoterequired'));
+                    }
                     if ($answernote === '') {
                         throw new \stack_exception(\stack_string('answernoterequired'));
                     }
@@ -827,7 +855,7 @@ class StackQuestionLoader {
                 }
                 $testdescription = isset($test->description) ? (string) $test->description :
                     self::get_default('qtest', 'description', '');
-                if ($includetests && !isset($test->testcase)) {
+                if ($strictmoodlecompatibility && !isset($test->testcase)) {
                     throw new \stack_exception(\stack_string('missingtestcasenumber'));
                 }
                 $testtestcase = isset($test->testcase) ? (string) $test->testcase :
@@ -994,7 +1022,7 @@ class StackQuestionLoader {
      * Parse an XML or YAML question definition with limits suitable for untrusted API input.
      *
      * @param string $definition XML or YAML question definition.
-     * @param bool $validatexmltextfields Whether to apply Moodle XML portability checks.
+     * @param bool $validatexmltextfields Whether to apply strict Moodle XML portability checks.
      * @return SimpleXMLElement parsed question definition.
      */
     private static function parse_question_definition(
@@ -1018,7 +1046,7 @@ class StackQuestionLoader {
      * Reject XML features that are unsafe for untrusted API input and parse the document.
      *
      * @param string $xml raw XML.
-     * @param bool $validatexmltextfields Whether to apply Moodle XML portability checks.
+     * @param bool $validatexmltextfields Whether to apply strict Moodle XML portability checks.
      * @return SimpleXMLElement parsed XML document.
      */
     private static function parse_xml_definition(string $xml, bool $validatexmltextfields): SimpleXMLElement {
@@ -1053,8 +1081,8 @@ class StackQuestionLoader {
     /**
      * Moodle XML text fields must contain a string, not nested XML elements.
      *
-     * This is checked only by /test, which is the API's portability gate.
-     * Other routes retain their existing permissive handling of nested HTML.
+     * This is checked only by strict Moodle compatibility mode. Other routes
+     * and ordinary /test retain their existing permissive handling of nested HTML.
      * HTML destined for Moodle must be escaped or wrapped in CDATA. SimpleXML
      * accepts nested HTML, unlike Moodle's importer which rejects the XML as
      * malformed question data.
@@ -1336,11 +1364,12 @@ class StackQuestionLoader {
     }
 
     /**
-     * Reject PRT graph structures which Moodle cannot import unchanged.
+     * Reject PRT graph structures which cannot be tested reliably.
      *
      * Moodle imports these questions as broken, or repairs a missing next node
-     * to stop. The API's test route instead reports them as non-portable while
-     * all other routes preserve their permissive behaviour.
+     * to stop. The API test route reports them rather than testing a silently
+     * altered or disconnected tree; other routes preserve their permissive
+     * behaviour.
      *
      * @param \stdClass $prtdata PRT data assembled by the loader.
      */

@@ -578,7 +578,7 @@ class stack_question_library {
         if (empty($apikey)) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadapikeymissing'),
+                'message' => stack_string('atlasuploadapikeymissing'),
             ];
         }
 
@@ -604,14 +604,14 @@ class stack_question_library {
         if (!$qformat->exportpreprocess()) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadxmlerror'),
+                'message' => stack_string('atlasuploadxmlerror'),
             ];
         }
         $xmlstring = $qformat->exportprocess(true);
         if (!$xmlstring) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadxmlerror'),
+                'message' => stack_string('atlasuploadxmlerror'),
             ];
         }
 
@@ -644,7 +644,7 @@ class stack_question_library {
         if ($response === false) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadfailed') . ': ' . curl_error($ch),
+                'message' => stack_string('atlasuploadfailed') . ': ' . curl_error($ch),
             ];
         }
 
@@ -652,7 +652,7 @@ class stack_question_library {
         if (!is_array($json)) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
+                'message' => stack_string('atlasuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
             ];
         }
 
@@ -660,13 +660,13 @@ class stack_question_library {
             if (empty($json['claim_url'])) {
                 return [
                     'iserror' => true,
-                    'message' => stack_string('nrwuploadunexpected') . ' HTTP ' . $httpcode . ': ' . $response,
+                    'message' => stack_string('atlasuploadunexpected') . ' HTTP ' . $httpcode . ': ' . $response,
                 ];
             }
             $expires = !empty($json['claim_expires_at']) ? strtotime($json['claim_expires_at']) : false;
             return [
                 'issuccess' => true,
-                'message' => stack_string('nrwuploadqueued'),
+                'message' => stack_string('atlasuploadqueued'),
                 'claimurl' => $json['claim_url'],
                 'claimexpires' => $expires ? userdate($expires) : '',
             ];
@@ -675,13 +675,13 @@ class stack_question_library {
         if ($httpcode === 400) {
             return [
                 'iserror' => true,
-                'message' => stack_string('nrwuploadrejected') . ' ' . static::nrw_error_detail($json),
+                'message' => stack_string('atlasuploadrejected') . ' ' . static::nrw_error_detail($json),
             ];
         }
 
         return [
             'iserror' => true,
-            'message' => stack_string('nrwuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
+            'message' => stack_string('atlasuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
         ];
     }
 

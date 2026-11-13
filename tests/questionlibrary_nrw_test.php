@@ -259,7 +259,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
         $result = stack_question_library_nrw_testable::upload_nrw_question(new \stdClass(), '');
 
         $this->assertTrue($result['iserror']);
-        $this->assertEquals(stack_string('nrwuploadapikeymissing'), $result['message']);
+        $this->assertEquals(stack_string('atlasuploadapikeymissing'), $result['message']);
     }
 
     public function test_upload_nrw_question_handles_curl_failure(): void {
@@ -269,7 +269,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
         $result = stack_question_library_nrw_testable::upload_nrw_question($questiondata, 'secret');
 
         $this->assertTrue($result['iserror']);
-        $this->assertStringStartsWith(stack_string('nrwuploadfailed') . ':', $result['message']);
+        $this->assertStringStartsWith(stack_string('atlasuploadfailed') . ':', $result['message']);
     }
 
     public function test_upload_nrw_question_handles_non_json_response(): void {
@@ -280,7 +280,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
 
         $this->assertTrue($result['iserror']);
         $this->assertEquals(
-            stack_string('nrwuploadfailed') . ' HTTP 502: not json',
+            stack_string('atlasuploadfailed') . ' HTTP 502: not json',
             $result['message']
         );
     }
@@ -300,7 +300,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
         $result = stack_question_library_nrw_testable::upload_nrw_question($questiondata, 'secret');
 
         $this->assertTrue($result['issuccess']);
-        $this->assertEquals(stack_string('nrwuploadqueued'), $result['message']);
+        $this->assertEquals(stack_string('atlasuploadqueued'), $result['message']);
         $this->assertEquals('https://hub.example.org/claim/TOKEN', $result['claimurl']);
         $this->assertEquals(userdate(strtotime('2026-11-27T10:00:00+00:00')), $result['claimexpires']);
     }
@@ -313,7 +313,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
         $result = stack_question_library_nrw_testable::upload_nrw_question($questiondata, 'secret');
 
         $this->assertTrue($result['iserror']);
-        $this->assertEquals(stack_string('nrwuploadunexpected') . ' HTTP 202: ' . $response, $result['message']);
+        $this->assertEquals(stack_string('atlasuploadunexpected') . ' HTTP 202: ' . $response, $result['message']);
     }
 
     public function test_upload_nrw_question_returns_rejection_for_http_400_string_detail(): void {
@@ -325,7 +325,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
         $result = stack_question_library_nrw_testable::upload_nrw_question($questiondata, 'secret');
 
         $this->assertTrue($result['iserror']);
-        $this->assertEquals(stack_string('nrwuploadrejected') . ' The uploaded file is empty', $result['message']);
+        $this->assertEquals(stack_string('atlasuploadrejected') . ' The uploaded file is empty', $result['message']);
     }
 
     public function test_upload_nrw_question_returns_rejection_for_http_400_object_detail(): void {
@@ -337,7 +337,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
         $result = stack_question_library_nrw_testable::upload_nrw_question($questiondata, 'secret');
 
         $this->assertTrue($result['iserror']);
-        $this->assertEquals(stack_string('nrwuploadrejected') . ' No such collection.', $result['message']);
+        $this->assertEquals(stack_string('atlasuploadrejected') . ' No such collection.', $result['message']);
     }
 
     public function test_upload_nrw_question_returns_generic_error_for_other_json_response(): void {
@@ -349,7 +349,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
 
         $this->assertTrue($result['iserror']);
         $this->assertEquals(
-            stack_string('nrwuploadfailed') . ' HTTP 403: ' . $response,
+            stack_string('atlasuploadfailed') . ' HTTP 403: ' . $response,
             $result['message']
         );
     }

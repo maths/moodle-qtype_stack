@@ -255,8 +255,8 @@ $settings->add(new admin_setting_configtextarea(
 
 $settings->add(new admin_setting_configtext(
     'qtype_stack/nrwapikey',
-    get_string('settingnrwapikey', 'qtype_stack'),
-    get_string('settingnrwapikey_desc', 'qtype_stack'),
+    get_string('settingatlasapikey', 'qtype_stack'),
+    get_string('settingatlasapikey_desc', 'qtype_stack'),
     '',
     PARAM_TEXT,
     60
@@ -264,8 +264,8 @@ $settings->add(new admin_setting_configtext(
 
 $settings->add(new admin_setting_configcheckbox(
     'qtype_stack/nrwupload',
-    get_string('settingnrwupload', 'qtype_stack'),
-    get_string('settingnrwupload_desc', 'qtype_stack'),
+    get_string('settingatlasupload', 'qtype_stack'),
+    get_string('settingatlasupload_desc', 'qtype_stack'),
     0
 ));
 

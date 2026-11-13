@@ -49,7 +49,7 @@ if (!get_config('qtype_stack', 'nrwupload')) {
 
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/questionexport.php', $urlparams);
-$title = stack_string('exporttonrw');
+$title = stack_string('exporttoatlas');
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');

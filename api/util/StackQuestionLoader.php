@@ -161,7 +161,9 @@ class StackQuestionLoader {
         if ($includetests) {
             self::assert_valid_castext($question->questiontext, 'questiontext');
         }
-        self::assert_validation_placeholders($question->questiontext);
+        if ($includetests) {
+            self::assert_validation_placeholders($question->questiontext);
+        }
         $question->generalfeedback =
             isset($xmldata->question->generalfeedback->text) ? (string) $xmldata->question->generalfeedback->text :
             self::get_default('question', 'generalfeedback', '');
@@ -174,7 +176,7 @@ class StackQuestionLoader {
             self::get_default('question', 'defaultgrade', 1);
         $penalty = (array) $xmldata->question->penalty ? (string) $xmldata->question->penalty :
             self::get_default('question', 'penalty', 0.1);
-        if (!is_numeric($penalty) || $penalty < 0 || $penalty > 1) {
+        if ($includetests && (!is_numeric($penalty) || $penalty < 0 || $penalty > 1)) {
             throw new \stack_exception(\stack_string('penaltyerror'));
         }
         $question->penalty = (float) $penalty;
@@ -374,7 +376,7 @@ class StackQuestionLoader {
         $inputmap = [];
         foreach ($xmldata->question->input as $input) {
             $inputname = (string) $input->name;
-            if (in_array($inputname, array_keys($inputmap))) {
+            if ($includetests && in_array($inputname, array_keys($inputmap))) {
                 throw new \stack_exception(\stack_string('multipleinputs', $inputname));
             }
             $inputmap[$inputname] = $input;
@@ -453,7 +455,7 @@ class StackQuestionLoader {
                 'options'         => isset($inputdata->options) ? (string) $inputdata->options :
                     self::get_default('input', 'options', ''),
             ];
-            if (strlen($allparameters['syntaxHint']) > 255) {
+            if ($includetests && strlen($allparameters['syntaxHint']) > 255) {
                 throw new \stack_exception(\stack_string('syntaxhint_toolong'));
             }
             if ($includetests) {
@@ -495,7 +497,7 @@ class StackQuestionLoader {
                     throw new \stack_exception(implode(' ', $inputerrors));
                 }
             }
-            if ($parameters['mustVerify'] && $parameters['showValidation'] == 0) {
+            if ($includetests && $parameters['mustVerify'] && $parameters['showValidation'] == 0) {
                 throw new \stack_exception(\stack_string('mustverifyshowvalidation'));
             }
         }
@@ -575,7 +577,7 @@ class StackQuestionLoader {
         $prtmap = [];
         foreach ($xmldata->question->prt as $prt) {
             $prtname = (string) $prt->name;
-            if (in_array($prtname, array_keys($prtmap))) {
+            if ($includetests && in_array($prtname, array_keys($prtmap))) {
                 throw new \stack_exception(\stack_string('multipleprts', $prtname));
             }
             $prtmap[$prtname] = $prt;
@@ -619,7 +621,7 @@ class StackQuestionLoader {
         foreach ($prtmap as $prtdata) {
             $value = isset($prtdata->value) ? (string) $prtdata->value :
                 self::get_default('prt', 'value', 1);
-            if ($value < 0) {
+            if ($includetests && $value < 0) {
                 throw new \stack_exception(\stack_string('questionvaluepostive'));
             }
             // At this point we do not have the PRT method is_formative() available to us.
@@ -677,7 +679,7 @@ class StackQuestionLoader {
                 $newnode = new \stdClass();
 
                 $newnode->nodename = (string) $node->name;
-                if (in_array($newnode->nodename, array_keys($data->nodes))) {
+                if ($includetests && in_array($newnode->nodename, array_keys($data->nodes))) {
                     throw new \stack_exception(\stack_string('multiplenodes', [
                         'prt' => $data->name,
                         'node' => $newnode->nodename,
@@ -685,7 +687,7 @@ class StackQuestionLoader {
                 }
                 $newnode->description = isset($node->description) ? (string) $node->description :
                     self::get_default('node', 'description', '');
-                if (mb_strlen($newnode->description) > 255) {
+                if ($includetests && mb_strlen($newnode->description) > 255) {
                     throw new \stack_exception(\stack_string('description_err'));
                 }
                 self::parse_answertest($node);
@@ -706,26 +708,25 @@ class StackQuestionLoader {
                 $newnode->testoptions = isset($node->testoptions) ? (string) $node->testoptions :
                     self::get_default('node', 'testoptions', '');
                 $testoptions = trim($newnode->testoptions);
-                $optionsrequired = \stack_ans_test_controller::required_atoptions($newnode->answertest);
-                if ($optionsrequired === true && $testoptions === '') {
-                    throw new \stack_exception(\stack_string('testoptionsrequired'));
-                }
-                if ($optionsrequired !== false && strlen($testoptions) > 255) {
-                    throw new \stack_exception(\stack_string('testoptionsinvalid', \stack_string('strlengtherror')));
-                }
-                if (
-                    $includetests &&
-                    ($optionsrequired === true || ($optionsrequired === 'optional' && $testoptions !== ''))
-                ) {
-                    $casstring = \stack_ast_container::make_from_teacher_source(
-                        'null',
-                        '',
-                        new \stack_cas_security()
-                    );
-                    $answertest = new \stack_ans_test_controller($newnode->answertest, $casstring, $casstring);
-                    [$valid, $message] = $answertest->validate_atoptions($testoptions);
-                    if (!$valid) {
-                        throw new \stack_exception(\stack_string('testoptionsinvalid', $message));
+                if ($includetests) {
+                    $optionsrequired = \stack_ans_test_controller::required_atoptions($newnode->answertest);
+                    if ($optionsrequired === true && $testoptions === '') {
+                        throw new \stack_exception(\stack_string('testoptionsrequired'));
+                    }
+                    if ($optionsrequired !== false && strlen($testoptions) > 255) {
+                        throw new \stack_exception(\stack_string('testoptionsinvalid', \stack_string('strlengtherror')));
+                    }
+                    if ($optionsrequired === true || ($optionsrequired === 'optional' && $testoptions !== '')) {
+                        $casstring = \stack_ast_container::make_from_teacher_source(
+                            'null',
+                            '',
+                            new \stack_cas_security()
+                        );
+                        $answertest = new \stack_ans_test_controller($newnode->answertest, $casstring, $casstring);
+                        [$valid, $message] = $answertest->validate_atoptions($testoptions);
+                        if (!$valid) {
+                            throw new \stack_exception(\stack_string('testoptionsinvalid', $message));
+                        }
                     }
                 }
                 $newnode->quiet = isset($node->quiet) ? self::parseboolean($node->quiet) :
@@ -781,36 +782,38 @@ class StackQuestionLoader {
                     );
                 }
 
-                foreach (['truescore', 'falsescore'] as $field) {
-                    $score = $newnode->{$field};
-                    if (is_numeric($score) && ($score < 0 || $score > 1)) {
-                        throw new \stack_exception(\stack_string('scoreerror'));
+                if ($includetests) {
+                    foreach (['truescore', 'falsescore'] as $field) {
+                        $score = $newnode->{$field};
+                        if (is_numeric($score) && ($score < 0 || $score > 1)) {
+                            throw new \stack_exception(\stack_string('scoreerror'));
+                        }
                     }
-                }
-                foreach (['truepenalty', 'falsepenalty'] as $field) {
-                    $penalty = $newnode->{$field};
-                    if ('' != $penalty && is_numeric($penalty) && ($penalty < 0 || $penalty > 1)) {
-                        throw new \stack_exception(\stack_string('penaltyerror2'));
+                    foreach (['truepenalty', 'falsepenalty'] as $field) {
+                        $penalty = $newnode->{$field};
+                        if ('' != $penalty && is_numeric($penalty) && ($penalty < 0 || $penalty > 1)) {
+                            throw new \stack_exception(\stack_string('penaltyerror2'));
+                        }
                     }
-                }
-                foreach (['trueanswernote', 'falseanswernote'] as $field) {
-                    $answernote = $newnode->{$field};
-                    if ($strictmoodlecompatibility && !isset($node->{$field})) {
-                        throw new \stack_exception(\stack_string('answernoterequired'));
+                    foreach (['trueanswernote', 'falseanswernote'] as $field) {
+                        $answernote = $newnode->{$field};
+                        if ($strictmoodlecompatibility && !isset($node->{$field})) {
+                            throw new \stack_exception(\stack_string('answernoterequired'));
+                        }
+                        if ($answernote === '') {
+                            throw new \stack_exception(\stack_string('answernoterequired'));
+                        }
+                        if (str_contains($answernote, '|')) {
+                            throw new \stack_exception(\stack_string('answernote_err'));
+                        }
+                        if (str_contains($answernote, ';') || str_contains($answernote, ':')) {
+                            throw new \stack_exception(\stack_string('answernote_err2'));
+                        }
+                        if (in_array($answernote, $answernotes, true)) {
+                            throw new \stack_exception(\stack_string('answernoteunique'));
+                        }
+                        $answernotes[] = $answernote;
                     }
-                    if ($answernote === '') {
-                        throw new \stack_exception(\stack_string('answernoterequired'));
-                    }
-                    if (str_contains($answernote, '|')) {
-                        throw new \stack_exception(\stack_string('answernote_err'));
-                    }
-                    if (str_contains($answernote, ';') || str_contains($answernote, ':')) {
-                        throw new \stack_exception(\stack_string('answernote_err2'));
-                    }
-                    if (in_array($answernote, $answernotes, true)) {
-                        throw new \stack_exception(\stack_string('answernoteunique'));
-                    }
-                    $answernotes[] = $answernote;
                 }
 
                 $data->nodes[(int) $node->name] = $newnode;

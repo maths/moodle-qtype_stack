@@ -908,7 +908,7 @@ XML;
         $this->assertCount(1, $question->prts['prt1']->get_nodes_summary());
     }
 
-    public function test_question_loader_requires_validation_placeholder(): void {
+    public function test_question_loader_test_route_requires_validation_placeholder(): void {
         $xml = $this->get_minimal_question_xml(
             '    <questiontext><text>[[input:ans1]]</text></questiontext>' .
             '<input><name>ans1</name><tans>ta1</tans></input>'
@@ -916,35 +916,52 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('[[validation:ans1]]');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_rejects_duplicate_input_placeholder(): void {
+    public function test_question_loader_test_route_rejects_duplicate_input_placeholder(): void {
         $xml = $this->get_minimal_question_xml(
             '<questiontext><text>[[input:ans1]] [[input:ans1]] [[validation:ans1]]</text></questiontext>'
         );
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('[[input:ans1]]');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_rejects_duplicate_validation_placeholder(): void {
+    public function test_question_loader_test_route_rejects_duplicate_validation_placeholder(): void {
         $xml = $this->get_minimal_question_xml(
             '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[validation:ans1]]</text></questiontext>'
         );
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('[[validation:ans1]]');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_rejects_validation_placeholder_without_input(): void {
+    public function test_question_loader_test_route_rejects_validation_placeholder_without_input(): void {
         $xml = $this->get_minimal_question_xml('<questiontext><text>[[validation:ans1]]</text></questiontext>');
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('[[input:ans1]]');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
+    }
+
+    public function test_question_loader_leaves_authoring_checks_to_the_test_route(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<questiontext><text>[[input:ans1]]</text></questiontext><penalty>1.1</penalty>' .
+            '<input><name>ans1</name><tans>ta1</tans><showvalidation>0</showvalidation><syntaxhint>' .
+            str_repeat('x', 256) . '</syntaxhint></input>' .
+            '<prt><name>prt1</name><node><name>0</name><answertest>Int</answertest><description>' .
+            str_repeat('x', 256) . '</description><truescore>1.1</truescore>' .
+            '<trueanswernote></trueanswernote><falseanswernote>note|with-reserved-character</falseanswernote>' .
+            '</node></prt>'
+        );
+
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+
+        $this->assertSame(1.1, $question->penalty);
+        $this->assertCount(1, $question->prts['prt1']->get_nodes_summary());
     }
 
     public function test_question_loader_test_route_rejects_unreferenced_input(): void {
@@ -968,7 +985,7 @@ XML;
         StackQuestionLoader::loadXML($xml, true, true);
     }
 
-    public function test_question_loader_requires_visible_validation_when_verification_is_required(): void {
+    public function test_question_loader_test_route_requires_visible_validation_when_verification_is_required(): void {
         $xml = $this->get_minimal_question_xml(
             '    <questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
             '<input><name>ans1</name><tans>ta1</tans><showvalidation>0</showvalidation></input>'
@@ -976,7 +993,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('cannot choose to require two step validation');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
     public function test_question_loader_allows_hidden_validation_when_verification_is_disabled(): void {
@@ -992,17 +1009,17 @@ XML;
         $this->assertSame(0, $question->inputs['ans1']->get_parameter('showValidation'));
     }
 
-    public function test_question_loader_requires_required_answer_test_options(): void {
+    public function test_question_loader_test_route_requires_required_answer_test_options(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name><node><name>0</name><answertest>Int</answertest></node></prt>'
         );
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Test options are required');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_rejects_long_answer_test_options(): void {
+    public function test_question_loader_test_route_rejects_long_answer_test_options(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name><node><name>0</name><answertest>Int</answertest>' .
             '<testoptions>' . str_repeat('x', 256) . '</testoptions></node></prt>'
@@ -1010,7 +1027,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('may not exceed 255 characters');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
     public function test_question_loader_rejects_invalid_answer_test_options(): void {
@@ -1025,7 +1042,7 @@ XML;
     }
 
 
-    public function test_question_loader_requires_answer_notes(): void {
+    public function test_question_loader_test_route_requires_answer_notes(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name><node><name>0</name>' .
             '<trueanswernote></trueanswernote><falseanswernote>false-note</falseanswernote>' .
@@ -1034,10 +1051,10 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Answer note must not be empty');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_rejects_reserved_answer_note_characters(): void {
+    public function test_question_loader_test_route_rejects_reserved_answer_note_characters(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name><node><name>0</name>' .
             '<trueanswernote>true|note</trueanswernote><falseanswernote>false-note</falseanswernote>' .
@@ -1046,10 +1063,10 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Answer notes may not contain the character |');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_rejects_answer_note_separators(): void {
+    public function test_question_loader_test_route_rejects_answer_note_separators(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name><node><name>0</name>' .
             '<trueanswernote>true;note</trueanswernote><falseanswernote>false-note</falseanswernote>' .
@@ -1058,10 +1075,10 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Answer notes may not contain ; or : characters');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_requires_unique_answer_notes(): void {
+    public function test_question_loader_test_route_requires_unique_answer_notes(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name><node><name>0</name>' .
             '<trueanswernote>same-note</trueanswernote><falseanswernote>same-note</falseanswernote>' .
@@ -1070,45 +1087,45 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Duplicate answer notes detected');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_requires_a_penalty_between_zero_and_one(): void {
+    public function test_question_loader_test_route_requires_a_penalty_between_zero_and_one(): void {
         $xml = $this->get_minimal_question_xml('<penalty>1.1</penalty>');
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('The penalty must be a numeric value between 0 and 1');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_requires_non_negative_prt_values(): void {
+    public function test_question_loader_test_route_requires_non_negative_prt_values(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name><value>-1</value><node><name>0</name></node></prt>'
         );
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Question value must be non-negative');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_requires_scores_between_zero_and_one(): void {
+    public function test_question_loader_test_route_requires_scores_between_zero_and_one(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name><node><name>0</name><truescore>1.1</truescore></node></prt>'
         );
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('The score must be a numeric value between 0 and 1');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_requires_penalties_between_zero_and_one(): void {
+    public function test_question_loader_test_route_requires_penalties_between_zero_and_one(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name><node><name>0</name><falsepenalty>-0.1</falsepenalty></node></prt>'
         );
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('The penalty must empty, or be a numeric value between 0 and 1');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
     public function test_question_loader_test_route_rejects_missing_prt_node(): void {
@@ -1175,7 +1192,7 @@ XML;
     }
 
 
-    public function test_question_loader_rejects_long_syntax_hints(): void {
+    public function test_question_loader_test_route_rejects_long_syntax_hints(): void {
         $xml = $this->get_minimal_question_xml(
             '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
             '<input><name>ans1</name><tans>ta1</tans><syntaxhint>' . str_repeat('x', 256) .
@@ -1184,7 +1201,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('syntax hint field is limited to 255');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
     public function test_question_loader_rejects_invalid_input_parameters(): void {
@@ -1209,7 +1226,7 @@ XML;
         StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_rejects_long_prt_node_descriptions(): void {
+    public function test_question_loader_test_route_rejects_long_prt_node_descriptions(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name><node><name>0</name><description>' . str_repeat('x', 256) .
             '</description></node></prt>'
@@ -1217,7 +1234,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('node description is longer than 255 characters');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
     public function test_question_loader_rejects_invalid_metadata_json(): void {
@@ -1808,7 +1825,7 @@ XML;
         StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_rejects_duplicate_input_definitions(): void {
+    public function test_question_loader_test_route_rejects_duplicate_input_definitions(): void {
         $xml = $this->get_minimal_question_xml(
             '<questiontext><text>[[input:ans1]] [[validation:ans1]]</text></questiontext>' .
             '<input><name>ans1</name><tans>ta1</tans></input>' .
@@ -1817,10 +1834,10 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Multiple inputs have the same name: ans1');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_rejects_duplicate_prt_definitions(): void {
+    public function test_question_loader_test_route_rejects_duplicate_prt_definitions(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name><node><name>0</name></node></prt>' .
             '<prt><name>prt1</name><node><name>0</name></node></prt>'
@@ -1828,10 +1845,10 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Multiple prts have the same name: prt1');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_rejects_duplicate_node_definitions(): void {
+    public function test_question_loader_test_route_rejects_duplicate_node_definitions(): void {
         $xml = $this->get_minimal_question_xml(
             '<prt><name>prt1</name>' .
             '<node><name>0</name></node><node><name>0</name></node>' .
@@ -1840,7 +1857,7 @@ XML;
 
         $this->expectException(\stack_exception::class);
         $this->expectExceptionMessage('Multiple nodes have the name: 0 in PRT: prt1');
-        StackQuestionLoader::loadXML($xml);
+        StackQuestionLoader::loadXML($xml, true);
     }
 
     public function test_question_loader_rejects_oversized_yaml(): void {

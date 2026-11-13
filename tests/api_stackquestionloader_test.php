@@ -858,6 +858,89 @@ XML;
         $this->assertCount(1, $question->prts['prt1']->get_nodes_summary());
     }
 
+    public function test_question_loader_strict_moodle_compatibility_cleans_question_names(): void {
+        $xml = str_replace(
+            '<name><text>Test</text></name>',
+            '<name><text><![CDATA[ <b>Strict</b> name ]]></text></name>',
+            $this->get_minimal_question_xml(
+                '<questiontext><text>Question wording</text></questiontext><defaultgrade>0</defaultgrade>'
+            )
+        );
+
+        $normalquestion = StackQuestionLoader::loadXML($xml, true)['question'];
+        $strictquestion = StackQuestionLoader::loadXML($xml, true, true)['question'];
+
+        $this->assertSame('<b>Strict</b> name', $normalquestion->name);
+        $this->assertSame('Strict name', $strictquestion->name);
+
+        $emptynamexml = str_replace(
+            '<name><text>Test</text></name>',
+            '<name><text><![CDATA[<b></b>]]></text></name>',
+            $this->get_minimal_question_xml(
+                '<questiontext><text>Question wording</text></questiontext><defaultgrade>0</defaultgrade>'
+            )
+        );
+        $emptynamequestion = StackQuestionLoader::loadXML($emptynamexml, true, true)['question'];
+
+        $this->assertSame(
+            StackQuestionLoader::get_default('question', 'name', 'Default'),
+            $emptynamequestion->name
+        );
+    }
+
+    public function test_question_loader_strict_moodle_compatibility_shortens_question_names(): void {
+        $name = str_repeat('a', 300);
+        $xml = str_replace(
+            '<name><text>Test</text></name>',
+            '<name><text>' . $name . '</text></name>',
+            $this->get_minimal_question_xml(
+                '<questiontext><text>Question wording</text></questiontext><defaultgrade>0</defaultgrade>'
+            )
+        );
+
+        $normalquestion = StackQuestionLoader::loadXML($xml, true)['question'];
+        $strictquestion = StackQuestionLoader::loadXML($xml, true, true)['question'];
+
+        $this->assertSame($name, $normalquestion->name);
+        $this->assertLessThanOrEqual(255, \core_text::strlen($strictquestion->name));
+        $this->assertStringStartsWith('a', $strictquestion->name);
+    }
+
+    public function test_question_loader_strict_moodle_compatibility_normalises_legacy_penalties(): void {
+        $xml = $this->get_minimal_question_xml(
+            '<penalty>0.334</penalty>' .
+            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>' .
+            '<input><name>ans1</name><tans>ta1</tans></input>' .
+            '<prt><name>prt1</name><node><name>0</name><sans>ans1</sans><tans>ta1</tans>' .
+            '<truescore>0.334</truescore><truepenalty>0.334</truepenalty>' .
+            '<trueanswernote>note-T</trueanswernote><falsescore>0.666</falsescore>' .
+            '<falsepenalty>0.666</falsepenalty><falseanswernote>note-F</falseanswernote>' .
+            '</node></prt>' .
+            '<qtest><testcase>1</testcase><expected><name>prt1</name>' .
+            '<expectedpenalty>0.334</expectedpenalty></expected></qtest>'
+        );
+
+        ['question' => $normalquestion, 'testcases' => $normaltestcases] = StackQuestionLoader::loadXML($xml, true);
+        ['question' => $strictquestion, 'testcases' => $stricttestcases] =
+            StackQuestionLoader::loadXML($xml, true, true);
+
+        $this->assertSame(0.334, $normalquestion->penalty);
+        $this->assertSame(0.3333333, $strictquestion->penalty);
+
+        $nodes = new \ReflectionProperty(\stack_potentialresponse_tree_lite::class, 'nodes');
+        $normalnode = $nodes->getValue($normalquestion->prts['prt1'])[0];
+        $strictnode = $nodes->getValue($strictquestion->prts['prt1'])[0];
+        $this->assertSame('0.334', $normalnode->truepenalty);
+        $this->assertSame('0.666', $normalnode->falsepenalty);
+        $this->assertSame(0.3333333, $strictnode->truepenalty);
+        $this->assertSame(0.6666667, $strictnode->falsepenalty);
+        $this->assertSame('0.334', $strictnode->truescore);
+        $this->assertSame('0.666', $strictnode->falsescore);
+
+        $this->assertSame('0.334', $normaltestcases[0]->expectedresults['prt1']->penalty);
+        $this->assertSame(0.3333333, $stricttestcases[0]->expectedresults['prt1']->penalty);
+    }
+
     public function test_question_loader_test_route_rejects_html_in_hint_without_cdata(): void {
         $xml = $this->get_minimal_question_xml('<hint><text><p>Try again.</p></text></hint>');
 

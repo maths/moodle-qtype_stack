@@ -148,6 +148,12 @@ class StackQuestionLoader {
         // Based on moodles base question type.
         $question->name = (string) $xmldata->question->name->text ?
             (string) $xmldata->question->name->text : self::get_default('question', 'name', 'Default');
+        if ($strictmoodlecompatibility) {
+            $question->name = self::clean_moodle_question_name($question->name);
+            if ($question->name === '') {
+                $question->name = self::get_default('question', 'name', 'Default');
+            }
+        }
         $question->questiontext = isset($xmldata->question->questiontext->text) ?
             (string) $xmldata->question->questiontext->text :
             self::get_default(
@@ -176,6 +182,9 @@ class StackQuestionLoader {
             self::get_default('question', 'defaultgrade', 1);
         $penalty = (array) $xmldata->question->penalty ? (string) $xmldata->question->penalty :
             self::get_default('question', 'penalty', 0.1);
+        if ($strictmoodlecompatibility) {
+            $penalty = \stack_utils::fix_approximate_thirds($penalty);
+        }
         if ($includetests && (!is_numeric($penalty) || $penalty < 0 || $penalty > 1)) {
             throw new \stack_exception(\stack_string('penaltyerror'));
         }
@@ -672,6 +681,9 @@ class StackQuestionLoader {
                 (string) $node->truescore : self::get_default('node', 'truescore', '1.0');
                 $newnode->truepenalty = (array) $node->truepenalty ?
                     (string) $node->truepenalty : self::get_default('node', 'truepenalty', null);
+                if ($strictmoodlecompatibility) {
+                    $newnode->truepenalty = \stack_utils::fix_approximate_thirds($newnode->truepenalty);
+                }
                 $newnode->truenextnode = (array) $node->truenextnode ?
                     (string) $node->truenextnode : self::get_default('node', 'truenextnode', '-1');
                 $newnode->trueanswernote = isset($node->trueanswernote) ?
@@ -699,6 +711,9 @@ class StackQuestionLoader {
                     self::get_default('node', 'falsescore', '0.0');
                 $newnode->falsepenalty = (array) $node->falsepenalty ?
                     (string) $node->falsepenalty : self::get_default('node', 'falsepenalty', null);
+                if ($strictmoodlecompatibility) {
+                    $newnode->falsepenalty = \stack_utils::fix_approximate_thirds($newnode->falsepenalty);
+                }
                 $newnode->falsenextnode = (array) $node->falsenextnode ?
                     (string) $node->falsenextnode : self::get_default('node', 'falsenextnode', '-1');
                 $newnode->falseanswernote = isset($node->falseanswernote) ?
@@ -805,6 +820,12 @@ class StackQuestionLoader {
                 foreach ($test->expected as $expected) {
                     $testename = isset($expected->name) ? (string) $expected->name :
                         self::get_default('expected', 'name', 'prt1');
+                    $expectedpenalty = (array) $expected->expectedpenalty ?
+                        (string) $expected->expectedpenalty :
+                        self::get_default('expected', 'expectedpenalty', null);
+                    if ($strictmoodlecompatibility) {
+                        $expectedpenalty = \stack_utils::fix_approximate_thirds($expectedpenalty);
+                    }
                     $testcase->add_expected_result(
                         $testename,
                         new \stack_potentialresponse_tree_state(
@@ -813,9 +834,7 @@ class StackQuestionLoader {
                             (array) $expected->expectedscore ?
                                 (string) $expected->expectedscore :
                                 self::get_default('expected', 'expectedscore', null),
-                            (array) $expected->expectedpenalty ?
-                                (string) $expected->expectedpenalty :
-                                self::get_default('expected', 'expectedpenalty', null),
+                            $expectedpenalty,
                             '',
                             [
                                 (array) $expected->expectedanswernote ?
@@ -912,6 +931,23 @@ class StackQuestionLoader {
         }
 
         throw new \stack_exception(\get_string('api_invalid_bool', 'qtype_stack'));
+    }
+
+    /**
+     * Apply Moodle XML import's question-name cleaning.
+     *
+     * @param string $name XML question name.
+     * @return string Cleaned question name.
+     */
+    private static function clean_moodle_question_name(string $name): string {
+        $name = \clean_param($name, PARAM_TEXT);
+        $name = trim($name);
+        $trimlength = 251;
+        while (\core_text::strlen($name) > 255 && $trimlength > 0) {
+            $name = \shorten_text($name, $trimlength);
+            $trimlength -= 10;
+        }
+        return $name;
     }
 
     /**

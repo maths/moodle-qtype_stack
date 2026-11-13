@@ -376,7 +376,7 @@ class StackQuestionLoader {
         $inputmap = [];
         foreach ($xmldata->question->input as $input) {
             $inputname = (string) $input->name;
-            if ($includetests && in_array($inputname, array_keys($inputmap))) {
+            if ($includetests && array_key_exists($inputname, $inputmap)) {
                 throw new \stack_exception(\stack_string('multipleinputs', $inputname));
             }
             $inputmap[$inputname] = $input;
@@ -502,74 +502,8 @@ class StackQuestionLoader {
             }
         }
 
-        if ($includetests && trim($question->questionvariables) !== '') {
-            $inputnames = array_unique(array_merge(
-                \stack_utils::extract_placeholders($question->questiontext, 'input'),
-                \stack_utils::extract_placeholders($question->questiontext, 'validation')
-            ));
-            $keyval = new \stack_cas_keyval($question->questionvariables, $question->options, 1);
-            if (!$keyval->get_valid($inputnames)) {
-                throw new \stack_exception(implode(' ', $keyval->get_errors()));
-            }
-        }
-
         if ($includetests) {
-            self::assert_valid_castext($question->specificfeedback, 'specificfeedback');
-            foreach (['input', 'validation'] as $type) {
-                if (\stack_utils::extract_placeholders($question->specificfeedback, $type)) {
-                    throw new \stack_exception(\stack_string(
-                        'fieldshouldnotcontainplaceholder',
-                        ['field' => \stack_string('specificfeedback'), 'type' => $type]
-                    ));
-                }
-            }
-        }
-
-        if ($includetests) {
-            self::assert_valid_castext($question->generalfeedback, 'generalfeedback');
-            foreach (['input', 'validation', 'feedback'] as $type) {
-                if (\stack_utils::extract_placeholders($question->generalfeedback, $type)) {
-                    throw new \stack_exception(\stack_string(
-                        'fieldshouldnotcontainplaceholder',
-                        ['field' => \get_string('generalfeedback', 'question'), 'type' => $type]
-                    ));
-                }
-            }
-        }
-
-        if ($includetests) {
-            if ($question->questionnote === '') {
-                if ($strictmoodlecompatibility &&
-                    \qtype_stack_question::random_variants_check_with_includes($question->questionvariables)) {
-                    throw new \stack_exception(\stack_string('questionnotempty'));
-                }
-            } else {
-                self::assert_valid_castext($question->questionnote, 'questionnote');
-            }
-            if ($strictmoodlecompatibility && !isset($xmldata->question->questionnote->text) &&
-                \qtype_stack_question::random_variants_check_with_includes($question->questionvariables)) {
-                throw new \stack_exception(\stack_string('questionnotempty'));
-            }
-            foreach (['input', 'validation', 'feedback'] as $type) {
-                if (\stack_utils::extract_placeholders($question->questionnote, $type)) {
-                    throw new \stack_exception(\stack_string(
-                        'fieldshouldnotcontainplaceholder',
-                        ['field' => \stack_string('questionnote'), 'type' => $type]
-                    ));
-                }
-            }
-        }
-
-        if ($includetests) {
-            self::assert_valid_castext($question->questiondescription, 'questiondescription');
-            foreach (['input', 'validation', 'feedback'] as $type) {
-                if (\stack_utils::extract_placeholders($question->questiondescription, $type)) {
-                    throw new \stack_exception(\stack_string(
-                        'fieldshouldnotcontainplaceholder',
-                        ['field' => \stack_string('questiondescription'), 'type' => $type]
-                    ));
-                }
-            }
+            self::assert_valid_question_text_fields($question, $xmldata->question, $strictmoodlecompatibility);
         }
 
         $totalvalue = 0;
@@ -577,7 +511,7 @@ class StackQuestionLoader {
         $prtmap = [];
         foreach ($xmldata->question->prt as $prt) {
             $prtname = (string) $prt->name;
-            if ($includetests && in_array($prtname, array_keys($prtmap))) {
+            if ($includetests && array_key_exists($prtname, $prtmap)) {
                 throw new \stack_exception(\stack_string('multipleprts', $prtname));
             }
             $prtmap[$prtname] = $prt;
@@ -679,7 +613,7 @@ class StackQuestionLoader {
                 $newnode = new \stdClass();
 
                 $newnode->nodename = (string) $node->name;
-                if ($includetests && in_array($newnode->nodename, array_keys($data->nodes))) {
+                if ($includetests && array_key_exists((int) $newnode->nodename, $data->nodes)) {
                     throw new \stack_exception(\stack_string('multiplenodes', [
                         'prt' => $data->name,
                         'node' => $newnode->nodename,
@@ -819,7 +753,7 @@ class StackQuestionLoader {
                 $data->nodes[(int) $node->name] = $newnode;
             }
             if ($includetests) {
-                self::assert_prt_graph_is_portable($data);
+                self::assert_valid_prt_graph($data);
             }
 
             $question->prts[(string) $prtdata->name] = new \stack_potentialresponse_tree_lite(
@@ -1313,7 +1247,94 @@ class StackQuestionLoader {
     }
 
     /**
-     * Apply Moodle's CASText validation to a syntax hint.
+     * Validate question-level CASText fields and the placeholders which are
+     * invalid in each field.
+     *
+     * @param \qtype_stack_question $question Loaded question.
+     * @param SimpleXMLElement $questiondata Source XML question element.
+     * @param bool $strictmoodlecompatibility Whether Moodle-only checks apply.
+     */
+    private static function assert_valid_question_text_fields(
+        \qtype_stack_question $question,
+        SimpleXMLElement $questiondata,
+        bool $strictmoodlecompatibility
+    ): void {
+        if (trim($question->questionvariables) !== '') {
+            $inputnames = array_unique(array_merge(
+                \stack_utils::extract_placeholders($question->questiontext, 'input'),
+                \stack_utils::extract_placeholders($question->questiontext, 'validation')
+            ));
+            $keyval = new \stack_cas_keyval($question->questionvariables, $question->options, 1);
+            if (!$keyval->get_valid($inputnames)) {
+                throw new \stack_exception(implode(' ', $keyval->get_errors()));
+            }
+        }
+
+        self::assert_valid_castext_field(
+            $question->specificfeedback,
+            'specificfeedback',
+            \stack_string('specificfeedback'),
+            ['input', 'validation']
+        );
+        self::assert_valid_castext_field(
+            $question->generalfeedback,
+            'generalfeedback',
+            \get_string('generalfeedback', 'question'),
+            ['input', 'validation', 'feedback']
+        );
+
+        $randomvariants = \qtype_stack_question::random_variants_check_with_includes(
+            $question->questionvariables
+        );
+        if ($strictmoodlecompatibility && $randomvariants && $question->questionnote === '') {
+            throw new \stack_exception(\stack_string('questionnotempty'));
+        }
+        if ($strictmoodlecompatibility && !isset($questiondata->questionnote->text) && $randomvariants) {
+            throw new \stack_exception(\stack_string('questionnotempty'));
+        }
+        self::assert_valid_castext_field(
+            $question->questionnote,
+            'questionnote',
+            \stack_string('questionnote'),
+            ['input', 'validation', 'feedback']
+        );
+
+        self::assert_valid_castext_field(
+            $question->questiondescription,
+            'questiondescription',
+            \stack_string('questiondescription'),
+            ['input', 'validation', 'feedback']
+        );
+    }
+
+    /**
+     * Apply Moodle's CASText validation and reject placeholders which cannot
+     * work in the field being validated.
+     *
+     * @param string $castext Source text to validate.
+     * @param string $fieldname Field name for CASText error context.
+     * @param string $fieldlabel Localised field name for placeholder errors.
+     * @param string[] $forbiddenplaceholders Placeholder types forbidden in this field.
+     */
+    private static function assert_valid_castext_field(
+        string $castext,
+        string $fieldname,
+        string $fieldlabel,
+        array $forbiddenplaceholders = []
+    ): void {
+        self::assert_valid_castext($castext, $fieldname);
+        foreach ($forbiddenplaceholders as $type) {
+            if (\stack_utils::extract_placeholders($castext, $type)) {
+                throw new \stack_exception(\stack_string(
+                    'fieldshouldnotcontainplaceholder',
+                    ['field' => $fieldlabel, 'type' => $type]
+                ));
+            }
+        }
+    }
+
+    /**
+     * Apply Moodle's CASText validation.
      *
      * @param string $castext Source text to validate.
      * @param string $fieldname Field name for CASText error context.
@@ -1376,7 +1397,7 @@ class StackQuestionLoader {
      *
      * @param \stdClass $prtdata PRT data assembled by the loader.
      */
-    private static function assert_prt_graph_is_portable(\stdClass $prtdata): void {
+    private static function assert_valid_prt_graph(\stdClass $prtdata): void {
         $graph = new \stack_abstract_graph();
         foreach ($prtdata->nodes as $node) {
             foreach ([

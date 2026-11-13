@@ -908,42 +908,23 @@ XML;
         $this->assertCount(1, $question->prts['prt1']->get_nodes_summary());
     }
 
-    public function test_question_loader_test_route_requires_validation_placeholder(): void {
-        $xml = $this->get_minimal_question_xml(
-            '    <questiontext><text>[[input:ans1]]</text></questiontext>' .
-            '<input><name>ans1</name><tans>ta1</tans></input>'
-        );
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('[[validation:ans1]]');
-        StackQuestionLoader::loadXML($xml, true);
+    public static function invalid_input_placeholder_provider(): array {
+        return [
+            'missing validation placeholder' => ['[[input:ans1]]', '[[validation:ans1]]'],
+            'duplicate input placeholder' => ['[[input:ans1]] [[input:ans1]] [[validation:ans1]]', '[[input:ans1]]'],
+            'duplicate validation placeholder' => ['[[input:ans1]] [[validation:ans1]] [[validation:ans1]]', '[[validation:ans1]]'],
+            'orphaned validation placeholder' => ['[[validation:ans1]]', '[[input:ans1]]'],
+        ];
     }
 
-    public function test_question_loader_test_route_rejects_duplicate_input_placeholder(): void {
-        $xml = $this->get_minimal_question_xml(
-            '<questiontext><text>[[input:ans1]] [[input:ans1]] [[validation:ans1]]</text></questiontext>'
-        );
+    /**
+     * @dataProvider invalid_input_placeholder_provider
+     */
+    public function test_question_loader_validates_input_placeholders(string $placeholders, string $message): void {
+        $xml = $this->get_minimal_question_xml("<questiontext><text>{$placeholders}</text></questiontext>");
 
         $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('[[input:ans1]]');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_duplicate_validation_placeholder(): void {
-        $xml = $this->get_minimal_question_xml(
-            '<questiontext><text>[[input:ans1]] [[validation:ans1]] [[validation:ans1]]</text></questiontext>'
-        );
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('[[validation:ans1]]');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_validation_placeholder_without_input(): void {
-        $xml = $this->get_minimal_question_xml('<questiontext><text>[[validation:ans1]]</text></questiontext>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('[[input:ans1]]');
+        $this->expectExceptionMessage($message);
         StackQuestionLoader::loadXML($xml, true);
     }
 
@@ -1431,95 +1412,58 @@ XML;
         StackQuestionLoader::loadXML($xml, true);
     }
 
-    public function test_question_loader_test_route_rejects_invalid_specific_feedback_castext(): void {
-        $xml = $this->get_minimal_question_xml('<specificfeedback><text>$$x$$</text></specificfeedback>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('are not permitted');
-        StackQuestionLoader::loadXML($xml, true);
+    public static function invalid_question_text_field_provider(): array {
+        return [
+            'specific feedback CASText' => ['specificfeedback', '$$x$$', 'are not permitted'],
+            'general feedback CASText' => ['generalfeedback', '$$x$$', 'are not permitted'],
+            'question note CASText' => ['questionnote', '$$x$$', 'are not permitted'],
+            'question description CASText' => ['questiondescription', '$$x$$', 'are not permitted'],
+            'specific feedback input' => [
+                'specificfeedback', '[[input:ans1]]', 'Specific feedback should not contain any [[input:...]] placeholders',
+            ],
+            'specific feedback validation' => [
+                'specificfeedback',
+                '[[validation:ans1]]',
+                'Specific feedback should not contain any [[validation:...]] placeholders',
+            ],
+            'general feedback input' => [
+                'generalfeedback', '[[input:ans1]]', 'should not contain any [[input:...]] placeholders',
+            ],
+            'general feedback validation' => [
+                'generalfeedback', '[[validation:ans1]]', 'should not contain any [[validation:...]] placeholders',
+            ],
+            'general feedback feedback' => [
+                'generalfeedback', '[[feedback:prt1]]', 'should not contain any [[feedback:...]] placeholders',
+            ],
+            'question note input' => [
+                'questionnote', '[[input:ans1]]', 'Question note should not contain any [[input:...]] placeholders',
+            ],
+            'question note validation' => [
+                'questionnote', '[[validation:ans1]]', 'Question note should not contain any [[validation:...]] placeholders',
+            ],
+            'question note feedback' => [
+                'questionnote', '[[feedback:prt1]]', 'Question note should not contain any [[feedback:...]] placeholders',
+            ],
+            'question description feedback' => [
+                'questiondescription',
+                '[[feedback:prt1]]',
+                'Question description should not contain any [[feedback:...]] placeholders',
+            ],
+        ];
     }
 
-    public function test_question_loader_test_route_rejects_input_placeholders_in_specific_feedback(): void {
-        $xml = $this->get_minimal_question_xml(
-            '<specificfeedback><text>[[input:ans1]]</text></specificfeedback>'
-        );
+    /**
+     * @dataProvider invalid_question_text_field_provider
+     */
+    public function test_question_loader_validates_question_text_fields(
+        string $field,
+        string $text,
+        string $message
+    ): void {
+        $xml = $this->get_minimal_question_xml("<{$field}><text>{$text}</text></{$field}>");
 
         $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('Specific feedback should not contain any [[input:...]] placeholders');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_validation_placeholders_in_specific_feedback(): void {
-        $xml = $this->get_minimal_question_xml(
-            '<specificfeedback><text>[[validation:ans1]]</text></specificfeedback>'
-        );
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('Specific feedback should not contain any [[validation:...]] placeholders');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_invalid_general_feedback_castext(): void {
-        $xml = $this->get_minimal_question_xml('<generalfeedback><text>$$x$$</text></generalfeedback>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('are not permitted');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_input_placeholders_in_general_feedback(): void {
-        $xml = $this->get_minimal_question_xml('<generalfeedback><text>[[input:ans1]]</text></generalfeedback>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('should not contain any [[input:...]] placeholders');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_validation_placeholders_in_general_feedback(): void {
-        $xml = $this->get_minimal_question_xml('<generalfeedback><text>[[validation:ans1]]</text></generalfeedback>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('should not contain any [[validation:...]] placeholders');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_feedback_placeholders_in_general_feedback(): void {
-        $xml = $this->get_minimal_question_xml('<generalfeedback><text>[[feedback:prt1]]</text></generalfeedback>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('should not contain any [[feedback:...]] placeholders');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_invalid_question_note_castext(): void {
-        $xml = $this->get_minimal_question_xml('<questionnote><text>$$x$$</text></questionnote>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('are not permitted');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_input_placeholders_in_question_note(): void {
-        $xml = $this->get_minimal_question_xml('<questionnote><text>[[input:ans1]]</text></questionnote>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('Question note should not contain any [[input:...]] placeholders');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_validation_placeholders_in_question_note(): void {
-        $xml = $this->get_minimal_question_xml('<questionnote><text>[[validation:ans1]]</text></questionnote>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('Question note should not contain any [[validation:...]] placeholders');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_feedback_placeholders_in_question_note(): void {
-        $xml = $this->get_minimal_question_xml('<questionnote><text>[[feedback:prt1]]</text></questionnote>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('Question note should not contain any [[feedback:...]] placeholders');
+        $this->expectExceptionMessage($message);
         StackQuestionLoader::loadXML($xml, true);
     }
 
@@ -1535,39 +1479,6 @@ XML;
         StackQuestionLoader::loadXML($xml, true, true);
     }
 
-    public function test_question_loader_test_route_rejects_invalid_question_description_castext(): void {
-        $xml = $this->get_minimal_question_xml('<questiondescription><text>$$x$$</text></questiondescription>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('are not permitted');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_input_placeholders_in_question_description(): void {
-        $xml = $this->get_minimal_question_xml('<questiondescription><text>[[input:ans1]]</text></questiondescription>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('Question description should not contain any [[input:...]] placeholders');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_validation_placeholders_in_question_description(): void {
-        $xml = $this->get_minimal_question_xml(
-            '<questiondescription><text>[[validation:ans1]]</text></questiondescription>'
-        );
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('Question description should not contain any [[validation:...]] placeholders');
-        StackQuestionLoader::loadXML($xml, true);
-    }
-
-    public function test_question_loader_test_route_rejects_feedback_placeholders_in_question_description(): void {
-        $xml = $this->get_minimal_question_xml('<questiondescription><text>[[feedback:prt1]]</text></questiondescription>');
-
-        $this->expectException(\stack_exception::class);
-        $this->expectExceptionMessage('Question description should not contain any [[feedback:...]] placeholders');
-        StackQuestionLoader::loadXML($xml, true);
-    }
 
     public function test_question_loader_test_route_requires_input_teacher_answers(): void {
         $xml = $this->get_minimal_question_xml(

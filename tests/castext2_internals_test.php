@@ -113,6 +113,57 @@ final class castext2_internals_test extends qtype_stack_testcase {
     }
 
     /**
+     * A "[" immediately before a block, as in display maths "\[[[if ...]]".
+     * Issue #1965.
+     * @covers \qtype_stack\CTP_Parser
+     * @covers \qtype_stack\CTP_Parser::parse
+     */
+    public function test_bracket_before_block(): void {
+
+        $parser = new CTP_Parser();
+
+        // Display maths opened directly before an if-block.
+        $ast = $parser->parse('\[[[if test="true"]]x[[/if]]\]');
+        $this->assertEquals(3, count($ast->items));
+        $this->assertTrue($ast->items[0] instanceof CTP_Raw);
+        $this->assertEquals('\[', $ast->items[0]->value);
+        $this->assertTrue($ast->items[1] instanceof CTP_Block);
+        $this->assertEquals('if', $ast->items[1]->name);
+        $this->assertTrue($ast->items[2] instanceof CTP_Raw);
+        $this->assertEquals('\]', $ast->items[2]->value);
+
+        // The same with a plain bracket, and with other blocks.
+        $ast = $parser->parse('[[[if test="true"]]x[[/if]]]');
+        $this->assertEquals(3, count($ast->items));
+        $this->assertEquals('[', $ast->items[0]->value);
+        $this->assertEquals('if', $ast->items[1]->name);
+        $this->assertEquals(']', $ast->items[2]->value);
+
+        $ast = $parser->parse('\[[[foreach x="[1,2]"]]{@x@}[[/foreach]]\]');
+        $this->assertEquals(3, count($ast->items));
+        $this->assertEquals('foreach', $ast->items[1]->name);
+
+        $ast = $parser->parse('\[[[comment]]c[[/comment]]x\]');
+        $this->assertTrue($ast->items[0] instanceof CTP_Raw);
+        $this->assertEquals('\[', $ast->items[0]->value);
+        $this->assertTrue($ast->items[1] instanceof CTP_Block);
+        $this->assertEquals('comment', $ast->items[1]->name);
+
+        // Without an error this one is silently wrong: the input stays as raw text.
+        $ast = $parser->parse('\[[[input:ans1]]\]');
+        $this->assertEquals(3, count($ast->items));
+        $this->assertTrue($ast->items[1] instanceof CTP_IOBlock);
+        $this->assertEquals('input', $ast->items[1]->channel);
+        $this->assertEquals('ans1', $ast->items[1]->variable);
+
+        // Controls: these already parse.
+        $ast = $parser->parse('\[ [[if test="true"]]x[[/if]]\]');
+        $this->assertEquals('if', $ast->items[1]->name);
+        $ast = $parser->parse('\([[if test="true"]]x[[/if]]\)');
+        $this->assertEquals('if', $ast->items[1]->name);
+    }
+
+    /**
      * Add description here.
      * @covers \qtype_stack\castext2_parser_utils::math_paint
      */

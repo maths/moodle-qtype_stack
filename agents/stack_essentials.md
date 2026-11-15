@@ -455,9 +455,24 @@ integral or "find \(F\) with \(F(0)=3\)": use `AlgEquiv` there.
 
 **Numbers.**
 
-- `AlgEquiv` treats `98.9` and `989/10` as equal, but `Sets` compares
-  simplified elements exactly, so they differ there. Compare floats with
-  floats.
+- A float in question code is always an approximation. Some questions,
+  especially in science, rightly use floats. Elsewhere, Maxima works exactly:
+  don't decide an exact answer with a float, i.e. no `is(float(x) > 0)`, no
+  tolerance such as `abs(float(a - b)) < 10^(-9)`, and no numerical test
+  against an exact value. It can mark a wrong answer right. Use an exact
+  answer test, or test indirectly: compare `a - b` with `0`, check a defining
+  property exactly (substitute the answer back), or accept only rational
+  entries so that every comparison is between rationals. Note that
+  `is(x > 0)` on an irrational constant is decided numerically too: `sign`
+  falls back to a bigfloat. Keep the numerical tests for questions that ask
+  for an approximation.
+- `AlgEquiv` treats `98.9` and `989/10` as equal, but more importantly it
+  treats `1/3` and `0.333` as different: students often use floats as
+  approximations. By design, we try to encourage students to be exact (with
+  appropriate validation) and avoid floating point errors.
+- `Sets` compares simplified elements exactly, so `{98.9}` and `{989/10}` are
+  different sets, although `AlgEquiv` treats the numbers as equal.
+- Compare floats with floats, using the numerical tests.
 - `NumSigFigs`, `NumDecPlaces` and the other tests that count digits read the
   student's raw input. A test input is evaluated first, and Maxima drops
   trailing zeros from a float, so the test value `28.8000` arrives as `28.8`.

@@ -277,6 +277,21 @@ final class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('', $at2->get_errors());
     }
 
+    public function test_teacher_only_sqrtdenest(): void {
+        // Teachers need sqrtdenest to compare nested radicals exactly (issue 1966).
+        $s = 'sqrtdenest(sqrt(19+6*sqrt(10)))';
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
+        $this->assertFalse($at1->get_valid());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">sqrtdenest</span>.',
+            $at1->get_errors()
+        );
+
+        $at2 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
+        $this->assertTrue($at2->get_valid());
+        $this->assertEquals('', $at2->get_errors());
+    }
+
     public function test_allow_words(): void {
 
         $s = '2*dumvariable+3';

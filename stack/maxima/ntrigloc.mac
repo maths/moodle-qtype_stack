@@ -1,0 +1,71 @@
+/* A copy of Maxima's share/trigonometry/ntrig.mac, extended: exact values of
+   sin, cos, tan, cot, sec and csc at multiples of %pi/8 and %pi/12 as well as
+   %pi/10, with single-radical values for tan and cot. STACK loads this copy
+   until a Maxima release includes the extension (STACK issue #1966). */
+
+eval_when([translate,batch,demo,load,loadfile],
+matchdeclare(n,integerp))$
+
+tellsimpafter(sin(n*%pi/10),usin(n))$
+tellsimpafter(cos(n*%pi/10),ucos(n))$
+tellsimpafter(tan(n*%pi/10),utan(n))$
+tellsimpafter(cot(n*%pi/10),utan(5-n))$
+tellsimpafter(sec(n*%pi/10),1/ucos(n))$
+tellsimpafter(csc(n*%pi/10),1/usin(n))$
+
+usin(n):= block([yuk:remainder(remainder(n,10)+10,10),
+                 sgn:if remainder(remainder(n,20)+20,20)>=10 then -1 else 1],
+if yuk=1 or yuk=9 then sgn*(sqrt(5)-1)/4 else
+if yuk=2 or yuk=8 then sgn*sqrt(5-sqrt(5))/(2*sqrt(2)) else
+if yuk=3 or yuk=7 then sgn*(sqrt(5)+1)/4 else
+if yuk=4 or yuk=6 then sgn*sqrt(sqrt(5)+5)/(2*sqrt(2)))$
+
+ucos(n):= block([yuk:remainder(remainder(n,10)+10,10),
+                 sgn:if remainder(remainder(n,20)+20,20)>5 and
+                        remainder(remainder(n,20)+20,20)<15 then -1 else 1],
+if yuk=1 or yuk=9 then sgn*sqrt(sqrt(5)+5)/(2*sqrt(2)) else
+if yuk=2 or yuk=8 then sgn*(sqrt(5)+1)/4 else
+if yuk=3 or yuk=7 then sgn*sqrt(5-sqrt(5))/(2*sqrt(2)) else
+if yuk=4 or yuk=6 then sgn*(sqrt(5)-1)/4)$
+
+/* tan(n*%pi/10): period %pi, odd. */
+utan(n):= block([m:mod(n,10), sgn:1],
+if m>5 then (m:10-m, sgn:-1),
+sgn*[0, sqrt(25-10*sqrt(5))/5, sqrt(5-2*sqrt(5)),
+     sqrt(25+10*sqrt(5))/5, sqrt(5+2*sqrt(5))][m+1])$
+
+/* Arguments n*%pi/12. The simplifier already evaluates the multiples of
+   %pi/6 and %pi/4, so these rules see only n prime to 12. */
+tellsimpafter(sin(n*%pi/12),usin12(n))$
+tellsimpafter(cos(n*%pi/12),usin12(n+6))$
+tellsimpafter(tan(n*%pi/12),utan12(n))$
+tellsimpafter(cot(n*%pi/12),utan12(6-n))$
+tellsimpafter(sec(n*%pi/12),1/usin12(n+6))$
+tellsimpafter(csc(n*%pi/12),1/usin12(n))$
+
+usin12(n):= block([m:mod(n,24), sgn:1],
+if m>=12 then (m:m-12, sgn:-1),
+if m>6 then m:12-m,
+sgn*[0, (sqrt(6)-sqrt(2))/4, 1/2, sqrt(2)/2, sqrt(3)/2,
+     (sqrt(6)+sqrt(2))/4, 1][m+1])$
+
+utan12(n):= block([m:mod(n,12), sgn:1],
+if m>6 then (m:12-m, sgn:-1),
+sgn*[0, 2-sqrt(3), sqrt(3)/3, 1, sqrt(3), 2+sqrt(3)][m+1])$
+
+/* Arguments n*%pi/8: the rules see only odd n. */
+tellsimpafter(sin(n*%pi/8),usin8(n))$
+tellsimpafter(cos(n*%pi/8),usin8(n+4))$
+tellsimpafter(tan(n*%pi/8),utan8(n))$
+tellsimpafter(cot(n*%pi/8),utan8(4-n))$
+tellsimpafter(sec(n*%pi/8),1/usin8(n+4))$
+tellsimpafter(csc(n*%pi/8),1/usin8(n))$
+
+usin8(n):= block([m:mod(n,16), sgn:1],
+if m>=8 then (m:m-8, sgn:-1),
+if m>4 then m:8-m,
+sgn*[0, sqrt(2-sqrt(2))/2, sqrt(2)/2, sqrt(2+sqrt(2))/2, 1][m+1])$
+
+utan8(n):= block([m:mod(n,8), sgn:1],
+if m>4 then (m:8-m, sgn:-1),
+sgn*[0, sqrt(2)-1, 1, sqrt(2)+1][m+1])$

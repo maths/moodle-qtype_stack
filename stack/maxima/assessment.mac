@@ -1165,6 +1165,9 @@ algebraic_equivalence(SA, SB) :=
     ex:ex[1],
     if floatnump(ex) then return(false),
     ex:num(ex),  /* after a fullratsimp, we have a ratio.  We should only need to consider the top */
+    if ratsimp(ex)=0 then return(true),
+    for vi:1 while ex#ev(ex:sqrtdenest(ex), simp) do ev(ex:sqrtdenest(ex), simp),
+    if ratsimp(ex)=0 then return(true),
     /* Don't always expand out trig expressions. */
     if algebraic_equivalence_trigexpandp then trigexpand:true else trigexpand:false,
     ex:trigsimp(ex),
@@ -1175,8 +1178,6 @@ algebraic_equivalence(SA, SB) :=
     /* Radcan is slow, and may be causeing timeouts... */
     ex:radcan(ex),
     ex:factcomb(ex),
-    if ratsimp(ex)=0 then return(true),
-    for vi:1 while ex#sqrtdenest(ex) do ex:sqrtdenest(ex),
     if ratsimp(ex)=0 then return(true) else return(false)
     )$
 

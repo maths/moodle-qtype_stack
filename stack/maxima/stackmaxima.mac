@@ -184,6 +184,8 @@ if is(MAXIMA_VERSION_NUM<44.0) then load("stack44.mac");
 
 /* This file is a modified core Maxima function with local variable name clashes fixed. */
 load("trigrat.lisp");
+/* A copy of Maxima's ntrig package, extended to %pi/8 and %pi/12: exact trig values. */
+load("ntrigloc.mac");
 load("trigtools");
 load("diag");
 load("eigen");

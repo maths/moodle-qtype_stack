@@ -595,6 +595,15 @@ PRTs and tests. Write one statement per line, each ending with `;`.
   it in `<allowwords>` (`is_allowed_to_read()` in
   `stack/cas/cassecurity.class.php`). So do not use a name the student needs,
   such as `c` in an integration question.
+- The exception is a name `security-map.json` already allows students to use
+  (an entry `s`, as a variable or a function). `is_allowed_to_read()` and
+  `is_allowed_to_call()` accept it before checking the question's names, so
+  **students can type the name and read the teacher's value.** After
+  `nu: rand([2,3,5]); ta1: 3*nu;` a student who types `nu` sees its value at
+  validation, and `3*nu` is marked correct on every seed. There is no warning
+  on the edit form. Short names are the usual cases: `mu`, `nu`, `xi`, `phi`,
+  `tr`, `np`, `nm`, `fb`, `deg`, `cf`, `sgn`, `ev`. Check each name against the
+  map and rename any with an `s` entry (`nu1`, `muv`).
 - With `<questionsimplify>` 0 the question variables are not simplified (see
   "Simplification" below).
 - Maxima's `addrow(M, r)` appends a row to a matrix; STACK's row operation

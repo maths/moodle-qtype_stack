@@ -68,11 +68,13 @@
   <h2>{{#str}} exporttoatlas, qtype_stack {{/str}}</h2>
   <h2>{{question.name}}</h2>
   <p>{{#str}} version, qtype_stack {{/str}} {{question.version}}<p>
-  <form action="{{{general.uploadurl}}}" method="post">
-    <input type="hidden" name="sesskey" value="{{general.sesskey}}">
-    <input type="hidden" name="uploadtonrw" value="1">
-    <button type="submit" class="btn btn-primary">{{#str}} atlasuploadbutton, qtype_stack {{/str}}</button>
-  </form>
+  {{^uploadresult}}
+    <form action="{{{general.uploadurl}}}" method="post">
+      <input type="hidden" name="sesskey" value="{{general.sesskey}}">
+      <input type="hidden" name="uploadtonrw" value="1">
+      <button type="submit" class="btn btn-primary">{{#str}} atlasuploadbutton, qtype_stack {{/str}}</button>
+    </form>
+  {{/uploadresult}}
   {{#uploadresult}}
     <div class="alert alert-{{#issuccess}}success{{/issuccess}}{{#iswarning}}warning{{/iswarning}}{{#iserror}}danger{{/iserror}} mt-3" role="alert">
       {{message}}

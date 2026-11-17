@@ -50,7 +50,7 @@ A filter is specified with a `[[filter]]` child block inside the `[[ascii]]` blo
 
 ### Filter block parameters
 
-1. `type` (required): the filter type. Currently available: `markdown`, `calculation`, `cas`.
+1. `type` (required): the filter type. Currently available: `markdown`, `markdown-math`, `plain`, `calculation`, `cas`.
 2. `transforms` (for `markdown` type): a comma-separated list of transforms to apply. Available transforms: `aligneq`, `asciimath`, `boldfilter`, `minwrap`.
 3. `reset`: if `"true"`, this filter operates on the original raw input rather than the output of any preceding filter(s).
 4. `display`: if `"true"`, the output of this filter is used as the final display and subsequent filters cannot modify the display.

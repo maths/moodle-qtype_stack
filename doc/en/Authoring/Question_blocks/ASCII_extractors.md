@@ -112,7 +112,7 @@ Note, this means if you have capture groups within your search term any line whi
 * Returns a JSON object `{"matches": [...]}` as a string. The target input should be a string or JSON input. (Choose JSON for better debugging.)
 
 ```
-[[extractor type="regexallmatch" targetinput="ans2" regex="fruit" /]]
+[[extractor type="allregexmatch" targetinput="ans2" regex="fruit" /]]
 ```
 
 For example, if you have a regular expression which matches "fruit" within the student's answer (!), then the expected output will be in the form:

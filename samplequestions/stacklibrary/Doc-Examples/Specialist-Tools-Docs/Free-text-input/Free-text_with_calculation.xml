@@ -6,7 +6,7 @@
       <text>Free-text input with calculation.</text>
     </name>
     <questiontext format="moodle_auto_format">
-      <text><![CDATA[<p>Find the smaller of two consecutive even numbers such that their sum is \(45\) times there difference.</p>
+      <text><![CDATA[<p>Find the smaller of two consecutive even numbers such that their sum is \(45\) times their difference.</p>
 <p>Work line by line below, justifying your answer fully.</p>
 <div class="free-text-container">
 [[input:ans1]] [[validation:ans1]]

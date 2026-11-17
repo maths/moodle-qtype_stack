@@ -24,7 +24,7 @@ ta2:(45*2-2)/2;
 ### Question text
 
 ```
-<p>Find the smaller of two consecutive even numbers such that their sum is \(45\) times there difference.</p>
+<p>Find the smaller of two consecutive even numbers such that their sum is \(45\) times their difference.</p>
 <p>Work line by line below, justifying your answer fully.</p>
 <div class="free-text-container">
 [[input:ans1]] [[validation:ans1]]
@@ -45,7 +45,7 @@ The first `type="calculation"` extracts `{@...@}` as requested calculations and 
 
 The second is `type="markdown-math"` which processes the (updated) text as Markdown with AsciiMath support.  This explicit block is needed because the default `markdown-math` filter is only provided when _no filters_ are explicitly defined in the block.  The filter order matters, and here the question author needs to specify that calculation comes before markdown-math.
 
-Lastly, the final expression is sent to a numerical input.
+Lastly, the final expression is sent to the algebraic input `ans2`.
 
 ### Inputs
 

@@ -16,9 +16,9 @@ Question variables should be changed to
 ```
 ta1:"## Theorem: ∀ n ∈ ℕ, 1+3+5+7+...+(2n−1) = n².
 
-Let P(n) be the statement `sum_(k=1)^n 2k − 1 = n²` ∀ n ∈ ℕ.
+For each n ∈ ℕ, let P(n) be the statement `sum_(k=1)^n (2k−1) = n²`.
 
-Since `sum_(k=1)^1 =1 =1^2`, we see that \(P(1)\) is true.
+Since `sum_(k=1)^1 (2k−1) = 1 = 1^2`, we see that \(P(1)\) is true.
 
 Assume that \(P(n)\) is true. Then  
 `

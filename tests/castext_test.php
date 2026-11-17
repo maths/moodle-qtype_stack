@@ -3439,4 +3439,29 @@ final class castext_test extends qtype_stack_testcase {
             $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3]);
         }
     }
+
+    /**
+     * Operator precedence check: issue #1882.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_operator_precedence(): void {
+        $a2 = ['p:-4', 'q:6', 'while not gcd(p,q) = 1 do p:p+1'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $raw = "{@p@}";
+        $exp = '\\({-1}\\)';
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($exp, $at1->get_rendered());
+    }
 }

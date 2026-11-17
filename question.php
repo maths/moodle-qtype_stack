@@ -2069,7 +2069,31 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $warnings[] = stack_string_error('alwaysmanuallygrade');
         }
 
-        // 5. Language warning checks.
+        // 5. Question variables which students may type.
+        // A name with an 's' entry in the security map is accepted from a student before
+        // the question's own variable names are checked (see is_allowed_to_read() in
+        // stack/cas/cassecurity.class.php), so a student who types the name reads the
+        // value the question variables give it. This is a warning, not an error, so that
+        // questions which rebind such a name on purpose stay valid.
+        $readable = [];
+        $forbiddenkeys = $this->get_cached('forbiddenkeys') ?? [];
+        if (array_key_exists(0, $forbiddenkeys)) {
+            $forbiddenkeys = array_flip($forbiddenkeys);
+        }
+        foreach (array_keys($forbiddenkeys) as $name) {
+            foreach (['variable', 'constant', 'function'] as $feature) {
+                if (stack_cas_security::get_feature((string) $name, $feature) === 's') {
+                    $readable[] = (string) $name;
+                    break;
+                }
+            }
+        }
+        if ($readable !== []) {
+            sort($readable);
+            $warnings[] = stack_string_error('studentreadablevariables', ['names' => implode(', ', $readable)]);
+        }
+
+        // 6. Language warning checks.
         // Put language warning checks last (see guard clause below).
         // Check multi-language versions all have the same languages.
         $ml = new stack_multilang();

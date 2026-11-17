@@ -501,6 +501,7 @@ $string['languageproblemsextra']   = 'The field {$a->field} has the following la
 
 $string['alttextmissing']    = 'One or more images appears to have a missing or empty \'alt\' tag in "{$a->field}" ({$a->num}).';
 $string['todowarning']       = 'You have un-resolved todo blocks in "{$a->field}".';
+$string['studentreadablevariables'] = 'The question variables assign to {$a->names}, which students are permitted to type. A student who types one of these names will see the value you give it. If this was unintended then rename these variables.';
 
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';

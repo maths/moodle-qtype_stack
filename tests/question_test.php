@@ -307,6 +307,24 @@ final class question_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $q->get_question_session_keyval_representation());
     }
 
+    public function test_validate_warnings_student_readable_variables(): void {
+
+        $q = test_question_maker::make_question('stack', 'test0');
+        $q->questionvariables = "stack_reset_vars(true);\na:1+1;\nnu:rand([2,3,5]);\nmu:3*nu;";
+        $expected = stack_string_error('studentreadablevariables', ['names' => 'mu, nu']);
+
+        $this->assertContains($expected, $q->validate_warnings());
+    }
+
+    public function test_validate_warnings_no_student_readable_variables(): void {
+
+        $q = test_question_maker::make_question('stack', 'test0');
+        $q->questionvariables = "stack_reset_vars(true);\na:1+1;\nnu1:rand([2,3,5]);";
+        $warnings = implode(' ', $q->validate_warnings());
+
+        $this->assertStringNotContainsString('students are permitted to type', $warnings);
+    }
+
     public function test_question_addrow(): void {
 
         $q = test_question_maker::make_question('stack', 'addrow');

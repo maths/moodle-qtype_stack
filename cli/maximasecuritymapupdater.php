@@ -65,6 +65,7 @@ $aliases = [
     // Functions are things that are called.
     'Functions' => ['function'],
     'Function' => ['function'],
+    'function' => ['function'], // Lower case in some Maxima documentation.
     'System function' => ['function'],
     'Scene constructor' => ['function'],
 
@@ -75,6 +76,7 @@ $aliases = [
 
     // Operators are just that and should not be used as variable names.
     'Operator' => ['operator'],
+    'Infix Operator' => ['operator'],
     'Input terminator' => ['operator'], // Note that ; and $ are basically operators.
 
     // Properties should not be used as variable names.
@@ -92,6 +94,7 @@ $aliases = [
     'System variable' => ['variable'], // These are mostly forbidden.
     'Optional variable' => ['variable'],
     'Option variable' => ['variable'],
+    'Debugging variable' => ['variable'],
 
     // Some types are ignored as they have no meaning.
     'Function_partitions' => null, // Existed in 5.35.1 documentation.

@@ -10,12 +10,18 @@
 ;; It has no $ prefix, so it is not a Maxima function, and author code cannot
 ;; reach it because STACK's parser rejects ?-identifiers.
 ;;
-;; defmfun makes $SYSTEM a wrapper that calls SYSTEM-IMPL by name, and the
-;; defmfun below redefines SYSTEM-IMPL.  So save the implementation function
-;; object (named by the IMPL-NAME property), not the $SYSTEM wrapper.
+;; defmfun makes $SYSTEM a wrapper that calls $SYSTEM-IMPL by name, and the
+;; defmfun below redefines $SYSTEM-IMPL.  So save the implementation function
+;; object, not the $SYSTEM wrapper.  Recent Maxima names it in the IMPL-NAME
+;; property; older versions (5.44, for example) have $SYSTEM-IMPL without the
+;; property; the oldest have no wrapper at all.
 (unless (fboundp 'stack-system-original)
-  (setf (symbol-function 'stack-system-original)
-        (symbol-function (or (get '$system 'impl-name) '$system))))
+  (let ((impl (find-symbol (concatenate 'string (symbol-name '$system) "-IMPL")
+                           :maxima)))
+    (setf (symbol-function 'stack-system-original)
+          (symbol-function (or (get '$system 'impl-name)
+                               (and impl (fboundp impl) impl)
+                               '$system)))))
 
 (defmfun $system (&rest args)
   (declare (ignore args))
@@ -56,14 +62,17 @@
   (merror (intl:gettext "oid_to_octets: disabled in STACK.")))
 
 ;; Delete one temporary gnuplot file, replacing system(concat(DEL_CMD, ...)).
-;; Only a .plt file inside maxima_tempdir is deleted; anything else is ignored.
-;; probe-file canonicalises both paths, resolving ".." and symlinks.
+;; plot() builds the name by appending a generated file name to maxima_tempdir,
+;; so the checks are textual: the name must start with maxima_tempdir, contain
+;; no "..", and end in .plt.  Anything else is ignored.  Do not probe the
+;; directory: probe-file on a directory returns NIL in GCL and CLISP.
 ;; maxima_tempdir must end in a directory separator, as plot() assumes.
 (defun stack-delete-plot-file (file)
-  (let ((path (probe-file file))
-        (dir  (probe-file $maxima_tempdir)))
-    (when (and path dir
-               (equal (pathname-type path) "plt")
-               (eql 0 (search (namestring dir) (namestring path))))
-      (delete-file path))
+  (let ((dir $maxima_tempdir))
+    (when (and (stringp file) (stringp dir) (plusp (length dir))
+               (eql 0 (search dir file))
+               (null (search ".." file))
+               (equal (pathname-type file) "plt")
+               (probe-file file))
+      (delete-file file))
     '$done))

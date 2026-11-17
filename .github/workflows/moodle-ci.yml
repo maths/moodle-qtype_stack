@@ -4,8 +4,6 @@ on: [push, pull_request]
 
 jobs:
   test:
-    permissions:
-      contents: read
     runs-on: ubuntu-22.04
 
     services:
@@ -38,7 +36,7 @@ jobs:
             moodle-branch: 'main'
             database: 'pgsql'
             maxima: 'GCL'
-            moodle-app: false
+            moodle-app: true
           - php: '8.4'
             moodle-branch: 'MOODLE_503_STABLE'
             database: 'pgsql'
@@ -48,13 +46,13 @@ jobs:
             moodle-branch: 'MOODLE_500_STABLE'
             database: 'pgsql'
             maxima: 'SBCL'
-            moodle-app: false
+            moodle-app: true
           # Edinburgh is planning to run the setup below for 2025-26.
           - php: '8.2'
             moodle-branch: 'MOODLE_405_STABLE'
             database: 'mariadb'
             maxima: 'GCL'
-            moodle-app: false
+            moodle-app: true
           # Note, Moodle 4.2 will run on PHP 8.0, but we require PHP 8.1 or newer.
           - php: '8.1'
             moodle-branch: 'MOODLE_402_STABLE'
@@ -144,7 +142,6 @@ jobs:
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE",     "db");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",         "");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",        "0");'
-          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CI_LIGHT",            "1");'
 
           #cat ${{ github.workspace }}/moodle/config.php
 
@@ -177,7 +174,7 @@ jobs:
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE",     "db");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",         "");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",        "0");'
-          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CI_LIGHT",            "1");'
+          #moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CI_LIGHT",            "1");'
 
           #cat ${{ github.workspace }}/moodle/config.php
 
@@ -265,15 +262,7 @@ jobs:
       - name: PHPUnit tests
         if: ${{ matrix.moodle-branch == 'main' || matrix.moodle-branch == 'MOODLE_405_STABLE'}}
         #if: ${{ always() }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          tokenconfig="$RUNNER_TEMP/stack-github-token.php"
-          trap 'rm -f "$tokenconfig"; rm -rf "$RUNNER_TEMP/stack-github-key"' EXIT
-          printf '%s' "$GITHUB_TOKEN" | php plugin/tests/fixtures/setup_github_token.php "$PWD/moodle" "$tokenconfig"
-          unset GITHUB_TOKEN
-          cd moodle
-          php vendor/bin/phpunit -c phpunit-stack-github.xml --testsuite qtype_stack_testsuite
+        run: moodle-plugin-ci phpunit
 
       - name: JS unit tests
         if: ${{matrix.moodle-branch == 'MOODLE_502_STABLE'}}

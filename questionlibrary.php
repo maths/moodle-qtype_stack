@@ -106,7 +106,8 @@ $libraryname = stack_string('stack_library');
 $external = null;
 $allowedlibraries = get_config('qtype_stack', 'libraries');
 $allowedlibraries = json_decode($allowedlibraries);
-$allowedlibraries = $allowedlibraries ? $allowedlibraries : new StdClass();
+$allowedlibraries =
+    ($allowedlibraries && has_capability('qtype/stack:useexternallibraries', $thiscontext)) ? $allowedlibraries : new StdClass();
 $search = optional_param('search', '', PARAM_RAW);
 $apikey = optional_param('apikey', '', PARAM_RAW);
 
@@ -120,7 +121,7 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
         $cacheid = stack_question_library::STACKLIB;
     }
 } else if (str_starts_with($location, stack_question_library::GITHUB)) {
-    require_capability('qtype/stack:useexternallibraries', \context_system::instance());
+    require_capability('qtype/stack:useexternallibraries', $thiscontext);
     $libparts = explode('/', $location);
     $librarytype = $libparts[0];
     $libraryid = $libparts[1];
@@ -135,7 +136,7 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
         $externaldetail = ['url' => $allowedlibraries->{$libraryid}->url, 'id' => $libraryid];
     }
 } else if (str_starts_with($location, stack_question_library::NRWSEARCH)) {
-    require_capability('qtype/stack:useexternallibraries', \context_system::instance());
+    require_capability('qtype/stack:useexternallibraries', $thiscontext);
     $cacheid = stack_question_library::NRWSEARCH;
     $libraryname = null;
     $external = stack_question_library::NRWSEARCH;
@@ -189,7 +190,8 @@ if (isset($files->error)) {
 $outputdata->category = $mform->render();
 $outputdata->coursename = $coursename;
 $outputdata->courseid = $courseid;
-$outputdata->isnrwapikey = (get_config('qtype_stack', 'nrwapikey')) ? true : false;
+$outputdata->isnrwapikey =
+    (get_config('qtype_stack', 'nrwapikey') && has_capability('qtype/stack:useexternallibraries', $thiscontext)) ? true : false;
 $outputdata->search = $search;
 $outputdata->libraries = new StdClass();
 $outputdata->libraries->items = [];

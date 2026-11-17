@@ -1,6 +1,19 @@
 <?php
 // This file is part of Moodle - http://moodle.org/
-// Moodle is free software under the GNU GPL v3 or later.
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace qtype_stack;
 
 defined('MOODLE_INTERNAL') || die();
@@ -43,8 +56,10 @@ final class github_admin_token_test extends \advanced_testcase {
                 $this->assertSame('', $stored);
             }
             $headers = $this->web_headers($stored);
-            $this->assertSame($token === '' ? [] : ['Authorization: Bearer ' . $token],
-                array_values(array_filter($headers, static fn($h) => str_starts_with($h, 'Authorization:'))));
+            $this->assertSame(
+                $token === '' ? [] : ['Authorization: Bearer ' . $token],
+                array_values(array_filter($headers, static fn($h) => str_starts_with($h, 'Authorization:')))
+            );
         }
     }
 
@@ -86,7 +101,9 @@ final class github_admin_token_test extends \advanced_testcase {
         $this->assertFalse($cache->get('cached-private-file'));
     }
 
-    /** The CI bootstrap includes ciphertext in PHPUnit's reset baseline. */
+    /**
+     * The CI bootstrap includes ciphertext in PHPUnit's reset baseline.
+     */
     public function test_ci_credential_survives_resets(): void {
         global $CFG;
         $baseline = $CFG->forced_plugin_settings['qtype_stack']['githubtoken'] ?? '';
@@ -114,7 +131,14 @@ final class github_admin_token_test extends \advanced_testcase {
         $this->assertCount(2, $this->web_headers(\core\encryption::encrypt("bad\r\nheader")));
     }
 
-    /** Real encryption/decryption; the child only supplies configuration without bootstrapping a web session. */
+    /**
+     * The GitHub headers a web request would send, computed in a child PHP process.
+     *
+     * Real encryption/decryption; the child only supplies configuration without bootstrapping a web session.
+     *
+     * @param string $encrypted the encrypted token the child reads as the githubtoken setting.
+     * @return array the headers.
+     */
     private function web_headers(string $encrypted): array {
         global $CFG;
         $script = 'define("MOODLE_INTERNAL", true); define("CLI_SCRIPT", false); define("PHPUNIT_TEST", true);'

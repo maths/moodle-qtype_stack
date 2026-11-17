@@ -182,7 +182,16 @@ final class library_render_test extends externallib_advanced_testcase {
         role_assign($managerroleid, $this->user->id, \context_system::instance()->id);
 
         $renderer = new class extends fake_render {
+            /** @var array the credential passed to the last external request. */
             public static array $credential = [];
+            /**
+             * Record the credential, then make the fake request.
+             *
+             * @param string $requestedfile path of the requested file.
+             * @param string $external URL of the external library.
+             * @param array $apikey the GitHub credential for the request.
+             * @return string XML of question
+             */
             public static function call_external_request($requestedfile, $external, $apikey) {
                 self::$credential = $apikey;
                 return parent::call_external_request($requestedfile, $external, $apikey);

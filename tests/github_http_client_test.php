@@ -1,6 +1,19 @@
 <?php
 // This file is part of Moodle - http://moodle.org/
-// Moodle is free software under the GNU GPL v3 or later.
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 namespace qtype_stack;
 
 defined('MOODLE_INTERNAL') || die();
@@ -22,15 +35,33 @@ final class github_http_client_test extends \advanced_testcase {
         unset($CFG->forced_plugin_settings['qtype_stack']['githubtoken']);
         set_config('githubtoken', \core\encryption::encrypt('dummy-token'), 'qtype_stack');
         $client = new class extends \curl {
+            /** @var array headers set on the client. */
             public array $sent = [];
+            /** @var array options passed to get(). */
             public array $receivedoptions = [];
+            /** @var int HTTP status to report. */
             public int $status = 403;
+            /** @var int cURL error number to report. */
             public int $errornumber = 0;
+            /** @var array raw response header lines fed to Moodle's header parser. */
             public array $lines = ["HTTP/1.1 403 Forbidden\r\n", "X-RateLimit-Remaining: 0\r\n",
                 "x-ratelimit-reset: 12345\r\n", "Retry-After: 60\r\n", "Set-Cookie: secret\r\n", "\r\n"];
-            public function setHeader($header) {
+            /**
+             * Record the headers instead of setting them.
+             *
+             * @param array $header the headers.
+             */
+            public function setHeader($header) { // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
                 $this->sent = $header;
             }
+            /**
+             * Record the options and parse the canned headers, without a network request.
+             *
+             * @param string $url URL to fetch.
+             * @param array $params request parameters.
+             * @param array $options request options.
+             * @return string the canned response body.
+             */
             public function get($url, $params = [], $options = []) {
                 $this->receivedoptions = $options;
                 // Exercise Moodle's own header parser, including duplicate and mixed-case headers.
@@ -41,15 +72,31 @@ final class github_http_client_test extends \advanced_testcase {
                 }
                 return 'response';
             }
+            /**
+             * The canned request information.
+             *
+             * @return array
+             */
             public function get_info() {
                 return ['http_code' => $this->status];
             }
+            /**
+             * The canned cURL error number.
+             *
+             * @return int
+             */
             public function get_errno() {
                 return $this->errornumber;
             }
         };
         $library = new class extends \stack_question_library {
+            /** @var \curl the client to return. */
             public static \curl $client;
+            /**
+             * The test client.
+             *
+             * @return \curl
+             */
             protected static function github_client(): \curl {
                 return self::$client;
             }

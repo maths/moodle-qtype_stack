@@ -397,12 +397,14 @@ class stack_question_library {
         }
         [$response, $httpcode, $details, $diagnostics] = static::request_github($apiurl, 10, $setting);
         // Retry access failures only. Rate limits must retain their original diagnostics.
-        if ($setting !== 'githubtoken' && in_array($httpcode, [401, 403, 404], true)
-                && $response !== false && !isset($diagnostics['retry-after'])
-                && ($diagnostics['x-ratelimit-remaining'] ?? null) !== '0'
-                && !str_contains(strtolower((string)$response), 'rate limit')
-                && get_config('qtype_stack', 'githubtoken')
-                && static::github_headers($setting) !== static::github_headers('githubtoken')) {
+        if (
+            $setting !== 'githubtoken' && in_array($httpcode, [401, 403, 404], true)
+            && $response !== false && !isset($diagnostics['retry-after'])
+            && ($diagnostics['x-ratelimit-remaining'] ?? null) !== '0'
+            && !str_contains(strtolower((string)$response), 'rate limit')
+            && get_config('qtype_stack', 'githubtoken')
+            && static::github_headers($setting) !== static::github_headers('githubtoken')
+        ) {
             $setting = 'githubtoken';
             [$response, $httpcode, $details] = static::request_github($apiurl, 10, $setting);
         }

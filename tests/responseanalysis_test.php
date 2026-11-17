@@ -737,8 +737,11 @@ final class responseanalysis_test extends qtype_stack_testcase {
         \question_bank::notify_question_edited($oldid);
 
         // Exercise the complete report, including the real version-selection query.
-        $report = new stack_question_report(\question_bank::load_question($current->id),
-            $this->quizcontextid, $this->coursecontextid);
+        $report = new stack_question_report(
+            \question_bank::load_question($current->id),
+            $this->quizcontextid,
+            $this->coursecontextid
+        );
         $expected = $type === 'singleinput' ? $this->summary : [3 => [RESPONSE3T => 1]];
         $this->assertEquals($expected, $report->summary);
         // Only readable questions can reconstruct the detailed per-step JSON.
@@ -746,6 +749,8 @@ final class responseanalysis_test extends qtype_stack_testcase {
     }
 
     /**
+     * Data provider for the unavailable-version tests.
+     *
      * @return array unavailable-version cases, including multiple submitted responses in one attempt
      */
     public static function unavailable_version_provider(): array {

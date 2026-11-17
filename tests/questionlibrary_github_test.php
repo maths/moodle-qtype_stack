@@ -71,8 +71,10 @@ final class questionlibrary_github_test extends \advanced_testcase {
         fclose($pipes[1]);
         fclose($pipes[2]);
         $this->assertSame(0, proc_close($process), $errors);
-        $this->assertSame(['User-Agent: Moodle-STACK', 'Accept: application/vnd.github.v3+json'],
-            json_decode($output, true));
+        $this->assertSame(
+            ['User-Agent: Moodle-STACK', 'Accept: application/vnd.github.v3+json'],
+            json_decode($output, true)
+        );
     }
 
     /**

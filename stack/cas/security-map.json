@@ -154,8 +154,7 @@
     },
     "%union": {
         "function": "s",
-        "nounfunctionfor": "union",
-        "operator": "?"
+        "nounfunctionfor": "union"
     },
     "%unitexpand": {
         "variable": "f"
@@ -392,9 +391,6 @@
     "Btu": {
         "variable": "s"
     },
-    "CNOT": {
-        "function": "?"
-    },
     "Cal": {
         "variable": "s"
     },
@@ -533,15 +529,6 @@
     "Rho": {
         "function": "s",
         "variable": "s"
-    },
-    "Rx": {
-        "function": "?"
-    },
-    "Ry": {
-        "function": "?"
-    },
-    "Rz": {
-        "function": "?"
     },
     "Sigma": {
         "function": "s",
@@ -1340,9 +1327,6 @@
     },
     "burn": {
         "function": "s"
-    },
-    "c": {
-        "variable": "?"
     },
     "cabs": {
         "function": "s"
@@ -6996,9 +6980,6 @@
     "ratfac": {
         "evflag": "s",
         "variable": "s"
-    },
-    "ratfor": {
-        "variable": "?"
     },
     "ratinterpol": {
         "function": "?"

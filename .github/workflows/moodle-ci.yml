@@ -32,35 +32,13 @@ jobs:
       matrix: # I don't know why, but mariadb is much slower, so mostly use pgsql.
         # We use a mix of SBCL and GCL.
         include:
-          - php: '8.4'
-            moodle-branch: 'main'
+          - php: '8.2'
+            moodle-branch: 'MOODLE_404_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
             moodle-app: true
-          - php: '8.4'
-            moodle-branch: 'MOODLE_503_STABLE'
-            database: 'pgsql'
-            maxima: 'SBCL'
-            moodle-app: true
-          - php: '8.3'
-            moodle-branch: 'MOODLE_502_STABLE'
-            database: 'pgsql'
-            maxima: 'SBCL'
-            moodle-app: true
           - php: '8.2'
-            moodle-branch: 'MOODLE_500_STABLE'
-            database: 'pgsql'
-            maxima: 'SBCL'
-            moodle-app: true
-          # Edinburgh is planning to run the setup below for 2025-26.
-          - php: '8.2'
-            moodle-branch: 'MOODLE_405_STABLE'
-            database: 'mariadb'
-            maxima: 'GCL'
-            moodle-app: true
-          # Note, Moodle 4.2 will run on PHP 8.0, but we require PHP 8.1 or newer.
-          - php: '8.1'
-            moodle-branch: 'MOODLE_402_STABLE'
+            moodle-branch: 'MOODLE_403_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
             moodle-app: true

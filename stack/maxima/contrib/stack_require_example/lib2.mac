@@ -1,0 +1,16 @@
+/*
+ * A documentation example library, not for real use.
+ */
+
+/**
+ * A function generating a "string". Demonstrating inline requirement annotation.
+ * @param[boolean] mode, whether we recurse or not
+ * @return[string] a string that concatenates plenty of things
+ */
+lib2_fun2(mode) := block([],
+	if mode then 
+		/* @require lib1/lib1a_fun2 */
+		sconcat("2/fun2, ", lib1a_fun2(false)) 
+	else 
+		"2/fun2"
+);

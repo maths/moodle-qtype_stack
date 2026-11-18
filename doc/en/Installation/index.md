@@ -30,7 +30,7 @@ and then re-start the web server.
 
 Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).
 
-* STACK has been tested on Moodle 4.5 to Moodle 5.3 inclusive.  (We are aware of CI failures on Moodle 4.2.)
+* STACK has been tested on Moodle 4.4 to Moodle 5.3 inclusive.  (We are aware of CI failures on Moodle 4.3 and earlier.)
 * We intend to support STACK within the normal Moodle [release cycle](https://moodledev.io/general/releases).  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will drop them from our list.
 
 Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.

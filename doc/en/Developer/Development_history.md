@@ -6,7 +6,7 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 Released November 2026.
 
-Note, this release only support Moodle 4.5 and later. We are aware of CI failures on Moodle 4.2.
+Note, this release only support Moodle 4.4 and later. We are aware of CI failures on Moodle 4.3 and earlier.
 
 This release includes `AGENTS.md` and a `agents/stack-essentials.md` file to support LLM authoring tools.
 

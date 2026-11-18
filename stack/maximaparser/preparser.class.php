@@ -129,11 +129,6 @@ class stack_maxima_student_preparser {
             return null;
         }
 
-        if (strpos($stringles, "'") !== false) {
-            $errors[] = stack_string('stackCas_apostrophe');
-            $answernote[] = 'apostrophe';
-        }
-
         if (strpos($stringles, ' ') !== false) {
             // Special cases: allow students to type in expressions such as "x>1 and x<4".
             foreach (self::$safespacepatterns as $key => $pat) {

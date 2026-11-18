@@ -23,7 +23,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/autogen/parser.mbstring.php');
+require_once(__DIR__ . '/autogen/parser.mbstring_old.php');
 // Also needs stack_string().
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');

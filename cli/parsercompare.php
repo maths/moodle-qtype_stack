@@ -32,7 +32,7 @@ require_once(__DIR__ . '/../stack/cas/cassecurity.class.php');
 
 require_once(__DIR__ . '/../stack/cas/parsingrules/parsingrule.factory.php');
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
-require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
+require_once(__DIR__ . '/../stack/maximaparser/corrective_parser_old.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/maximaparser/autogen/parser-root.php');
 require_once(__DIR__ . '/../stack/maximaparser/parser.options.class.php');

@@ -2633,7 +2633,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
         );
         $this->assertEquals($state->status, stack_input::INVALID);
         $this->assertEquals('spaces | ParseError', $state->note);
-        $this->assertEquals('Expected "(", "[", "{", "|", "ATOM", "PREFIX_OP", received ";".', $state->errors);
+        $this->assertEquals('Expected "(", "[", "{", "|", "ATOM", "INFIX_OP", "PREFIX_OP", received ";".', $state->errors);
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals($ta, $state->contentsdisplayed);
     }
@@ -3547,7 +3547,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('chained_inequalities', $state->note);
         $this->assertEquals(
             'You appear to have "chained operators" e.g. ' .
-            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(a = b = c\)</span>' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(a < b < c\)</span>' .
             '</span>.  You need to connect individual clauses with logical operations such as ' .
             '<span class="filter_mathjaxloader_equation"><span class="nolink">\(and\)</span></span> or ' .
             '<span class="filter_mathjaxloader_equation"><span class="nolink">\(or\)</span></span>.',

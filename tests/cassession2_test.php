@@ -2575,8 +2575,8 @@ final class cassession2_test extends qtype_stack_testcase {
             );
         }
 
-        $expected = '([Root] ([Op: +] ([Op: *] ([Id] a), ([Id] b)), ' .
-                '([Op: +-] ([Op: *] ([Id] c), ([Id] d)), ([Op: *] ([Id] A), ([Id] B)))))';
+        $expected = '([Root] ([Op: +-] ([Op: +] ([Op: *] ([Id] a), ' .
+            '([Id] b)), ([Op: *] ([Id] c), ([Id] d))), ([Op: *] ([Id] A), ([Id] B))))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
 
         $options = new stack_options();

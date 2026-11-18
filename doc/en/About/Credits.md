@@ -7,6 +7,8 @@ More details of our development history are given in the [development track](../
 * Matti Harjula of Aalto University, Finland.
 * [Tim Lutz](https://tim-lutz.de/) of the University of Edinburgh and the University of Education Heidelberg.
 * Edmund Farrow,  of the University of Edinburgh.
+* Oleksandr Kulkov, of ETH Zürich
+* Ben Schulz-Rosenberger, ATLAS/STACK.nrw 
 
 The [HELM materials](../STACK_question_admin/Library/HELM.md) were added by Konstantina Zerva, making use of the related [Gitsync](https://github.com/maths/moodle-qbank_gitsync) project to manage large question banks.
 

@@ -5,28 +5,9 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
-## Version 4.15.0
+## Version 4.16.0
 
-Issues with [github milestone 4.15.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.15.0) include
-
-1. Upgrade use of version numbers for import/export and testing.  See [the STACK version stamp](../Moodle/Import_Export.md#the-stack-version-stamp).
-   * Every STACK question _must_ now have a version number, the `<stackversion>` field in Moodle XML.  A question without one, or with something other than a version number such as `2026080600`, has an upgrade error.  The question dashboard reports it, and the bulk tester and the API's test route do not run the question's tests.  To fix a question, save it in the editing form, which stamps the site's current version, or set `<stackversion>` in its XML.  Existing questions which have not been saved since STACK 4.2 (July 2018) have no version number, and will need to be saved again.
-   * The version number is a record of the version of STACK the question was last edited with.  It does not change how a question runs: STACK always uses the code installed on the site.
-   * A question with a version number newer than the site's STACK now gives a warning, on the question dashboard and in the bulk tester.  It is only a warning: many such questions use no new features, so their tests still run.  The API's test route returns it in a new `warnings` field, and not in `messages`, so it does not count as an error.
-2. Add in support for complex arguments to vector functions. Fix to issue #1944.
-3. Improve `ATSet` by using `algebraic_equivalence` for pairwise compasions.  Fix to issue #1931.
-4. The security map now lists the answer-test functions, such as `ATAlgEquiv`, as available to teachers only.  Behaviour is unchanged: they were already unavailable to students.
-5. Better Maxima error reporting.  When Maxima stops at an error of its own, such as a syntax error, before returning any results, STACK now reports "CAS failed to return any data because Maxima reported an error", followed by Maxima's message.  Previously this was reported as a timeout, which made such faults hard to diagnose.
-6. Update JSXGraph to 1.14.3.
-7. Fix testing:
-   * A question test which omits the expected answer note now fails with "Expected result is empty", rather than expecting the note `1-0-T`, which no tree produces.  This applies to Moodle's import and to the API.
-   * a question test which enters an invalid value in a matrix input and expects `NULL` no longer fails as "Empty question tests are not permitted!" when the input does not require verification.
-8. Fixes to decimal separators.
-   * a textarea input with a comma as the decimal separator and "Check the type of the response" set no longer fails to validate when the teacher's answer is a list of equations, each line reporting a CAS failure.  The equivalence reasoning input had the same fault: with a comma as the decimal separator, its `firstline` option accepted a wrong first line.  Validation now writes the teacher's answer as a student types it, as "Fill in correct response" does, before splitting it into lines.
-   * with a comma as the decimal separator, the equivalence reasoning input's `firstline` syntax hint wrote a decimal in the teacher's first line with a point, so the pre-filled line was invalid.  It now uses the question's decimal separator.
-9. Fix: the answer tests `Int`, `Antidiff`, `AddConst`, `Diff` and `EqualComAssRules` no longer change the value of `simp` when they return.  Previously `simp:false` could leak out of them, for example when one was called directly in the feedback variables.  Inside a potential response tree `simp` is already local, so marking is unchanged.
-10. Fix: the editing form and import now refuse `[[feedback:...]]` and `[[validation:...]]` placeholders in the general feedback, question note and question description, and `[[validation:...]]` in the specific feedback.  Previously only `[[input:...]]` placeholders were caught, and each was reported three times.
-11. Importing a question whose tests repeat a test-case number now keeps every test: the later one gets the next free number, with a warning.  Previously it silently replaced the earlier test.
+Issues with [github milestone 4.16.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.16.0).
 
 ## Better testing
 
@@ -65,9 +46,8 @@ These include meta plugins like
 * Define block rules: https://mdit-plugins.github.io/field.html
 
 1. Support an option so that `#` can be used instead of backticks to delimit AsciiMath.
-2. DONE: Error messages for unknown filter/extractor names! (To help authors....)
-3. Write an AsciiMath to Maxima parser to ensure the `lastblock` and `lastexpr` extractors create correct syntax for the input.  Note math.js already has the necessary _parser_ so de-pasting the ast creates by math.js is the first line of attack here.  See calculator.js filter for an example of traversing this tree.
-4. Add options to calculator blocks for degrees, and to support physics with scientific units (which math.js supports).
+2. Write an AsciiMath to Maxima parser to ensure the `lastblock` and `lastexpr` extractors create correct syntax for the input.  Note math.js already has the necessary _parser_ so de-pasting the ast creates by math.js is the first line of attack here.  See calculator.js filter for an example of traversing this tree.
+3. Add options to calculator blocks for degrees, and to support physics with scientific units (which math.js supports).
  
 ## Future equivalence reasoning development track.
 

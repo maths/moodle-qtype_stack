@@ -1486,20 +1486,16 @@ i/10)</pre></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
-<tr class="expectedfail">
+<tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sin([1/8,1/6, 1/4, 1/3, 1/2, 1
 ]*%pi)</pre></td>
   <td class="cell c3"><pre>[sqrt(2-sqrt(2))/2,1/2,1/sqrt(
 2),sqrt(3)/2,1,0]</pre></td>
   <td class="cell c4"></td>
-  <td class="cell c5">-3</td>
-  <td class="cell c6">(ATList_wrongentries 1).</td>
-</tr>
-<tr class="expectedfail">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The entries underlined in red below are those that are incorrect. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left[ {\color{red}{\underline{\sin \left( \frac{\pi}{8} \right)}}} , \frac{1}{2} , \frac{1}{\sqrt{2}} , \frac{\sqrt{3}}{2} , 1 , 0 \right] \]</span></span></td></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -4402,6 +4398,246 @@ lt;2) nounor 2&lt;x</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt(2*log(26)+4-2*log(2))</pre></td>
+  <td class="cell c3"><pre>sqrt(2*log(13)+4)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt(19+6*sqrt(10))</pre></td>
+  <td class="cell c3"><pre>3+sqrt(10)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>3+sqrt(10)-sqrt(19+6*sqrt(10))</pre></td>
+  <td class="cell c3"><pre>0</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0"><td colspan="6">Denestable nested radicals (issue 1966)</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>4*sqrt(19+6*sqrt(10))</pre></td>
+  <td class="cell c3"><pre>4*sqrt(10)+12</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt((57+sqrt(3185))/2)</pre></td>
+  <td class="cell c3"><pre>(sqrt(65)+7)/2</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt((57-sqrt(3185))/2)</pre></td>
+  <td class="cell c3"><pre>(sqrt(65)-7)/2</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt((42-sqrt(1508))/2)</pre></td>
+  <td class="cell c3"><pre>(sqrt(29)-sqrt(13))/sqrt(2)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt((41+sqrt(1105))/2)</pre></td>
+  <td class="cell c3"><pre>(sqrt(65)+sqrt(17))/2</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt((38-sqrt(1440))/2)</pre></td>
+  <td class="cell c3"><pre>(2*sqrt(5)-3*sqrt(2))/sqrt(2)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt((24-sqrt(512))/2)</pre></td>
+  <td class="cell c3"><pre>-((2^(3/2)-4)/sqrt(2))</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt((28-sqrt(208))/2)</pre></td>
+  <td class="cell c3"><pre>sqrt(13)-1</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0"><td colspan="6">Exact values of trig functions (issue 1966, ntrig)</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(sqrt(5)+1)/4</pre></td>
+  <td class="cell c3"><pre>cos(%pi/5)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(sqrt(5)-1)/4</pre></td>
+  <td class="cell c3"><pre>sin(%pi/10)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(sqrt(5)-1)/4</pre></td>
+  <td class="cell c3"><pre>cos(2*%pi/5)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt(10+2*sqrt(5))/4</pre></td>
+  <td class="cell c3"><pre>cos(%pi/10)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt(10+2*sqrt(5))/4</pre></td>
+  <td class="cell c3"><pre>sin(2*%pi/5)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-(sqrt(5)+1)/4</pre></td>
+  <td class="cell c3"><pre>cos(4*%pi/5)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt(10-2*sqrt(5))/4</pre></td>
+  <td class="cell c3"><pre>sin(%pi/5)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt(5-2*sqrt(5))</pre></td>
+  <td class="cell c3"><pre>tan(%pi/5)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(sqrt(6)+sqrt(2))/4</pre></td>
+  <td class="cell c3"><pre>cos(%pi/12)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(sqrt(6)-sqrt(2))/4</pre></td>
+  <td class="cell c3"><pre>sin(%pi/12)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt(2+sqrt(3))/2</pre></td>
+  <td class="cell c3"><pre>cos(%pi/12)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt(2+sqrt(2))/2</pre></td>
+  <td class="cell c3"><pre>cos(%pi/8)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(sqrt(5)-1)/4</pre></td>
+  <td class="cell c3"><pre>cos(%pi/5)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sqrt(5+2*sqrt(5))/(2*sqrt(2))</pre></td>
+  <td class="cell c3"><pre>cos(%pi/10)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(sqrt(6)-sqrt(2))/4</pre></td>
+  <td class="cell c3"><pre>cos(%pi/12)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(19601-13860*sqrt(2))^(7/4)</pre></td>
   <td class="cell c3"><pre>(5*sqrt(2)-7)^7</pre></td>
   <td class="cell c4"></td>
@@ -4415,24 +4651,6 @@ lt;2) nounor 2&lt;x</pre></td>
   <td class="cell c3"><pre>(5*sqrt(2)-7)^7</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>(19601-13861*sqrt(2))^(7/4)</pre></td>
-  <td class="cell c3"><pre>(5*sqrt(2)-7)^7</pre></td>
-  <td class="cell c4"></td>
-  <td class="cell c5">0</td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>sqrt(2*log(26)+4-2*log(2))</pre></td>
-  <td class="cell c3"><pre>sqrt(2*log(13)+4)</pre></td>
-  <td class="cell c4"></td>
-  <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
 <tr class="pass">
@@ -4607,7 +4825,7 @@ t(1/4 + 4/3), x = (-1/2 - sqrt
   <td class="cell c6"></td>
 </tr>
 <tr class="notes">
-  <td class="cell c0"><td colspan="6">Unevaluated derivatives</td></td>
+  <td class="cell c0"><td colspan="6">Unevaluated derviatives</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>

@@ -123,7 +123,7 @@ class stack_maxima_parser2_equivline {
 				[3,60],
 				[3,60],
 				[3,60],
-				[3,60],
+				[2,45],
 				[3,60],
 				[3,60],
 				[3,60],
@@ -720,6 +720,7 @@ class stack_maxima_parser2_equivline {
 	 * 54: OpPrefix ->   ?   TopOp
 	 * 55: OpPrefix ->   ?  TopOp
 	 * 56: OpPrefix ->   UNARY_RECIP  TopOp
+	 * 85: OpPrefix ->   nounsub  TopOp
 	 * 92: OpPrefix ->   nounnot  TopOp
 	 * 93: OpPrefix ->   %not  TopOp
 	 * 100: OpPrefix ->   nounnot   TopOp
@@ -784,7 +785,6 @@ class stack_maxima_parser2_equivline {
 	 * 82: OpInfix ->   TopOp  =  TopOp
 	 * 83: OpInfix ->   TopOp  ~  TopOp
 	 * 84: OpInfix ->   TopOp  nounadd  TopOp
-	 * 85: OpInfix ->   TopOp  nounsub  TopOp
 	 * 86: OpInfix ->   TopOp  nounpow  TopOp
 	 * 87: OpInfix ->   TopOp  noundiv  TopOp
 	 * 88: OpInfix ->   TopOp  blankmult  TopOp

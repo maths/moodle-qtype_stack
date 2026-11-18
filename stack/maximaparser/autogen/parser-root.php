@@ -134,7 +134,7 @@ class stack_maxima_parser2_root {
 				[3,71],
 				[3,71],
 				[3,71],
-				[3,71],
+				[2,56],
 				[3,71],
 				[3,71],
 				[3,71],
@@ -828,6 +828,7 @@ class stack_maxima_parser2_root {
 	 * 65: OpPrefix ->   ?   TopOp
 	 * 66: OpPrefix ->   ?  TopOp
 	 * 67: OpPrefix ->   UNARY_RECIP  TopOp
+	 * 96: OpPrefix ->   nounsub  TopOp
 	 * 103: OpPrefix ->   nounnot  TopOp
 	 * 104: OpPrefix ->   %not  TopOp
 	 * 111: OpPrefix ->   nounnot   TopOp
@@ -892,7 +893,6 @@ class stack_maxima_parser2_root {
 	 * 93: OpInfix ->   TopOp  =  TopOp
 	 * 94: OpInfix ->   TopOp  ~  TopOp
 	 * 95: OpInfix ->   TopOp  nounadd  TopOp
-	 * 96: OpInfix ->   TopOp  nounsub  TopOp
 	 * 97: OpInfix ->   TopOp  nounpow  TopOp
 	 * 98: OpInfix ->   TopOp  noundiv  TopOp
 	 * 99: OpInfix ->   TopOp  blankmult  TopOp

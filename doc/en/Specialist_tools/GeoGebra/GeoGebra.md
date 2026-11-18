@@ -16,7 +16,7 @@ __We strongly recommend you do not use an HTML-aware editor when editing STACK q
 
     User Dashboard > Preferences > Editor preferences > Manage editors
 
-__A note on licenses:__ Please note that the [GeoGebra's license](https://www.geogebra.org/license) does not match the [STACK licence](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).  Users of STACK remain entirely responsible for complying with licenes for materials, and media embedded inside STACK questions.
+__A note on licences:__ Please note that the [GeoGebra licence](https://www.geogebra.org/license) does not match the [STACK licence](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).  Users of STACK remain entirely responsible for complying with licences for materials, and media embedded inside STACK questions.
 
 ## Question design
 
@@ -24,7 +24,7 @@ The goal is to create the following question.
 
 Move the points \(A\) and \(B\) (on a GeoGebra applet) so that the line \(AB\) is perpendicular to a given line \(y=mx+c\) shown in the applet.
 
-Notes.
+Notes:
 
 * \(m\) and \(c\) are defined by STACK in the question variables.  Ultimately these could be randomly generated.  They illustrate how to _set_ values in an applet.
 * We should listen to the _gradient_ of the line \(AB\) as an input.  This illustrates how to _watch_ a value in GeoGebra and link it to a STACK input.
@@ -35,12 +35,12 @@ Notes.
 
 The first step is to create a GeoGebra applet and publish it online.   You will need the material id from the URL in GeoGebra to link the worksheet to a STACK question.
 
-1. Login to [https://www.geogebra.org/](https://www.geogebra.org/)
+1. Log in to [https://www.geogebra.org/](https://www.geogebra.org/)
 2. Create a blank applet directly on the GeoGebra website.
  * Create numbers `m=2` and `c=3`.  These will be given a value by STACK when the question is started by the student, but we must set sensible initial values.
  * Create the line `l=m*x+c`.
  * Create points A and B and a line through them.  Call this line `f`.
- * Create the new variable `ans1=Slope(f)`.   We will setup the question to a STACK input will _watch_ the value of this variable `ans1`.
+ * Create the new variable `ans1=Slope(f)`.   We will set up the question so that a STACK input will _watch_ the value of this variable `ans1`.
  * Hide the slope, and other object names as needed in the GGB applet.
  * Hide the algebra window on GeoGebra, leaving only the geometry window.
 3. Save and publish the GeoGebra file.  You will need the id from the URL.  For example, if your GeoGebra file has URL `https://www.geogebra.org/calculator/anr6ujyf` then the id is the last part `anr6ujyf`.  This code is needed to link STACK to GeoGebra, for the value of `material_id`.  E.g. `params["material_id"]="anr6ujyf";` within the GeoGebra block.
@@ -53,7 +53,7 @@ Create a new question.  Set the question variables.  Initially the question vari
     c:-1;
     ta:-1/m;
 
-Set the question text - before entering make sure that the editor is switched to html-mode.:
+Set the question text - before entering make sure that the editor is switched to HTML mode:
 
     [[geogebra set="c,m" watch="ans1"]]
     params["material_id"]="anr6ujyf";
@@ -101,7 +101,7 @@ Notice two changes.  (1) there is a `remember` argument in the geogebra block ta
 3. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](../../Authoring/Inputs/Input_options.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
 4. Values in _remember_ are not available to the PRT and can not be used to calculate values in STACK feedback.
 
-## 5. Polish and tidy the question.
+## 5. Polish and tidy the question
 
 Once you have the question working, you can add better feedback, add a worked solution, create random versions, and so on.  For example you could choose
 
@@ -110,7 +110,7 @@ Once you have the question working, you can add better feedback, add a worked so
     c:rand_with_step(2,3,1);
 ```
 
-Then add in an answer note such as `\[ y={@m*x+c@} \]`.  [Authoring quick start 4](../../AbInitio/Authoring_quick_start_4.md) provides advice on randomisation.
+Then add in a question note such as `\[ y={@m*x+c@} \]`.  [Authoring quick start 4](../../AbInitio/Authoring_quick_start_4.md) provides advice on randomisation.
 
 You could also have an additional algebraic input asking the student to find the equation of their line.  At this point there are lots of options for combining a geometric diagram within a larger question.
 

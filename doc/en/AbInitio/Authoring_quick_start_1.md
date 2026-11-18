@@ -69,20 +69,20 @@ Notes:
 * These tags could be positioned anywhere in the question text.
 
 
-The next sections will automatically filled in for you for a basic question, so you can save and preview at this point. However, it is worth taking a look at these other main options
+The next sections will be filled in automatically for a basic question, so you can save and preview at this point. However, it is worth taking a look at these other main options.
 
 ## Input: ans1
 
 Scroll down:  there will be an [inputs](../Authoring/Inputs/index.md) section of the editing form.  Click on the header `Input: ans1` to reveal the relevant settings.
 
-For a minimal question, we must specify the _model answer_. This will be `ta` by default, which we have defined to be the solution to this problem.
+For a minimal question, we must specify the _model answer_. This will be `ta1` by default, which we have defined to be the solution to this problem.
 
 Notes
 
 1. The student's response is stored in the answer variable `ans1`.
 2. The model answer must be a syntactically valid expression in CAS (Maxima) syntax, not LaTeX. This means multiplication must be explicitly specified, using `*`.
 3. [Inputs](../Authoring/Inputs/index.md) can have a variety of types selected by the  _Input type_ drop-down menu.  The _Algebraic input_ is the default, and what we need here.
-4. A question can have many inputs for multiple parts.  These are discussed later in a later part.
+4. A question can have many inputs for multiple parts.  These are discussed in a later part.
 
 ## Assessing correctness of a response - the Potential Response Tree (PRT)
 
@@ -132,7 +132,7 @@ Next we should try out our question by pressing the `Preview` link at the bottom
 
 ## Previewing the question
 
-To speed up the testing process, scroll down on the preview window and under either "Attempt options" or "Preview options" (moodle version dependent) make sure you have "How questions behave" set to "Adaptive Mode". If necessary, "Start again with these options". This will allow you to check your answers without having to _Submit_ and _Start again_ repeatedly.
+To speed up the testing process, scroll down on the preview window and under either "Attempt options" or "Preview options" (Moodle version dependent) make sure you have "How questions behave" set to "Adaptive Mode". If necessary, "Start again with these options". This will allow you to check your answers without having to _Submit_ and _Start again_ repeatedly.
 
 With the preview open, try typing
 

@@ -4,7 +4,7 @@ It is important to confirm that STACK has been installed correctly, and that it 
 
 ## STACK configuration page
 
-STACK provides a number of options.  To set these you must login as the Moodle site Administrator.  Navigate to
+STACK provides a number of options.  To set these you must log in as the Moodle site Administrator.  Navigate to
 
     Site administration -> Plugins -> Question Types -> STACK
 
@@ -14,7 +14,7 @@ To confirm if the PHP scripts are connecting to Maxima navigate to the _STACK co
 
 The healthcheck script checks the following.
 
-* Check LaTeX is being converted correctly?  Check [MathJax](Mathjax.md) or another LaTeX converter.
+* Is LaTeX being converted correctly?  Check [MathJax](Mathjax.md) or another LaTeX converter.
 * Can PHP call external applications?  No, then change PHP settings.
 * Can PHP call Maxima? No, then see below.
 * Does Maxima support unicode?  Distributed versions of Maxima do (as of July 2023) but if you compile Maxima from source then you must include unicode support.
@@ -31,19 +31,19 @@ Currently the default setting is to load the following optional Maxima packages 
 
     stats, distrib, descriptive
 
-We need to support STACK in a wide range of situations. In production environments system admins have asked us to check packages do not write files to the server, or have other server-side effects.  E.g. the plot2d command executes a `gnuplot` process on the server for example.  For this reason only some optional packages can be loaded into STACK.  Currently the only supported packages are
+We need to support STACK in a wide range of situations. In production environments system admins have asked us to check packages do not write files to the server, or have other server-side effects.  E.g. the plot2d command executes a `gnuplot` process on the server.  For this reason only some optional packages can be loaded into STACK.  Currently the only supported packages are
 
     stats, distrib, descriptive
 
-If you wish to subvert this process you will need to alter the source code of STACK.  If you have authority on your server to modify the source code you already have some level of responsibility and trust on the server!  In the file `/stack/cas/installhelper.class.php`, there is a static class `$maximalibraries` which contains the list of permitted libraries.
+If you wish to subvert this process you will need to alter the source code of STACK.  If you have authority on your server to modify the source code you already have some level of responsibility and trust on the server!  In the file `/stack/cas/installhelper.class.php`, there is a static array `$maximalibraries` which contains the list of permitted libraries.
 
 # Caching CAS output
 
 By default, the interactions with the CAS are cached.  You can connect freshly to the CAS each time, which is useful for  debugging, and this option is available on the STACK configuration page.  To clear the cache, click the button on the healthcheck script.
 
-## Optimizing Maxima
+## Optimising Maxima
 
-Maxima is the rate-determining step in performance to STACK. Once you have the STACK question type working with a direct connection to the CAS, then you should consider optimizing the  performance of Maxima.  See the page dedicated to [optimizing Maxima](Optimising_Maxima.md)
+Maxima is the rate-determining step in the performance of STACK. Once you have the STACK question type working with a direct connection to the CAS, then you should consider optimising the  performance of Maxima.  See the page dedicated to [optimising Maxima](Optimising_Maxima.md)
 
 ## CAS Chat
 
@@ -151,7 +151,7 @@ Next, check STACK is working without the optimised image, and without caching.  
 
     Site administration -> Plugins -> Question Types -> STACK
 
-To set these you must login as the Moodle site Administrator.  Take note of your old settings and save the following settings.
+To set these you must log in as the Moodle site Administrator.  Take note of your old settings and save the following settings.
 
     qtype_stack | platform = Linux
     qtype_stack | maximaversion = default
@@ -184,7 +184,7 @@ from the dropdown.  Part of the healthcheck script will tell you which version y
 
     qtype_stack | maximacommand = maxima --use-version=5.42.1
 
-Save these settings and run the healtcheck script.
+Save these settings and run the healthcheck script.
 
 ### 5. Goal: check libraries in Maxima
 
@@ -194,9 +194,9 @@ Only supported library names can be used.  For example try the following.
 
     qtype_stack | maximalibraries = stats, distrib, descriptive, simplex
 
-Save these settings and run the healtcheck script.
+Save these settings and run the healthcheck script.
 
-Note, internally in Maxima this is equivalent to typing `load(stats);` in at the Maxima command line for each library in the list.  You can try this in step 1 above to check each library you want to load by hand.
+Note, internally in Maxima this is equivalent to typing `load(stats);` at the Maxima command line for each library in the list.  You can try this in step 1 above to check each library you want to load by hand.
 
 If you get the following error `loadfile: failed to load /usr/share/maxima/5.32.1/share/draw/draw.lisp` then remove the optional libraries from `qtype_stack | maximalibraries`.  I.e. set this to blank and re-try the healthcheck.  (One of the stats libraries also tries to load the draw library.)
 
@@ -206,7 +206,7 @@ Now press the "Create Maxima Image" button on the healthcheck script page to cre
 
 __Reload the plugin page (but don't save over the top).__
 
-The maxima image is stored in a sub-directory of moodle's `dataroot` directory, specifically in `dataroot/stack`.  This is defined in Moodle's `config.php` as, for example,
+The maxima image is stored in a sub-directory of Moodle's `dataroot` directory, specifically in `dataroot/stack`.  This is defined in Moodle's `config.php` as, for example,
 
     $CFG->dataroot  = '/var/data/moodle311';
 

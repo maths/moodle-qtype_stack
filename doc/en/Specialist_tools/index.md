@@ -2,7 +2,7 @@
 
 This section of the documentation provides details of how to use "specialist tools".  This section falls outside [quick start](../AbInitio/index.md), reference documentation, or advice on particular [mathematical topics](../Topics/index.md).
 
-Specialist tools include
+Specialist tools include:
 
 * [Free text input](../Specialist_tools/Free_text_input/index.md) for typed proofs, and complete arguments.
 * [Drag and drop](../Specialist_tools/Drag_and_drop/index.md) question types, including proof, grid and matching.

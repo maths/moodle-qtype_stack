@@ -2,7 +2,7 @@
 
 ## General considerations when building interactive graphs {#manual_binding}
 
-In general you should pay attention on how your graph reacts to the student returning to the page/question later. For example, will your graph
+In general you should pay attention to how your graph reacts to the student returning to the page/question later. For example, will your graph
 reset to display the original situation or will it at least move all movable things to the positions the student last left them? If
 the student can do things that are not actually considered as part of the answer, e.g. zoom out or pan the view, do you also remember
 those actions? If your graph is not used for inputting answers then this is not a major issue but if it is then you will need to solve
@@ -25,7 +25,7 @@ The simplest solution for storing state is to add a `string` type input field to
 
 It is possible to store state in other input types, but this input will therefore be subject to validation.  E.g. you could use an algebraic input to store a number but you probably then need to allow floats.
 
-You can use that input field to store the state of the graph as a string, for example as a JSON-encoded structure. For example, assuming the name of the String input is named `stateStore`, we can store the position of a point as follows:
+You can use that input field to store the state of the graph as a string, for example as a JSON-encoded structure. For example, assuming the String input is named `stateStore`, we can store the position of a point as follows:
 
 
     [[jsxgraph input-ref-stateStore="stateRef"]]
@@ -58,7 +58,7 @@ You can use that input field to store the state of the graph as a string, for ex
 
 Note, in the above example in `[[jsxgraph input-ref-stateStore="stateRef"]]` the `stateStore` part of this tag directly relates to, and must match, the name of the input.
 
-In that trivial example you only have one point that you can drag around but the position of that point will be stored and it will be where you left it when you return to the page. However, the position has been stored in a String encoded in JSON format and cannot directly be used in STACK-side logic. The JSON format is however very handy if you create objects to store dynamically and want to represent things of more complex nature, but in this example we could have just as well have had two separate Numeric inputs storing just the raw 'x' and 'y' coordinates separately as raw numbers and in that case we could have used them directly in STACK's grading logic.
+In that trivial example you only have one point that you can drag around but the position of that point will be stored and it will be where you left it when you return to the page. However, the position has been stored in a String encoded in JSON format and cannot directly be used in STACK-side logic. The JSON format is however very handy if you create objects to store dynamically and want to represent things of more complex nature, but in this example we could just as well have had two separate Numeric inputs storing just the raw 'x' and 'y' coordinates separately as raw numbers and in that case we could have used them directly in STACK's grading logic.
 
 If needed, JSON is not impossible to parse in STACK, but it is not easy (as in JavaScript) because Maxima has no map
 data-structures and is not object oriented. In any case, the JSON string generated in the previous example would look like this:
@@ -78,7 +78,7 @@ To parse and manipulate it you can use STACK's custom JSON parsing functions:
 
 The previous section covered the general case of storing the state of the graph and acting on it. Typically, you only need to handle a few points and maybe some sliders and for this task we provide ready-made functions that bind those primitive objects to STACK input fields. As these binding functions only deal with singular sliders and points they will also use simpler forms of passing around the values.
 
-The example in the previous section about moving the point around and storing the points position as an JSON object can be redone with the convenience functions in much simpler form. The only major differences being that the value is stored as a raw list of float values, and the input field should not be of the String type instead we can store it as Algebraic input and directly access the values, just make sure you allow float values in that input.
+The example in the previous section about moving the point around and storing the point's position as a JSON object can be redone with the convenience functions in much simpler form. The only major differences being that the value is stored as a raw list of float values, and the input field should not be of the String type; instead we can store it as Algebraic input and directly access the values, just make sure you allow float values in that input.
 
     [[jsxgraph input-ref-stateStore="stateRef"]]
       // Create a board like normal.
@@ -91,7 +91,7 @@ The example in the previous section about moving the point around and storing th
       stack_jxg.bind_point(stateRef, p);
     [[/jsxgraph]]
 
-For sliders you use the function `stack_jxg.bind_slider(inputRef, slider)` and it stores the sliders value as a raw float. Sliders will however require that you call `board.update()` after binding to them, otherwise the graph may not display the stored state after reload.
+For sliders you use the function `stack_jxg.bind_slider(inputRef, slider)` and it stores the slider's value as a raw float. Sliders will however require that you call `board.update()` after binding to them, otherwise the graph may not display the stored state after reload.
 
 You should check the sample questions about JSXGraph binding for examples of these functions in action.
 
@@ -99,9 +99,9 @@ Starting from version 4.3 there are three functions for dealing with pairs of po
 
 Starting from 4.4 there is only one new bind function `stack_jxg.bind_list_of(inputRef, list)` which takes a list of points and/or sliders and stores it into a single input. It only works if the size or order of the list does not change during page loads, however the list can change its shape for variants of the question. The primary use target for this are the vertices of polygons, but one can probably come up with something else as well, it does work as a quick and dirty way of storing the whole graph state if the graph can be defined just by points and sliders.
 
-There are also two new functions related to dealing with groups of objects and matching inputs. For situations where the answer consists of multiple elements and it is possible that not all get moved one can use `stack_jxg.define_group(list)` which takes a list of points and/or sliders and makes it so that touching any one of them will trigger them all to be considered as touched and thus generates inputs. There is also `stack_jxg.starts_moved(object)` which takes a point or a slider and marks it as touched from the start, this may be of use if the graph is an optional part and the actual grading depends of other parts or if one wants to use PRT feedback as a way for describing the status of the graph and needs the objects to be transferred onto the CAS side without interaction from the student.
+There are also two new functions related to dealing with groups of objects and matching inputs. For situations where the answer consists of multiple elements and it is possible that not all get moved one can use `stack_jxg.define_group(list)` which takes a list of points and/or sliders and makes it so that touching any one of them will trigger them all to be considered as touched and thus generates inputs. There is also `stack_jxg.starts_moved(object)` which takes a point or a slider and marks it as touched from the start, this may be of use if the graph is an optional part and the actual grading depends on other parts or if one wants to use PRT feedback as a way for describing the status of the graph and needs the objects to be transferred onto the CAS side without interaction from the student.
 
-## Convenience tools for generating lists of values.
+## Convenience tools for generating lists of values
 
 If you want to output a list of values without Maxima's normal bracket symbols you can use
 
@@ -110,13 +110,13 @@ If you want to output a list of values without Maxima's normal bracket symbols y
 This function turns a list into a string representation of its arguments, without braces.
 Internally, it applies `string` to the list of values (not TeX!).  However, you might still get things like `%pi` in the output.
 
-You can use this with mathematical input: `{@stack_disp_comma_separate([a,b,sin(pi)])@}` and you will get the result `a, b, sin(%pi/7)` (without the string quotes) because when a Maxima variable is a string we strip off the outside quotes and don't typeset this in maths mode.
+You can use this with mathematical input: `{@stack_disp_comma_separate([a,b,sin(pi/7)])@}` and you will get the result `a, b, sin(%pi/7)` (without the string quotes) because when a Maxima variable is a string we strip off the outside quotes and don't typeset this in maths mode.
 
 ## Custom binding
 
 In the event that you wish to bind a JSXGraph object that is *not* a point or a slider (or a group of these), you can build your own binding function using `stack_jxg.custom_bind(inputRef, serializer, deserializer, [object(s)])`. The `serializer` function is used to generate the value for the input. The `deserializer` is used to extract the value in the input and subsequently update the state of the JSXGraph.
 
-One use case of this could be tying together a STACK `[[input]]` with an Input object in JSXGraph. This is probably a rare use case, but one could imagine a scenario where it it useful to have an input box in the graph, such as labelling a probability tree diagram, or wanting a draggable input box for some reason. In any case, this is a particularly simple example of using the `custom_bind()` function, shown below.
+One use case of this could be tying together a STACK `[[input]]` with an Input object in JSXGraph. This is probably a rare use case, but one could imagine a scenario where it is useful to have an input box in the graph, such as labelling a probability tree diagram, or wanting a draggable input box for some reason. In any case, this is a particularly simple example of using the `custom_bind()` function, shown below.
 
     <p>Enter \(\sin(x)\)</p>
     <span hidden="">[[input:ans1]]</span><span>[[validation:ans1]]</span><br>
@@ -244,4 +244,4 @@ Finally, we finish the question by adding the appropriate answer box inside a hi
 
     <div hidden="">[[input:ans1]] [[validation:ans1]]</div>
 
-The student's input, `ans1`, is now exactly a Maxima list of ones and zeros, and to mark the students answer we could check that `apply("+",ans1)` is exactly equal to 2.
+The student's input, `ans1`, is now exactly a Maxima list of ones and zeros, and to mark the student's answer we could check that `apply("+",ans1)` is exactly equal to 2.

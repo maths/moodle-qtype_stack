@@ -6,9 +6,9 @@ Unit testing for STACK comes in the following three parts.
 * Maxima unit tests,
 * Test scripts exposed to the question author.
 
-These three mechanisms aim to provide comprehensive testing of STACK.  The last category are a compromise, and are designed to expose the results of unit tests to question authors in a reasonably attractive manner to inform them of what each answer test is actually supposed to do.  Links to these tests are in the healthcheck page.
+These three mechanisms aim to provide comprehensive testing of STACK.  The last category is a compromise, and are designed to expose the results of unit tests to question authors in a reasonably attractive manner to inform them of what each answer test is actually supposed to do.  Links to these tests are in the healthcheck page.
 
-STACK uses the moodle-ci continuous integration mechanism via github actions so that all unit tests are triggered when a commit is pushed to github.
+STACK uses the moodle-ci continuous integration mechanism via GitHub actions so that all unit tests are triggered when a commit is pushed to GitHub.
 
 JavaScript unit tests added May 2026.
 
@@ -69,7 +69,7 @@ Commands are
     vendor/bin/phpunit --testsuite qtype_stack_testsuite --coverage-html folder-name 
     vendor/bin/phpunit question/type/stack/tests/test.php --coverage-html folder-name 
 
-(where folder-name is the folder that you want to contains the report)
+(where folder-name is the folder that you want to contain the report)
 
 If, for some reason, you have the STACK code in your codebase, and you want to run other
 unit tests on a server without Maxima installed, then you will get an error when you
@@ -81,7 +81,7 @@ in your config.php file. This will prevent the install from trying to create max
 It will also cause most of the STACK unit tests to be skipped.
 
 
-## Stop resetting the dataroot directory.
+## Stop resetting the dataroot directory
 
 
 In `[...]/moodle/lib/phpunit/classes/util.php` 
@@ -114,13 +114,13 @@ Note you need to make sure the `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` variabl
 
 To make sure the CAS cache is cleared after each unit test, revert back to the `db` settings for `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` as described above.  This will be slow...
 
-## Running Moodle unit tests on other plugins without maxima.
+## Running Moodle unit tests on other plugins without Maxima
 
 It is possible that you want to install the `qtype_stack` PHP code, but not complete the installation of Maxima, and then run the PHP unit tests on a different plugin.  Trying to run unit tests on an incomplete install _should_ fail badly.  By default it does, and by design we have set it up to fail when you execute
 
     php admin/tool/phpunit/cli/init.php
 
-on the whole moodle.  If you need to avoid this failure then
+on the whole Moodle site.  If you need to avoid this failure then
 
     define('QTYPE_STACK_TEST_CONFIG_PLATFORM', 'none');
 
@@ -148,7 +148,7 @@ The output from these tests is written to `.ERR` files in `\moodle\question\type
     
 Please note that currently, with simplification false, there are a number of false negative results.  That is tests appear to fail, but do not.  This is because rtest is not designed to run with simp:false, and so does not correctly decide whether things are really the "same" or "different".
 
-# Timing the code.
+# Timing the code
 
 Maxima has a range of functions for code profiling.  Put the following at the start of the file.
 
@@ -160,7 +160,7 @@ To time a single command
 
     ev(timer_info(abs_replace), simp);
 
-To profile all user-defined commands execute.
+To profile all user-defined commands execute:
 
     simp:true$
     T:timer_info()$
@@ -178,7 +178,7 @@ Sort by the time/call
     float_time(a):= if a=0 then 0 else first(args(a))$
     S:sort(S, lambda([a,b],float_time(second(a))>float_time(second(b))));
     
-# Testing ajax specific problems.
+# Testing AJAX-specific problems
 
 You need to output values to the file system, as the display can't manage this.  For example,
 

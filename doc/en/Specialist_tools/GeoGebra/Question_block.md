@@ -1,12 +1,12 @@
 # GeoGebra question block
 
-GeoGebra blocks are included with the `[[GeoGebra ...]]` block.  This page provides reference documentation of all features of that block.
+GeoGebra blocks are included with the `[[geogebra ...]]` block.  This page provides reference documentation of all features of that block.
 
 ## Adding a GeoGebra question block using the `material_id`
 
-To use GeoGebra in STACK an applet must be hosted at [geogebra.org](https://geogebra.org) and the applet must be publicly available through a url. 
+To use GeoGebra in STACK an applet must be hosted at [geogebra.org](https://geogebra.org) and the applet must be publicly available through a URL. 
 
-To include a GeoGebra applet into a STACK castext field (e.g. the question text), first create or search for an existing GeoGebra applet at geogebra.org. To set things up we need the `material_id` of an applet, we want to show.
+To include a GeoGebra applet into a STACK castext field (e.g. the question text), first create or search for an existing GeoGebra applet at geogebra.org. To set things up we need the `material_id` of the applet we want to show.
 
 For the material [https://www.geogebra.org/m/seehz3km](https://www.geogebra.org/m/seehz3km) the `material_id` is: `seehz3km`
 
@@ -53,11 +53,11 @@ To be able to make things consistent and easy for question authors, the followin
 1. Names of variables must be equal in both STACK and GeoGebra.  However, no explicit checking is done.
 2. Value-names must start with lower case letters.
 3. Values must be `int` or `float` STACK variables.
-4. Angles are used like values, and so must be named lowercase letters in Latin-Alphabet, (not Greek unicode letters!) and values must be in radians.  (If you want to show a Greek letter to the student, then have a parallel internal variable which is used by STACK.  E.g. call the angle \(\alpha\) visibly in GGB, but have a hidden GGB variable \(a\) which you can watch.)
+4. Angles are used like values, and so must be named lowercase letters in the Latin alphabet, (not Greek unicode letters!) and values must be in radians.  (If you want to show a Greek letter to the student, then have a parallel internal variable which is used by STACK.  E.g. call the angle \(\alpha\) visibly in GGB, but have a hidden GGB variable \(a\) which you can watch.)
 5. Point-names must start with upper case letters.
 6. Points are represented as a list in STACK.  For example `D:[2,3]`, means a point \(D\) with \(x=2, y=3\).  (While STACK has an inert `ntuple` command which can be used for representing and displaying coordinates, we have chosen to use lists in this design.)
 
-The value of the `set` parameter must be a string of (unique), comma-separated, GeoGebra-objects with latin names.
+The value of the `set` parameter must be a string of (unique), comma-separated, GeoGebra-objects with Latin names.
 For example, the sub-tag value could look like:  `set = "A,B,C,D,a2,E__fixed"` and would be placed in the block as
 
     [[geogebra set = "A,B,C,D,a2,E__fixed"]]
@@ -67,7 +67,7 @@ For example, the sub-tag value could look like:  `set = "A,B,C,D,a2,E__fixed"` a
 
 With the "set" sub-tag you can set a GeoGebra object (currently a point or a value) to a STACK-calculated value when the applet is first loaded.
 
-By default points are free to manipulate in the applet, unless you add `__fixed` or other double-underscore-tags to the Point-name. A full list of available options see "set: double-underscore-tags in the "advanced use-cases"-section.
+By default points are free to manipulate in the applet, unless you add `__fixed` or other double-underscore-tags to the Point-name. For a full list of available options see "set: double-underscore-tags" in the "Advanced use-cases" section.
 
 Notes
 
@@ -99,13 +99,13 @@ Then complete the question as follows.
 
 This should give a minimal working GGB question with "set".
 
-The use of the STACK function `ntupleify` ensures both the student's answer and teacher's answer is converted from a list to an `ntuple`.  STACK defines `ntuple` as data type allowing an "n-tuple" such as \( (1,2) \) to be a different data type from a "list" \( [1,2] \).  Internally in STACK/GGB lists are given preference in the design, but completing the PRT as above will allow student input of coordinates using traditional round brackets, which is interpreted by STACK as a data type `ntuple`.  See the docs on [sets, lists, sequences and n-typles](../../CAS/Maxima_background.md#sets-lists-sequences-n-tuples).
+The use of the STACK function `ntupleify` ensures both the student's answer and teacher's answer are converted from a list to an `ntuple`.  STACK defines `ntuple` as data type allowing an "n-tuple" such as \( (1,2) \) to be a different data type from a "list" \( [1,2] \).  Internally in STACK/GGB lists are given preference in the design, but completing the PRT as above will allow student input of coordinates using traditional round brackets, which is interpreted by STACK as a data type `ntuple`.  See the docs on [sets, lists, sequences and n-tuples](../../CAS/Maxima_background.md#sets-lists-sequences-n-tuples).
 
 The question can readily be adapted by making `A` a randomly generated object, if required.
 
 ## Using the "watch" sub-tag 
 
-With the "watch" sub-tag someone can listen to values and points in GeoGebra. These values can then be used to calculate feedback in STACK.  The values will be assigned to a STACK input.  Note, inputs can be "hidden" from the student.
+With the "watch" sub-tag you can listen to values and points in GeoGebra. These values can then be used to calculate feedback in STACK.  The values will be assigned to a STACK input.  Note, inputs can be "hidden" from the student.
 
 General notes for watched objects
 
@@ -114,7 +114,7 @@ General notes for watched objects
 3. Numbers/angles e.g. `b` can be an algebraic or numerical input, and you _must_ allow floats!
 4. You can access `b` in STACK as value. If `b` represents an angle then `b` is in radians.
 
-### Minimal example watching point A.
+### Minimal example watching point A
 
 Set the question variables to be
 
@@ -132,7 +132,7 @@ Recall that since the object in `watch="A"` is written in upper case it must be 
 
 Then complete the question as follows.
 
-1. The question expects an input `A`.  In this input, make the model answer `ta1`.  This is a list, and has a different name from the watched point..
+1. The question expects an input `A`.  In this input, make the model answer `ta1`.  This is a list, and has a different name from the watched point.
 2. Make sure you set "forbid floats" option in the input to be false, if you want to!
 3. Complete the default potential response tree `prt1` as `ATAlgEquiv(ntupleify(A), ntupleify(ta1))`
 
@@ -144,7 +144,7 @@ Once the question is working you can hide the inputs from students, but for test
 Extensions to this basic question:
 
 1. The question can readily be adapted by making `ta1` a randomly generated object, if required.
-2. The answer test requires _exact_ positioning of point `A` on the required coordinates.  In this GGB sheet we have "snap to grid" so it is reasonable to ask for exact positioning of the point `A` in this case.  An alternative approximate positioning \( ||A-ta1||<0.1 \) can be established using the Num-GT answer test: `ATGT(0.1, Distance(A,ta1))`.  STACK provides a number of [geometry related maxima functions](../../CAS/Geometry.md), including `Distance` which is used here.
+2. The answer test requires _exact_ positioning of point `A` on the required coordinates.  In this GGB sheet we have "snap to grid" so it is reasonable to ask for exact positioning of the point `A` in this case.  An alternative approximate positioning \( ||A-ta1||<0.1 \) can be established using the Num-GT answer test: `ATGT(0.1, Distance(A,ta1))`.  STACK provides a number of [geometry related Maxima functions](../../CAS/Geometry.md), including `Distance` which is used here.
 
 
 ## Using the "remember" sub-tag
@@ -174,7 +174,7 @@ Set the question text:
 4. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](../../Authoring/Inputs/Input_options.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
 5. Once working, hide the "remember" input with CSS, e.g. `<p style="display:none">[[input:remember]][[validation:remember]]</p>` (but probably not while you develop the question!)
 
-### Minimal example watching an indirect GGB object, e.g. angle k.
+### Minimal example watching an indirect GGB object, e.g. angle k
 
 In the above example we have angle \(k\).  To watch this value we can add `k` to the list of watched variables.  E.g.
 
@@ -193,9 +193,9 @@ An alternative would be to check this in GeoGebra and create a variable with a v
 
    Your angle is {@round(k*180/%pi)@} degrees, which is not a right angle!
 
-### Example: using some advanced features.
+### Example: using some advanced features
 
-This example illustrates some of the advanced features 
+This example illustrates some of the advanced features:
 
 Set the question variables to be
 
@@ -215,8 +215,8 @@ Set the question text to be
 Notes
 
 1. This GGB sheet has a variable `a` (hidden) which stores the angle \(\alpha\) in a way STACK can access the Greek letter.
-2. This GGB sheet has a boolean variable `b`.  This will comes through to STACK as a number, \(0\) or \(1\).
-3. The use of `"remember"` means we need an string input to store the state of `P` between attempts.
+2. This GGB sheet has a boolean variable `b`.  This will come through to STACK as a number, \(0\) or \(1\).
+3. The use of `"remember"` means we need a string input to store the state of `P` between attempts.
    
 
 # Advanced use-cases
@@ -242,7 +242,7 @@ When you set A like: `set="A__preserve"` then `"A__preserve"` will preserve that
 ##### Common example: "Sliders"
 
 "a" should be a GeoGebra-value controlled by a slider ranging from -5 to 5.
-When you set a like: `set = "a"`, the definition of a will be overwritten, e.g. if the STACK variable a is 10, after initialization a is 10 in GeoGebra.
+When you set a like: `set = "a"`, the definition of a will be overwritten, e.g. if the STACK variable a is 10, after initialisation a is 10 in GeoGebra.
 When you set a like: `set = "a__preserve"` then `"a__preserve"` will preserve that a is in range -5 to 5. If you set a in STACK to 10, a in GeoGebra will be set to the nearest value, in this example a will be 5 in GeoGebra.
 
 ### Hide and show keyword
@@ -266,7 +266,7 @@ will set \(A\) as a fixed point and hide it. Keyword order is not relevant.
 The GeoGebra object value should not be set, this keyword is helpful, if you just want to hide or show something, see "multiple keywords".
 
 * `set="A__hide__novalue"` Hide A but do not set the value for \(A\)
-* `set="A__hide__novalue"` watch="A"` Watch \(A\), but hide it and do not set it.
+* `set="A__hide__novalue" watch="A"` Watch \(A\), but hide it and do not set it.
 
 <!--- commented out until problems with commands inside the block are solved 
 
@@ -312,5 +312,5 @@ Please note that the STACK and GeoGebra syntax do not match perfectly.  For exam
 
 ### Disclaimer
 
-The creation of these resources has been (partially) funded by the ERASMUS+ grant program of the European Union under grant No. 2021-1-DE01-KA220-HED-000032031. Neither the European Commission nor the project's national funding agency DAAD are responsible for the content or liable for any losses or damage resulting of the use of these resources.
+The creation of these resources has been (partially) funded by the ERASMUS+ grant programme of the European Union under grant No. 2021-1-DE01-KA220-HED-000032031. Neither the European Commission nor the project's national funding agency DAAD are responsible for the content or liable for any losses or damage resulting from the use of these resources.
 

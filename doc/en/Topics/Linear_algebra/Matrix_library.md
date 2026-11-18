@@ -97,7 +97,7 @@ Perhaps you have a question in which students are asked to solve the matrix equa
 
 \[\left[\begin{array}{cc} 1 & 2 \\ 4 & 5 \end{array}\right|\left.\begin{array}{c} 3 \\ 6 \end{array}\right]\]
 
-Really what is happening here is that `aug` is converting a matrix with concatenated columns `A` and `b` to an `aug_matrix`, which then displays as a matrix with its final column separated by a vertical bar. `aug_matrix` is an inert function used for display purposes. You can save this to a variable, perhaps `Ab`, but Maxima doesn't know that this is a matrix at all and so matrix operations won't work on it. To turn it back into a matrix, you can use `de_aug(Ab)`. `de_aug` concatenates the input matrices instead of returning a list, so if you need more control you may prefer to programme your row operations separately and display `aug(A1,b1)`, `aug(A2,b2)` etc. manually.
+Really what is happening here is that `aug` is converting a matrix with concatenated columns `A` and `b` to an `aug_matrix`, which then displays as a matrix with its final column separated by a vertical bar. `aug_matrix` is an inert function used for display purposes. You can save this to a variable, perhaps `Ab`, but Maxima doesn't know that this is a matrix at all and so matrix operations won't work on it. To turn it back into a matrix, you can use `de_aug(Ab)`. `de_aug` concatenates the input matrices instead of returning a list, so if you need more control you may prefer to program your row operations separately and display `aug(A1,b1)`, `aug(A2,b2)` etc. manually.
 
 This can generalise to as many inputs as needed. For instance, `aug(matrix([1,2,3],[4,5,6],[7,8,9]), matrix([1],[1],[1]), ident(3))` will display as
 

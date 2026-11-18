@@ -1,6 +1,6 @@
-# Example JSXGraph plots.
+# Example JSXGraph plots
 
-## Discrete mathematics and graph theory.
+## Discrete mathematics and graph theory
 
 A graph can be displayed with JSXGraph, see [discrete mathematics](../../Topics/Discrete_mathematics.md) for examples.
 
@@ -36,7 +36,7 @@ Then, you can use this JSXGraph block to create your vertices and edges.  Note, 
 
 ## A catalogue of plots
 
-The following CASText gives representative examples of the height, width and aspect ratio options supported by STACK's jsxgraph block  Cut and paste it into the CASchat script.
+The following CASText gives representative examples of the height, width and aspect ratio options supported by STACK's jsxgraph block.  Cut and paste it into the CASchat script.
 
 ````
 Default options

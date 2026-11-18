@@ -26,7 +26,7 @@ The Moodle LTI provider enables a wide range of possibilities.
 
 If you would like more than one grade in Learn, then consider having more than one course on Moodle.  Students will be able to see their individual grades in Moodle (unless you disable access to the gradebook!), so it is likely to be sufficient for most purposes to return a single grade to Learn.  The difficulty with this is the lack of shared question banks.
 
-1. Login to the provider (STACK) directly with Moodle admin privileges and create a course as follows.
+1. Log in to the provider (STACK) directly with Moodle admin privileges and create a course as follows.
 
         Site administration -> Courses -> Manage courses and categories.
 
@@ -58,7 +58,7 @@ It is possible to expose an individual quiz, but then you need to consume the qu
 
 The University of Edinburgh uses a learning management system called "Learn".  We need to connect Learn up to Moodle to allow a wide variety of courses (on Learn) to use quizzes containing STACK (and other) questions.  We want each (Learn) course to have a private area on the Moodle server parallel to the course on Learn.
 
-We have developed an [enrolement plugin](https://github.com/maths/enrol_lticoursetemplate), [`enrol_lticoursetemplate`](https://github.com/maths/enrol_lticoursetemplate), which provides an LTI service which enables users to _clone a course template_ from a remote connection, automatically giving each teacher the ability to create a new clean course tied to their consumer content system.  This plugin removes the need to set up parallel courses in Moodle by hand.
+We have developed an [enrolment plugin](https://github.com/maths/enrol_lticoursetemplate), [`enrol_lticoursetemplate`](https://github.com/maths/enrol_lticoursetemplate), which provides an LTI service which enables users to _clone a course template_ from a remote connection, automatically giving each teacher the ability to create a new clean course tied to their consumer content system.  This plugin removes the need to set up parallel courses in Moodle by hand.
 
 [Documentation](https://github.com/maths/enrol_lticoursetemplate) on how to set up this plugin is available.
 

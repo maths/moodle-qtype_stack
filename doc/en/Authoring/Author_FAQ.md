@@ -4,14 +4,14 @@
 
 If you navigate to the STACK admin links page _on your server_ then you can find the version number of the STACK plugin at the bottom of the page.  If your site is `https://maths.assessment/site` then the URL is probably `https://maths.assessment/site/question/type/stack/adminui/index.php`.  The version number is given in the form used by all Moodle plugins, e.g. `2022052300` which is basically a release date of the plugin you are using.
 
-Note, we distribute the documentation with the source code so you can check the STACK features you have available on your site by referring to this version of the documentation (rather than the docs on [https://docs.stack-assessment.org/](https://docs.stack-assessment.org/) which documents the latest release.).  If your site is `https://maths.assessment/site` then the URL of the documentation is probably `https://maths.assessment/site/question/type/stack/doc/doc.php`.
+Note, we distribute the documentation with the source code so you can check the STACK features you have available on your site by referring to this version of the documentation (rather than the docs on [https://docs.stack-assessment.org/](https://docs.stack-assessment.org/) which documents the latest release).  If your site is `https://maths.assessment/site` then the URL of the documentation is probably `https://maths.assessment/site/question/type/stack/doc/doc.php`.
 
 
 ## How can I report a bug or make a suggestion? ##
 
 General community discussion takes place on [https://stack-assessment.zulipchat.com/](https://stack-assessment.zulipchat.com/)
 
-The source code, and development discussion, is on [github](http://github.com/maths/moodle-qtype_stack/issues), with an additional [ILIAS](https://github.com/ilifau/assStackQuestion/) site.
+The source code, and development discussion, is on [GitHub](http://github.com/maths/moodle-qtype_stack/issues), with an additional [ILIAS](https://github.com/ilifau/assStackQuestion/) site.
 
 ## Can I write questions in multiple languages?
 
@@ -97,4 +97,4 @@ Then, you should get error reporting.  As an example navigate to
 
 There you can see an example of an expression sent to Maxima.  Expressions such as this can be copied into the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) and evaluated.  The errors returned here might help track down the problem.
 
-The issue is normally that you have tried to create a _syntactically invalid_ maxima command.  For example `[a,,b]` will crash Maxima.  Since we have not created a full parser, all syntax errors like this are not yet trapped.
+The issue is normally that you have tried to create a _syntactically invalid_ Maxima command.  For example `[a,,b]` will crash Maxima.  Since we have not created a full parser, all syntax errors like this are not yet trapped.

@@ -36,18 +36,18 @@ Constant coefficient ODEs can also be manipulated in STACK using Laplace Transfo
     sol: rhs(sol[1]);
     sol: subst([x(0)=-1,diff(x(t), t)=0],sol);
 
-The `laplace` command will Laplace Transform the ode (more information in [maxima docs](https://maxima.sourceforge.io/docs/manual/maxima_104.html#index-laplace)), but it will still be in terms of the Laplace Transform of `x(t)`, which is symbolic. The `solve` command then solves the algebraic equation for this symbolic Laplace Transformed function, and on the right-hand side of the equals sign, the desired answer is obtained using the `rhs` command. Lastly, the initial conditions need to be specified for `x(t)`. The Laplace Transform symbolically specifies values for `x(0)` and `x'(0)` and these can be replaced with the `subst` command as shown above.
+The `laplace` command will Laplace Transform the ODE (more information in [Maxima docs](https://maxima.sourceforge.io/docs/manual/maxima_104.html#index-laplace)), but it will still be in terms of the Laplace Transform of `x(t)`, which is symbolic. The `solve` command then solves the algebraic equation for this symbolic Laplace Transformed function, and on the right-hand side of the equals sign, the desired answer is obtained using the `rhs` command. Lastly, the initial conditions need to be specified for `x(t)`. The Laplace Transform symbolically specifies values for `x(0)` and `x'(0)` and these can be replaced with the `subst` command as shown above.
 
 ### Randomly generating ODE problems ###
 
-When randomly generating questions we could easily generate an ODE which cannot be solved in closed form, so that in particular using ode2 may be problematic.
+When randomly generating questions we could easily generate an ODE which cannot be solved in closed form, so that in particular using `ode2` may be problematic.
 It is much better when setting any kind of STACK question to start with the method and work backwards to generate the question.
 This ensures the question remains valid over a whole range of parameters.
 It also provides many intermediate steps which are useful for a worked solution.
 
 #### % characters from solve and ode2 {#Solve_and_ode2}
 
-Maxima functions such as `solve` and `ode2` add arbitrary constants, such as constants of integration.  In Maxima these are indicated adding constants which begin with percentage characters.  For example,
+Maxima functions such as `solve` and `ode2` add arbitrary constants, such as constants of integration.  In Maxima these are indicated by adding constants which begin with percentage characters.  For example,
 
     assume(x>0);
     eq1:x^2*'diff(y,x) + 3*y*x = sin(x)/x;
@@ -62,8 +62,8 @@ Notice the `%c` in this example. We need a function to strip out the variables s
 The function `stack_strip_percent(ex,var)` replaces all variable names  starting with `%` with those in `var`.
 There are two ways to use this.
 
-1. if `var` is a list then take the variables in the list in order.
-2. if `var` is a variable name, then Maxima returns unevaluated list entries,
+1. If `var` is a list then take the variables in the list in order.
+2. If `var` is a variable name, then Maxima returns unevaluated list entries.
 
 For example
 
@@ -90,7 +90,7 @@ The following example question variables can be used within STACK.
     sol : stack_strip_percent(ode2(ode,y,x),[k]);
     ta  : rhs(ev(sol,nouns));
 
-Note, you may need to use the Option "assume positive" to get ODE to evaluate the integrals formally and hence "solve correctly".
+Note, you may need to use the option "assume positive" to get `ode2` to evaluate the integrals formally and hence "solve correctly".
 
 If you need to create a list of numbered variables use
 

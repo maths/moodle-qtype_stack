@@ -1,6 +1,6 @@
 # Dynamic blocks
 
-Dynamic blocks deal with dynamic content such as Javascript and JSXGraphs.  Many of the dynamic blocks are designed for use with specialist tools.
+Dynamic blocks deal with dynamic content such as JavaScript and JSXGraphs.  Many of the dynamic blocks are designed for use with specialist tools.
 
 ## Reveal block ##
 
@@ -35,9 +35,9 @@ Use the following question text.
 
 1. Create input `ans1` as a radio input, with teacher's answer `ta1`.  Don't require or show validation.
 2. Create input `ans2` as an algebraic input, with teacher's answer `ta2`.  Use the extra option `allowempty`.
-3. In the PRT the first node should check `ans1=X` and, if so check that `ans2=ta2`.
+3. In the PRT the first node should check `ans1=X` and, if so, check that `ans2=ta2`.
 
-**Notice that the reveal block has the condition `value="5"`, _not_ `value="X"`.**  This is because the reveal block executes client-side, using javascript, and the values of the options are simply numbered, and mapped back to Maxima values server-side.
+**Notice that the reveal block has the condition `value="5"`, _not_ `value="X"`.**  This is because the reveal block executes client-side, using JavaScript, and the values of the options are simply numbered, and mapped back to Maxima values server-side.
 
 ## Hint block ##
 
@@ -51,8 +51,8 @@ Text shown when the button is pressed.
 
 Notes
 
-1. hint blocks can be nested.
-2. the content of the hint is styled within a `stack-hint-content` div tag.
+1. Hint blocks can be nested.
+2. The content of the hint is styled within a `stack-hint-content` div tag.
 
 ## Adapt block ##
 
@@ -80,7 +80,7 @@ This text is hidden if you did not press the adaptbutton.
 [[/adapt]]
 ```
 
-The Adaptbutton block has no contents within the block, so you may use the form `[[adaptbutton ... /]]` rather than `[[adaptbutton ... ]][/adaptbutton]]`.
+The Adaptbutton block has no contents within the block, so you may use the form `[[adaptbutton ... /]]` rather than `[[adaptbutton ... ]][[/adaptbutton]]`.
 
 ### Adaptauto
 
@@ -107,7 +107,7 @@ Example with delay:
 ```
 [[adaptauto show_ids='2' hide_ids='1' delay='3000'/]]
 ```
-This will show adapt block with ID '2' and hide adapt block with ID '1' after a 3 second delay.
+This will show adapt block with ID '2' and hide adapt block with ID '1' after a 3-second delay.
 
 An example question is available by importing `Doc-Examples\Authoring-Docs\Question-blocks\Adapt_delay_block.xml`.
 

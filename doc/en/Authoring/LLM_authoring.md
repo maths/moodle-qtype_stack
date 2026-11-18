@@ -17,7 +17,7 @@ Just as MCQ is still needed, STACK will retain an important place in the educati
 
 ## Workflows for STACK question generation
 
-To help question authors make the best out of STACK and its features, we have produced a basic "stack_essentials" file designed to help LLM agents write questions to a basic standard.  See `agents/stack_essentials.md`
+To help question authors make the best of STACK and its features, we have produced a basic "stack_essentials" file designed to help LLM agents write questions to a basic standard.  See `agents/stack_essentials.md`
 
 
 

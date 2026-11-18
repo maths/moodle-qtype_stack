@@ -1,6 +1,6 @@
 # Asking students to solve equations
 
-It is quite common to ask students to solve an algebraic equation.  The student's answer may be a list (or set) of numbers.  We need to check that this list is
+It is quite common to ask students to solve an algebraic equation.  The student's answer may be a list (or set) of numbers.  We need to check that this list is:
 
 1. Correct: every element of the list satisfies the equation.
 2. Complete: every solution of the equation is in the list.
@@ -25,12 +25,12 @@ In the feedback variables we create a new list called "listans" as follows, assu
     /* Substitute into the equation. */
     listans:maplist(lambda([ex],ev(p,x=ex)), listify(ans1));
 
-The values of `listans` are what we get when we substitute in each of the students' answers into the equation.   We could also simplify this, but it isn't strictly necessary.
+The values of `listans` are what we get when we substitute each of the student's answers into the equation.   We could also simplify this, but it isn't strictly necessary.
 
     /* "Simplify" the result (not strictly necessary). */
     listans:maplist(fullratsimp, listans);
 
-Now we have a list of numbers.  We need to compare this with something, but the student's list may have a different number of entries than of the teacher's solution!
+Now we have a list of numbers.  We need to compare this with something, but the student's list may have a different number of entries than the teacher's solution!
 
     /* Generate something to compare this list with. */
     zl:makelist(0,length(listans));
@@ -83,7 +83,7 @@ Alternatively, you may want to simplify the student's answer to make sure they h
 
 Exact circumstances of the question will dictate what to do, and whether the teacher expects students to enter duplicate roots the right number of times.
 
-## Displaying equations with the LaTeX `aligned` environment.
+## Displaying equations with the LaTeX `aligned` environment
 
 STACK supports the `\begin{aligned} ... \end{aligned}` environment, which can be used to line up equations on the equal sign.  This is an inert function which displays its arguments.
 
@@ -102,4 +102,4 @@ STACK also supports an inert function `lrparens` which allows fine control over 
 
     eq2:lrparens(".", ex, "\\}");
 
-will simply wrap the LaTeX output of `ex` with `\left.` and `right\}`.  The first and third arguments of lrparens must be strings, and they much correspond to legitimate bracket types in LaTeX.  Note, as normal the curly braces need to be protected. 
+will simply wrap the LaTeX output of `ex` with `\left.` and `\right\}`.  The first and third arguments of lrparens must be strings, and they must correspond to legitimate bracket types in LaTeX.  Note, as normal the curly braces need to be protected. 

@@ -5,7 +5,7 @@ Online assessment can effectively assess and give feedback to a large number of 
 1. Only finite answers are possible. The teacher can put in "dummy responses" for common mistakes and give feedback based on those mistakes, but it is impossible to give feedback on student errors outside the given examples.
 2. You can only assess lower-order skills. "Give an example of..." type questions are impossible.
 3. It encourages strategic learning, i.e. instead of solving the problem, students will think about how to "trick the system" and find the right answer.
-4. Question distortion is especially problematic in mathematics. You may ask students to integrate a complicated function, and then give a list of potential answers. Differentiating the answers to get the original expression is a much easier process, and sensible students are likely to take the easier route, which is not what we wanted the student to practice.
+4. Question distortion is especially problematic in mathematics. You may ask students to integrate a complicated function, and then give a list of potential answers. Differentiating the answers to get the original expression is a much easier process, and sensible students are likely to take the easier route, which is not what we wanted the student to practise.
 
 The alternative is to use *student-provided answer questions* where the student's answer contains the content such as an algebraic expression, or free-text input.
 
@@ -29,17 +29,17 @@ Multipart questions can be very helpful for students, for example to help guide 
 
 * _STACK completely separates input and assessment with a unique and flexible design._
 
-A question can have unlimited input boxes, and unlimited potential response trees to handle the assessment. Each tree is not limited to a particular input, but instead has access to all the student's inputs. Hence, a tree assessing the correctness of part (b) of a question can use the student's answer to part (a) in its algorithm. This allows for follow-through marking, where a student be penalised for a wrong expression in part (a) but given credit for correctly substituting in values in part (b).
+A question can have unlimited input boxes, and unlimited potential response trees to handle the assessment. Each tree is not limited to a particular input, but instead has access to all the student's inputs. Hence, a tree assessing the correctness of part (b) of a question can use the student's answer to part (a) in its algorithm. This allows for follow-through marking, where a student is penalised for a wrong expression in part (a) but given credit for correctly substituting in values in part (b).
 
 #### Teachers should be able to write, edit and share their own questions
 
-The STACK community help teachers take responsibility for their assessments.  STACK allows teachers to write questions with minimal coding skill, and to share and edit questions easily.
+The STACK community helps teachers take responsibility for their assessments.  STACK allows teachers to write questions with minimal coding skill, and to share and edit questions easily.
 
 When assessing students' answers, STACK asks teachers to focus on the properties of students' answers, such as "algebraically equivalent to the teacher's answer", "factorised", etc. 
 
 * _Focusing on mathematical properties, such as equivalence, is a unique design feature of STACK._
 
-Teachers can then pick suitable [answer tests](../Authoring/Answer_Tests/index.md) in a [potential response tree](../Authoring/Potential_response_trees.md) and give marks and feedback accordingly.  STACK does not require teachers to learn a coding language and assess students' answers by writing code such as :
+Teachers can then pick suitable [answer tests](../Authoring/Answer_Tests/index.md) in a [potential response tree](../Authoring/Potential_response_trees.md) and give marks and feedback accordingly.  STACK does not require teachers to learn a coding language and assess students' answers by writing code such as:
 
 ```
 If
@@ -64,11 +64,11 @@ STACK is designed to cover the needs of a large variety of users across mathemat
 
 #### STACK is open source
 
-The problems faced by teachers, particularly in University, are the same the world over.  We want a system that encourages other developers to collaborate on improving STACK, but remaining free to use it in open or commercial settings.  
+The problems faced by teachers, particularly in universities, are the same the world over.  We want a system that encourages other developers to collaborate on improving STACK, but remaining free to use it in open or commercial settings.  
 
 * _STACK is the leading open source online assessment system for mathematics and STEM._
 
-The business model for STACK relies on institutions collaborating on the infrastructure, remaining free to use the resulting system as the please, including in commercially as needed.  
+The business model for STACK relies on institutions collaborating on the infrastructure, remaining free to use the resulting system as they please, including commercially as needed.  
 
 The documentation for STACK is available under the  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a> 
 ![Creative Commons License](../../content/by-sa-88.png).

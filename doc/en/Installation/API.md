@@ -21,4 +21,4 @@ The API also provides a bulk test option `http://localhost:3080/bulktest.php`
 
 ## Building the image locally
 
-The code, and further documentation, for the API is in the `api/README.md` directory of the distribution.
+The code for the API is in the `api/` directory of the distribution, and further documentation is in `api/README.md`.

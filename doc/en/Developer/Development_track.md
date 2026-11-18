@@ -3,15 +3,15 @@
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
-We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
+We use the [GitHub issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
 ## Version 4.16.0
 
-Issues with [github milestone 4.16.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.16.0).
+Issues with [GitHub milestone 4.16.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.16.0).
 
 ## Better testing
 
-### Add in a new keyvals field "test variables".
+### Add in a new keyvals field "test variables"
 
 Add in a new keyvals field "test variables". The test execution would then take three CAS sessions.
 
@@ -21,8 +21,8 @@ Add in a new keyvals field "test variables". The test execution would then take 
 
 Other ideas
 
-1. It would be a fun (student project?!) to graphically illustrate the expected and actual route through the tree by expanding the current PRT graph library, or writing something else. (I get ahead of myself of course....)
-2. Introduce new keyword `any` in score/penalty effectiveley ignoring that field for the purposes of this test case.
+1. It would be fun (student project?!) to graphically illustrate the expected and actual route through the tree by expanding the current PRT graph library, or writing something else. (I get ahead of myself of course....)
+2. Introduce new keyword `any` in score/penalty effectively ignoring that field for the purposes of this test case.
 
 Currently, the DB fields for score and penalty are numbers, specifically
 
@@ -46,15 +46,15 @@ These include meta plugins like
 * Define block rules: https://mdit-plugins.github.io/field.html
 
 1. Support an option so that `#` can be used instead of backticks to delimit AsciiMath.
-2. Write an AsciiMath to Maxima parser to ensure the `lastblock` and `lastexpr` extractors create correct syntax for the input.  Note math.js already has the necessary _parser_ so de-pasting the ast creates by math.js is the first line of attack here.  See calculator.js filter for an example of traversing this tree.
+2. Write an AsciiMath to Maxima parser to ensure the `lastblock` and `lastexpr` extractors create correct syntax for the input.  Note math.js already has the necessary _parser_ so de-pasting the AST created by math.js is the first line of attack here.  See calculator.js filter for an example of traversing this tree.
 3. Add options to calculator blocks for degrees, and to support physics with scientific units (which math.js supports).
  
-## Future equivalence reasoning development track.
+## Future equivalence reasoning development track
 
 1. Allow bespoke validation (actually quite difficult).
 2. Specify a variable to solve for.  E.g.  `a*x=0`, currently needs `a=0 or x=0`, but when solving for `x` we have just `x=0`.
 
-## Future Parson's block development track
+## Future Parsons block development track
 
 1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
 2. Use syntax hint to set up a non-empty starting point.

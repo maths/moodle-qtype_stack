@@ -2,7 +2,7 @@
 
 STACK has a [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/vectorgeometry.mac) for vector geometry functions.  To use this library you must load it into the question variables.
 
-* To use the latest code from github: `stack_include_contrib("vectorgeometry.mac");`
+* To use the latest code from GitHub: `stack_include_contrib("vectorgeometry.mac");`
 
 This page contains reference documentation on functions in this library.
 
@@ -127,7 +127,7 @@ For example, using the above example, `vec: vector_parametric_display(vector_par
 
 It is worth emphasising that this is just a string, and cannot be interacted with algebraically.
 
-Continuing with the above example, you might like include in the PRT an expression such as: 
+Continuing with the above example, you might like to include in the PRT an expression such as: 
 
 "Your answer was interpreted as {@vector_parametric_display(sa_parts)@}"
 

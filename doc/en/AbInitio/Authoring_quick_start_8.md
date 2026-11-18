@@ -28,9 +28,9 @@ Hence, we would much rather have everything in one CAS object that is not simpli
  {@(aa*%e^(bb*%i))^nn@}
 ```
 
-(Notice that we are using variables names with more than one character. This is good practice, as single-character variables are meant for student input. Notice also that we precede standard mathematical variables with `%` when writing in Maxima. This is not mandatory, but is considered good practice.)
+(Notice that we are using variable names with more than one character. This is good practice, as single-character variables are meant for student input. Notice also that we precede standard mathematical variables with `%` when writing in Maxima. This is not mandatory, but is considered good practice.)
 
-Of course, we don't want Maxima to _actually calculate the power_ just to _represent it!_ To see the difference, copy the following a STACK question's question variables:
+Of course, we don't want Maxima to _actually calculate the power_ just to _represent it!_ To see the difference, copy the following into a STACK question's question variables:
 
 ```
 simp:true;
@@ -41,7 +41,7 @@ a2: (3*%e^(%i*%pi/2))^4;
 
 Then type `Simplified: {@a1@} Not simplified: {@a2@}` somewhere in the question text. Preview to see the difference.
 
-Solving problems at the level of the CAS instead at the level of the display is often better. To tell STACK to set `simp:false` throughout the question, scroll towards the bottom of the form and under `Options`, set `Question-level simplify` to `No`. Now Maxima will not simplify expressions before displaying them, so `{@2+5@}` will display as `2+5` instead of `7`.
+Solving problems at the level of the CAS instead of at the level of the display is often better. To tell STACK to set `simp:false` throughout the question, scroll towards the bottom of the form and under `Options`, set `Question-level simplify` to `No`. Now Maxima will not simplify expressions before displaying them, so `{@2+5@}` will display as `2+5` instead of `7`.
 
 This does have some drawbacks. Having switched off all simplification, we now need to turn it back on selectively! There are two ways to do this. Firstly, we can use commands of the following type:
 
@@ -71,7 +71,7 @@ qq : (aa*%e^(bb*%i))^nn;
 
 ### Unary minus
 
-The particular circumstances will dictate if it is better to have lots of variables and use the display, or whether to turn `simp:false` and work with this.  A common problem arises with the unary minus. Consider a question text such as `Find {@aa@}+{@bb@}`. If \(`bb`<0\), the expression will be displayed as \(3+-5\), for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
+The particular circumstances will dictate if it is better to have lots of variables and use the display, or to set `simp:false` and work with this.  A common problem arises with the unary minus. Consider a question text such as `Find {@aa@}+{@bb@}`. If `bb` is negative, the expression will be displayed as \(3+-5\), for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
 
 # Next step
 

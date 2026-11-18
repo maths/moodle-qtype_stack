@@ -6,7 +6,7 @@ In order to establish that the student has done something particular but wrong, 
 
 # Powers obey linearity
 
-`buggy_pow(ex)` Implements the buggy linearity rule for exponentiation, i.e.
+`buggy_pow(ex)` implements the buggy linearity rule for exponentiation, i.e.
 
 \[(a+b)^n \rightarrow a^n+b^n.\]
 

@@ -8,13 +8,13 @@ Many of the fields in a STACK question, such as the question text, are of this t
 
 Information about [Basic HTML](http://www.w3schools.com/html/) is available elsewhere.
 
-Currently STACK does not process the LaTeX itself.  It is displayed on the user's browser in a variety of ways, such as using [MathJax](http://http://www.mathjax.org/).   If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
+Currently STACK does not process the LaTeX itself.  It is displayed on the user's browser in a variety of ways, such as using [MathJax](http://www.mathjax.org/).   If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
 
 * Anything enclosed between `\( .... \)` symbols is treated as an _inline equation_, as is the case with normal LaTeX.
 * Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line.
 * We do not support the use of dollar symbols such as `$...$` and `$$...$$` for denoting LaTeX mathematics environments.  See the notes on [currency](CASText.md#currency) below and also the page on [MathJax](../Installation/Mathjax.md#delimiters) for more information.
 * Don't use LaTeX text formatting features such as `\\` outside equations, instead use the HTML versions.
-* Anything enclosed between `{@` and `@}` delimiters is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
+* Anything enclosed between `{@` and `@}` delimiters is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes:
  * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `\({@ stuff @}\)`, and that `{@ stuff @}` is sufficient.
  * To get a displayed equation centred on a line of its own, you must use `\[{@ stuff @}\]`, as in LaTeX.
  * The outer `{}` characters of `{@ stuff @}` will be left in the output to ensure that the output is considered as a single group by LaTeX.
@@ -33,21 +33,21 @@ Here is an example
 
 CASText may depend on variables previously defined in the [question variables](Variables.md#Question_variables) field.
 
-Where the CASText appears in the fields of a [potential response trees](Potential_response_trees.md),
+Where the CASText appears in the fields of a [potential response tree](Potential_response_trees.md),
 the variables in the [feedback variables](Variables.md#Feedback_variables) may also be included.
 
 To control whether or not the CAS expressions are simplified, see the details about [selective simplification](../CAS/Simplification.md#selective-simplification).
 
 ## Question text {#question_text}
 
-The question text what the student actually sees.  This was called "question text" in previous versions.
+The question text is what the student actually sees.  This was called "question text" in previous versions.
 
-It is a slightly modified form of CAStext.  To allow a student to answer a question you must include an [inputs](../Authoring/Inputs/index.md) in the question text. For example, students need a box into which their answer will be put.
+It is a slightly modified form of CAStext.  To allow a student to answer a question you must include an [input](../Authoring/Inputs/index.md) in the question text. For example, students need a box into which their answer will be put.
 
-To place an [input](../Authoring/Inputs/index.md) into the question enclose the name of the [Maxima](../CAS/Maxima_background.md) variable to which the student's answer is assigned between inside the following tag.  If the student's answer is going to be assigned to the variable `ans1` then use the tag `[[input:ans1]]`.  You will also be required to place a corresponding tag to indicate the position of any validation feedback (whether or not this is shown to the student): `[[validation:ans1]]`.  You can use any legitimate variable name.
+To place an [input](../Authoring/Inputs/index.md) into the question enclose the name of the [Maxima](../CAS/Maxima_background.md) variable to which the student's answer is assigned inside the following tag.  If the student's answer is going to be assigned to the variable `ans1` then use the tag `[[input:ans1]]`.  You will also be required to place a corresponding tag to indicate the position of any validation feedback (whether or not this is shown to the student): `[[validation:ans1]]`.  You can use any legitimate variable name.
 
 * When the question is created this is replaced with the appropriate [input](../Authoring/Inputs/index.md).
-* When the student answers, this variable name is available to each [potential response trees](Potential_response_trees.md).
+* When the student answers, this variable name is available to each [potential response tree](Potential_response_trees.md).
 * Inputs are created and deleted by adding appropriate tags to the question text.  Therefore, beware if you delete the tags as this will also delete the input from the question.
 
 To place another potential response tree in the question just choose a sensible name and add in a tag `[[feedback:prt1]]`.
@@ -97,7 +97,7 @@ STACK has an in-built formula sheet which is used for facts and hints.  Standard
 
 ## Reference materials ##
 
-HTML and LaTeX are needed for authoring STACK questions, and some basic reference materials is give elsewhere.
+HTML and LaTeX are needed for authoring STACK questions, and some basic reference materials are given elsewhere.
 
 * Some basic [HTML](../Reference/HTML.md) examples.
 * Some basic [LaTeX](../Reference/Latex.md) examples.

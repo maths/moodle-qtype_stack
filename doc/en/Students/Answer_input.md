@@ -23,14 +23,14 @@ You should type in numbers without spaces, and use fractions rather than decimal
 For example, \(1/4\) should be entered as `1/4`, not as `0.25`. Also,
 
 * You can also use scientific notation for large numbers, e.g. \(1000\) can be entered as either `1E+3`, or as `1e3`.
-  * Note, that in many situations floating point numbers are forbidden.
+  * Note that in many situations floating point numbers are forbidden.
 * \(\pi\) is entered as either `pi` or `%pi`.
 
 * \(i\) is entered as either `i` or `%i`.
   * \(i\) is also sometimes entered as `j` if you are an engineer. If in doubt ask your teacher.
   * You could also use `sqrt(-1)`, or `(-1)^(1/2)`, being careful with the brackets.
   * STACK modifies Maxima's normal input rules so that you don't get caught out with a variable `i` when you meant `%i`.
-* \(e\), the base of the natural logarithms, is entered as either `e` or `%e`.   Note that scientific notation can be written using `e` or `E`, e.g. `6.02e23`.  Preference is given to scienfic notation, rather than interpreting `e` as the base of the natural logaithms.  Use explicit multiplication signs to remove this ambiguity, e.g. if you want the base of the natural logarithm, then type `6.02*e*23` instead.
+* \(e\), the base of the natural logarithms, is entered as either `e` or `%e`.   Note that scientific notation can be written using `e` or `E`, e.g. `6.02e23`.  Preference is given to scientific notation, rather than interpreting `e` as the base of the natural logarithms.  Use explicit multiplication signs to remove this ambiguity, e.g. if you want the base of the natural logarithm, then type `6.02*e*23` instead.
 
 ### Multiplication  ###
 
@@ -40,7 +40,7 @@ For example,
 * \(3x\) should be entered as `3*x`.
 * \(x(ax+1)(x-1)\) should be entered as `x*(a*x+1)*(x-1)`.
 
-STACK does sometimes try to insert stars for you where there is no ambiguity, `2x` or `(x+1)(x-1)`.
+STACK does sometimes try to insert stars for you where there is no ambiguity, e.g. `2x` or `(x+1)(x-1)`.
 This guessing cannot be perfect since traditional mathematical notation is sometimes ambiguous!
 Compare \(f(x+1)\) and \(x(t+1)\).
 
@@ -82,7 +82,7 @@ Think carefully about the expression `a/b/c`.  What do you think this means?  Th
 
 Maxima interprets this as \(\frac{a}{bc}\).  If in doubt use brackets.
 
-Note that in this context you should always use ordinary round bracket (like (a+b)), not square or curly ones (like [a+b] or {a+b}).
+Note that in this context you should always use ordinary round brackets (like (a+b)), not square or curly ones (like [a+b] or {a+b}).
 
 * `{a+b}` means a set,
 * `[a+b]` means a list.

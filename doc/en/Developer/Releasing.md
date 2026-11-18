@@ -7,15 +7,15 @@ Release needs to be done for the whole "set".  Do we increment the numbers of al
 * for key releases, we do them all.
 * for bug fixes just the question type.
 
-## 0. Code on github
+## 0. Code on GitHub
 
-The STACK code is stored on github, e.g. in [https://github.com/maths/moodle-qtype_stack](https://github.com/maths/moodle-qtype_stack). In general the code branches are arranged as follows.
+The STACK code is stored on GitHub, e.g. in [https://github.com/maths/moodle-qtype_stack](https://github.com/maths/moodle-qtype_stack). In general the code branches are arranged as follows.
 
 * The `master` branch should always be either (i) an official release, (ii) contain minor but critical bug fixes, or (iii) contain updates to the docs.  The STACK documentation on [https://docs.stack-assessment.org/](https://docs.stack-assessment.org/) auto-builds from the master branch, and so it is normal to update the docs between official releases.
-* The `dev` branch normally contains features which will in the next release.  The `dev` branch should normally work out of the box, but expect unfinished features and bugs!  
-* Development of new features often takes place in a specific branch named to correspond to an issue in the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues), normally forked from `dev`.  E.g. if you raise [issue 802](https://github.com/maths/moodle-qtype_stack/issues/802) then code related to this can start life in a branch `iss802`.  If you put `#802` in the commit message then github will pick this up in the issue discussion.  New features can be merged back into `dev` before they are completely finished, but please do add documentation, unit tests etc. first and make sure we at least have consensus on the design!
+* The `dev` branch normally contains features which will be in the next release.  The `dev` branch should normally work out of the box, but expect unfinished features and bugs!  
+* Development of new features often takes place in a specific branch named to correspond to an issue in the [GitHub issue tracker](https://github.com/maths/moodle-qtype_stack/issues), normally forked from `dev`.  E.g. if you raise [issue 802](https://github.com/maths/moodle-qtype_stack/issues/802) then code related to this can start life in a branch `iss802`.  If you put `#802` in the commit message then GitHub will pick this up in the issue discussion.  New features can be merged back into `dev` before they are completely finished, but please do add documentation, unit tests etc. first and make sure we at least have consensus on the design!
 
-Unless you want to discuss something confidential with the developers, please do raise issues on github!
+Unless you want to discuss something confidential with the developers, please do raise issues on GitHub!
 
 ## 1. Pre-release checks
 
@@ -38,12 +38,12 @@ Unless you want to discuss something confidential with the developers, please do
     load("s_test_case.mac");
 ````
 
-* Run tests of Javascript in `tests/jest`.  See `tests/jest/Readme.md`.
+* Run tests of JavaScript in `tests/jest`.  See `tests/jest/Readme.md`.
 * Remove `QTYPE_STACK_TEST_CONFIG_CI_LIGHT` from CI config to run all unit tests.  (If this constant is defined, the tests are skipped).
 * Run PHP [unit tests](Unit_tests.md).
 * Run code checker.
 * Is JSXGraph up to date? Check if the commit message for `corsscripts/jsxgraphcore.min.js` states the same version number as [jsxgraph.org](https://jsxgraph.org/).
-* If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).
+* If needed re-build the minified JavaScript (e.g. `npx grunt --root=question/type/stack`).
 * Check version of JSXGraph.
 * Ensure that `db/upgrade.php` has no additions that are dated older than the last release but were not present in the last release.
 
@@ -84,7 +84,7 @@ E.g. "v4.10.0".
 
 * Push to GitHub.
 * Push tags to GitHub 
- * Tortoise git: pulldown from push
+ * TortoiseGit: pulldown from push
  * Linux: `git tag -a v4.10.0 -m "Update version number for the 4.10.0 release."`
  * Linux: `git push`
  * Linux: `git push --tags`

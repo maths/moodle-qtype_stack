@@ -20,7 +20,7 @@ Whether this feedback is available to you or not immediately depends on your que
 
 1. You should use the normal syntax for [answer input](Answer_input.md) in STACK, including brackets and `*` symbols for multiplication.
 2. Sets, lists and matrices are not permitted when reasoning by equivalence.
-3. Do not enter your answer as a list or set of numbers, use logical notation such as `x=-1 or x=5`.
+3. Do not enter your answer as a list or set of numbers; use logical notation such as `x=-1 or x=5`.
 
 You can also work line by line with expressions, not equations.  For example, to expand out \( (x-1)(x+4) \) you might reason in the following way.
 
@@ -41,13 +41,13 @@ Two *equations* are equivalent if they have the same solutions with the same mul
 
 Two *expressions* are equivalent if they have the same value when the variables are evaluated.
 
-Some general advice for solving equations when reasoning by equivalence is
+Some general advice for solving equations when reasoning by equivalence is:
 
 1. Factorise expressions, then use \( AB=0 \color{green}{\Leftrightarrow} A=0 \lor B=0\).  
 2. Use the difference of two squares, \(a^2-b^2=(a-b)(a+b)\).
 3. Complete the square:  e.g. \( (x-a)^2+b=0\).
 
-## Avoid taking roots.
+## Avoid taking roots
 
 Do not take the square root of both sides of an equation.
 \[ \text{ If } a=b \text{ then } a^2=b^2.\]
@@ -66,13 +66,13 @@ To avoid this problem use the *difference of two squares* in the following way.
 
 ## Edge cases
 
-Sometimes you will have an equation with no solutions.  You can express the fact there are no solutions in the following ways
+Sometimes you will have an equation with no solutions.  You can express the fact there are no solutions in the following ways:
 
-1. `false`.  This is because sometimes you end up with a contradiction such as \(1=2\), since this equation is false you can type that as the final line in your argument.
+1. `false`.  This is because sometimes you end up with a contradiction such as \(1=2\); since this equation is false you can type that as the final line in your argument.
 2. `none`.  The special keyword `none` is used to signify that no values of the variables satisfy the equation.
-2. `{}`.  The empty set indicates there are no solutions.
+3. `{}`.  The empty set indicates there are no solutions.
 
-Sometimes you will have an equation in which every number is a solution, such as \(x=x\).  You can express the fact every number is a solution in the following ways
+Sometimes you will have an equation in which every number is a solution, such as \(x=x\).  You can express the fact every number is a solution in the following ways:
 
 1. `true`.  This is because sometimes you end up with an equation such as \(x=x\), and since this equation is true you can type that as the final line in your argument.
 2. `all`.  The special keyword `all` is used to signify that any values of the variables satisfy the equation.

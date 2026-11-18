@@ -16,6 +16,6 @@ STACK uses the computer algebra system (CAS) [Maxima](Maxima_background.md).  Th
 
 ## Working offline
 
-We recommend you download and use the graphical desktop interface WxMaxima for working offline, on your desktop.
+We recommend you download and use the graphical desktop interface wxMaxima for working offline, on your desktop.
 
 * Setting up a [STACK-Maxima sandbox](STACK-Maxima_sandbox.md) for testing code on the desktop.

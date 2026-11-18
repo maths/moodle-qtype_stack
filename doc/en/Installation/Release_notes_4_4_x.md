@@ -10,7 +10,7 @@ STACK version 4.4.0 was released in July 2022.  This was a major rewrite of the 
 
 (Note without the `{@item@}` it runs fine.)
 
-Solution Protect loop with an `[[ if  ]]` block on the length of the list.
+Solution: protect the loop with an `[[ if  ]]` block on the length of the list.
 
 ### Issue: Bad interaction between `ordergreat` and `exdowncase`
 
@@ -18,9 +18,9 @@ This is a more serious problem, see [https://github.com/maths/moodle-qtype_stack
 
 One solution is to test for `exdowncase(sans)=exdowncase(tans)` [not just `tans`].
 
-### Issue: Automatically calculated numerical teachers answer might now include brackets
+### Issue: Automatically calculated numerical teacher's answer might now include brackets
 
-Automatically calculated numerical teachers answer might now include brackets: ( -(3/8)), which is a problem if the input forbade brackets!, causing Question Test failure.
+Automatically calculated numerical teacher's answer might now include brackets: ( -(3/8)), which is a problem if the input forbade brackets, causing Question Test failure.
 
 Solution: Don't forbid input of brackets!
 
@@ -43,7 +43,7 @@ Solution: make sure there is a space between `\\` and `{@yy@}`.  (Better!) Defin
 
 ### Issue: CAS text comments delineated with /* ... */ are rendered
 
-Solution:  Use  `[[ comment ]] ... [ [/ comment ]]`
+Solution:  Use  `[[ comment ]] ... [[/ comment ]]`
 
 ### Issue: Fatal error causing an exception and then displaying nothing.
 
@@ -51,7 +51,7 @@ Solution: "tans" PRT node entry ended with semicolon: Delete the semi-colon!  We
 
 ### Issue: `taylor` now returns a maxima taylor series object
 
-`taylor` now returns a maxima taylor series object (as it should!) rather than a normal algebraic expression (as it did!) Solution use `expand(taylor( ... ) )` to get a normal algebraic object.
+`taylor` now returns a maxima taylor series object (as it should!) rather than a normal algebraic expression (as it did!) Solution: use `expand(taylor( ... ) )` to get a normal algebraic object.
 (May then also need to set `powerdisp:true` to get the usual ordering of terms)
 
 This is one consequence of the single call to Maxima.  Previously there was some string input/output which lost the data type information.

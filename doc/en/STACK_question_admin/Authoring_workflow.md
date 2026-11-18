@@ -4,11 +4,11 @@ This document contains suggestions for effective question authoring workflow, es
 
 ### 1. Minimal working question
 
-The first task is to create a minimal working question.  At the outset
+The first task is to create a minimal working question.  At the outset:
 
 1. Give the question a meaningful name. E.g. it can match up to course, section and topic.  E.g. `2018ILA-Wk3-Q2: equation of plane`.
 2. Write the question itself.
-3. Provide the correct answer.  By default the variable `ta` is used as the "teacher's answer".  Give this a value in the [question variables](../Authoring/Variables.md).
+3. Provide the correct answer.  By default the variable `ta1` is used as the "teacher's answer".  Give this a value in the [question variables](../Authoring/Variables.md).
     * The default "model answer" for input `ans1` is `ta1` (this need not be changed).
     * The default potential response tree checks `ATAlgEquiv(ans1, ta1)` (this need not be changed). 
 
@@ -20,7 +20,7 @@ Then you can do the following.
 * Add minimal feedback in the PRTs.
 * Create any multi-parts needed.
  
-If you already have a good idea of common mistakes, misconception, or intended feedback then you can use the potential response trees to test for this.  This can be added now, however it might be better to wait until step 5 below to add feedback.
+If you already have a good idea of common mistakes, misconceptions, or intended feedback then you can use the potential response trees to test for this.  This can be added now, however it might be better to wait until step 5 below to add feedback.
 
 Consider
 
@@ -38,7 +38,7 @@ We recommend the following two test cases:
 1. Ensure the "Model answer" is really awarded full marks by your PRT.
 2. Ensure that not every answer is given full marks!
 
-The STACK question dashboard makes it relatively easy to check the mode answer:  press the button marked "Add test case assuming teacher's answer gets full marks".  You will have to think about an answer which is wrong, and the format of this will depend on the types of inputs used.
+The STACK question dashboard makes it relatively easy to check the model answer:  press the button marked "Add test case assuming teacher's answer gets full marks".  You will have to think about an answer which is wrong, and the format of this will depend on the types of inputs used.
 
 ### 3. Write a robust worked solution
 
@@ -46,7 +46,7 @@ From the STACK question dashboard follow the link to "Send general feedback to t
 
 Add in further question variables, calculations etc. as needed and use these in the worked solution.  _An effective way to create equivalent random variants is to ensure invariance of the worked solution._  If you cannot create a single worked solution for all variants then you can consider using question blocks, or separate questions and selecting questions in the quiz.  A single question need not be the most general possible.
 
-Once the you are happy with the general feedback press the "Save back to question" button. This replaces the question variables and general feedback.  Be aware that if you still have the edit form open, and you subsequently save the edit form again, then you will replace your question variables and general feedback with the contents of the edit form.
+Once you are happy with the general feedback press the "Save back to question" button. This replaces the question variables and general feedback.  Be aware that if you still have the edit form open, and you subsequently save the edit form again, then you will replace your question variables and general feedback with the contents of the edit form.
 
 ### 4. Add random variants
 
@@ -54,14 +54,14 @@ If you need to do so, at this point add in random variants.
 
 1. Edit the question variables to add in randomisation (if you did not do so in step 3.)
 2. Add a question note.
-3. Return to the Stack question dashboard and _deploy variants_.  The STACK question dashboard link on the edit form will change to "No variants of this question have been deployed yet." to remind you to deploy variants.
+3. Return to the STACK question dashboard and _deploy variants_.  The STACK question dashboard link on the edit form will change to "No variants of this question have been deployed yet." to remind you to deploy variants.
 4. Confirm any question tests added in step 2 continue to work for all variants.  There is a button "Run all tests on all deployed variants (Slow)" to help you check this.
 
 ### 5. Add better feedback
 
 Add in better feedback to the question.
 
-_Feedback is likely to be effective when it is specific in helping student improve on the task._
+_Feedback is likely to be effective when it is specific in helping students improve on the task._
 
 It is sensible to use the question variables to create variables for each answer which will trigger feedback.  This answer can be based on any random variables, and can be used both in the potential response tree and to create a test case to confirm the feedback and any partial credit is really awarded for each random variant.
 
@@ -69,11 +69,11 @@ In theory one test case should be created for each anticipated response which ge
 
 When updating a PRT at this stage we would _expect_ test cases added in step 2 to fail.  This is reassuring as it indicates something significant has changed!  You can easily confirm the new behaviour of the testcase is now what is intended.
 
-### 6. Add accurate metadata.
+### 6. Add accurate metadata
 
 Check and add accurate [question metadata](../Authoring/Metadata.md).
 
-### 7. Use data obtained from one cycle of attempts by students.
+### 7. Use data obtained from one cycle of attempts by students
 
 Rather than second-guess what students _might_ get wrong it is more effective to look at what they _do_.  See the section on [reporting](Reporting.md) for documentation on how to review students' answers.  When feedback/marks are delayed (e.g. online exam) this can be done between students taking the assessment and results being released.  If feedback/marks are immediate then better quality feedback can still be usefully added later.
 
@@ -88,7 +88,7 @@ Moodle creates a new version of the question every time you save. You can compar
 
 # Authoring collaboratively
 
-The question description, and descriptions within PRT nodes, can be used to describe intentions and problems to other team members.  These fields are only available question authors, and are never shown to students.
+The question description, and descriptions within PRT nodes, can be used to describe intentions and problems to other team members.  These fields are only available to question authors, and are never shown to students.
 
 You can use the `[[todo]]...[[/todo]]` question block to indicate unfinished questions.  See below.
 
@@ -109,7 +109,7 @@ Tags are a comma separated list of strings.  Whitespace will be trimmed from the
 
 It is entirely up to individual users to decide on what and how to use tags.
 
-By design, "todo" tags are _not_ tied to userid fields in the moodle site.  Instead tags are site-neutral so they can be preserved in cross-site collaboration.
+By design, "todo" tags are _not_ tied to userid fields in the Moodle site.  Instead tags are site-neutral so they can be preserved in cross-site collaboration.
 
 ## Finding questions with `[[todo]]` blocks
 
@@ -117,7 +117,7 @@ Any logged-in user can navigate to the URL
 
     ../moodle/question/type/stack/adminui/todo.php
     
-on the moodle site.  This page will list
+on the Moodle site.  This page will list
 
 1. Any contexts for which they have Moodle capability `moodle/question:editall`.
 2. Any questions in that context which contain STACK questions with `[[todo]]` blocks.
@@ -129,9 +129,9 @@ We anticipate lists of questions with `[[todo]]` blocks will be rather short, an
 
 Since `[[todo]]` blocks can be added anywhere, they could be used in the Question Description field.  Once these are resolved, the Question Description field can be used to store an audit trail, and any metadata, as required by a particular collaborative workflow.
 
-## Future ideas.
+## Future ideas
 
-If using tags within the `[[todo]]` blocks becomes popular may
+If using tags within the `[[todo]]` blocks becomes popular we may
 
 1. Hook into Moodle's "cron" system to alert teachers to questions with `[[todo]]` blocks via email.
 2. Hook into the Moodle question bank to flag questions with outstanding `[[todo]]` blocks more visibly in the question bank.

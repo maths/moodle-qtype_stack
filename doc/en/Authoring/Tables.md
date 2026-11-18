@@ -14,7 +14,7 @@ Really, the `table` operator does nothing (very much like a matrix).  Like a mat
 1. The first row is considered to be a heading, and a horizontal line is printed after the first row.
 2. There are vertical bars between internal columns of the table (see below how to change this).
 3. There are currently no options for customising printing of borders, etc. (see below how to change this).
-4. You can highlight entries in the table using the command `texcolor("col", ex)`.  Note however, this will also underline any entries (as colour alone is poor accessibility practice.).
+4. You can highlight entries in the table using the command `texcolor("col", ex)`.  Note however, this will also underline any entries (as colour alone is poor accessibility practice).
 
 `table_zip_with(fn, T1, T2)` combines two tables, using the binary function `fn` (much as `zip_with` combines two lists).
 
@@ -30,7 +30,7 @@ If you want to identify which entries really are different then you could do som
 
 If you find yourself manipulating tables, the above function provides a starting point.  Please ask the developers to add anything you use regularly.
 
-## Changing the TeX output of tables.
+## Changing the TeX output of tables
 
 The TeX output of a table is controlled by the `table_tex` command.  You can re-write this in an individual question.  For example, if you only want a vertical bar after the first row use this version.
 
@@ -65,7 +65,7 @@ STACK has `truth_table` commands for Boolean logic.  This can be used within the
     T1:truth_table(a implies b);
     T2:table_difference(truth_table(a xor b), truth_table(a implies b));
 
-Here we have two tables `T1` is displayed as
+Here we have two tables: `T1` is displayed as
 
 \[ {\begin{array}{c|c|c} a & b & a\rightarrow b\\ \hline \mathbf{F} & \mathbf{F} & \mathbf{T} \\ \mathbf{F} & \mathbf{T} & \mathbf{T} \\ \mathbf{T} & \mathbf{F} & \mathbf{F} \\ \mathbf{T} & \mathbf{T} & \mathbf{T} \end{array}} \]
 and `T2` gives

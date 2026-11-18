@@ -2,7 +2,7 @@
 
 This page gives advice on troubleshooting Parsons questions.
 
-If your matching problem is not displaying properly, in particular if the all the items are displayed in a single yellow block, then double-check that you have spelled the keys of the JSON inside the Parsons block correctly as described below. They should be a subset of 
+If your matching problem is not displaying properly, in particular if all the items are displayed in a single yellow block, then double-check that you have spelled the keys of the JSON inside the Parsons block correctly as described below. They should be a subset of 
 
 ```
 {"steps", "options", "headers", "available_header", "index"}

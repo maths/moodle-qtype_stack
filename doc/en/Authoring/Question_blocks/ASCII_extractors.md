@@ -153,9 +153,9 @@ Where
   * `all` return all matches
   * `first` return the first occurrence
 * `<what>` refers to the search method
-  * `block` looks for asciimaths (both in-line and multiline blocks) and returns the whole thing
+  * `block` looks for AsciiMath (both in-line and multiline blocks) and returns the whole thing
   * `calc` look in calculation blocks
-  * `expr` looks for asciimaths (both in-line and multiline blocks) and returns the last line
+  * `expr` looks for AsciiMath (both in-line and multiline blocks) and returns the last line
   * `string` match a literal string somewhere in the text
   * `regex` use a regular expression
 * `<how-much>` What do we return?

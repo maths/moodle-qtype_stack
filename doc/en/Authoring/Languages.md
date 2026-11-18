@@ -5,7 +5,7 @@ Multilingual content can be developed using two systems.
 1. The multilang-filter that comes with Moodle.
 2. STACK's own language blocks (recommended).
 
-Please note that the TinyMCE editor considers paragraph tags (`<p>..</p>`) inside any span tags (e.g. `<span lang="en" class="multilang">...</span>`) to be invalid.  The TinyMCE editor will potentially "clean up" (i.e. ruin) your multilingual content if using both the Moodle multilang filter and TinyMCE (as of June 2024).  This is a known issue, and one reason we recommend against using TinyMCE for editing STACK content. (It does nasty things to Javascript content as well).
+Please note that the TinyMCE editor considers paragraph tags (`<p>..</p>`) inside any span tags (e.g. `<span lang="en" class="multilang">...</span>`) to be invalid.  The TinyMCE editor will potentially "clean up" (i.e. ruin) your multilingual content if using both the Moodle multilang filter and TinyMCE (as of June 2024).  This is a known issue, and one reason we recommend against using TinyMCE for editing STACK content. (It does nasty things to JavaScript content as well).
 
 ## Using the built-in castext block in STACK
 
@@ -22,7 +22,7 @@ It is also usable in inline CASText2:
 
     lbls: [castext("[[lang code='en']]Like this {@...@}[[/lang]]..."),...];
 
-Nested language blocks will not get displayed unless they have matching codes, so you may not use `en` wrapper and `en_gb`, `en_us` within it to fine tune things. Only one code will match in the whole question
+Nested language blocks will not get displayed unless they have matching codes, so you may not use `en` wrapper and `en_gb`, `en_us` within it to fine tune things. Only one code will match in the whole question,
 so if the VLE uses `en_us` and it is found in the question at any place then that is the only code that matches.
 
 If you are dealing with localisation in JSXGraph or MCQ-label style situations you might want to
@@ -43,7 +43,7 @@ Remember to add alternative text as the title or description for the inline SVG 
 
 ## Using the Moodle filter multilang
 
-STACK questions can be easily localized for different languages using the multi-language content filter. [http://docs.moodle.org/en/Multi-language_content_filter](http://docs.moodle.org/en/Multi-language_content_filter).  That is to say, a single question can exist in multiple languages and the user can choose the language they use.
+STACK questions can be easily localised for different languages using the multi-language content filter. [http://docs.moodle.org/en/Multi-language_content_filter](http://docs.moodle.org/en/Multi-language_content_filter).  That is to say, a single question can exist in multiple languages and the user can choose the language they use.
 
 This page deals with translating text within individual questions. It does not deal with translating the Moodle and STACK interface. See the page on [Language packs and translating STACK](../Developer/Language_packs.md).
 
@@ -123,17 +123,17 @@ The multilang filter also works for the feedback texts in PRT nodes. However, as
     <span lang="en" class="multilang">English feedback from PRT node 2</span>
     <span lang="de" class="multilang">German feedback from PRT node 2</span>
 
-The multilang filter will assume all of these belong together and will only display the feedback from PRT node 2. To fix this, you can use anything which tells the multilang filter to start a new block, like enclosing the `<span>` tag in a paragraph (`<p>`), using a line break (`<br>`), a non-breaking space (`&nbsp;`), or a zero-width space (`&#x200b0;`).
+The multilang filter will assume all of these belong together and will only display the feedback from PRT node 2. To fix this, you can use anything which tells the multilang filter to start a new block, like enclosing the `<span>` tag in a paragraph (`<p>`), using a line break (`<br>`), a non-breaking space (`&nbsp;`), or a zero-width space (`&#x200b;`).
 
 ### Changing STACK's language
 
 If you have written a multilingual question, and a student wants to see it in a certain language, they have to change their preferred language. In Moodle, this is done by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language. This will not only change the language of all question text (where multilingual blocks have been used), but also the language of the default Moodle and STACK interface (if this translation is available). The specific language pack has to be installed on your server by the server administrator to allow this. More information is available in the developer docs under [Translating STACK](../Developer/Language_packs.md).
 
-### Language within the CAS.
+### Language within the CAS
 
 STACK defines a variable `%_STACK_LANG`, which should be a string reflecting the language preference of the user of the question.  The default is `"en"`.  We also have a predicate function `is_lang(code)` which returns `true` if the current language set is `code`.
 
-A related issue is decimal separators.  An internal variable `stackfltsep` holds either `"."` or `","` to reflect the current option for the decimal separator option.
+A related issue is decimal separators.  An internal variable `stackfltsep` holds either `"."` or `","` to reflect the current decimal separator option.
 
 ### Further reading
 

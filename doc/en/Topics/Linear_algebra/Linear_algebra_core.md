@@ -14,7 +14,7 @@ For more detail, see the page on [Vectors](Vectors.md).
 
 In STACK 4.9.0 this functionality was moved into the core of STACK.  Do not include `linearalgebra_contrib.mac` in questions for STACK 4.9.0 or later: the question dashboard and the bulk tester report it as an upgrade error, and the bulk tester does not run the question's tests.  Use `stack_linear_algebra_declare(true)` instead, or one of the linear algebra libraries which declare it.
 
-Only for a site running a version of STACK before 4.9.0, you can use the [latest code from github](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/linearalgebra_contrib.mac): `stack_include_contrib("linearalgebra_contrib.mac");`.  Remove it when the site is upgraded.
+Only for a site running a version of STACK before 4.9.0, you can use the [latest code from GitHub](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/linearalgebra_contrib.mac): `stack_include_contrib("linearalgebra_contrib.mac");`.  Remove it when the site is upgraded.
 
 ## Predicate functions for vectors
 
@@ -35,7 +35,7 @@ The latter also accepts rectangular matrices; its treatment of unsimplified entr
 
 ## Functions to manipulate matrices and solve systems of linear equations
 
-Note, the Maxima functions `addrow` and `addcol` appends rows/columns onto the matrix.  For row operations use
+Note, the Maxima functions `addrow` and `addcol` append rows/columns onto the matrix.  For row operations use
 
 * `rowswap(M,i,j)` Swaps rows `i` and `j`.
 * `rowadd(M,i,j,k)` Returns matrix `M` where `M[i]: M[i] + k * M[j]`.
@@ -44,7 +44,7 @@ Note, the Maxima functions `addrow` and `addcol` appends rows/columns onto the m
 
 For more functions that can be used to perform matrix operations, see the documentation for the contributed [matrices library](Matrix_library.md).
 
-`linsolve(eqns,vars)` is a Maxima function that will solve a list of linear equations `eqns` for variables 'vars'. It returns a list of equations in the form `var = solution` and will utilise free variables if needed. If expressions are given instead of equations, Maxima will assume that the expression is equal to zero.
+`linsolve(eqns,vars)` is a Maxima function that will solve a list of linear equations `eqns` for variables `vars`. It returns a list of equations in the form `var = solution` and will utilise free variables if needed. If expressions are given instead of equations, Maxima will assume that the expression is equal to zero.
 
 Some examples are:
 * `linsolve([x+y,x-y=2],[x,y])` will produce `[x = 1, y = -1]`
@@ -55,9 +55,9 @@ You can remove any percent variables using `stack_strip_percent`, documented in 
 
 `mat_solve(A,b,[lstsq])` is a STACK-provided function that is mostly just a wrapper for `linsolve` that expects matrices instead of lists of equations. 
  * Input: `A` An \(m\times n\) matrix
- * Input: `b` A \(m\times 1\) matrix (or a list with m entries)
+ * Input: `b` An \(m\times 1\) matrix (or a list with m entries)
  * Optional input: `lstsq` if given true then a least squares solution will be obtained, from the normal equations \(A^*Ax = A^*b\) (\(A^*\) is the conjugate transpose, \(A^T\) for a real \(A\)). If `false` or omitted, only exact solutions obtained.
- * Output: The general solution to \(Ax = b\). If no solution exists and lstsq is not true, then \(matrix([])\) is returned.
+ * Output: The general solution to \(Ax = b\). If no solution exists and lstsq is not true, then `matrix([])` is returned.
  
 Some examples are:
 * `mat_solve(matrix([1,2],[3,4]),[3,7])` returns the unique solution `matrix([1],[1])`
@@ -65,7 +65,7 @@ Some examples are:
 * `mat_solve(matrix([1,-1],[1,-1]),[1,0])` returns `matrix([])`, indicating that there was no solution.
 * `mat_solve(matrix([1,-1],[1,-1]),[1,0],true)` returns `matrix([(2*%r1+1)/2],[%r1])`, because a least squares solution was requested.
 
-If the unique minimal least squares solution to \(A\mathbf{x} = \mathbf{b}\) is desired, then \(\tilde{\mathbf{x}} = A^{+}\mathbf{b}\) can be computed using `pinv(A) . b`. `pinv` calls the `moore_penrose_pseudoinverse` function
+If the unique minimal least squares solution to \(A\mathbf{x} = \mathbf{b}\) is desired, then \(\tilde{\mathbf{x}} = A^{+}\mathbf{b}\) can be computed using `pinv(A) . b`. `pinv` calls the `moore_penrose_pseudoinverse` function.
 
 ## Operations for Vectors
 
@@ -76,7 +76,7 @@ STACK provides the `scale_nicely(v)` function. Given a vector or list, it will r
 
 ### Vector cross product
 
-The wedge product operator is denoted by the tilde `~`.  This is the `itensor` package.  This package is not normally loaded by STACK, and in any case the package takes lists and not matrices.  For convenience, the following function has been added which requires \(3\times 1\) matrices.
+The wedge product operator is denoted by the tilde `~`.  This is in the `itensor` package.  This package is not normally loaded by STACK, and in any case the package takes lists and not matrices.  For convenience, the following function has been added which requires \(3\times 1\) matrices.
 
 `crossproduct(a,b)` returns the vector cross product of `a` and `b`.
 

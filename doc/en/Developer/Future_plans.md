@@ -1,6 +1,6 @@
 # Future plans
 
-Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.
+Note: where a feature is listed as "(done)", we have prototype code in the testing phase.
 
 ## Features to add later ##
 
@@ -18,7 +18,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Add new input types
  1. DragMath (actually, probably use JavaScript from NUMBAS instead here, or the MathDox editor).
  2. Sliders - do this via JSXGraph.
-* It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
+* It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However, is it possible with MathJax or other Moodle maths filters?
   This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
 * In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).
 * A new MCQ input type with a "none of these" option which uses JavaScript to degrade to an algebraic input: https://community.articulate.com/articles/how-to-use-an-other-please-specify-answer-option
@@ -32,14 +32,14 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Implement "Banker's rounding" option which applies over a whole question, and for all answer tests.
 * (Parser can do this) Implement "CommaError" checking for CAS strings.  Make comma an option for the decimal separator.
 * (Parser can do this) Implement "BracketError" option for inputs.  This allows the student's answer to have only those types of parentheses which occur in the teacher's answer.  Types are `(`,`[` and `{`.  So, if a teacher's answer doesn't have any `{` then a student's answer with any `{` or `}` will be invalid.
-* Check CAS/maxima literature on -inf=minf.
+* Check CAS/Maxima literature on -inf=minf.
 
 * add in support for pdf_binomial, in particular add in these test cases to `studentinput_test.php`.
 
         array('pdf_binomial(n,m,p)', 'php_true', 'pdf_binomial(n,m,p)', 'cas_true', '{{m}\choose{n}}\cdot p^{n}\cdot {\left(1-p\right)}^{m-n}', '', ""),
         array('pdf_binomial(2,6,0.07)', 'php_true', 'pdf_binomial(6,2,0.07)', 'cas_true', '{{6}\choose{2}}\cdot 0.07^{2}\cdot {\left(1-0.07\right)}^{6-2}', '', ""),
 
-* (Done in Stateful) Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting].  This is now being done with the "state" code in the abacus branch.
+* (Done in Stateful) Introduce a variable so the Maxima code "knows the attempt number". [Note to self: check how this changes reporting].  This is now being done with the "state" code in the abacus branch.
 
 
 ## Answer tests
@@ -85,7 +85,7 @@ Add mathematical support in the following order.
 Basic reports now work.
 
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
-* Add better maxima support functions for off-line analysis.
+* Add better Maxima support functions for off-line analysis.
 
 ## Suggestions from STACK Professionals Network, 9th Dec 2022
 
@@ -93,6 +93,6 @@ Basic reports now work.
 * Changes to preset feedback to certain answer tests which might be more appropriate for different audiences. Could a 'simplified' English language pack allow for this (future changes might allow this to be done on a question-by-question basis).
 * Tools for language integrity (e.g. making it easier to identify what languages are in each question).
 * Making sure Maxima knows the intended language (will allow for Maxima code to choose from the available languages).
-* May want to have further discussions on how scores and penalties are handled (there is already a new feature in the latest version of STACK so that you can include functions in the "score" field.
-* Forcing editor choice to prevent errors caused by editors which add in html tags (make sure it is clear to users why we do this).
+* May want to have further discussions on how scores and penalties are handled (there is already a new feature in the latest version of STACK so that you can include functions in the "score" field).
+* Forcing editor choice to prevent errors caused by editors which add in HTML tags (make sure it is clear to users why we do this).
 

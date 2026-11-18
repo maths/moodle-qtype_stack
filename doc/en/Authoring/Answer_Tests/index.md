@@ -1,7 +1,7 @@
 # Answer tests
 
 An _answer test_ is used to compare two expressions to establish whether they satisfy some mathematical criteria. The
-prototype test is to establish if they are _algebraically equivalent_.  Informally, the answer tests have the following syntax
+prototype test is to establish if they are _algebraically equivalent_.  Informally, the answer tests have the following syntax:
 
     [Errors, Result, FeedBack, Note] = AnswerTest(StudentAnswer, TeacherAnswer, [Opt], [Raw])
 

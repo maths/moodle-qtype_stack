@@ -137,6 +137,7 @@ if ($parseable) {
 if ($astold !== null) {
     cli_writeln('The old AST is like this:');
     cli_writeln($astold->debugPrint($astold->toString(['nosemicolon' => true])));
+    cli_writeln($astold->toString(['flattree' => true]));
 } else {
     cli_writeln('The old parser did not parse, errors and notes as follows:');
     print_r($olderrors);
@@ -146,6 +147,7 @@ if ($astold !== null) {
 if ($astnew !== null) {
     cli_writeln('The new AST is like this:');
     cli_writeln($astnew->debugPrint($astnew->toString(['nosemicolon' => true])));
+    cli_writeln($astnew->toString(['flattree' => true]));
 } else {
     cli_writeln('The new parser did not parse, errors and notes as follows:');
     print_r($newerrors);

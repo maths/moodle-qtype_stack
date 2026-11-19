@@ -129,6 +129,7 @@ class maxima_corrective_parser_test_data {
         $notes      = [];
         $errors     = [];
         $po         = stack_parser_options::get_old_config();
+        $po->dropcomments = false;
 
         $ast         = maxima_parser_utils::corrective_parse($test->rawinput, $errors, $notes, $po);
 

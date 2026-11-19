@@ -1,4 +1,4 @@
-# New guidelines for the STACK-Maxima-Libary development
+# New guidelines for the STACK-Maxima-Library development
 
 In the post STACK 4.12 world the new parser can be used to "compile" parts
 of the Maxima side logic of STACK. This compilation also separates Maxima
@@ -9,13 +9,13 @@ When transferring old logic or adding new logic follow the following simple
 guidelines.
 
 - Try to store logically similar functionality in the same file or place
-  every function in separate files if need.
+  every function in separate files if needed.
 - Naming of the `.mac`-files under `stack/maximasrc/` does not matter so
-  be as verbose as you wish, the naming of the diorectory structure however
+  be as verbose as you wish, the naming of the directory structure however
   is visible and grouping things with it is recommended.
 - Include tests for each new function and try to also include tests for
   options that might affect those functions.
-- Pay attenttion to the warnings of the compiler.
+- Pay attention to the warnings of the compiler.
 - And do remember to run those tests.
 
 
@@ -72,7 +72,7 @@ the contents of those backticks is a function-name or option-variable defined
 elsewhere in the `stack/maximasrc/` a link to it will be automatically
 constructed.
 
-For the second one lets look at a function, where things get a bit more
+For the second one let's look at a function, where things get a bit more
 complicated.
 
 ```
@@ -110,7 +110,7 @@ to the next annotation or the end of the comment.
 
 Inside the function definition we also have one more comment worth noting.
 This function behaves differently based on the global option-variable
-`sbasen_output_force_case`, however the compilation process check functions
+`sbasen_output_force_case`, however the compilation process checks functions
 against outside effects and thus needs to know that in this case this is what
 we want. When compiling the compiler will give errors and may suggest adding
 such annotations into the code or to modify the code otherwise, should you

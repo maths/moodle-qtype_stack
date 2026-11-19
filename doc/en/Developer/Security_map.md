@@ -1,6 +1,6 @@
 ## Security-map
 
-It is important that students do not evaluate expressions such as the following with the CAS :
+It is important that students do not evaluate expressions such as the following with the CAS:
 
     system("rm /*");
 
@@ -8,7 +8,7 @@ for somewhat obvious reasons!  Hence, we need to restrict the availability of ce
 
 1. Forbidden.  No string containing anything which might look like this should ever get near the CAS.
 2. Teacher.  Teacher's answers cannot contain these, but they are not a security risk.  Usually these have side effects within the Maxima code, e.g. setting a global variable which might cause problems later/elsewhere.
-3. Student.  Student's expressions can only contain these.
+3. Student.  Students' expressions can only contain these.
 
 Since STACK 4.3 the Maxima statement parser infrastructure uses a JSON file
 describing all identifiers of functions,  variables, constants and operators
@@ -35,7 +35,7 @@ forbidden through the forbidden words mechanism.
 
 ### Security
 
-In security features we typically use values `"s"`, `"t"`, and`"f"`. `"s"` 
+In security features we typically use values `"s"`, `"t"`, and `"f"`. `"s"` 
 declares that students may use this identifier in the specified way unless
 specifically forbidden with the forbidden words mechanism. `"t"` means that 
 by default only the author may use it but can specially allow it using 
@@ -43,7 +43,7 @@ the allowed words mechanism. `"f"` means that for whatever reason not even
 the author may use it.
 
 `constant` is a feature declaring the security level at which a given 
-identifier is to be considered as a constant and can thus be only red and 
+identifier is to be considered as a constant and can thus be only read and 
 never written to. This makes it so that you cannot write `%pi:4` but can 
 use `%pi` otherwise.
 
@@ -66,7 +66,7 @@ to various brackets.
 
 `variable` is a feature declaring the security level at which a given 
 identifier is to be considered as a variable and can thus be both written
-and red.
+and read.
 
 In addition to those we also declare certain identifiers with 
 `globalyforbiddenfunction` or `globalyforbiddenvariable` in the cases where
@@ -87,12 +87,12 @@ addition to the nounifying one may need to denounify and then we define
 ### Aliases
 
 `int(foo,x)` is equivalent to `integrate(foo,x)` which leads to issues 
-when using forbidden words and only forbidding `integrate` to deal with 
+when using forbidden words and only forbidding `integrate`. To deal with 
 this we now declare aliases as features for various identifiers so that 
 if you forbid one the others are also forbidden. We also use those aliases
 to map similar statements to use the same alias thus increasing 
 the likelihood of cache hits. Aliases like nouns are defined by usage 
-type e.g. `aliasfunction` feature tells that if some one uses a function 
+type e.g. `aliasfunction` feature tells that if someone uses a function 
 with this name it should be interpreted as a function call with the name 
 of this feature. `aliasvariable` does the same for both constants and
 variables. As it is often necessary to find all the aliases that point to

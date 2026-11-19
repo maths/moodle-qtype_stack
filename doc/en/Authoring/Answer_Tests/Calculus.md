@@ -14,7 +14,7 @@ There are edge cases, particularly with \(e^x\) where differentiation is indisti
 
 For integration, there are three answer tests.
 Int has been part of STACK for a long time and tries to deal with various edge cases all in one answer test, but this complexity can sometimes lead to unexpected or unwanted behaviour.
-With the aim to reduce these disadvantages at the cost of using several PRT nodes, STACK 4.9.0 introduced the Antidiff and AddConst answer tests.
+With the aim of reducing these disadvantages at the cost of using several PRT nodes, STACK 4.9.0 introduced the Antidiff and AddConst answer tests.
 
 ### Int ###
 
@@ -24,7 +24,7 @@ The second argument is the model answer. The answer test option needs to be the 
 The model answer is an antiderivative, with or without a constant of integration, not the integrand: the test differentiates both arguments.  By default the test requires the student to include a constant of integration, so do not use it when the question has one particular antiderivative as its answer, e.g. a definite integral or "find \(F\) with \(F(0)=3\)".  Use algebraic equivalence there.
 
 Getting this test to work in a general setting is a very difficult challenge.
-In particular, the test assumes that the constant of integration is expressed in a form similar to \(+c\), although which variable used is not important.
+In particular, the test assumes that the constant of integration is expressed in a form similar to \(+c\), although which variable is used is not important.
 
 The Int test has various additional options.
 
@@ -48,27 +48,27 @@ The issue of \( \int \frac{1}{x} dx = \log(x)+c\) vs  \( \int \frac{1}{x} dx = \
 If the teacher uses \(|..|\) in their answer then the student is also expected to use the absolute value.  The test is currently defined in such a way that if the teacher uses \( \log(|x|)+c \) in their answer, then they would expect the student to do so.  If they don't use the absolute value function, then they don't expect students to but will accept this in an  answer.
 
 For example, if the teacher's answer is \( \log(x)+c \) (i.e. no absolute value) then all the following are considered to be correct.
-\[ \log(x)+c,\ \log(|x|)+c,\ \log(k\,x),\ \log(k|x|),\ \log(|k, x|) \]
+\[ \log(x)+c,\ \log(|x|)+c,\ \log(k\,x),\ \log(k|x|),\ \log(|k\, x|) \]
 
 If the teacher's answer is \( \log(|x|)+c \) (i.e. with absolute value) then all the following are considered to be correct.
-\[ \log(|x|)+c,\ \log(k|x|),\ \log(|k, x|)\ \]
+\[ \log(|x|)+c,\ \log(k|x|),\ \log(|k\, x|)\ \]
 Now, the following are rejected as incorrect, as the student should have used \(|..|\)
 \[\log(x)+c,\ \log(k\,x)\]
 
 Note that STACK sets the value of Maxima's `logabs:true`, which is not the default in Maxima.  This has the effect of adding the absolute value function when `integrate` is used.
 
-In the case of partial  fractions where there are more than one term of the form \(\log(x-a)\) then
+In the case of partial  fractions where there is more than one term of the form \(\log(x-a)\) then
 we insist the student is at least consistent.  If the teacher has *any*  \(\log(|x-a|)\) then the student must use \(|...|\) in *all* of them.  If the teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the
 student must have all or none. 
 
-The phrase _"Please ask your teacher about this."_ occurs in some of the automatically generated feedback.  For example, when formal derivative of the student's answer does equal the expression they were asked to integrate but the answer differs from the correct answer in a significant way, not just, e.g., a constant of integration.  See examples with the note `ATInt_EqFormalDiff`.  If you don't want to use this phrase, alter the string tagged `seekhelp` in the language pack using, e.g., the moodle [language customisation](https://docs.moodle.org/405/en/Language_customisation)
+The phrase _"Please ask your teacher about this."_ occurs in some of the automatically generated feedback.  For example, when the formal derivative of the student's answer does equal the expression they were asked to integrate but the answer differs from the correct answer in a significant way, not just, e.g., a constant of integration.  See examples with the note `ATInt_EqFormalDiff`.  If you don't want to use this phrase, alter the string tagged `seekhelp` in the language pack using, e.g., the Moodle [language customisation](https://docs.moodle.org/405/en/Language_customisation).
 
 ### Antidiff ###
 
-This test works similarly to Int, but it only checks if the student answer and the model answer have algebraically equivalent derivative in respect to the (mandatory) variable given in the options.
+This test works similarly to Int, but it only checks if the student answer and the model answer have algebraically equivalent derivatives with respect to the (mandatory) variable given in the options.
 This test does not check for absolute values in logarithms or for the algebraic form of the student answer, but really only for algebraic equivalence of derivatives.
 If you want to also check the algebraic form, consider using Int or other answer tests.
-Like Int, this tests also checks if the student answer was derived using differentiation instead of integration and provides feedback.
+Like Int, this test also checks if the student answer was derived using differentiation instead of integration and provides feedback.
 
 ### AddConst ###
 
@@ -81,9 +81,9 @@ This answer test requires the author to fill the options field with a list of va
 You can thus check for the additive constant for the indefinite integral of \(x^n\) by passing the options `[x, n]`.
 The answer test will complain if the student answer does not contain *exactly one additional variable* besides the given list in the options.
 
-In its default mode, this test will only accept additive constants of the form `+c`, even though constant multiples of the constant (`+c/3`) and any surjective function on the reals (`+c^3`, `+ln(c)`) result in a mathematically correct parametrization of the family of antiderivatives.
+In its default mode, this test will only accept additive constants of the form `+c`, even though constant multiples of the constant (`+c/3`) and any surjective function on the reals (`+c^3`, `+ln(c)`) result in a mathematically correct parametrisation of the family of antiderivatives.
 The constant does not have to be added explicitly: testing `ln(x*exp(c))+k` with the given variables `[x,k]` will identify `c` as an additive constant, passing the answer test since `+c` can be extracted from the answer.
 
-If the word `NONSTRICT` is a list element of the options field, then the answer test will accept any additive term in the different variable.
+If the word `NONSTRICT` is a list element of the options field, then the answer test will accept any additive term in a different variable.
 For example, the student answers `log(k*x)` or `x + C^3` with the options `[x, NONSTRICT]` (or `[NONSTRICT, x]`; the order does not matter) pass this answer test, whereas they will fail with the options `[x]`.
 The test will still not accept added expressions in mixed variables, however.

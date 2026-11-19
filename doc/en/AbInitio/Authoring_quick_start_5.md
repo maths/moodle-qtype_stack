@@ -38,11 +38,11 @@ answernote = prt1-2-T
 
 I.e., if the student puts in the model answer they should pass the first node (checks if they have integrated correctly) and pass the second node (tests that their answer is factored) and end up with a score of 1 and no penalty. 
 
-Note that the input is evaluated before the test is conducted. Students are not allowed to enter the variable  `ta1` because it is a teacher-defined variable, however the evaluated form, fx.  `-1*(x-1)^(-3)+c`, is an allowed input. For each test case, you can see the un-evaluated input under `Test input`, and the actual input tested under `Value entered`. 
+Note that the input is evaluated before the test is conducted. Students are not allowed to enter the variable  `ta1` because it is a teacher-defined variable; however, the evaluated form, e.g.  `-1*(x-1)^(-3)+c`, is an allowed input. For each test case, you can see the un-evaluated input under `Test input`, and the actual input tested under `Value entered`. 
 
 You can run the test on all deployed versions by clicking on  `Run all tests on all deployed variants` .
 
-You can add as many tests as you think is needed, and it is usually a sensible idea to add one for each case you anticipate.  Add in another test case for
+You can add as many tests as you think are needed, and it is usually a sensible idea to add one for each case you anticipate.  Add in another test case for
 
 ```
 ans1 = int(ex1,x)
@@ -53,7 +53,7 @@ answernote = prt1-1-F
 
 Here we create a test case without a constant of integration. In this case STACK should fail to give students any marks, indicating the test passes!
 
-You should also use question tests to check that solving every variant requires the competences that you desire. For example, in this question we want students to know (1) increase the power by 1 and (2) divide by the new power. They should not be able to get away with, for example, increasing the power and *multiplying* by the new power. Let's add a test case to check this.
+You should also use question tests to check that solving every variant requires the competences that you desire. For example, in this question we want students to know to (1) increase the power by 1 and (2) divide by the new power. They should not be able to get away with, for example, increasing the power and *multiplying* by the new power. Let's add a test case to check this.
 
 ```
 ans1 = (a1*(-nn+1))*(x-a2)^(-nn+1)+c
@@ -62,9 +62,9 @@ penalty = 0.1
 answernote = prt1-F
 ```
 
-We are testing that if we multiply by \(-nn+1\) instead of dividing, we should be given a score of 0. If students are required this knowledge for *all* variants, then all variants should pass this test. Click  `Run all tests on all deployed variants` to check this. 
+We are testing that if we multiply by \(-nn+1\) instead of dividing, we should be given a score of 0. If students require this knowledge for *all* variants, then all variants should pass this test. Click  `Run all tests on all deployed variants` to check this. 
 
-You will see that not all deployed versions pass all tests, and if you click on a variant that failed a test, you will see why! Essentially, when \(nn=2\), \(-nn+1=-1\) multiplication and division are equivalent. Essentially, these random variants are "easier" than the others. This illustrates another key use of question tests - ensuring that all variants are the same difficulty and test the knowledge they are supposed to. In light of this, you may want to change `nn` again to ` 3+rand(4)` . Now all variants should pass all question tests.
+You will see that not all deployed versions pass all tests, and if you click on a variant that failed a test, you will see why! Essentially, when \(nn=2\), \(-nn+1=-1\), so multiplication and division are equivalent. Essentially, these random variants are "easier" than the others. This illustrates another key use of question tests - ensuring that all variants are the same difficulty and test the knowledge they are supposed to. In light of this, you may want to change `nn` again to ` 3+rand(4)` . Now all variants should pass all question tests.
 
 Quality control is essential, and more information is given in the page on [testing](../STACK_question_admin/Testing.md).
 

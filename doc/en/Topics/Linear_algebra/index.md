@@ -2,14 +2,14 @@
 
 Linear algebra, next to calculus, is one of the pillars of modern mathematics and an important application in STACK is supporting questions which test understanding of linear algebra.
 
-Core functionality.
+Core functionality:
 
 1. General [matrix manipulations](../../CAS/Matrix.md) in Maxima.
 2. Core [vector/matrix functions](Linear_algebra_core.md) defined by STACK in the core code.
 3. Using [vectors](Vectors.md).
 4. Assessment of matrices with [answer tests](Answer_tests.md).
 
-Reference documentation for contributed libraries.
+Reference documentation for contributed libraries:
 
 1. Creating [random matrices](Random_Matrices.md) in contributed `rand_matrix.mac`.
 2. [Matrix functions](Matrix_library.md) in contributed `matrix.mac`.

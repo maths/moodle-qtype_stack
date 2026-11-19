@@ -1,8 +1,8 @@
 # Filter blocks: calculations
 
-STACK provides two filters for the [Ascii block](ASCII.md) to perform calculations.
+STACK provides two filters for the [ASCII block](ASCII.md) to perform calculations.
 
-Both these filters find text enclosed between `{@...@}` tags on a single line and evaluates the contents using [https://mathjs.org/](https://mathjs.org/).  There are two versions, a basic scientific calculator and the full version.
+Both these filters find text enclosed between `{@...@}` tags on a single line and evaluate the contents using [https://mathjs.org/](https://mathjs.org/).  There are two versions, a basic scientific calculator and the full version.
 
     [[filter type="calculation" /]]
     [[filter type="cas" /]]
@@ -39,7 +39,7 @@ For example, `The answer to \(1+1={@1+1@}\).` displays the answer as 2. The encl
 
 ### `cas` filter
 
-The maths.js library is extensive, and includes many CAS functions.  The `cas` filter provides full access to this library, e.g. try the following calculation.
+The math.js library is extensive, and includes many CAS functions.  The `cas` filter provides full access to this library, e.g. try the following calculation.
 
     `{@derivative("sin(2*x^3)", "x")@}`
 

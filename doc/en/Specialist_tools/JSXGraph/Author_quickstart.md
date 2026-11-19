@@ -20,9 +20,9 @@ _Plain text_ is a safe choice for an editor, even if it lacks a lot of convenien
 
 In this guide, we will create an interactive question that gives the student a linear function and asks for a line parallel to the function graph, which the student should input by dragging a point. You can find the complete question [here](../../../../samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs/Author_quickstart_Line_parallel_to_graph.xml).
 
-JSXGraph is a Javascript library and thus plots are written in Javascript. In STACK, the definition of a JSXGraph plot needs to go inside `[[jsxgraph]]` blocks.
+JSXGraph is a JavaScript library and thus plots are written in JavaScript. In STACK, the definition of a JSXGraph plot needs to go inside `[[jsxgraph]]` blocks.
 
-Create a new STACK question, and use the content below as question text. (We will initialize the maxima variable `expr` later.) When previewing the question, you should see a plot with a line.
+Create a new STACK question, and use the content below as question text. (We will initialise the Maxima variable `expr` later.) When previewing the question, you should see a plot with a line.
 
 ```
 <p>Drag the point \(A\) so that the line \(OA\) is parallel to the function graph of \(f(x) = {@expr@}\).</p>
@@ -51,9 +51,9 @@ On this board, we can then create other objects, such as points and lines. Each 
 
 The set of properties of each object type can be looked up in the [documentation](https://jsxgraph.org/docs/index.html), e.g. for [points](https://jsxgraph.org/docs/symbols/Point.html); for commonly used objects like [points](https://jsxgraph.uni-bayreuth.de/wiki/index.php/Point) examples are also available on the [JSXGraph wiki](https://jsxgraph.uni-bayreuth.de/wiki/index.php?title=Main_Page). The [JSXGraph book](https://ipesek.github.io/jsxgraphbook/3_basics.html) gives a basic overview over commonly used objects as well. Note that these resources assume JSXGraph is used outside of STACK, so not everything is directly transferable (in particular, the creation of the board is somewhat different).
 
-## Randomization
+## Randomisation
 
-We may want to randomize the function graph of the function f(x) that the line should be parallel to, as well as the initial position of the point A that the student will drag around. We define the following question variables:
+We may want to randomise the function graph of the function f(x) that the line should be parallel to, as well as the initial position of the point A that the student will drag around. We define the following question variables:
 
 ```
 slope: rand([1/2, 3/2, 2]);
@@ -66,20 +66,20 @@ yA_init: -1 - rand(3);
 A_init: [xA_init, yA_init];  /* Initial position of A. */
 ```
 
-As our question now has randomization, we also need to choose a question note:
+As our question now has randomisation, we also need to choose a question note:
 
 ```
 \(f(x) = {@expr@}\)<br>
 \(A = {@ta1@}, A_{init} = {@A_init@}\)
 ```
 
-While the function f(x) does not affect the initial plot (only the correct solution), we now need to update our plot to show the correct initial position of A. For this purpose, we use `{# #}` to embed values of maxima variables directly into our Javascript code. This is similar to `{@ @}` but just gives the raw content instead of formatting the content in a pretty way (which would not make for valid Javascript). Update the definition of the JSXGraph point A in the question text as follows:
+While the function f(x) does not affect the initial plot (only the correct solution), we now need to update our plot to show the correct initial position of A. For this purpose, we use `{# #}` to embed values of Maxima variables directly into our JavaScript code. This is similar to `{@ @}` but just gives the raw content instead of formatting the content in a pretty way (which would not make for valid JavaScript). Update the definition of the JSXGraph point A in the question text as follows:
 
 ```
 var pA = board.create('point', {# A_init #}, { name: 'A', snapToGrid:true, snapSizeX:0.2, snapSizeY:0.2 });
 ```
 
-Note that instead of `{# A_init #}`, we could also have used `[{# xA_init #}, {# yA_init #}]`. Both will give the two coordinates separated by a comma and inside of square brackets, which is valid Javascript syntax for a list of two elements. Be careful when using maxima constants such a `%pi` and `%e`, as these are not valid Javascript symbols. If you have numerical maxima expressions containing these, convert the result to float.
+Note that instead of `{# A_init #}`, we could also have used `[{# xA_init #}, {# yA_init #}]`. Both will give the two coordinates separated by a comma and inside of square brackets, which is valid JavaScript syntax for a list of two elements. Be careful when using Maxima constants such as `%pi` and `%e`, as these are not valid JavaScript symbols. If you have numerical Maxima expressions containing these, convert the result to float.
 
 ## Interactive input
 
@@ -98,11 +98,11 @@ The first line creates a reference `ref_A` that is linked to the STACK input `an
 
 If you preview the question now, you will notice that as you drag the point around, the input field `ans1` reflects the current coordinates of the point. You will also notice that you get validation errors ("This answer is invalid. Your answer contains floating point numbers, ...") if you drag the point to non-integer coordinates.
 
-By default, STACK does not allow floating point numbers in algebraic input fields. Go to the properties of the input `ans1` and set _Forbid float_ to _No_. In general, as JSXGraph works using floating point numbers rather than exact arithmetic, you'll generally want to allow floating points numbers for JSXGraph-linked input fields.
+By default, STACK does not allow floating point numbers in algebraic input fields. Go to the properties of the input `ans1` and set _Forbid float_ to _No_. In general, as JSXGraph works using floating point numbers rather than exact arithmetic, you'll generally want to allow floating point numbers for JSXGraph-linked input fields.
 
 ## Feedback
 
-In general, when comparing floating point values (such as points or values derived their coordinates), it is advisable to use a numerical answer test, due to rounding errors intrinsic to floating point numbers. For example, you might have noticed that even with the snap to grid option, the values in the input field looked like `[0.8,1.2000000000000002]` rather than `[0.8,1.2]`.
+In general, when comparing floating point values (such as points or values derived from their coordinates), it is advisable to use a numerical answer test, due to rounding errors intrinsic to floating point numbers. For example, you might have noticed that even with the snap to grid option, the values in the input field looked like `[0.8,1.2000000000000002]` rather than `[0.8,1.2]`.
 
 For our question, if there was a unique correct answer, we could simply compare the student answer `ans1` to our teacher answer `ta1`, both being a point (i.e., a list of two coordinates), using an answer test like `NumAbsolute` or `NumRelative`.
 
@@ -140,13 +140,13 @@ var graph = board.create('functiongraph', '{#expr#}' , {name:'{#expr#}', withLab
 [[/jsxgraph]]
 ```
 
-Note how we are using the student answer `ans1` in our plot, and we're drawing the graph of f(x) using a `functiongraph` object. Because our function is simple, its maxima string representation works as a definition for the `functiongraph`, but in general read [Basic_plots](Basic_plots.md) to see how to plot functions.
+Note how we are using the student answer `ans1` in our plot, and we're drawing the graph of f(x) using a `functiongraph` object. Because our function is simple, its Maxima string representation works as a definition for the `functiongraph`, but in general read [Basic_plots](Basic_plots.md) to see how to plot functions.
 
 ### Blank inputs
 
-Note that if the student does not move the point, the input field will remain blank and they will not get any feedback. In our question, we made sure in our randomization that the initial position of A is not a correct answer. In general, you'll want to make sure that the initial positions of your interactive objects don't form a correct answer.
+Note that if the student does not move the point, the input field will remain blank and they will not get any feedback. In our question, we made sure in our randomisation that the initial position of A is not a correct answer. In general, you'll want to make sure that the initial positions of your interactive objects don't form a correct answer.
 
-If you have multiple inputs (points, sliders, etc) and there are correct answers where _some_ of them remain in their initial position, you can define input groups so that if any element of that group is moved by the student, all of them are considered moved and their inputs will get values. In order to do that, after binding the objects using `bind_point`/`bind_slider`/etc, add a call to `define_group` where you pass the list of elements in a group as arguments, similar to this:
+If you have multiple inputs (points, sliders, etc.) and there are correct answers where _some_ of them remain in their initial position, you can define input groups so that if any element of that group is moved by the student, all of them are considered moved and their inputs will get values. In order to do that, after binding the objects using `bind_point`/`bind_slider`/etc, add a call to `define_group` where you pass the list of elements in a group as arguments, similar to this:
 
 ```
 stack_jxg.define_group([pA, pB, ...]); 
@@ -166,7 +166,7 @@ You may also want to hide the teacher answer from the student feedback, as by de
  4. Use the extra option `hideanswer` to make sure the teacher's answer is not shown to students.
 
 # Tips and tricks
-When creating JSXGraph questions in STACK, it is often slow and difficult to find errors in the JSXGraph javascript code. It can be useful to develop the JSXGraph component of the question locally first, and then "STACKify" it. For this purpose, create a file with a `.html` extension on your computer, with the following content:
+When creating JSXGraph questions in STACK, it is often slow and difficult to find errors in the JSXGraph JavaScript code. It can be useful to develop the JSXGraph component of the question locally first, and then "STACKify" it. For this purpose, create a file with a `.html` extension on your computer, with the following content:
 
 ````
 <!DOCTYPE HTML>
@@ -206,8 +206,8 @@ When creating JSXGraph questions in STACK, it is often slow and difficult to fin
 </html>
 ````
 
-Now edit your JSXGraph code in between the `<script>` tags. To preview the question, open in a browser. After each edit, you can simply refresh the page to see the changes. If nothing displays, there is likely an error in your code. To get the relevant error messages, in your browser, go into developer mode (usually Ctrl+Shift+C). Usually, there is a tab for errors, you may be able to find it looking for a red symbol with a cross. Once you have found the list of errors, they usually indicate where in the code the problem is.  Once you are happy with your JSXGraph component, copy the content within the `<script>` tags into a STACK question and change `'jxgboard'` to `divid` in the `initBoard` function call. You can now work on the randomization and interactive parts.
+Now edit your JSXGraph code in between the `<script>` tags. To preview the question, open in a browser. After each edit, you can simply refresh the page to see the changes. If nothing displays, there is likely an error in your code. To get the relevant error messages, in your browser, go into developer mode (usually Ctrl+Shift+C). Usually, there is a tab for errors, you may be able to find it looking for a red symbol with a cross. Once you have found the list of errors, they usually indicate where in the code the problem is.  Once you are happy with your JSXGraph component, copy the content within the `<script>` tags into a STACK question and change `'jxgboard'` to `divid` in the `initBoard` function call. You can now work on the randomisation and interactive parts.
 
-When previewing a broken JSXGraph question in STACK, it is still possible to use the browser's developer (Ctrl+Shift+C) mode to find errors, as before. However, you won't get useful on where exactly the error is.
+When previewing a broken JSXGraph question in STACK, it is still possible to use the browser's developer (Ctrl+Shift+C) mode to find errors, as before. However, you won't get useful information on where exactly the error is.
 
 In general, it is helpful to keep the inputs visible for debugging, and only hide them once the question is ready.

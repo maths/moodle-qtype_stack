@@ -6,13 +6,13 @@ In STACK, there is a "tidy tool" that can help with resolving these annoying iss
 
 You can find the tool under the "STACK question dashboard" -> "Tidy inputs and PRTs"
 
-This opens a page where you can see the preview of the question, the name of each input and the Feedback that corresponds to each specific input.  You have the options to change the name of each Input, the name of each PRT (feedback option) and the name of each node in each individual PRT. 
+This opens a page where you can see the preview of the question, the name of each input and the feedback that corresponds to each specific input.  You have the options to change the name of each input, the name of each PRT (feedback option) and the name of each node in each individual PRT. 
 
-Here are 2 examples to demonstrate this feature. 
+Here are two examples to demonstrate this feature. 
 
 ## A question with 1 input and messy nodes in the PRT
 	
-The tool suggests the new names for the nodes so they will appear in arithmetic order. 
+The tool suggests the new names for the nodes so they will appear in numerical order. 
 
 ![A messy PRT](../../content/PRT_messy.png)
 	

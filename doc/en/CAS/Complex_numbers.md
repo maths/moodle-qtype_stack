@@ -1,8 +1,8 @@
 # Complex Numbers in STACK
 
-Complex numbers, especially the display of complex numbers, is a surprisingly subtle issue.   This is because there is some genuine ambiguity in whether \(a+\mathrm{i}\, b\) is a single object or the sum of two parts.  In mathematics we use this ambiguity to our advantage, but in online assessment we need to be more precise.  There are also issues of unary minus, e.g. _not_ displaying \(1 + (-2)\mathrm{i}\). Similarly we typically do _not_ display numbers like \(0+1\mathrm{i}\), unless of course we want to at which point we need the option to do so!
+Complex numbers, especially the display of complex numbers, are a surprisingly subtle issue.   This is because there is some genuine ambiguity in whether \(a+\mathrm{i}\, b\) is a single object or the sum of two parts.  In mathematics we use this ambiguity to our advantage, but in online assessment we need to be more precise.  There are also issues of unary minus, e.g. _not_ displaying \(1 + (-2)\mathrm{i}\). Similarly we typically do _not_ display numbers like \(0+1\mathrm{i}\), unless of course we want to, at which point we need the option to do so!
 
-The general rules when displaying a complex number in Cartesian form "\(a+\mathrm{i}\, b\)" are
+The general rules when displaying a complex number in Cartesian form "\(a+\mathrm{i}\, b\)" are:
 
 1. the real part should always appear to the left of the imaginary part;
 2. \(i\) (or whatever symbol is being used for the imaginary unit) should appear on the right of its coefficient if and only if the coefficient is a numerical value. By numerical value, we mean something like \(2\sqrt{2}\pi\) but not things like \( a \pi \), even if \( a \) is a constant.
@@ -16,12 +16,12 @@ Some examples:
 
 STACK provides two functions, one which simplifies and one which does not.
 
-1. `display_complex(ex)` takes an expression `ex` and tries to display this as a complex number obeying the above rules.  In particular, this function makes use of Maxima's `realpart` and `imagpart` function to split up `ex` into real and imaginary parts.  To do this it must assume `simp:true`, and so the real and imaginary part will be simplified.  For example, `display_complex(1+2*%i/sqrt(2))` is displayed as \(1+\sqrt{2}\,\mathrm{i}\).  If you really want \(1+\frac{2}{\sqrt{2}}\,\mathrm{i}\) then you will need to use the non-simplifying alternative below.  This function respects normal conventions, e.g. when `realpart` returns zero this function will not print \(0+2\,\mathrm{i}\), it just prints \(2\,\mathrm{i}\), etc.
+1. `display_complex(ex)` takes an expression `ex` and tries to display this as a complex number obeying the above rules.  In particular, this function makes use of Maxima's `realpart` and `imagpart` functions to split up `ex` into real and imaginary parts.  To do this it must assume `simp:true`, and so the real and imaginary parts will be simplified.  For example, `display_complex(1+2*%i/sqrt(2))` is displayed as \(1+\sqrt{2}\,\mathrm{i}\).  If you really want \(1+\frac{2}{\sqrt{2}}\,\mathrm{i}\) then you will need to use the non-simplifying alternative below.  This function respects normal conventions, e.g. when `realpart` returns zero this function will not print \(0+2\,\mathrm{i}\), it just prints \(2\,\mathrm{i}\), etc.
 2. `disp_complex(a, b)` assumes `a` is the real part and `b` is the imaginary part (no checking is done).  This function (mostly) does not simplify its arguments.  So `disp_complex(0, 2)` will appear as \(0+2\,\mathrm{i}\); `disp_complex(2/4, 1)` will appear as \(\frac{2}{4}+1\,\mathrm{i}\); and `disp_complex(2, 2/sqrt(2))` will appear as \(2+\frac{2}{\sqrt{2}}\,\mathrm{i}\).  Use the atom `null` if you do not want to print a zero for the real part, or print one times the imaginary part.  `disp_complex(null, 2)` will appear as \(2\,\mathrm{i}\) and `disp_complex(null, null)` will appear as just \(\mathrm{i}\).  Think of `null` as a non-printable unit (additive or multiplicative).
 
-There is one exception.  In order to pull out a unary minus to the front, `disp_complex(a, b)` will simplify `b` if `b` is not a number and it contains a unary minus.  So, for example `disp_complex(a, (-b^2)/b)` is displayed \(a-\mathrm{i}\,b\).  (We _might_ be able to fix this but this edge case requires disproportionate effort: ask the developers if this is essential).
+There is one exception.  In order to pull out a unary minus to the front, `disp_complex(a, b)` will simplify `b` if `b` is not a number and it contains a unary minus.  So, for example `disp_complex(a, (-b^2)/b)` is displayed as \(a-\mathrm{i}\,b\).  (We _might_ be able to fix this but this edge case requires disproportionate effort: ask the developers if this is essential).
 
-You cannot use these functions to display complex numbers in this form \(\frac{\mathrm{i}}{2}\), both these function will always display as \(\frac{1}{2}\,\mathrm{i}\).
+You cannot use these functions to display complex numbers in the form \(\frac{\mathrm{i}}{2}\), as both these functions will always display as \(\frac{1}{2}\,\mathrm{i}\).
 
 Display respects the multiplication sign used elsewhere within expressions, so that you may have \(\frac{2\cdot \pi}{3}\,\mathrm{i}\) rather than \(\frac{2\, \pi}{3}\,\mathrm{i}\).
 
@@ -57,7 +57,7 @@ First we have `p1` is  \( \left(\left(1\right)^2 + \left(1\right)^2\right)^{{{1}
 
 Notice the difference between `p2`: \(\sqrt{2}\,e^{{{i\,\pi}\over{4}}}\), and `p3`: \(\sqrt{2}\,\left({{i}\over{\sqrt{2}}}+{{1}\over{\sqrt{2}}}\right)\) (which of course is not even \(1+i\) either!).
 
-The problem is that in this case `ev( ... , simp)` is not _idempotent_, (i.e. \( \text{simplify}(\text{simplify}(ex)) \neq \text{simplify}(ex) \) in all cases) and the PHP-maxima connection inevitably passes an expression to and from Maxima multiple times.  If `simp:true` then we get multiple simplifications, in this example back to `p3`.
+The problem is that in this case `ev( ... , simp)` is not _idempotent_, (i.e. \( \text{simplify}(\text{simplify}(ex)) \neq \text{simplify}(ex) \) in all cases) and the PHP-Maxima connection inevitably passes an expression to and from Maxima multiple times.  If `simp:true` then we get multiple simplifications, in this example back to `p3`.
 
 Instead, use `polarform_simp` to rewrite the expression in polar form, and do some basic simplification of \(r\) and \(\theta\).
 
@@ -74,7 +74,7 @@ Here are some design choices.
 If question level simplification is on, then the value will probably get re-simplified to Cartesian form.
 
 The predicate `complex_exponentialp(ex)` determines if \(ex\) is written in complex exponential form, \(r e^{i\theta} \).
-Note this test is strict
+Note this test is strict:
 
 1. we must have \(r\geq 0\);
 2. we must have \(-\pi < \theta \leq \pi\).
@@ -82,5 +82,5 @@ Note this test is strict
 
 This predicate needs `simp:false`.  In particular do not test using the `ATAlgEquiv` test, which always simplifies its arguments.  Instead test with `ATCasEqual(complex_exponentialp(ans1),true)` to avoid automatic simplification of `ans1` back to Cartesian form _before_ applying the predicate!
 
-An example question is given in the stack library under `Topics\Complex_cube_roots.xml`.
+An example question is given in the STACK library under `Topics\Complex_cube_roots.xml`.
 

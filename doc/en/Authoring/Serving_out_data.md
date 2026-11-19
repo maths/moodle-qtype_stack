@@ -4,7 +4,7 @@ In some contexts one wants to generate random data for the students to act on, d
 
 ## HTML-tables
 
-If you only have a small amount of data you may simply print out a table of it and let the students copy-paste it from there. When doing this one will want to avoid LaTeX representations as those may case trouble for students try to copy-paste things. Here is an example of using CASText `foreach`-blocks to iterate and output an array of data:
+If you only have a small amount of data you may simply print out a table of it and let the students copy-paste it from there. When doing this one will want to avoid LaTeX representations as those may cause trouble for students trying to copy-paste things. Here is an example of using CASText `foreach`-blocks to iterate and output an array of data:
 
 ```
 [[comment]]This just defines the data for this sample, you may use one coming from your question-vars.[[/comment]]
@@ -36,9 +36,9 @@ Should you want to just give out Maxima code for use in Maxima or similar enough
 
 ## File transfer
 
-Since 4.4 STACK has allowed the author to construct text-files that can be downloaded and that contain freeform CASText constructed in the questions session with the questions seed, thus allowing unique random output for the students. This functionality will server everything out as plain text unless the defined name of the file ends with `.csv`. The primary limitation, for this feature is that it only works in the question-text, it may not be used anywhere else and it will never support adaptation to current student inputs.
+Since 4.4 STACK has allowed the author to construct text-files that can be downloaded and that contain freeform CASText constructed in the question's session with the question's seed, thus allowing unique random output for the students. This functionality will serve everything out as plain text unless the defined name of the file ends with `.csv`. The primary limitation for this feature is that it only works in the question-text, it may not be used anywhere else and it will never support adaptation to current student inputs.
 
-How it works is that you wrap whatever you want the file to contain in a `[[textdownload]]` block, for that block a single parameter `name` must be defined and that will define the name suggested when saving this file. Whatever is inside that block will be rendered as normal CASText, however nothing defined in the CASText outside that block can affect it, which may cause some confusion, just repeat those defines inside the block if you use such things. The block will then get replaced with an URL from which the file can be downloaded, you will probably want to place that URL into a link or some such construct.
+How it works is that you wrap whatever you want the file to contain in a `[[textdownload]]` block, for that block a single parameter `name` must be defined and that will define the name suggested when saving this file. Whatever is inside that block will be rendered as normal CASText, however nothing defined in the CASText outside that block can affect it, which may cause some confusion, just repeat those defines inside the block if you use such things. The block will then get replaced with a URL from which the file can be downloaded, you will probably want to place that URL into a link or some such construct.
 
 As an example, using the new function that generates CSV-strings from data we can write as follows:
 

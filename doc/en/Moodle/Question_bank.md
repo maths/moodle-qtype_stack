@@ -1,6 +1,6 @@
 # How do I find the Moodle question bank?
 
-To find the STACK questions login as a teacher.
+To find the STACK questions, log in as a teacher.
 
 To begin, go to Moodle and navigate to your course's *Course administration* page and, from the *Question bank* section, click on *Questions*:
 
@@ -14,4 +14,4 @@ From the 'Choose a question type to add' dialog select 'STACK' and press 'Add':
 
 ![Select STACK question](../../content/select_STACK_question.png)
 
-The 'Editing a STACK question' page is displayed. Now we can begin to create the actual question. Don't be put off by the amount of configuration options as, in order to get started, there are only a few we need to worry about.
+The 'Editing a STACK question' page is displayed. Now we can begin to create the actual question. Don't be put off by the number of configuration options: to get started, there are only a few we need to worry about.

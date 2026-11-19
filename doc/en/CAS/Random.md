@@ -79,7 +79,7 @@ Here is an example which generates a random polynomial, of degree 5, with coeffi
 
     apply("+",makelist(rand(7)*x^(k-1),k,6));
 
-## Generating random expressions which needs to be "gathered and sorted"
+## Generating random expressions which need to be "gathered and sorted"
 
 It is relatively common to want to be able to generate random expressions which need to be "gathered and sorted".  For example in \(2y-y+3y+1\) we need to collect together the \(y\) terms.
 
@@ -109,7 +109,7 @@ The question text can then be
 
 This indexing with the variable `idx` is quite robust.  Note that indexes in Maxima start at \(1\), whereas `rand(n)` could return zero.
 
-Another option is to use `rand()` on a list of lists, allowing to group the information of an object in a slick way:
+Another option is to use `rand()` on a list of lists, allowing you to group the information of an object in a slick way:
 
     t:rand(5)+3;
     [p, g] : rand([["Mercury",3.61], ["Earth",9.81], ["Mars",3.75]]);
@@ -145,7 +145,7 @@ STACK has a contributed library for creating structured random matrices.  The co
 To use this library you must load it into the question variables.
 
 * To use the local copy on your server: `stack_include("rand_matrix.mac");`
-* To use the latest code from github: `stack_include_contrib("rand_matrix.mac");`
+* To use the latest code from GitHub: `stack_include_contrib("rand_matrix.mac");`
 
 See documentation on [inclusions](../Authoring/Inclusions.md) for more detail of these functions.
 
@@ -153,7 +153,7 @@ Then you can create random matrices, e.g. to generate a \(3\times 3\) invertible
 
 ## Direct access to the seed
 
-Every CAS (Maxima) session contains a constant `stack_seed` which holds the integer value of the seed used by that variant of the question.  If you want to create "random" questions in a carefully index way, using this variable is possible.  See [systematic deployment](../STACK_question_admin/Deploying_systematically.md).
+Every CAS (Maxima) session contains a constant `stack_seed` which holds the integer value of the seed used by that variant of the question.  If you want to create "random" questions in a carefully indexed way, using this variable is possible.  See [systematic deployment](../STACK_question_admin/Deploying_systematically.md).
 
 ## See also
 

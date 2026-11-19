@@ -2,7 +2,7 @@
 
 It is quite common in science subjects to need to accept an answer which has _units_, for example using \(m/s\).
 
-Currently STACK only support SI units.   See International Bureau of Weights and Measures (2006), (The International System of Units (SI)) [PDF](http://www.bipm.org/utils/common/pdf/si_brochure_8_en.pdf) (8th ed.), ISBN 92-822-2213-6.
+Currently STACK only supports SI units.   See International Bureau of Weights and Measures (2006), (The International System of Units (SI)) [PDF](http://www.bipm.org/utils/common/pdf/si_brochure_8_en.pdf) (8th ed.), ISBN 92-822-2213-6.
 
 ## Maxima packages for the support of scientific units  ##
 
@@ -44,14 +44,14 @@ Let us assume that the correct answer is `12.1*m/s^2`.
 
 ## Input type ## {#Input_type}
 
-Stack provides an input type to enable teachers to support students in entering answers with scientific units.
+STACK provides an input type to enable teachers to support students in entering answers with scientific units.
 
 The goal of this input is to validate against the pattern `number * units`.  
 
 1. The input type will check both the teacher's answer and the student's answer for units.  The input will require the student's answer to have units if and only if the teacher's answer also has units.  This normally forces the student to use units.  Also, students sometimes add units to dimensionless quantities (such as pH) and this input type will also enable a teacher to reject such input as invalid when the teacher does not use units.
 2. In validating against the pattern `number * units` we do not accept complex expressions which might simplify to this with some additional calculations.  For example, an answer such as `9.4*m-53*cm` is not considered valid by this input.
 3. This input type *always accepts floating-point numbers*, regardless of the option set on the edit form.  The input type should display the same number of significant figures as typed in by the student.  Note that all other input types truncate the display of unnecessary trailing zeros in floating point numbers, losing information about significant figures.  If you want to specifically test for significant figures, use this input type, with the teacher's answer having no units.
-4. The student must type a number of some kind.  Entering units on their own will be invalid.  If you want to ask a student for units, then use the algebraic input type.  Units on their own are a not valid expression for this input.
+4. The student must type a number of some kind.  Entering units on their own will be invalid.  If you want to ask a student for units, then use the algebraic input type.  Units on their own are not a valid expression for this input.
 5. If the teacher shows the validation, "with variable list" this will be displayed as "the units found in your answer are"...
 6. The student is permitted to use variable names in this input type.
 7. The "insert stars" option is unchanged.  You may or may not want your students to type a `*` or space between the numbers and units for implied multiplication.
@@ -89,7 +89,7 @@ Essentially, the teacher has to make three decisions.  These could always be don
 
 For scientific units (Q3.) there are two families of answer tests.
 
-1. `Units[...]` gives feedback if the student has the wrong units, but number is equivalent on conversion,
+1. `Units[...]` gives feedback if the student has the wrong units, but the number is equivalent on conversion,
 2. `UnitsStrict[...]` expects the student's answer to use exactly the units which appear in the teacher's answer.  There is no conversion here.  However, answer notes will record whether the conversion would have worked.
 
 The two issues related to the numerical part are tested with one of the [numerical answer tests](../Authoring/Answer_Tests/Numerical.md) which are documented elsewhere. Units answer tests share code with these functions.  Use the appropriate options for the chosen test.
@@ -98,16 +98,16 @@ The two issues related to the numerical part are tested with one of the [numeric
 __Notes__
 
 1. All variables are considered to be units.
-2. The numerical part is compared using the one of the three numerical answer tests.  Each *requires* various options, e.g. the number of significant figures, or the numerical accuracy.  These answer tests use identical options to the numerical tests.
+2. The numerical part is compared using one of the three numerical answer tests.  Each *requires* various options, e.g. the number of significant figures, or the numerical accuracy.  These answer tests use identical options to the numerical tests.
 3. The units system accepts both `l` and `L` for litres, and the display respects the way they are typed in.
-4. Only abbreviations are accepted, not full names.  I.e. students may not use `meter`, instead they must use `m`.
+4. Only abbreviations are accepted, not full names.  I.e. students may not use `meter`; instead they must use `m`.
 5. Currently there is no localisation (i.e. language support) for unit names/spellings.
 6. The letter `u` is the prefix for micro, and is displayed as \(\mu\) when the student validates.
 7. The string `xi` is the Greek letter \(\xi\).  If you assume single variable letter names this might clash with `x*i` which is a relatively common pattern.
 
 ## Conversion to base units and numerical accuracy  ##
 
-This only applies to the "non-strict" versions of the tests.  If the units in the student's answer do not match those of the teacher, then both the student's and teacher's answer is converted to base scientific units and the numerical test applied again.  Note, the student's answer is *not* converted to the units used by the teacher.
+This only applies to the "non-strict" versions of the tests.  If the units in the student's answer do not match those of the teacher, then both the student's and teacher's answers are converted to base scientific units and the numerical test applied again.  Note, the student's answer is *not* converted to the units used by the teacher.
 
 For example, in order to make a numerical comparison between `1.1*Mg/10^6` and `1.2*kN*ns/(mm*Hz)` both expressions are converted to base units of `kg`. The numerical test is then applied.
 
@@ -134,7 +134,7 @@ The function `stack_unit_si_declare(true)` declares variables as units.  (Note t
 * If you do not declare `stack_unit_si_declare(true)` in the question variables you may need to do so in the feedback text itself.
 * If you are manipulating two expressions and you want to ensure they both use the same units use `stack_unit_si_to_si_base(ex)` on each.  This ensures only the base units of SI are used.  E.g. `stack_unit_si_to_si_base(stackunits(12.1,km))` gives `stackunits(12100.0,m)`.
 
-This function declares all units in one go, and there is no way to declare only a subset. Indeed, using only a subset would disrupt the conversion logic.  Defining all the units restricts the number of variable names available in a particular question, e.g. \(F\) is assumed to represent Farad, and all units are typeset in Roman type, e.g. \( \mathrm{F} \) rather than the normal \( F \). If you need to fine-tune the display how do to so if explained in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima_background.md) documentation.
+This function declares all units in one go, and there is no way to declare only a subset. Indeed, using only a subset would disrupt the conversion logic.  Defining all the units restricts the number of variable names available in a particular question, e.g. \(F\) is assumed to represent Farad, and all units are typeset in Roman type, e.g. \( \mathrm{F} \) rather than the normal \( F \). If you need to fine-tune the display, how to do so is explained in the [atoms and subscripts](../CAS/Subscripts.md) section of the Maxima documentation.
 
 The function `stackunits_make(ex)` takes the expression `ex` and, if this is a product of numbers and units, it returns an inert function `stackunits` with arguments `stackunits(numbers, symbols)`.  Note, symbols will include a mix of variables, and symbols which are considered to be units. Use of this function autoloads `stack_unit_si_declare(true)`.
 
@@ -159,7 +159,7 @@ The functions
     stack_units_units(ex);
     stack_units_nums(ex);
 
-try to split the expression into units and numbers, and the return the units and numbers found.  If there are no numbers, `stack_units_nums(ex)` returns `NULLNUM`. If there are no numbers, `stack_units_units(ex)` returns `NULLUNITS`.  These are special tags, but note they are displayed by LaTeX as empty strings.  (You could also use `first(args(ans1))` or `second(args(ans1))` respectively to access the numerical and units parts.)
+try to split the expression into units and numbers, and then return the units and numbers found.  If there are no numbers, `stack_units_nums(ex)` returns `NULLNUM`. If there are no units, `stack_units_units(ex)` returns `NULLUNITS`.  These are special tags, but note they are displayed by LaTeX as empty strings.  (You could also use `first(args(ans1))` or `second(args(ans1))` respectively to access the numerical and units parts.)
 
 The reason for having `NULLNUM` is so that we can tell the difference between `m/s` and `1m/s`.  If you want to use the value in an answer test and don't care about the difference (or want `NULLNUM=1`) then use `ev(stack_units_nums(ex), NULLNUM=1)`.
 
@@ -196,4 +196,4 @@ You will need to put `diamonds` in the allow words of the input in the question.
 CAS variables are tricky.
 
 *  When creating worked solutions etc. try `12.3m*s^(-1)` not `12.3m/s`.  The display is better.  The answer test accepts either as equivalent.
-*  Which units are supported?  It is probably best to look at the code.  This is contained in `qtype_stack\stack\cas\casstring_units_class.php`.  Comments and additions are welcome.
+*  Which units are supported?  It is probably best to look at the code.  This is contained in `stack/cas/casstring.units.class.php`.  Comments and additions are welcome.

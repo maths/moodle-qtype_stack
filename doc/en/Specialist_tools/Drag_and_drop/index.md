@@ -1,14 +1,14 @@
 # Drag and drop questions in STACK
 
-Drag and drop problems are often referred to as "Parson's problems".
+Drag and drop problems are often referred to as "Parsons problems".
 
 You can add in drag and drop functionality using the `[[parsons ..]]` [question block](Question_block.md). 
-As of STACK v4.6.0, the `parsons` block has three main configurations (each of which support further customisation) which can be achieved by setting block header parameters `columns` and `rows` as appropriate:
+As of STACK v4.6.0, the `parsons` block has three main configurations (each of which supports further customisation) which can be achieved by setting block header parameters `columns` and `rows` as appropriate:
 
 1. **Proof** (Example usage: `[[parsons]] ... [[/parsons]]`) : This was introduced in STACK v4.5.0, and a full guide can be found under [Parsons problems](Parsons.md).
 2. **Grouping** (Example usage: `[[parsons columns="3"]] ... [[/parsons]]`) : 
-This will set up a number of columns, each of which behave similarly to the single left-hand column of the **Proof** configuration, where the student may drag and drop items starting at the top of each column. 
-This is useful when we are only interesting in grouping items together, and specific row positions do not matter, or when each column may have variable length. Example problems are given in the [grouping](Grouping.md) page.
+This will set up a number of columns, each of which behaves similarly to the single left-hand column of the **Proof** configuration, where the student may drag and drop items starting at the top of each column. 
+This is useful when we are only interested in grouping items together, and specific row positions do not matter, or when each column may have variable length. Example problems are given in the [grouping](Grouping.md) page.
 3. **Grid** (Example usage: `[[parsons columns="3" rows="2"]] ... [[/parsons]]`) : 
 This will set up a grid of shape `(columns, rows)`, where the student may drag and drop items to any position in the grid. Example problems are given in the [grid](Grid.md) page.
 

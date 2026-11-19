@@ -16,12 +16,12 @@ Similarly, STACK provides `%intersection` to represent an intersection of interv
 
 Predicate functions
 
-1. `intervalp(ex)` returns true if `ex` is a single simple interval.  Does not check `ex` is variable free, so `oo(a,b)` is a simple interval.   `{}`, `none`, `all` and singleton sets are not considered "intervals" by this predicate, use `realsetp` instead.  The primary purpose of this predicate is to detect intervals `oo`, `oc` etc within code.
+1. `intervalp(ex)` returns true if `ex` is a single simple interval.  Does not check `ex` is variable free, so `oo(a,b)` is a simple interval.   `{}`, `none`, `all` and singleton sets are not considered "intervals" by this predicate, use `realsetp` instead.  The primary purpose of this predicate is to detect intervals `oo`, `oc` etc. within code.
 2. `inintervalp(x, I)`  returns true if `x` is an element of `I` and false otherwise.  `x` must be a real number.  `I` must be a set of numbers or a simple interval of the form `oo(a,b)` etc.
 3. `trivialintervalp(ex)` returns true if `ex` is a trivial interval such as \((a,a)\).
 4. `unionp(ex)` is the operator a union?
 5. `intersectionp(ex)` is the operator an intersection?
-6. `realsetp(ex)` return true if `ex` represents a definite set of real numbers, e.g. a union of intervals.  All end points and set elements must be real numbers, so `oo(a,b)` is not a `realset`.  If you want to permit variables in sets and as endpoints use `realset_soft_p` instead.
+6. `realsetp(ex)` returns true if `ex` represents a definite set of real numbers, e.g. a union of intervals.  All end points and set elements must be real numbers, so `oo(a,b)` is not a `realset`.  If you want to permit variables in sets and as endpoints use `realset_soft_p` instead.
 7. `interval_disjointp(I1, I2)` establishes if two simple intervals are disjoint.
 8. `interval_subsetp(S1, S2)` is the real set `S1` contained within the real set `S2`?
 9. `interval_containsp(I1, S2)` is the simple interval `I1` an explicit sub-interval within the real set `S2`?  No proper subsets here, but this is useful for checking which intervals a student has.
@@ -32,13 +32,13 @@ Basic manipulation of intervals.
 2. `interval_sort(I)` takes a list of intervals and sorts them into ascending order by their left hand ends.  Returns a list.
 3. `interval_connect(S)` Given a `%union` of intervals, checks whether any intervals are connected, and if so, joins them up and returns the amended union.
 4. `interval_tidy(S)`  Given a union of sets, returns the "canonical form" of this union.
-5. `interval_intersect(S1, S2)` intersect two two simple intervals or two real sets, e.g. `%union` sets.
+5. `interval_intersect(S1, S2)` intersect two simple intervals or two real sets, e.g. `%union` sets.
 6. `interval_intersect_list(ex)` intersect a list of real sets.
 7. `interval_complement(ex)` take a `%union` of intervals and return its complement.
 8. `interval_set_complement(ex)` Take a set of real numbers, and return the `%union` of intervals not containing these numbers.
-9. `interval_count_components(ex)` Take a set of real numbers, and return the number of separate connected components in the whole expression.  Simple intervals count as one, and sets count as number number of distinct points in the set.  Trivial intervals, such as the empty set, count for 0.  No simplification is done, so you might need to use `interval_tidy(ex)` first if you don't want to count just the representation.
+9. `interval_count_components(ex)` Take a set of real numbers, and return the number of separate connected components in the whole expression.  Simple intervals count as one, and sets count as the number of distinct points in the set.  Trivial intervals, such as the empty set, count for 0.  No simplification is done, so you might need to use `interval_tidy(ex)` first if you don't want to count just the representation.
 
-## Natural domains, and real sets with a variable.
+## Natural domains, and real sets with a variable
 
 The function `natural_domain(ex)` returns the natural domain of a function represented by the expression `ex`, in the form of the inert function `realset`.  For example `natural_domain(1/x)` gives
 
@@ -54,7 +54,7 @@ is displayed as \(x \not\in\{0\}\).
 
 Students must simply type `union` (not `%union`) etc.
 
-Validation of students' answer has a very loose sense of "type".  When we are checking the "type" of answer, if the teacher's answer is a "set" then the student's answer should also be a "set" (see `setp`).  If the teacher's answer is actually a set in the context where an interval should be considered valid, then the teacher's answer should be the inert function `%union`, e.g. `%union({1,2,3})`, to bump the type of the teacher's answer away from set and into `realset`.
+Validation of students' answers has a very loose sense of "type".  When we are checking the "type" of answer, if the teacher's answer is a "set" then the student's answer should also be a "set" (see `setp`).  If the teacher's answer is actually a set in the context where an interval should be considered valid, then the teacher's answer should be the inert function `%union`, e.g. `%union({1,2,3})`, to bump the type of the teacher's answer away from set and into `realset`.
 
 Validation does some simple checks, so that mal-formed intervals such as `oo(1)` and `oo(4,3)` are rejected as invalid.
 
@@ -64,7 +64,7 @@ The algebraic equivalence answer test will apply `interval_tidy` as needed and c
 
 If the student input is an interval, it is possible to access the upper and lower boundary through the `first` and `last` Maxima functions. For example, a PRT node checking whether the boundaries of an interval are correct (but not necessarily the interval type, like `co` or `oo`) can be done checking the algebraic equivalence of the student answer `[first(ans1), last(ans1)]` and the teacher answer `[first(ta1), last(ta1)]`.
 
-Students will sometimes enter a closed interval as `[a, b]` or an open interval as `(a, b)`, appealing to common notation. In STACK the answer `[a,b]` is interpreted as a list however, and it can be convert into `cc(a,b)` using 
+Students will sometimes enter a closed interval as `[a, b]` or an open interval as `(a, b)`, appealing to common notation. In STACK the answer `[a,b]` is interpreted as a list however, and it can be converted into `cc(a,b)` using 
 
     ans1interval : if listp(ans1) then cc(first(ans1), last(ans1)) else ans1;
 

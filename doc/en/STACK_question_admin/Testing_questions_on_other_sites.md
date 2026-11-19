@@ -1,7 +1,7 @@
 # Running question tests for questions on other sites (command line)
 
 
-You can bulk test all question tests on all variants of all question by using the command line bulk-test script contained in the `cli` directory as follows:
+You can bulk test all question tests on all variants of all questions by using the command line bulk-test script contained in the `cli` directory as follows:
 
     php bulktestall.php
 
@@ -9,7 +9,7 @@ Since you have command line access to the development server you will need to ed
 
     $DB->connect('live.database.host.name', 'read_only_user', 'pa55w0rd', 'live_database_name', 'mdl_', $CFG->dboptions);
 
-to specify the remote database.  Then run the command line script (perhaps using something like screen to allow this to run in the background while you logout) with the `remote` option.
+to specify the remote database.  Then run the command line script (perhaps using something like screen to allow this to run in the background while you log out) with the `remote` option.
 
     php bulktestall.php --remote
 
@@ -138,7 +138,7 @@ index 40ef26e..d8ba3e1 100644
                  global $DB;
 ```
 
-As an example of the kind of tinkering that might be required, and the time I devised this patch, the new version of STACK had a database change, which had not yet been applied to our live database. Therefore, I had to tweak the question loading code as follows:
+As an example of the kind of tinkering that might be required, at the time I devised this patch, the new version of STACK had a database change, which had not yet been applied to our live database. Therefore, I had to tweak the question loading code as follows:
 
 ```
 diff --git a/questiontype.php b/questiontype.php

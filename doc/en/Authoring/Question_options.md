@@ -14,9 +14,9 @@ This option sets the value of [Maxima](../CAS/Maxima_background.md)'s
 
 variable.
 
-If `true` and the sign of a parameter \(x\) cannot be determined from the current context or other considerations, `sign` and `asksign(x)` return `true`. This may forestall some automatically-generated asksign queries, such as may arise from integrate or other computations
+If `true` and the sign of a parameter \(x\) cannot be determined from the current context or other considerations, `sign` and `asksign(x)` return `true`. This may forestall some automatically-generated asksign queries, such as may arise from integrate or other computations.
 
-Default is False
+Default is false.
 
 ### Question Penalty {#Question_penalty} ###
 
@@ -43,7 +43,7 @@ The design of this option is discussed further in the [developer docs](../Develo
 
 Teachers must always use strict Maxima syntax, which requires `.`, including in test case construction.
 
-### Scientific notation formal {#scientificnotation} ###
+### Scientific notation format {#scientificnotation} ###
 
 Choose the format for display of scientific notation.
 
@@ -121,7 +121,7 @@ Do you really want to continue using \(\sqrt{}\) in your teaching?  In his *Elem
 
 A lot of elementary mathematics involves converting from one form to another and back again.  Sometimes these forms have important differences of use, e.g. factored form or completed square form for a quadratic.  However, sometimes these equivalent forms are more customary than because it *"manifestly corresponds with the nature of the thing"* in question.  I digress...
 
-STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n]{x}\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostrophe to create the nounform `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
+STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n]{x}\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostrophe to create the noun form `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
 
 ### sqrt(-1) {#sqrt_minus_one} ###
 
@@ -156,14 +156,14 @@ If you are using \(i,j,k\) as basis vectors then consider the following in your 
     q:a*i+b*j+c*k;
 
 Then, your expressions `p` and `q` will be displayed respectively as \[{3\cdot \vec{i}+4\cdot \vec{j}+5\cdot \vec{k}}\] and \[{a\cdot \vec{i}+b\cdot \vec{j}+c\cdot \vec{k}}.\]
-Further examples are given in the [vectors](../CAS/Matrix.md#vectors).documentation.
+Further examples are given in the [vectors](../Topics/Linear_algebra/Vectors.md) documentation.
 
 
 ### Matrix parentheses ###
 
 See the entry on [matrices](../CAS/Matrix.md#matrixparens).
 
-### Inline and displayed fractions. ###
+### Inline and displayed fractions ###
 
 There are three ways to display fractions.
 

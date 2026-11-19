@@ -13,7 +13,7 @@ the VLE, and restrict interaction with the VLE.
 
 ## Basics
 
-The solution consist of two parts:
+The solution consists of two parts:
 
  1. The VLE side beachhead script which needs to adapt to the VLE while at
     the same time maintain the STACK-JS features. For Moodle this script
@@ -46,7 +46,7 @@ on) to any content received.
 
 The content going into those IFRAMEs can be anything and it can do
 whatever it wants in those IFRAMEs. The STACK-JS logic will promise that
-no filtering for the content will ever be done. Other than Markdown etc.
+no filtering for the content will ever be done, other than Markdown etc.
 if requested. No VLE level filters will affect it nor will we tidy it.
 
 Content can also rest assured that it is not within the same origin as
@@ -67,8 +67,8 @@ the ability to run the whole system in a closed network so that is why we
 provide our own header modification script.
 
 If one needs to serve anything to those IFRAMEs from the local system one
-can either drop that thing into that `corsscripts/` directory or config
-ones own headers elsewhere. Currently, works with `.css` and `.js` files.
+can either drop that thing into that `corsscripts/` directory or configure
+one's own headers elsewhere. Currently, this works with `.css` and `.js` files.
 
 ### Loading external scripts
 
@@ -137,19 +137,19 @@ promiseforaninput.then((id) => {
 
 The first two lines first open up an `[[iframe]]` which generates an XHTML
 document and an IFRAME to contain it, and then we use the `[[script]]` block
-to generate a script-tag in that documents head. With the `type="module"` we
+to generate a script-tag in that document's head. With the `type="module"` we
 make it possible to use the `import` syntax to bring in libraries and in this
-case we bring in the `stack_js` library from an URL provided by the `[[cors]]`
+case we bring in the `stack_js` library from a URL provided by the `[[cors]]`
 block so that we do not need to write hard coded references to the full URL.
 Once we have the library, we then ask it for access to the input named `ans1`,
-we also add that `true` to signal the we would want to see `input` events
+we also add that `true` to signal that we would want to see `input` events
 being synchronised in addition to normal `change` events, to make this demo
 more interactive. As the connection process is asynchronous we will receive
-a promise that will resolve into the identifier of an hidden input that will
-be constructed inside the IFRAME, in this example we simply make that input
+a promise that will resolve into the identifier of a hidden input that will
+be constructed inside the IFRAME; in this example we simply make that input
 visible so that we can try interacting with it directly.
 
-If you modify that IFRAME side inputs value through code or other means it
+If you modify that IFRAME-side input's value through code or other means it
 will only get synchronised to the VLE side once a `change` event is emitted,
 so do dispatch some events if things do not otherwise work.
 

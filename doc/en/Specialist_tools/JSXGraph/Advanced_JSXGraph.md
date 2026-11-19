@@ -49,7 +49,7 @@ There are things that may not be obvious, here are some that are worth noting:
 
 ## A complicated example
 
-Lets construct a custom binding that demonstrates some advanced concepts. For an example lets
+Let's construct a custom binding that demonstrates some advanced concepts. For an example let's
 build a graph construction tool where one can create nodes (i.e. points) and connect and
 disconnect edges (line segments) between them. We will additionally want to store all of this
 state into a singular input field, thus mixing two very different things in the same input.
@@ -317,7 +317,7 @@ board.update();
 
 ### Specific comments
 
-At 1. the serialiser is rather simple, if yours is not consider whether the way represent your
+At 1. the serialiser is rather simple; if yours is not, consider whether the way you represent your
 state is clear enough. Typically, well constructed state is easy to serialise.
 
 At 2. the key thing to note is that when we create new elements that need to be bound we need
@@ -333,7 +333,7 @@ everything away and rebuilding from scratch is a valid tactic, maybe not efficie
 a place where premature optimisation is often pointless.
 
 At 4. always do the default state building before binding anything, as the binding function call
-will at that moment read the current value from the input and if it find something from there it
+will at that moment read the current value from the input and if it finds something there it
 will deserialise it on top of the current state.
 
 At 5. Do note the use of that extra point that is hidden. It has two uses, first the padding in

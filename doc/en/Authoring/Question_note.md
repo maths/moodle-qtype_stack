@@ -12,7 +12,7 @@ For example they might use a note such as
 
     \[ \frac{d}{d{@v@}}{@p@} = {@diff(p,v)@} \]
 
-This is very helpful, particularly when students ask about the variant they were given.  The teacher only need look at the question note to get both the question, and answer.
+This is very helpful, particularly when students ask about the variant they were given.  The teacher only needs to look at the question note to get both the question, and answer.
 
 The question note is used when [deploying](../STACK_question_admin/Deploying.md) question variants.
 

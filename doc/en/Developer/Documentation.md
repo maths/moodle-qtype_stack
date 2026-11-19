@@ -18,12 +18,12 @@ The main documentation is arranged as follows.
 
 * About the project, community, etc.
 * Quick-start for STACK question authors.
-* Authoring individual questions. Reference of features, e.g. inputs, castext, answert tests.
+* Authoring individual questions. Reference of features, e.g. inputs, castext, answer tests.
 * Maxima reference documentation.
-* Specialist tools - quthoring questions linking many features, e.g. JSXGraph, GeoGebra, Drag and drop questions.
+* Specialist tools - authoring questions linking many features, e.g. JSXGraph, GeoGebra, Drag and drop questions.
 * STACK question administration (not Moodle quiz features), e.g. testing, deploying random variants, reporting, question library.
 * Topics - authoring example questions in different mathematical topics.
-* Moodle-specific features, e.g. setting up a quiz, import/export of moodle questions.
+* Moodle-specific features, e.g. setting up a quiz, import/export of Moodle questions.
 * Installation of `qtype_stack` into Moodle.
 * Development of the plugin.
 * Student-focused documentation.
@@ -41,7 +41,7 @@ STACK stores all documentation within language subdirectories.  For example, Eng
 * The directory structure forms the structure of the documentation.
 * Files must use the `.md` extension.
 * Links to files must use the `.md` extension.
-* File and directory names should be safe for urls and will be used as the document's title.
+* File and directory names should be safe for URLs and will be used as the document's title.
   Spaces can be encoded as underscore `_`, e.g. Question state caching should be named `Question_state_caching.md`
 * When accessing a directory, the file `index.md` in that directory will be displayed, hence this file should be created for new directories.
   Note `index.md` will never be displayed in a directory listing, it can be accessed by navigating to the directory itself.
@@ -49,7 +49,7 @@ STACK stores all documentation within language subdirectories.  For example, Eng
 * A directory listing will be appended to the site map when rendered.
 * Metadata about the files is stored in `meta_en.json`.  Every page should have metadata.
 
-## How relative links work in STACK's documentation##
+## How relative links work in STACK's documentation ##
 
 **Note** Links in the documentation are relative. You can use the following standard notation, for:
 
@@ -82,7 +82,7 @@ The text in square brackets is the alt text, which is important for visually imp
 
 ## Adding a link to video in the documentation
 
-To embed video into the documentation first find the unique video key, `VIDEO-KEY`, then then modify
+To embed video into the documentation first find the unique video key, `VIDEO-KEY`, then modify
 
     [![IMAGE ALT TEXT](http://img.youtube.com/vi/VIDEO-KEY/0.jpg)](https://www.youtube.com/watch?v=VIDEO-KEY "Video title")
 
@@ -119,7 +119,7 @@ An example:
 
 The STACK docs are made available online on [docs.stack-assessment.org](https://docs.stack-assessment.org). For more information on how this is achieved, see the [Website documentation](Website.md). However this places certain limitations on the sort of elements that can be included in the documentation:
 
-* You can only have relative links to files within the `doc` directory. This means you should not link relatively to, for example, one of the stack .php files. If you want to demonstrate a behaviour of one of STACKs files, it is better to do a direct link to that file on GitHub or on the STACK demo.
+* You can only have relative links to files within the `doc` directory. This means you should not link relatively to, for example, one of the stack .php files. If you want to demonstrate a behaviour of one of STACK's files, it is better to do a direct link to that file on GitHub or on the STACK demo.
 * You cannot use HTML text areas to display LaTeX Math, as that will display poorly. Please use multiline code blocks instead.
 
 # Examples {#Examples}
@@ -178,7 +178,7 @@ Ordered (numbered) and unordered lists are very intuitive, and nesting is easy
    1. Nested
    2. Lists
 
-* Unordered lists made my stars
+* Unordered lists made with stars
 * You can nest with different styles
   1. See?
 
@@ -201,7 +201,7 @@ They must end with the `.md` extension.  External links are easily generated usi
     <http://sesamestreet.com>
 
 gives <http://sesamestreet.com>,
-email address work similarly
+email addresses work similarly
 
     <count@sesamestreet.com>
 

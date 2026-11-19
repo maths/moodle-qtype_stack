@@ -30,13 +30,13 @@ ex1 : a1*(x-a2)^(-nn);
 ta1: int(ex1, x)+c;
 ```
 
-In this new question we are asking the student to find the anti-derivative of a question with a definite form \( a_1(x-a_2)^{-nn} \). `a1`, `a2` and `nn` are all variables which are assigned random positive integers.  These are then used to define the variable `ex1`, used in the question itself. We also have the CAS integrate the expression `ex1` and store the result in the variable `ta1`. It is good practice to use variables names with more than one character as single-character variables, like `x`, are meant for student input.
+In this new question we are asking the student to find the anti-derivative of an expression of the form \( a_1(x-a_2)^{-nn} \). `a1`, `a2` and `nn` are all variables which are assigned random positive integers.  These are then used to define the variable `ex1`, used in the question itself. We also have the CAS integrate the expression `ex1` and store the result in the variable `ta1`. It is good practice to use variable names with more than one character, as single-character variables, like `x`, are meant for student input.
 
 Remember that when generating random questions in STACK we talk about _random numbers_ when we really mean _pseudo-random numbers_. To keep track of which random numbers are generated for each user, there is a special `rand` command in STACK, which you should use instead of [Maxima](../CAS/Maxima_background.md)'s random command. The `rand` command is a general "random thing" generator, see the page on [random generation](../CAS/Random.md) for full details. `rand` can be used to generate random numbers and also to make selections from a list. `rand(n)` will select a random integer from 0 up to, **and not including**, `n`. So  `rand(3)` will select a random number from the list  `[0,1,2]` .
 
 ## Question note
 
-Now that as our question contains random numbers, we need to record the actual question variant seen by a particular student. As soon as we use the `rand` function, STACK forces us to add a _Question note_. 
+Now that our question contains random numbers, we need to record the actual question variant seen by a particular student. As soon as we use the `rand` function, STACK forces us to add a _Question note_. 
 Fill the question note in as
 
 ```

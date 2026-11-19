@@ -12,19 +12,19 @@ The only files you need to run the sandbox are contained within the directory
 
     stack/maxima/
 
-This directory also contains the wxMaxima file `sandbox.wmx` which is the "sandbox" interface file. Your goals are (i) to set Maxima's path so it can find all the files you have downloaded, and (ii) to load the file
+This directory also contains the wxMaxima file `sandbox.wxm` which is the "sandbox" interface file. Your goals are (i) to set Maxima's path so it can find all the files you have downloaded, and (ii) to load the file
 
     stack/maxima/stackmaxima.mac
 
-Copy `sandbox.wmx` somewhere you can find it later and edit this file to reflect the location of the above file on your local machine.
+Copy `sandbox.wxm` somewhere you can find it later and edit this file to reflect the location of the above file on your local machine.
 
-On a Microsoft operating system, if you place the all the files (i.e. clone or unzip the download) into
+On a Microsoft operating system, if you place all the files (i.e. clone or unzip the download) into
 
     c:/tmp/stackroot
 
-the `sandbox.wmx` should work without further adjustment.
+the `sandbox.wxm` should work without further adjustment.
 
-Otherwise open `sandbox.wmx` with wxMaxima and follow the further instructions it contains to setup the path for Maxima.  __Note, the backslash character `\` is a control character so you will need to edit the path to replace the `\` with `/` in wxMaxima.__ Execute the sandbox file with wxMaxima when you have updated the settings with `cell > Evaluate all cells`.  If you see something like the following you have set this up correctly (version numbers will vary).
+Otherwise open `sandbox.wxm` with wxMaxima and follow the further instructions it contains to set up the path for Maxima.  __Note, the backslash character `\` is a control character so you will need to edit the path to replace the `\` with `/` in wxMaxima.__ Execute the sandbox file with wxMaxima when you have updated the settings with `cell > Evaluate all cells`.  If you see something like the following you have set this up correctly (version numbers will vary).
 
     [ STACK-Maxima started, library version 2022022300 ]
 
@@ -34,7 +34,7 @@ You can test this out by using, for example, the `rand()` function.
 
 to create a pseudo-random matrix.  If `rand` returns unevaluated, then you have not loaded the libraries correctly.
 
-An alternative approach on a Microsoft operating system is to copy the contents of (a working) `sandbox.wmx` file into a
+An alternative approach on a Microsoft operating system is to copy the contents of (a working) `sandbox.wxm` file into a
 
     %USERPROFILE%/Maxima/stacklocal.mac
 
@@ -101,7 +101,7 @@ Other versions of Maxima are similar.
 
 ## Using preconfigured files on Linux and Windows
 
-Here you will find some notes to support you to install and use  the  STACK Sandbox in Maxima including the plotting options. The good note is, that Gnuplot is delivered with Maxima on Windows. We can use it. For Linux you will find a file `moodle-qtype_stack_master/stack/maxima/stacklocallinux.mac` and for Window `moodle-qtype_stack_master/stack/maxima/stacklocalwin.mac`. Goal is to use the commands `load("stacklocalwin.mac")` or `load("stacklocallinux.mac")` in your Maxima worksheets.
+Here you will find some notes to support you to install and use  the  STACK Sandbox in Maxima including the plotting options. The good news is that Gnuplot is delivered with Maxima on Windows. We can use it. For Linux you will find a file `moodle-qtype_stack_master/stack/maxima/stacklocallinux.mac` and for Windows `moodle-qtype_stack_master/stack/maxima/stacklocalwin.mac`. The goal is to use the commands `load("stacklocalwin.mac")` or `load("stacklocallinux.mac")` in your Maxima worksheets.
 
 ### Preparation
 
@@ -111,7 +111,7 @@ Unzip the zip-file `moodle-qtype_stack-master.zip` in your `maxima_userdir`, so 
 Create the additional directories:
   1. `maxima_userdir/moodle-qtype_stack_master/tmp/`
   2. `maxima_userdir/plots/`
-  2. `maxima_userdir/tmp/`
+  3. `maxima_userdir/tmp/`
 
 
 On Windows the directories are afterwards
@@ -128,17 +128,17 @@ On Linux the directories are afterwards
 
 To use the STACK Sandbox in Maxima, just copy the file `stacklocalwin.mac` or `stacklocallinux.mac` into your `maxima_userdir`. Thus it is available for the `load` command. 
 
-If git is available on your machine, you got to `maxima_userdir` in terminal an run the command `git pull https://github.com/maths/moodle-qtype_stack/` and move `moodle-qtype_stack` to `moodle-qtype_stack-master`.
+If git is available on your machine, you go to `maxima_userdir` in a terminal and run the command `git pull https://github.com/maths/moodle-qtype_stack/` and move `moodle-qtype_stack` to `moodle-qtype_stack-master`.
 
-### Troubleshouting
+### Troubleshooting
 
-Sometimes one has to adjust the path to the directory where the svg are saved. Please try 
+Sometimes one has to adjust the path to the directory where the SVG files are saved. Please try 
 `IMAGE_DIR:sconcat(maxima_userdir,"/plots/")` if `IMAGE_DIR:sconcat(maxima_userdir,"/plots")` does not work. (And vice versa).
 
 
-### Lets plot
+### Let's plot
 
-To show the plots produced by STACK a small loop way is used. STACK stores the plot in an SVG file, which is written to a temporary directory. To show the plots an html file `maxima_userdir/plots/test.html` is used. To generate the file use  `add2HTML(string,fileappend)` is used.
+To show the plots produced by STACK a small loop way is used. STACK stores the plot in an SVG file, which is written to a temporary directory. To show the plots an HTML file `maxima_userdir/plots/test.html` is used. To generate the file, `add2HTML(string,fileappend)` is used.
 The code looks like:
 ```
 load("stacklocalwin.mac");
@@ -152,9 +152,9 @@ If you are not using Firefox on your Linux, you can adjust your browser in `stac
 
 ## Reflecting the settings on your server
 
-The healthcheck page (Moodle admin access only) displays the contents of the Maxima configuration file which is written to the sever.  This contains Maxima commands to update the path (which you probably don't want to copy) and also the function `STACK_SETUP(ex)` which configures your particular version of STACK.  You may want to replace `STACK_SETUP(ex)` in the sandbox with `STACK_SETUP(ex)` from the Moodle server. For most users this should not be needed, and is most useful for advanced debugging where significant differences between versions matters.
+The healthcheck page (Moodle admin access only) displays the contents of the Maxima configuration file which is written to the server.  This contains Maxima commands to update the path (which you probably don't want to copy) and also the function `STACK_SETUP(ex)` which configures your particular version of STACK.  You may want to replace `STACK_SETUP(ex)` in the sandbox with `STACK_SETUP(ex)` from the Moodle server. For most users this should not be needed, and is most useful for advanced debugging where significant differences between versions matters.
 
-It is more important to match the version of the STACK code you downloaded from github with the version you have on your server.  The STACK documentation page on your server gives the version number of the STACK code at the bottom of the documentation front page.  For example
+It is more important to match the version of the STACK code you downloaded from GitHub with the version you have on your server.  The STACK documentation page on your server gives the version number of the STACK code at the bottom of the documentation front page.  For example
 
     https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/doc/doc.php/
 

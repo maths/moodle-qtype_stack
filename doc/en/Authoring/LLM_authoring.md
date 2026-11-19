@@ -17,7 +17,17 @@ Just as MCQ is still needed, STACK will retain an important place in the educati
 
 ## Workflows for STACK question generation
 
-To help question authors make the best out of STACK and its features, we have produced a basic "stack_essentials" file designed to help LLM agents write questions to a basic standard.  See `agents/stack_essentials.md`
+To help question authors make the best of STACK and its features, we have produced a basic "stack_essentials" file designed to help LLM agents write questions to a basic standard.  See `agents/stack_essentials.md`.
+
+The following practices have proved effective.
+
+1. Plan before writing any XML.  For each question, name the misconception it targets, the variables and their ranges, the structure of the potential response trees and the test cases.  A plan which says only "use an algebraic input" cannot be checked.
+2. Separate writing from reviewing.  A reviewer which has just written a question is not independent.  The reviewer should run the question tests itself, rather than accept the author's report, and a different model often finds things the author's model does not.
+3. Passing question tests show that a question is consistent, not that it is correct.  Ask which answers it would mark wrongly: a wrong answer accepted, and a correct answer in a legitimate form rejected.
+4. Look at every deployed variant as students will see it.  No test checks whether a plot is right, whether a distractor is accidentally true, or whether the feedback teaches anything.
+5. Keep the questions (Moodle XML) under version control as the master copy, and treat Moodle as the place where they are published.
+
+See `agents/stack_question_review.md` for a checklist for reviewing questions.
 
 
 

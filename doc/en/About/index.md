@@ -12,7 +12,7 @@ There is a large, and growing, community of STACK users in many languages.
 * A demonstration server is available in Edinburgh:  [https://stack-demo.maths.ed.ac.uk/demo/](https://stack-demo.maths.ed.ac.uk/demo/)
 * STACK also has an [API](../Installation/API.md) to provide STACK questions as a web service.
 
-The source code, and development discussion, is on [github](http://github.com/maths/moodle-qtype_stack/issues), with an additional [ILIAS](https://github.com/ilifau/assStackQuestion/) site.
+The source code, and development discussion, is on [GitHub](http://github.com/maths/moodle-qtype_stack/issues), with an additional [ILIAS](https://github.com/ilifau/assStackQuestion/) site.
 
 # Main STACK Features
 
@@ -30,7 +30,7 @@ Rather than comparing the student's answer to the teacher's answer, STACK checks
 
 ### Intelligent randomisation ###
 
-Randomising questions is invaluable in ensuring students can practice and reducing sharing of answers. The trick is to reverse-engineer the randomised question from a randomised answer. Computer algebra is invaluable to support this process.
+Randomising questions is invaluable in ensuring students can practise and reducing sharing of answers. The trick is to reverse-engineer the randomised question from a randomised answer. Computer algebra is invaluable to support this process.
 
 ### Give feedback and partial credit ###
 
@@ -40,7 +40,7 @@ Give an example of a cubic polynomial with the following properties:
 * \(p(0)=1\),
 * \(p(x)=0\) at \(x=2\) and at \(x=3\).
 
-Here, STACK can check each condition separately on the student's answer and assign partial credit accordingly. If the student gave the answer \(p(x) = x^2-5x+6\) for example, then STACK could reply: _Your answer does have zeros at the required points but its value at zero is not equal to 1. You received 2 out of 3 points. Please try again._ There are a variety of ways in which [feedback](../Authoring/Feedback.md) can be given, including plotting the students' answer against the teacher's answer.
+Here, STACK can check each condition separately on the student's answer and assign partial credit accordingly. If the student gave the answer \(p(x) = x^2-5x+6\) for example, then STACK could reply: _Your answer does have zeros at the required points but its value at zero is not equal to 1. You received 2 out of 3 points. Please try again._ There are a variety of ways in which [feedback](../Authoring/Feedback.md) can be given, including plotting the student's answer against the teacher's answer.
 
 ### Multipart questions
 
@@ -50,7 +50,7 @@ STACK supports multipart questions, like the following:
 
 (b) substitute \(x=5\) into your answer.
 
-You can have follow-through marking for situations where, for example, the student enters a wrong expression to part (a), but correctly substitutes in values into their expression in part (b). Here, STACK can recognise the work the student put into part (b), even though their answer is different from the "correct" answer.
+You can have follow-through marking for situations where, for example, the student enters a wrong expression for part (a), but correctly substitutes values into their expression in part (b). Here, STACK can recognise the work the student put into part (b), even though their answer is different from the "correct" answer.
 
 ### Support for many types of questions
 

@@ -33,7 +33,7 @@ augmented matrix inputs.
 
 ## Vectors as single entities
 
-It is very useful to treat vectors as a single entity.  The vector `stackvector(a)` and the atom `a` are different, and are not considered algebraically equivalent.  While students may type in `stackvector(a)` as an answer, they are likely to type in `a`.  The teacher can either (1) add in `stackvector` ephemeral forms to the student's answer in the feedback variables using `texboldatoms` or (2) remove all `stackvector` forms from the teacher's answer by using the `destackvector(ex)` function on their answer.  In the future we may have an option in the input to apply texboldatoms to student's expressions.
+It is very useful to treat vectors as a single entity.  The vector `stackvector(a)` and the atom `a` are different, and are not considered algebraically equivalent.  While students may type in `stackvector(a)` as an answer, they are likely to type in `a`.  The teacher can either (1) add in `stackvector` ephemeral forms to the student's answer in the feedback variables using `texboldatoms` or (2) remove all `stackvector` forms from the teacher's answer by using the `destackvector(ex)` function on their answer.  In the future we may have an option in the input to apply texboldatoms to students' expressions.
 
 The display of the ephemeral form of `stackvector` is controlled by the function `stackvectortex`, e.g. you can display vectors differently using the following examples.
 

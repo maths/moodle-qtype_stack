@@ -26,7 +26,7 @@ When checking a student's answer with STACK, a teacher needs to ask themselves _
 - Is the student's answer a symbolic anti-derivative of the integrand?
 - Does the student have a constant of integration in an appropriate form?
 
-The built-in `int` answer test answers these questions, so a teacher does not have to write code to do so for every integration question.
+The built-in `Int` answer test answers these questions, so a teacher does not have to write code to do so for every integration question.
 
 Next, a teacher needs to ask _"What might a student do incorrectly, and what will this give them as an answer?"_  This second question is more difficult. The answer might come through experience or from asking upfront diagnostic questions. It is often sensible to review students' responses to STACK questions after a year and build in better feedback in light of experiences. 
 
@@ -36,7 +36,7 @@ For each mistake we think students might make, we can create an answer test. For
 
 ![STACK question potential response tree with 'Add node(s)' button below, centre left](../../content/addnewnode.png)
 
-Go to the potential response tree and click `[Add node(s)]` . Then under Node 1's  `True` branch change `Next` to `Node 2`. If we enter Node 2, we know the student has the correct answer and just need to establish if it is factored or not. To establish this we need to use the [FacForm answer test](../Authoring/Answer_Tests/index.md). This tests both that SAns and TAns are equivalent, and that SAns is factored. In this case we already know that the student's answer is equivalent to the teacher's answer (using *Int*'s better tailored algorithm). Hence we can just test the student's answer against itself.
+Go to the potential response tree and click `[Add node(s)]`. Then under Node 1's  `True` branch change `Next` to `Node 2`. If we enter Node 2, we know the student has the correct answer and just need to establish if it is factored or not. To establish this we need to use the [FacForm answer test](../Authoring/Answer_Tests/index.md). This tests both that SAns and TAns are equivalent, and that SAns is factored. In this case we already know that the student's answer is equivalent to the teacher's answer (using *Int*'s better tailored algorithm). Hence we can just test the student's answer against itself.
 
 Update the form so that Node 2 has
 

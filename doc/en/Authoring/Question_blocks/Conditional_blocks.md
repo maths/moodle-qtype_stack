@@ -37,7 +37,7 @@ Note that you may have to evaluate your expression explicitly.  Maxima does not 
     \(p\) is not less than 1.
     [[/ if ]]
 
-However, it remains unevaluated. The true branch is therefore not satisfied. Since 4.4 the behaviour of this block matches normal if-else behaviour in Maxima, you may still meet this problem if you happen to turn simplification off.
+However, it remains unevaluated. The true branch is therefore not satisfied. Since 4.4 the behaviour of this block matches normal if-else behaviour in Maxima; you may still meet this problem if you happen to turn simplification off.
 
 To address this explicitly evaluate your expressions as predicates.
 
@@ -56,11 +56,11 @@ Foreach blocks iterate over lists or sets and repeat their content redefining va
     [[ foreach x="[1,2,3]" ]]{#x#} [[/ foreach ]]
 
 You may have multiple variables and they will be iterated over in sync and the variables may also come from Maxima. Should one of
-the lists or set be shorter/smaller the iteration will stop when the first one ends.
+the lists or sets be shorter/smaller the iteration will stop when the first one ends.
 
     [[ foreach x="[1,2,3]" y="makelist(x^2,x,4)" ]] ({#x#},{#y#}) [[/ foreach ]]
 
-Because the foreach block needs to evaluate the lists/sets before it can do the iteration, using foreach blocks will require one additional CAS evaluation for each nested level of foreach blocks. This has not applied since 4.4. no additional cost is related to this block and it is recommended that any repetition that can be removed is removed using this block.
+Because the foreach block needs to evaluate the lists/sets before it can do the iteration, using foreach blocks will require one additional CAS evaluation for each nested level of foreach blocks. This has not applied since 4.4: no additional cost is related to this block and it is recommended that any repetition that can be removed is removed using this block.
 
 ## Define block {#define-block}
 
@@ -74,8 +74,8 @@ so "[[ define a='1' b='a+1' c='a+b' /]] {#a#}, {#b#}, {#c#}" should generate the
 
 Note, the use of define provides an alternative to using the question variables.  Variables here are defined on the fly.  However, we do **not** recommend this is done routinely.
 
-1. the readability of the code will suffer.
-2. question variables are available elsewhere in the question, but `define` blocks are only available in that CASText.  This feature can also be used to your advantage.
+1. The readability of the code will suffer.
+2. Question variables are available elsewhere in the question, but `define` blocks are only available in that CASText.  This feature can also be used to your advantage.
 
 ## Implode/simplode
 
@@ -97,4 +97,4 @@ Let `L1:[a,b,c]` be the terms you want to add, then
 
 The term `{@ex@}` can, of course, be replaced by more complex expressions where we don't simply have a list of terms to add together.
 
-Note, that this approach is working at the level of _display_.  If you have unary minus in play, e.g. `L1:[a,-b,c]` then you will end up with output like `\[ {a} + {-b} + {c} \]`.  To process unary minus you should construct a mathematical object without simplification and let STACK's display routines decide when `a+(-b)` should be displayed as `a-b`.
+Note that this approach is working at the level of _display_.  If you have unary minus in play, e.g. `L1:[a,-b,c]` then you will end up with output like `\[ {a} + {-b} + {c} \]`.  To process unary minus you should construct a mathematical object without simplification and let STACK's display routines decide when `a+(-b)` should be displayed as `a-b`.

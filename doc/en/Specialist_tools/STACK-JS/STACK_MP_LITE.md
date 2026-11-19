@@ -1,6 +1,6 @@
 # STACK-MP-Lite
 
-`stack_mp_lite` is a collection JavaScript functions and classes for parsing
+`stack_mp_lite` is a collection of JavaScript functions and classes for parsing
 STACK-Maxima syntax. It is meant for translating such syntax to something else.
 
 The "lite" here means that this version of the parser does not understand
@@ -12,10 +12,10 @@ The parser does support automatic insertion of multiplication signs and can
 operate with localised separators (decimal and list), but it is not meant for
 student input processing.
 
-## An example of custom translation.
+## An example of custom translation
 
 We shall produce a solution to a differential equation in Maxima and then
-translate it to a JavaScript function that can plotted. Parameters in
+translate it to a JavaScript function that can be plotted. Parameters in
 the solution will be given special overrides to map them to something else.
 
 ```

@@ -42,10 +42,10 @@ The variable `ta` is a list containing each step we are expecting our students t
 
 Notes:
 
-* We use the CAS functions `expand()` and `ev(...,simp)` to simply the output of `expand()`, to determine the model answer.
+* We use the CAS functions `expand()` and `ev(...,simp)` to simplify the output of `expand()`, to determine the model answer.
 * The special function `stackeq` is replaced by unary equals.  Maxima expects equality to be an infix \(a=b\) not unary prefix \(=b\), so STACK needs this special operator.  Students using the input area can just start a line with \(=\), but teachers cannot!
 
-In this context the teacher's answer and the student's answer is a list.  The whole answer is a single object, which we assess.
+In this context the teacher's answer and the student's answer are lists.  The whole answer is a single object, which we assess.
 
 Copy the following text into the Question text box:
 
@@ -56,7 +56,7 @@ Copy the following text into the Question text box:
 
 Under the `Input:ans1` header specify _Equivalence reasoning_ from the Input type drop-down and `ta` as the model answer.
 
-We want students to work through the expansion one line at a time, so let's include a hint. Copy the following into the Syntax hint box, within the `Input:ans1` header::
+We want students to work through the expansion one line at a time, so let's include a hint. Copy the following into the Syntax hint box, within the `Input:ans1` header:
 
     [(x+2)^3,stackeq(?)]
 
@@ -104,7 +104,7 @@ At this point please read the [equivalence reasoning](Equivalence_input.md) inpu
 
 We probably want the student to end up at the expression \(x^{3}+6x^{2}+12x+8\).
 
-To check is the student has reached this point, add another node to the PRT.  If node 1 is true (i.e. the student started in the correct place and didn't make a mistake) then connect to node 2.
+To check if the student has reached this point, add another node to the PRT.  If node 1 is true (i.e. the student started in the correct place and didn't make a mistake) then connect to node 2.
 Node 2 should be set up as
 
     SAns = last(ans1)
@@ -123,7 +123,7 @@ At this point, any expressions which are equivalent are considered to be a legit
 
 Clearly this is not entirely satisfactory. At this point in the development there is no concept of "a step" and indeed this appears to be very hard to define. In the future we will develop better tools for checking "step size", and any contributions in this direction are welcome.
 
-Teachers can check the students answer is long enough or not too long by looking at `length(ta)`.
+Teachers can check the student's answer is long enough or not too long by looking at `length(ta)`.
 
 Teachers can check if specific expressions appear somewhere inside the student's answer.  To facilitate this search we provide the function `stack_equiv_find_step(ex, exl)`.  This looks for expression `ex` in the list `exl` using `ATEqualComAss`.  It returns the list of indices of the position.  If you just want to know if the expression is missing use the predicate `emptyp`.
 
@@ -142,7 +142,7 @@ If you have experience, and views, on how this should work please contact the de
 1. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
 2. Define \(x\in X\) operator, for student use.
 3. Provide better tools for dealing with assessment, such as checking for particular steps.
-2. Provide better feedback to students about which steps they have taken and what goes wrong.
+4. Provide better feedback to students about which steps they have taken and what goes wrong.
 
 In the long term, we may fully implement the ideas in the paper Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
 

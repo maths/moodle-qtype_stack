@@ -6,7 +6,9 @@ More details of our development history are given in the [development track](../
 * [Tim Hunt](http://tjhunt.blogspot.co.uk/) and [Tim Lowe](mailto:tim.lowe@open.ac.uk) of the Open University.
 * Matti Harjula of Aalto University, Finland.
 * [Tim Lutz](https://tim-lutz.de/) of the University of Edinburgh and the University of Education Heidelberg.
-* Edmund Farrow,  of the University of Edinburgh.
+* Edmund Farrow, of the University of Edinburgh.
+* Oleksandr Kulkov, of ETH Zürich
+* Ben Schulz-Rosenberger, ATLAS/STACK.nrw 
 
 The [HELM materials](../STACK_question_admin/Library/HELM.md) were added by Konstantina Zerva, making use of the related [Gitsync](https://github.com/maths/moodle-qbank_gitsync) project to manage large question banks.
 
@@ -28,7 +30,7 @@ STACK is an open source project and many others have made contributions of vario
 
 # Translation of the STACK Project
 
-STACK is released in many languages, using Moodle's ATOS language system.
+STACK is released in many languages, using Moodle's AMOS language system.
 
   * EN: English (British), by Chris Sangwin (and others)
   * FI: Finnish, by Matti Pauna
@@ -37,7 +39,7 @@ STACK is released in many languages, using Moodle's ATOS language system.
   * ES: Spanish, by Victor Hugo Huerta
   * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
 
-German documentation was added in Jan 2019 by Eva Mix and Mario Josupeit of University of Cologne, Germany.
+German documentation was added in Jan 2019 by Eva Mix and Mario Josupeit of the University of Cologne, Germany.
 
 Details of how to add language packs, translate STACK, and forthcoming translations, are given on the [Language packs](../Developer/Language_packs.md) developers page.
 

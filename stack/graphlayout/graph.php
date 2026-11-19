@@ -25,6 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+// The graph code throws stack_exception, which is defined in locallib.php.
+require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/prtnode.php');
 require_once(__DIR__ . '/graphclump.php');
 require_once(__DIR__ . '/svgrenderer.php');

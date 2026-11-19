@@ -8,7 +8,7 @@ You often need to enter an answer which is an algebraic expression. Details and 
 
 ## Why is my answer "invalid"?
 
-STACK validates students' answers before they are graded, checking if the answers are in an acceptable syntax and giving the student a chance to confirm their answer is correct. By default, answers not explicitly specifying multiplication (fx. \(2x\) instead of \(2*x\)) are not accepted. This is linked to a core [philosophy of STACK](../About/The_philosophy_of_STACK.md); students should not be penalized for poor computer syntax. It is better to bug students until their answer is unambiguous, than to risk students being marking wrong for typing in "sinx" instead of "sin(x)" and having the computer interpret it as "s\*i\*n\*x".
+STACK validates students' answers before they are graded, checking if the answers are in an acceptable syntax and giving the student a chance to confirm their answer is correct. By default, answers not explicitly specifying multiplication (e.g. \(2x\) instead of \(2*x\)) are not accepted. This is linked to a core [philosophy of STACK](../About/The_philosophy_of_STACK.md); students should not be penalised for poor computer syntax. It is better to bug students until their answer is unambiguous, than to risk students being marked wrong for typing in "sinx" instead of "sin(x)" and having the computer interpret it as "s\*i\*n\*x".
 
 That being said, there are options in STACK to be less strict with student syntax, so that the system may accept "2x" as a valid input. The question author has to activate this function, so contact your teacher if you think they should choose this option.
 
@@ -16,22 +16,22 @@ There may be other reasons your answer is not allowed. By default, STACK does no
 
 ## Why is my quiz acting differently?
 
-Different quizzes can have different [question behaviours](https://docs.moodle.org/37/en/Question_behaviours). Some quizzes may only accept one answer, others may accept an unlimited amount. Some quizzes may allow you to "check" if each question is correct before moving on to the next, others may not include this. Some quizzes may give you feedback immediately, other only after a while. Your teacher may have picked different question behaviours for your different quizzes.
+Different quizzes can have different [question behaviours](https://docs.moodle.org/37/en/Question_behaviours). Some quizzes may only accept one answer, others may accept an unlimited number. Some quizzes may allow you to "check" if each question is correct before moving on to the next, others may not include this. Some quizzes may give you feedback immediately, others only after a while. Your teacher may have picked different question behaviours for your different quizzes.
 
 ## How do I change the language?
 
-Click on your profile, and go to `Preferences`, ` Preferred language` and then select the language. If your language is not available, contact your site administrator - it is likely that they have not installed the relevant language package. Currently, only some languages are supported by STACK. See [Language packages](../Developer/Language_packs.md) for a full list. If the interface is translated, but the question text and feedback is not, it is because your teacher has not added support for [multilingual questions](../Authoring/Languages.md) when authoring the question.
+Click on your profile, and go to `Preferences`, ` Preferred language` and then select the language. If your language is not available, contact your site administrator - it is likely that they have not installed the relevant language package. Currently, only some languages are supported by STACK. See [Language packages](../Developer/Language_packs.md) for a full list. If the interface is translated, but the question text and feedback are not, it is because your teacher has not added support for [multilingual questions](../Authoring/Languages.md) when authoring the question.
 
 ## Where can I report bugs?
 
-Depends. Is it an issue in the question authoring? Fx.
+It depends. Is it an issue with the question authoring? For example:
 
 - The feedback contains strange symbols, like "@nn@".
 - My answer was marked "wrong", but I think it should be marked "correct".
 - My quiz is not open, but I think it should be.
 - There is a spelling error in the question text.
 
-In this case, it is likely your teacher has made an error when authoring the question, so you should contact them first. In general, if you are unsure what is responsible for your bug, the safest option is to contact your teacher, as they are likely to have a better idea of how to categorize the issue.
+In this case, it is likely your teacher has made an error when authoring the question, so you should contact them first. In general, if you are unsure what is responsible for your bug, the safest option is to contact your teacher, as they are likely to have a better idea of how to categorise the issue.
 
 If you think you have found a genuine STACK bug, you should report it in the [STACK GitHub](https://github.com/maths/moodle-qtype_stack/issues).
 

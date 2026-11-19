@@ -4,9 +4,9 @@ STACK provides three ways to let students input a matrix:
 
 1. The matrix input is a fixed grid, one box for each element.
 2. The matrix of variable size input is a textarea into which students type in their answer.
-3. Students can type in the maxima `matrix` command into another input, e.g. the default algebraic input.
+3. Students can type in the Maxima `matrix` command into another input, e.g. the default algebraic input.
 
-## Matrix input ###
+## Matrix input ##
 
 The size of the matrix is inferred from the model answer. STACK then adds an appropriate grid of boxes (of size Box Size) for the student to fill in. This is easier than having students type in [Maxima](../../CAS/Maxima_background.md)'s `matrix` command, but does give the game away about the size of the required matrix.
 
@@ -57,7 +57,7 @@ and reconstruct each block with its indicated constructor. Vector types use the 
 constructor name, including `column_vector` and `row_vector`.
 Field names and the native Moodle AJAX grid format do not change.
 
-## Matrix of variable size input ###
+## Matrix of variable size input ##
 
 The matrix of variable size input is a textarea into which students type in their answer. For a matrix, students separate entries in each row with spaces and separate rows with line breaks.
 
@@ -100,7 +100,7 @@ the model contains a row-vector block.
 Submitted answers preserve `aug_matrix(...)` and the block constructors, and validation renders the
 augmented matrix with the selected outer bracket style. Model answers, syntax hints, saved responses
 and AJAX validation use the same bar-separated textarea representation. Ordinary matrices retain
-their existing space/newline syntax. The row/column-vector behavior previously introduced in #1847
+their existing space/newline syntax. The row/column-vector behaviour previously introduced in #1847
 is preserved.
 
 The textarea wrapper exposes `data-stack-input-value-type="aug_matrix"`. API clients receive

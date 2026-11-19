@@ -14,8 +14,8 @@ Individual users can also set their editor preferences:
 
 The documentation has many parts.
 
-1. Using JSXGraph create a [plot in a castext field](Basic_plots.md).
-2. Using JSXGRaph as an input type: [Writing your first question](Author_quickstart.md).
+1. Using JSXGraph to create a [plot in a castext field](Basic_plots.md).
+2. Using JSXGraph as an input type: [Writing your first question](Author_quickstart.md).
 3. JSXGraph block: [reference documentation](Question_block.md)
 4. Binding JSXGraph to inputs: [reference documentation](Binding.md)
    * simple binding

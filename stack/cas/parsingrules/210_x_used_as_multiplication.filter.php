@@ -38,26 +38,44 @@ class stack_ast_filter_210_x_used_as_multiplication implements stack_cas_astfilt
         $process = function ($node) use (&$answernotes, &$errors) {
             // @codingStandardsIgnoreStart
             // The kind of patterns we want are x*(10^? * ?), x*10^?, x*(10^? / ?).
-            // ([Op: *] ([Id] x), ([Op: *] ([Op: ^] ([Int] 10)
+            // Case 1.
+            // x*10^a => ([Op: *] ([Id] x), ([Op: ^] ([Int] 10), ([Id] a)))
+            //            ------- ........  -------------------
 
+            // Case 2.
             // 523.2 x 10^2m
-            // ([Root] ([Op: *] ([Float] 523.2), ([Op: *] ([Id] x), ([Op: *] ([Op: ^] ([Int] 10), ([Int] 2)), ([Id] m)))))
+            // ([Root] ([Op: *] ([Op: *] ([Op: *] ([Float] 523.2), ([Id] x)), ([Op: ^] ([Int] 10), ([Int] 2))), ([Id] m)))
+            //                  --------                           ..........  -------------------                        
 
+            // Case 3.
             // 523.2 x 10^2Nm
-            // ([Root] ([Op: *] ([Float] 523.2), ([Op: *] ([Id] x), ([Op: *] ([Op: ^] ([Int] 10), ([Int] 2)), ([Op: *] ([Id] N), ([Id] m))))))
+            // ([Root] ([Op: *] ([Op: *] ([Op: *] ([Op: *] ([Float] 523.2), ([Id] x)), ([Op: ^] ([Int] 10), ([Int] 2))), ([Id] N)), ([Id] m)))
+            //                            -------                            ........    ------------------
 
+            // Case 4.
             // 523.2 x 10^2m/s
-            // ([Root] ([Op: *] ([Float] 523.2), ([Op: *] ([Id] x), ([Op: *] ([Op: ^] ([Int] 10), ([Int] 2)), ([Op: /] ([Id] m), ([Id] s))))))
+            // ([Root] ([Op: /] ([Op: *] ([Op: *] ([Op: *] ([Float] 523.2), ([Id] x)), ([Op: ^] ([Int] 10), ([Int] 2))), ([Id] m)), ([Id] s)))
+            //                            -------                           .........   ------------------
+
+            // Case 5.
+            // 9.81*x*10^2*m/s/s
+            // ([Op: /] ([Op: /] ([Op: *] ([Op: *] ([Op: *] ([Float] 9.81), ([Id] x)), ([Op: ^] ([Int] 10), ([Int] 2))), ([Id] m)), ([Id] s)), ([Id] s))
+            //                             -------                         ..........  -------------------
+            
+
             // @codingStandardsIgnoreEnd
 
+
+            // Covers cases 2-5.
             if (
                 $node instanceof MP_Operation &&
                     $node->op === '*' &&
-                    $node->lhs instanceof MP_Identifier && $node->lhs->value === 'x' &&
-                    $node->rhs instanceof MP_Operation && ($node->rhs->op === '*' || $node->rhs->op === '/') &&
-                    $node->rhs->lhs instanceof MP_Operation && $node->rhs->lhs->op === '^' &&
+                    $node->rhs instanceof MP_Identifier && $node->rhs->value === 'x' &&
+                    $node->parentnode instanceof MP_Operation && $node->parentnode->op === '*' &&
+                    $node->parentnode->lhs === $node && $node->parentnode->rhs instanceof MP_Operation &&
+                    $node->parentnode->rhs->op === '^' &&
                     // Don't use the strict === below, as MP_Integer values can be integers.
-                    $node->rhs->lhs->lhs instanceof MP_Integer && $node->rhs->lhs->lhs->value == '10'
+                    $node->parentnode->rhs->lhs instanceof MP_Integer && $node->parentnode->rhs->lhs->value == '10'
             ) {
                 $node->position['invalid'] = true;
                 $answernotes[] = 'Illegal_x10';
@@ -65,6 +83,7 @@ class stack_ast_filter_210_x_used_as_multiplication implements stack_cas_astfilt
                 return false;
             }
 
+            // Covers case 1.
             if (
                 $node instanceof MP_Operation &&
                     $node->op === '*' &&
@@ -77,6 +96,7 @@ class stack_ast_filter_210_x_used_as_multiplication implements stack_cas_astfilt
                 $errors[] = stack_string('Illegal_x10');
                 return false;
             }
+
 
             if (($node instanceof MP_Identifier) && $node->value === 'x10') {
                 $node->position['invalid'] = true;

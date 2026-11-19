@@ -7,6 +7,67 @@ There are two tools that this article will use liberally:
 - The [`rand_matrix.mac`](Random_matrices.md) library. This contains many functions that can be used to generate random matrices with defined structure or with defined properties.
 - The `scale_nicely` function. This takes a list or vector and returns the "simplest" list or vector that is parallel to the input. This was originally designed with basis problems in mind (i.e. it is often preferable to use \((2,1,1)\) than \((1,1,0.5)\)), but we will use it more liberally.
 
+## Linear systems with given fundamental subspaces
+
+It is simple to construct a matrix with a given row space and column space. Let \(R\) be a matrix whose rows form a basis for the desired row space and let \(C\) be a matrix whose columns form a basis for the desired column space. Then \(A = CR\) will have the desired fundamental subspaces. This also allows us to create a matrix with whichever rank we like. Indeed, we can force certain rows or columns to be dependent on each other by forcing the relevant rows of \(C\) or columns of \(R\) to be linearly dependent. This can be useful when asking students to find bases for the row or column space of a matrix and we don't want them to just pick the first \(r\) rows or columns. 
+
+Consider a case where we want a \(4\times 5\) matrix of rank \(r=3\) whose pivot columns are in position \(1\), \(3\) and \(5\) and whose pivot rows are \(1\), \(3\) and \(4\). All of these numbers could be randomised (with \(r\leq\operatorname{min}(m,n)\)). A possible way to generate such a matrix is as follows: 
+
+    [m,n,r]: [4,5,3];
+    C: args(rand_invertible(r,1));
+    C: insert(C[1]*rand([-2,-1,1,2]), C, 2);
+    C: apply(matrix, C);
+    R: matrix_to_cols(ident(r));
+    R: insert(R[1]*rand([-2,-1,1,2]), R, 2);
+    R: insert(R[1]*rand([-2,-1,1,2]) + R[3]*rand([-2,-1,1,2]), R, 4);
+    R: cols_to_matrix(R);
+    A: ev(C . R,simp);
+
+where `insert` is a custom function `insert(ex, L, n):= append(firstn(L, n-1),[ex],lastn(L, length(L)-n+1));` based on the currently forbidden `linsert` function. 
+
+## Linear systems with "nice" least squares solutions
+
+Once we are able to construct matrices with predetermined column and null space we have full control of the existence and shape of solutions. If we want students to find a "nice" exact solution with a given "nice" system, we simply generate the solution \(\underline{\mathbf{x}}\) and set \(\underline{\mathbf{b}} = A\underline{\mathbf{x}}\). Note that if we want a unique solution we must select \(n = r\).
+
+If, instead, we want a least squares (but not exact) solution, we can add a "nice" multiple of the left null space to \(\underline{\mathbf{b}}\). Then the previously selected \(\underline{\mathbf{x}}\) will be a least squares solution. For example, with the same \(A\) as above: 
+
+    x: transpose(rand_selection([-1,-1,0,0,1,1,1,2,2],n));
+    b: A . x + scale_nicely(first(nullspace(transpose(C))));
+    x_general: x + [t, s] . map(scale_nicely,args(nullspace(R)));
+
+Note that this last step optionally gives the _general_ least squares solution. This was hard-coded for the particular shape and rank of this problem, but these could also be randomised. 
+
+It is still possible that the intermediate steps deviate through some less "nice" numbers, but with a carefully written question note you can usually catch these variants and remove them. 
+
+## LU decomposition
+
+To generate a "nice" \(LU\) decomposition it is best to generate the factors first and then compute \(A = LU\). Using `rand_matrix.mac` this is simple; `L: rand_tril(n,n,k)` and `U:  rand_triu(n,n,k)`. Using `L: setdiagmx(1, L)` from `matrix.mac` is also helpful here. 
+
+Including pivoting is a bit more challenging. You can generate a random \(P\) using `rand_perm_matrix(n)`, but finding a "nice" matrix that requires a specific pivoting strategy takes some work.
+
+Let's look at partial pivoting, in which we want to swap the largest possible value into the pivot position each time. This directly implies that all entries in \(L\) are between \(-1\) and \(1\) (inclusive), with the choice of pivot row forced if all below-diagonal entries are strictly between these values. Suppose that we want to require the maximum amount of pivoting, so we pick a permutation of order \(n-1\). After all this, \(U\) can be chosen freely, but will typically have non-integer entries. The following code is one attempt to force integer entries in a \(4\times 4\) case: 
+
+    stack_include_contrib("rand_matrix.mac");
+    stack_include_contrib("matrix.mac");
+    P: rand([
+      matrix([0,1,0,0],[0,0,1,0],[0,0,0,1],[1,0,0,0]),
+      matrix([0,1,0,0],[0,0,0,1],[1,0,0,0],[0,0,1,0]),
+      matrix([0,0,1,0],[0,0,0,1],[0,1,0,0],[1,0,0,0])
+    ]);
+    P: rand([P, transpose(P)]);
+    L: rand_tril_list(4,4,[1/2,0,-1/2]);
+    L: setdiagmx(1, L);
+    U: rand_triu_list(4,4,[-1,1]);
+    f: apply(lcm,map(denom,L[4]));
+    U[3]: U[3]*f;
+    f: apply(lcm, append([f], map(denom,L[3])));
+    U[2]: U[2]*f;
+    f: apply(lcm, append([f], map(denom,L[2])));
+    U[1]: U[1]*f;
+    A: transpose(P) . L . U;
+
+Note that the sub-diagonal entries were restricted to being \(0\) or  \(\pm\frac{1}{2}\) here to keep the values small. This list can be extended, but each unique denominator introduced will likely cause the average entry in \(U\) to grow. 
+
 ## Eigenvectors and eigenvalues
 
 Two matrices are called _similar_ when their eigenvalues are identical (including the structure of the generalised eigenspaces). Therefore, if we want to prescribe this structure for a matrix, we can start by generating a "simple" matrix with the eigenvalues we want and then convert it to a similar matrix using a similarity transformation of the form \(A = PMP^{-1}\). The \(P\) matrix here can be anything invertible, but you might find it useful to use `rand_integer_invertible` from the aforementioned library, as (alongside an integer-valued \(M\)), we guarantee that \(A=PMP^{-1}\) is integer-valued.

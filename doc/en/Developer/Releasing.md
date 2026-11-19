@@ -80,12 +80,12 @@ Commit all changes to git, e.g. "Update version number for the 4.6.0 release."
 
 ## 2. Create new tag with version name
 
-E.g. "v4.10.0".
+E.g. "v4.15.0".
 
 * Push to GitHub.
 * Push tags to GitHub 
  * TortoiseGit: pulldown from push
- * Linux: `git tag -a v4.10.0 -m "Update version number for the 4.10.0 release."`
+ * Linux: `git tag -a v4.15.0 -m "Update version number for the 4.15.0 release."`
  * Linux: `git push`
  * Linux: `git push --tags`
 

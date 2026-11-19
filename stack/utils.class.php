@@ -443,6 +443,40 @@ class stack_utils {
     }
 
     /**
+     * Extracts comments, extracts only the content
+     * not the wrapping.
+     *
+     * @return array
+     */
+    public static function all_substring_comments($string) {
+        $comments = [];
+        $i = 0;
+        $lastslash = false;
+        $incomment = false;
+        $commententry = -1;
+        $slen = strlen($string);
+        while ($i < $slen) {
+            $c0 = $string[$i];
+            $c1 = false;
+            if ($i + 1 < $slen) {
+                $c1 = $string[$i + 1];
+            }
+            $i++;
+            if ($incomment) {
+                if ($c0 === '*' && $c1 === '/') {
+                    $incomment = false;
+                    $comments[] = substr($string, $commententry, ($i - $commententry) - 1);
+                }
+            } else if ($c0 === '/' && $c1 === '*') {
+                $incomment = true;
+                $commententry = $i + 1;
+                $i++;
+            }
+        }
+        return $comments;
+    }
+
+    /**
      * Replaces all Maxima strings with zero length strings to eliminate string
      * contents for validation tasks.
      *
@@ -473,6 +507,41 @@ class stack_utils {
             }
         }
         $cleared .= substr($string, $laststringexit);
+        return $cleared;
+    }
+
+    /**
+     * Replaces all Maxima comments with zero length comments to eliminate comment
+     * contents for validation tasks.
+     *
+     * @return string
+     */
+    public static function eliminate_comments($string) {
+        $cleared = '';
+        $i = 0;
+        $incomment = false;
+        $lastcommentexit = 0;
+        $slen = strlen($string);
+        while ($i < $slen) {
+            $c0 = $string[$i];
+            $c1 = false;
+            if ($i + 1 < $slen) {
+                $c1 = $string[$i + 1];
+            }
+            $i++;
+            if ($incomment) {
+                if ($c0 === '*' && $c1 === '/') {
+                    $incomment = false;
+                    $lastcommentexit = $i - 1;
+                    $i++;
+                }
+            } else if ($c0 === '/' && $c1 === '*') {
+                $incomment = true;
+                $cleared .= substr($string, $lastcommentexit, $i - $lastcommentexit + 1);
+                $i ++;
+            }
+        }
+        $cleared .= substr($string, $lastcommentexit);
         return $cleared;
     }
 

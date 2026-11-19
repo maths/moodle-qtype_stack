@@ -63,7 +63,8 @@ class stack_maxima_student_preparser {
             self::$letters = json_decode(file_get_contents(__DIR__ . '/unicode/letters-stack.json'), true);
         }
 
-        $stringles = trim(stack_utils::eliminate_strings($string));
+        $commentles = trim(stack_utils::eliminate_comments($string));
+        $stringles = trim(stack_utils::eliminate_strings($commentles));
 
         $stringles = trim($stringles);
 
@@ -170,7 +171,8 @@ class stack_maxima_student_preparser {
             }
         }
 
-        $string = self::strings_replace($stringles, $string);
+        $commentles = self::strings_replace($stringles, $commentles);
+        $string = self::comments_replace($commentles, $string);
 
         return $string;
     }
@@ -191,5 +193,23 @@ class stack_maxima_student_preparser {
             $stringles = implode('"', $stringbuilder);
         }
         return $stringles;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public static function comments_replace($commentles, $original) {
+        $comments = stack_utils::all_substring_comments($original);
+        if (count($comments) > 0) {
+            $split = explode('/**/', $commentles);
+            $stringbuilder = [];
+            $i = 0;
+            foreach ($comments as $comment) {
+                $stringbuilder[] = $split[$i];
+                $stringbuilder[] = '/*' . $comment . '*/';
+                $i++;
+            }
+            $stringbuilder[] = $split[$i];
+            $commentles = implode('', $stringbuilder);
+        }
+        return $commentles;
     }
 }

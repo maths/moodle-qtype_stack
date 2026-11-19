@@ -246,6 +246,12 @@ final class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals(["", "\\\""], stack_utils::all_substring_strings("stringa:\"\" and stringb:\"\\\"\""));
     }
 
+    public function test_all_substring_comments(): void {
+
+        $this->assertEquals(["test", "testb"], stack_utils::all_substring_comments("blah /*test*/ blah /*testb*/"));
+        $this->assertEquals(["", "\""], stack_utils::all_substring_comments("blah /**/ blah /*\"*/"));
+    }
+
     public function test_eliminate_strings(): void {
 
         $this->assertEquals('before""after', stack_utils::eliminate_strings('before"inside"after'));
@@ -256,6 +262,14 @@ final class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals('stringa:"" and stringb:""', stack_utils::eliminate_strings("stringa:\"\" and stringb:\"\\\"\""));
         $this->assertEquals('ssubst("","",x)', stack_utils::eliminate_strings('ssubst("times",",",x)'));
     }
+
+    public function test_eliminate_comments(): void {
+
+        $this->assertEquals('blah /**/ blah /**/', stack_utils::eliminate_comments("blah /*test*/ blah /*testb*/"));
+        $this->assertEquals("blah /**/ blah /**/", stack_utils::eliminate_comments("blah /**/ blah /*\"*/"));
+    }
+
+
 
     public function test_maxima_string_to_php_string(): void {
 

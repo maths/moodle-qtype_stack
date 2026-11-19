@@ -29,6 +29,7 @@ require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../../vle_specific.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/MP_classes.php');
+require_once(__DIR__ . '/preparser.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class maxima_parser_utils {
@@ -67,6 +68,48 @@ class maxima_parser_utils {
             $cache[$cachekey] = clone $ast;
         }
 
+        return $ast;
+    }
+
+    /**
+     * Does a corrective parse in the old style.
+     * 
+     * @param string $code the Maxima code to parse.
+     * @param array &$errors,
+     * @param array &$answernote,
+     * @param string $parserule the parse rule to start with.
+     * @param bool $allowpm whether to parse +-.
+     * @return MP_Node the AST.
+     */
+    public static function corrective_parse(string $code, array &$errors, array &$answernotes, stack_parser_options $parseroptions): ?MP_Node {
+        // Using this without the parser options having insert stars is a big mistake, 
+        // they are need to carry decimal separators and other details but this leaves that open.
+        if ($parseroptions->tryinsert !== StackParserInsertionOption::Stars) {
+            throw new stack_exception("Corective parser with odd options for insertions.");
+        }
+        // Local errors, don't rely on the refrence being empty.
+        $localerrors = [];
+        // First the general modifications.
+        $preparsed = stack_maxima_student_preparser::preparse(
+            $code,
+            $localerrors,
+            $answernotes,
+            $parseroptions
+        );
+        $ast = null;
+        // Then try to parse.
+        if ($preparsed !== null && count($localerrors) === 0) {
+            try {
+                $ast = $parseroptions->get_parser()->parse($parseroptions->get_lexer($preparsed), $answernotes);
+            } catch (stack_maxima_parser_exception $e) {
+                $ei = $parseroptions->get_student_error_interpreter();
+                $ei->interprete($e, $errors, $answernotes);
+            }
+        } else {
+            foreach ($localerrors as $err) {
+                $errors[] = $err;
+            }
+        }
         return $ast;
     }
 

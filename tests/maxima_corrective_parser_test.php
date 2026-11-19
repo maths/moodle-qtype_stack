@@ -29,9 +29,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-require_once(__DIR__ . '/../stack/maximaparser/utils.php');
-require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
-
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/maximacorrectiveparser.class.php');
 

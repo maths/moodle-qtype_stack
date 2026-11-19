@@ -26,6 +26,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(__DIR__ . '/../../stack/maximaparser/utils.php');
+require_once(__DIR__ . '/../../stack/maximaparser/parser.options.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class maxima_corrective_parser_test_data {
@@ -51,7 +53,7 @@ class maxima_corrective_parser_test_data {
         ['-12 (7 x+1)', '-12*(7*x+1)', [0 => 'spaces'], []],
         ['x%3', 'x%3', [], []],
         [
-            '1+3x^2+7 x', '1+3*x^2+7*x', [0 => 'missing_stars', 1 => 'spaces'],
+            '1+3x^2+7 x', '1+3*x^2+7*x', [0 => 'spaces', 1 => 'missing_stars'],
             [],
         ],
         [
@@ -126,8 +128,9 @@ class maxima_corrective_parser_test_data {
     public static function run_test($test) {
         $notes      = [];
         $errors     = [];
+        $po         = stack_parser_options::get_old_config();
 
-        $ast         = maxima_corrective_parser::parse($test->rawinput, $errors, $notes, []);
+        $ast         = maxima_parser_utils::corrective_parse($test->rawinput, $errors, $notes, $po);
 
         // We don't always get an ast, to check if it is not null.
         $test->resultstr = null;

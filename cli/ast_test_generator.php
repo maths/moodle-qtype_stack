@@ -35,30 +35,35 @@ require_once(__DIR__ . '/../stack/cas/cassecurity.class.php');
 
 require_once(__DIR__ . '/../stack/cas/parsingrules/parsingrule.factory.php');
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
-require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
+require_once(__DIR__ . '/../stack/maximaparser/parser.options.class.php');
+
 require_once(__DIR__ . '/../stack/utils.class.php');
 
 
-$devnull = []; // We really do not care about what goes here.
 
 // Load the test-inputs.
 $inputs = json_decode(file_get_contents(__DIR__ . '/../tests/fixtures/test_strings.json'), true);
 $inputs = array_unique($inputs);
 
 // Ensure that the inputs are parseable.
+$po = stack_parser_options::get_old_config();
+$po->dropcomments = false; // Previous tests kept comments in play.
 $okinputs = [];
 foreach ($inputs as $input) {
-    $test = maxima_corrective_parser::parse(
+    // For posterity, sharing an array to store errors and passing it to logic that
+    // blocks action if there are errors is something difficult to trace.
+    $devnull1 = []; // We really do not care about what goes here.
+    $devnull2 = []; // We really do not care about what goes here.
+    $test = maxima_parser_utils::corrective_parse(
         $input,
-        $devnull,
-        $devnull,
-        [
-                'startRule' => 'Root',
-                'letToken' => stack_string('equiv_LET'),
-        ]
+        $devnull1,
+        $devnull2,
+        $po
     );
     if ($test !== null) {
         $okinputs[] = $input;
+    } else {
+        cli_writeln(" Could not parse test input: --- $input ---");
     }
 }
 $inputs = $okinputs;
@@ -83,34 +88,34 @@ cli_writeln('Starting to parse the inputs, this will take time.');
 // Lets try the memory usage and timing of the parser and parse the strings
 // for each combination. input-filter-units-combination...
 $total = 0;
-$start = microtime(true);
+
+
 
 // ASTs.
 $asts = ['units' => [], 'no units' => []];
 foreach ($filters as $key => $filter) {
     $asts['units'][$key] = [];
     $asts['no units'][$key] = [];
+}
+$start = microtime(true);
+foreach ($filters as $key => $filter) {
     foreach ($inputs as $input) {
-        $ast = maxima_corrective_parser::parse(
+        $devnull1 = []; // We really do not care about what goes here.
+        $devnull2 = []; // We really do not care about what goes here.
+        $ast1 = maxima_parser_utils::corrective_parse(
             $input,
-            $devnull,
-            $devnull,
-            [
-                'startRule' => 'Root',
-                'letToken' => stack_string('equiv_LET'),
-            ]
+            $devnull1,
+            $devnull2,
+            $po
         );
-        $asts['units'][$key][$input] = $ast;
-        $ast = maxima_corrective_parser::parse(
+        $asts['units'][$key][$input] = $ast1;
+        $ast2 = maxima_parser_utils::corrective_parse(
             $input,
-            $devnull,
-            $devnull,
-            [
-                'startRule' => 'Root',
-                'letToken' => stack_string('equiv_LET'),
-            ]
+            $devnull1,
+            $devnull2,
+            $po
         );
-        $asts['no units'][$key][$input] = $ast;
+        $asts['no units'][$key][$input] = $ast2;
         $total = $total + 2;
     }
 }
@@ -270,14 +275,13 @@ ESCAPE;
 
     foreach ($inputs as $input) {
         // What does it look if nothing changes.
-        $base = maxima_corrective_parser::parse(
+        $devnull1 = []; // We really do not care about what goes here.
+        $devnull2 = []; // We really do not care about what goes here.
+        $base = maxima_parser_utils::corrective_parse(
             $input,
-            $devnull,
-            $devnull,
-            [
-                'startRule' => 'Root',
-                'letToken' => stack_string('equiv_LET'),
-            ]
+            $devnull1,
+            $devnull2,
+            $po
         );
         $basestring = $base->toString(['nosemicolon' => true]);
 

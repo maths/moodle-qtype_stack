@@ -23,7 +23,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
-require_once(__DIR__ . '/../../maximaparser/corrective_parser.php');
+require_once(__DIR__ . '/../../maximaparser/utils.php');
+require_once(__DIR__ . '/../../maximaparser/parser.options.class.php');
 
 /**
  * AST filter that check identifiers for the use of chars that are
@@ -80,14 +81,11 @@ class stack_ast_filter_180_char_based_superscripts implements stack_cas_astfilte
                     // Note, the above is not used in students' input because we now forbid unicode superscript.
                     // And, we use 150_replace filter.
                     $parts = [];
+                    $po = stack_parser_options::get_old_config();
                     while (count($segments) > 1) {
                         $base = new MP_Identifier(array_shift($segments));
                         $power = array_shift($segments);
-
-                        $power = maxima_corrective_parser::parse($power, $errors, $answernotes, [
-                            'startRule' => 'Root',
-                            'letToken' => stack_string('equiv_LET'),
-                        ]);
+                        $power = maxima_parser_utils::corrective_parse($power, $errors, $answernotes, $po);
                         // Should there be something truly unexpected.
                         if ($power === null) {
                             $node->position['invalid'] = true;

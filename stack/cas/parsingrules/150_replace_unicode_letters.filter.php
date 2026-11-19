@@ -23,7 +23,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
-require_once(__DIR__ . '/../../maximaparser/corrective_parser.php');
 
 /**
  * AST filter that replaces unicode letters with the ASCII equivalent.

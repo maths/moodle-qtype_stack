@@ -24,7 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../locallib.php');
-require_once(__DIR__ . '/../../stack/maximaparser/corrective_parser.php');
+require_once(__DIR__ . '/../../stack/maximaparser/utils.php');
 require_once(__DIR__ . '/../../stack/cas/parsingrules/parsingrule.factory.php');
 require_once(__DIR__ . '/../../stack/cas/cassecurity.class.php');
 
@@ -68,20 +68,12 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
         $valid = true,
         $errors = false
     ) {
-        // We currently ignore these but let's collect them.
+        // Parse it, remember that these tests only act on parseable strings.
+        $parseroptions = stack_parser_options::get_old_config();
+        $parseroptions->dropcomments = false; // Previous tests kept comments in play.
         $parsererrors = [];
         $parsernotes = [];
-
-        // Parse it, remember that these tests only act on parseable strings.
-        $ast = maxima_corrective_parser::parse(
-            $input,
-            $parsererrors,
-            $parsernotes,
-            [
-                                                   'startRule' => 'Root',
-                                                   'letToken' => stack_string('equiv_LET'),
-            ]
-        );
+        $ast = maxima_parser_utils::corrective_parse($input, $parsererrors, $parsernotes, $parseroptions);
 
         $filtererrors = [];
         $filternotes = [];

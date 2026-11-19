@@ -33,7 +33,7 @@ require_once(__DIR__ . '/../stack/cas/cassecurity.class.php');
 
 require_once(__DIR__ . '/../stack/cas/parsingrules/parsingrule.factory.php');
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
-require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
+require_once(__DIR__ . '/../stack/maximaparser/parser.options.class.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 
 // Now get cli options.
@@ -58,6 +58,8 @@ if ($options['help']) {
     echo $help;
     die;
 }
+
+$po = stack_parser_options::get_old_config();
 
 $teststring = '1+2x';
 
@@ -84,11 +86,7 @@ try {
     $ast = maxima_parser_utils::parse($teststring);
 } catch (SyntaxError $e) {
     $parseable = false;
-
-    $ast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, [
-        'startRule' => 'Root',
-        'letToken' => stack_string('equiv_LET'),
-    ]);
+    $ast = maxima_parser_utils::corrective_parse($teststring, $errors, $answernotes, $po);
 }
 if ($ast === null) {
     cli_writeln('The test-string was not parseable, even with the corrective parser.');
@@ -151,10 +149,7 @@ foreach ($filters as $filtername) {
     if ($parseable) {
         $freshast = maxima_parser_utils::parse($teststring);
     } else {
-        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, [
-            'startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET'),
-        ]);
+        $freshast = maxima_parser_utils::corrective_parse($teststring, $errors, $answernotes, $po);
     }
     check_filter($freshast, $filter, new stack_cas_security(false), $filtername);
 }
@@ -167,10 +162,7 @@ foreach ($filters as $filtername) {
     if ($parseable) {
         $freshast = maxima_parser_utils::parse($teststring);
     } else {
-        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, [
-            'startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET'),
-        ]);
+        $freshast = maxima_parser_utils::corrective_parse($teststring, $errors, $answernotes, $po);
     }
     check_filter($freshast, $filter, new stack_cas_security(true), $filtername);
 }
@@ -181,10 +173,7 @@ if ($only === false) {
     if ($parseable) {
         $freshast = maxima_parser_utils::parse($teststring);
     } else {
-        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, [
-            'startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET'),
-        ]);
+        $freshast = maxima_parser_utils::corrective_parse($teststring, $errors, $answernotes, $po);
     }
 
     $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
@@ -201,10 +190,7 @@ if ($only === false) {
     if ($parseable) {
         $freshast = maxima_parser_utils::parse($teststring);
     } else {
-        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, [
-            'startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET'),
-        ]);
+        $freshast = maxima_parser_utils::corrective_parse($teststring, $errors, $answernotes, $po);
     }
 
     $pipeline = stack_parsing_rule_factory::get_filter_pipeline(

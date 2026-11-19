@@ -4,16 +4,45 @@
 <link rel="stylesheet" href="styles.css" />
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="cors.php?name=sortable.min.css" />
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [['$', '$'], ['\\[','\\]'], ['\\(','\\)']],
-      displayMath: [['$$', '$$']],
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
       processEscapes: true,
-      skipTags: ["script","noscript","style","textarea","pre","code","button"]
+      packages: {'[+]': ['stack-providecommand']}
     },
-    showMathMenu: false
-  })
+    options: {
+      enableMenu: false,
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'button']
+    },
+    startup: {
+      ready() {
+        const {CommandMap} = MathJax._.input.tex.SymbolMap;
+        const {Configuration} = MathJax._.input.tex.Configuration;
+        const utilExport = MathJax._.input.tex.newcommand.NewcommandUtil;
+        const NewcommandUtil = utilExport.NewcommandUtil || utilExport.default || utilExport;
+        const methodsExport = MathJax._.input.tex.newcommand.NewcommandMethods;
+        const NewcommandMethods = methodsExport.default || methodsExport;
+
+        new CommandMap('stack-providecommand', {
+          providecommand: 'ProvideCommand'
+        }, {
+          ProvideCommand(parser, name) {
+            const cs = NewcommandUtil.GetCsNameArgument(parser, name);
+            const n = NewcommandUtil.GetArgCount(parser, name);
+            const opt = parser.GetBrackets(name);
+            const definition = parser.GetArgument(name);
+            if (!parser.lookup('macro', cs) && !parser.lookup('delimiter', `\\${cs}`)) {
+              NewcommandUtil.addMacro(parser, cs, NewcommandMethods.Macro, [definition, n, opt]);
+            }
+          }
+        });
+        Configuration.create('stack-providecommand', {handler: {macro: ['stack-providecommand']}});
+        MathJax.startup.defaultReady();
+      }
+    }
+  };
 </script>
 <script
   type="text/javascript"

@@ -38,6 +38,16 @@ the variables in the [feedback variables](Variables.md#Feedback_variables) may a
 
 To control whether or not the CAS expressions are simplified, see the details about [selective simplification](../CAS/Simplification.md#selective-simplification).
 
+## Displaying random values ##
+
+Many problems with displaying randomly generated values are best solved at the level of the CAS, not in the LaTeX.
+
+* Do not put a randomly generated value into a LaTeX template, as in `\(x^2+{@b@}x+{@c@}\)`.  When `b` is negative this displays as \(x^2+-3x\), and when `b` is \(1\) or \(0\) it displays \(1x\) or \(0x\).  Instead, display the whole expression, `\({@x^2+b*x+c@}\)`, and Maxima will display the signs correctly.  The same applies to `{@k@}v` before any symbol.
+* Expressions in several variables are displayed in Maxima's order, e.g. \(-3z+3y-2x\).  Use `ordergreat(x,y,z)` once, near the top of the question variables (see [simplification](../CAS/Simplification.md)).
+* With simplification on, surds may be displayed as fractional powers, e.g. `sqrt(8)` becomes \(2^{3/2}\).  Build displayed values from square-free surds, e.g. `2*sqrt(2)`.
+* A list is displayed with square brackets.  For coordinates use `ntuple(a,b)`.  Use [`column_vector` and `row_vector`](../CAS/Library/linearalgebra/vectors/index.md) for vector notation.
+* Amounts of money computed with rational numbers, e.g. `P*(1+r/100)^n`, are displayed as fractions such as \(\frac{5832}{5}\).  Define a separate variable for display, e.g. `bal_d:dispdp(float(round(bal*100)/100),2)`, and keep the exact value for assessment.
+
 ## Question text {#question_text}
 
 The question text is what the student actually sees.  This was called "question text" in previous versions.

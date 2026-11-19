@@ -44,6 +44,7 @@ The included material must follow all the rules of normal STACK keyvals.
 2. All the identifiers bound in included code will be subject to checks just as if you typed them in.
 3. Identifiers in your code will be marked as forbidden-words for the students. So particular care should be taken when choosing identifiers in such shared logic between questions.  Do not use names a student might need to type in another, un-related, question!
 4. Code is loaded when you save the question, not when a student uses the question.  Hence code is cached in the question.  Updates to an external library will therefore not affect existing questions.  That cache will not invalidate unless you (a) update the STACK plugin (which clears all cached/compiled questions), (b) save the question (which again downloads the code).
+5. Include the library of every contributed function you call, wherever you call it: in the question variables, the feedback variables and test cases.  Without the inclusion the call does not cause an error: it remains unevaluated, and answer tests or test cases fail without saying why.
 
 Note that we do not do "tree-shaking" at this point to remove unnecessary code.  If you include a massive library of functions that you do not use the question will still have to load those functions into the CAS and that may take some time.  If you have libraries, used in many questions, please consider contributing these to the core of STACK.
 

@@ -114,7 +114,8 @@ strings in the question variables, then use the `castext()` command in Maxima.
    * Matrix and varmatrix inputs expect the syntax hint to be a correctly formatted matrix, in Maxima syntax.  E.g. if most of your matrix is zeros you can pre-fill these with a syntax hint `{#zeromatrix(10,10)#}` etc.   The size can be determined by a random variable.  You cannot currently put `castext` functions within matrix entries.
    * Singlechar
    * Textarea and equiv inputs initially process the syntax hint as castext.  This is then assumed to be a Maxima list and re-processed as a Maxima expression. If valid, STACK removes "noun" operators, e.g. `nounand` will be converted to `and` before the syntax hint is displayed.  Therefore, you can add in a syntax hint of the form `[2x+x=?]`.  This is a list, but the contents are not valid Maxima and so are just displayed.
-8. The database limits syntax hints to 256 characters.  If you need to author a question with a longer hint, define a variable in the question variables and use this.  E.g. define a string `sh:"Very long syntax hint...."` and use `{@sh@}` as the hint.  The size restriction affects DB storage of the question, not internal operation.
+8. Use a generic pattern, such as `a+sqrt(b)`, not the form of this question's answer.  Students read a hint shaped like the answer as the answer.
+9. The database limits syntax hints to 256 characters.  If you need to author a question with a longer hint, define a variable in the question variables and use this.  E.g. define a string `sh:"Very long syntax hint...."` and use `{@sh@}` as the hint.  The size restriction affects DB storage of the question, not internal operation.
 
 
 ### Forbidden words ### {#Forbidden_Words}
@@ -122,6 +123,8 @@ strings in the question variables, then use the `castext()` command in Maxima.
 This is a comma-separated list of text strings which are forbidden in a student's answer.  If one of these strings is present then the student's attempt will be considered invalid, and no penalties will be given. This is an unsophisticated string match.
 
 Note, any question variable names used in the question variables are automatically forbidden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).  If you want to allow question variables, you must explicitly use the allowed words field, see below.
+
+When a question asks for something which Maxima can do in one command, forbid that function.  For example, forbid `diff` when asking for a derivative, `int` and `integrate` for an integral, `factor` for a factorisation, `expand` for an expansion, and `solve` when asking for solutions of an equation.  Forbid only what is being assessed: a question which asks for a derivative and then evaluates it forbids `diff`, not the evaluation.
 
 Note that the string `*` is literally taken as `*` and is not a wild card.  Teachers may ask a student to calculate `2*3` and hence need to forbid multiplication in an answer.
 

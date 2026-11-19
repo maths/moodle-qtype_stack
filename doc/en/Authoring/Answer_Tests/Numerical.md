@@ -46,6 +46,8 @@ To avoid this ambiguity some scientists adopt a convention where \(100\) has _ex
 
 In addition to the number of significant figures used to express the number, a teacher will also want to establish that the student actually has the right number!  In more liberal situations a teacher will condone an error in the last place.  E.g. they will accept an answer written to four significant figures, but where only three are actually correct.
 
+Unless the significant-figure form is itself what is being assessed, prefer `NumRelative` or `NumAbsolute` with a suitable tolerance.  On a node which tests for a common wrong value use a tolerance test, even when the main node uses `NumSigFigs`, so that a wrong value with a trailing zero at the required precision is still recognised.
+
 ### SigFigsStrict ###
 
 This test enforces the strict rules of significant figures.  It does not check for numerical precision and looks only at surface features of the number representation.

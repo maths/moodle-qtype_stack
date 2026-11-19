@@ -365,14 +365,6 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            ['operatorPlacement'],
-            false,
-            true
-        );
-
-        $this->expect(
             'x divides y',
             'x*divides*y',
             ['forbiddenVariable'],
@@ -1002,14 +994,6 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            ['operatorPlacement'],
-            false,
-            true
-        );
-
-        $this->expect(
             'x divides y',
             'x*divides*y',
             ['forbiddenVariable'],
@@ -1089,6 +1073,14 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
         $this->expect(
             '2pi r^2',
             '2*pi*r^2',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '2%e^x',
+            '2*%e^x',
             [],
             true,
             false
@@ -1416,7 +1408,7 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
 
         $this->expect(
             '0..1',
-            '0. . 1',
+            '0.*.1',
             [],
             true,
             false
@@ -1424,7 +1416,7 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
 
         $this->expect(
             '0.1..1.2',
-            '0.1 . .1 . 2',
+            '0.1 . .1*.2',
             [],
             true,
             false
@@ -1432,7 +1424,7 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
 
         $this->expect(
             '0.1.1.2',
-            '0.1 . 1.2',
+            '0.1*.1*.2',
             [],
             true,
             false
@@ -3287,6 +3279,42 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
         );
 
         $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
             '"A string that needs sanitising <script>bad stuff</script>."',
             '"A string that needs sanitising <script>bad stuff</script>."',
             [],
@@ -3334,6 +3362,14 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
         $this->expect(
             '2pi r^2',
             '2*pi*r^2',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '2%e^x',
+            '2*%e^x',
             [],
             true,
             false
@@ -3717,7 +3753,7 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
 
         $this->expect(
             '0..1',
-            '0. . 1',
+            '0.*.1',
             [],
             true,
             false
@@ -3725,7 +3761,7 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
 
         $this->expect(
             '0.1..1.2',
-            '0.1 . .1 . 2',
+            '0.1 . .1*.2',
             [],
             true,
             false
@@ -3733,7 +3769,7 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
 
         $this->expect(
             '0.1.1.2',
-            '0.1 . 1.2',
+            '0.1*.1*.2',
             [],
             true,
             false
@@ -5774,6 +5810,42 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             [],
             true,
             false

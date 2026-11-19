@@ -94,7 +94,7 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
 
         $this->expect(
             '0..1',
-            'dispdp(0.,0) . 1',
+            'dispdp(0.,0)*dispdp(.1,1)',
             [],
             true,
             false
@@ -102,7 +102,7 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
 
         $this->expect(
             '0.1..1.2',
-            'dispdp(0.1,1) . dispdp(.1,1) . 2',
+            'dispdp(0.1,1) . dispdp(.1,1)*dispdp(.2,1)',
             [],
             true,
             false
@@ -110,7 +110,7 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
 
         $this->expect(
             '0.1.1.2',
-            'dispdp(0.1,1) . dispdp(1.2,1)',
+            'dispdp(0.1,1)*dispdp(.1,1)*dispdp(.2,1)',
             [],
             true,
             false
@@ -371,7 +371,7 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
 
         $this->expect(
             '0..1',
-            'dispdp(0.,0) . 1',
+            'dispdp(0.,0)*dispdp(.1,1)',
             [],
             true,
             false
@@ -379,7 +379,7 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
 
         $this->expect(
             '0.1..1.2',
-            'dispdp(0.1,1) . dispdp(.1,1) . 2',
+            'dispdp(0.1,1) . dispdp(.1,1)*dispdp(.2,1)',
             [],
             true,
             false
@@ -387,7 +387,7 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
 
         $this->expect(
             '0.1.1.2',
-            'dispdp(0.1,1) . dispdp(1.2,1)',
+            'dispdp(0.1,1)*dispdp(.1,1)*dispdp(.2,1)',
             [],
             true,
             false
@@ -647,6 +647,14 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
             "'diff(x,y)",
             "'diff(x,y)",
             [],
@@ -2599,14 +2607,6 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             'x and y',
             'x and y',
             [],
@@ -3177,6 +3177,42 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             [],
             true,
             false
@@ -3244,6 +3280,14 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
             "'diff(x,y)",
             "'diff(x,y)",
             [],
@@ -5196,14 +5240,6 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             'x and y',
             'x and y',
             [],
@@ -5774,6 +5810,42 @@ final class ast_filter_910_inert_float_for_display_auto_generated_test extends q
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             [],
             true,
             false

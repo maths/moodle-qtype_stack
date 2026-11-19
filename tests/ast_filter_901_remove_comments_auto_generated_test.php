@@ -83,6 +83,42 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
             true,
             false
         );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            'x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            'x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            'x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            'x^2',
+            [],
+            true,
+            false
+        );
     }
 
     public function test_affected_units(): void {
@@ -124,6 +160,42 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
         $this->expect(
             '/*@ Comment @*/x+1',
             'x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            'x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            'x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            'x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            'x^2',
             [],
             true,
             false
@@ -177,6 +249,14 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
         $this->expect(
             '2pir^2',
             '2*pir^2',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '2%e^x',
+            '2*%e^x',
             [],
             true,
             false
@@ -600,7 +680,7 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
 
         $this->expect(
             '0..1',
-            '0. . 1',
+            '0.*.1',
             [],
             true,
             false
@@ -608,7 +688,7 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
 
         $this->expect(
             '0.1..1.2',
-            '0.1 . .1 . 2',
+            '0.1 . .1*.2',
             [],
             true,
             false
@@ -616,7 +696,7 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
 
         $this->expect(
             '0.1.1.2',
-            '0.1 . 1.2',
+            '0.1*.1*.2',
             [],
             true,
             false
@@ -2369,14 +2449,6 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
         $this->expect(
             'x ^ y',
             'x^y',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
-            'x and',
-            'x*and',
             [],
             true,
             false
@@ -3012,6 +3084,14 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
             "'diff(x,y)",
             "'diff(x,y)",
             [],
@@ -3429,7 +3509,7 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
 
         $this->expect(
             '0..1',
-            '0. . 1',
+            '0.*.1',
             [],
             true,
             false
@@ -3437,7 +3517,7 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
 
         $this->expect(
             '0.1..1.2',
-            '0.1 . .1 . 2',
+            '0.1 . .1*.2',
             [],
             true,
             false
@@ -3445,7 +3525,7 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
 
         $this->expect(
             '0.1.1.2',
-            '0.1 . 1.2',
+            '0.1*.1*.2',
             [],
             true,
             false
@@ -5198,14 +5278,6 @@ final class ast_filter_901_remove_comments_auto_generated_test extends qtype_sta
         $this->expect(
             'x ^ y',
             'x^y',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
-            'x and',
-            'x*and',
             [],
             true,
             false

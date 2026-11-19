@@ -61,6 +61,14 @@ final class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_sta
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
             '(()x)',
             '(()*x)',
             [],
@@ -103,6 +111,30 @@ final class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_sta
         $this->expect(
             '-3x(1+x)',
             '-3*x(1+x)',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0..1',
+            '0.*.1',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0.1..1.2',
+            '0.1 . .1*.2',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0.1.1.2',
+            '0.1*.1*.2',
             [],
             false,
             true
@@ -250,6 +282,14 @@ final class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_sta
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
             '(()x)',
             '(()*x)',
             [],
@@ -292,6 +332,30 @@ final class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_sta
         $this->expect(
             '-3x(1+x)',
             '-3*x(1+x)',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0..1',
+            '0.*.1',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0.1..1.2',
+            '0.1 . .1*.2',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0.1.1.2',
+            '0.1*.1*.2',
             [],
             false,
             true
@@ -823,30 +887,6 @@ final class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_sta
         );
 
         $this->expect(
-            '0..1',
-            '0. . 1',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
-            '0.1..1.2',
-            '0.1 . .1 . 2',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
-            '0.1.1.2',
-            '0.1 . 1.2',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             '0.1. 1.2',
             '0.1 . 1.2',
             [],
@@ -2479,14 +2519,6 @@ final class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_sta
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             'x and y',
             'x and y',
             [],
@@ -3089,6 +3121,42 @@ final class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_sta
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             [],
             true,
             false
@@ -3508,30 +3576,6 @@ final class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_sta
         );
 
         $this->expect(
-            '0..1',
-            '0. . 1',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
-            '0.1..1.2',
-            '0.1 . .1 . 2',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
-            '0.1.1.2',
-            '0.1 . 1.2',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             '0.1. 1.2',
             '0.1 . 1.2',
             [],
@@ -5164,14 +5208,6 @@ final class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_sta
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             'x and y',
             'x and y',
             [],
@@ -5774,6 +5810,42 @@ final class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_sta
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             [],
             true,
             false

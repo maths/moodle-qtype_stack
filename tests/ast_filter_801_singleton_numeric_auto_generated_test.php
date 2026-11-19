@@ -93,6 +93,14 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            ['Illegal_form'],
+            false,
+            true
+        );
+
+        $this->expect(
             "'diff(x,y)",
             "'diff(x,y)",
             ['Illegal_form'],
@@ -454,7 +462,7 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
 
         $this->expect(
             '0..1',
-            '0. . 1',
+            '0.*.1',
             ['Illegal_power'],
             false,
             true
@@ -462,7 +470,7 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
 
         $this->expect(
             '0.1..1.2',
-            '0.1 . .1 . 2',
+            '0.1 . .1*.2',
             ['Illegal_power'],
             false,
             true
@@ -470,7 +478,7 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
 
         $this->expect(
             '0.1.1.2',
-            '0.1 . 1.2',
+            '0.1*.1*.2',
             ['Illegal_power'],
             false,
             true
@@ -2173,14 +2181,6 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            ['Illegal_form'],
-            false,
-            true
-        );
-
-        $this->expect(
             'x and y',
             'x and y',
             ['Illegal_form'],
@@ -2783,6 +2783,42 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            ['Illegal_form'],
+            false,
+            true
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            ['Illegal_form'],
+            false,
+            true
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            ['Illegal_form'],
+            false,
+            true
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            ['Illegal_form'],
+            false,
+            true
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             ['Illegal_form'],
             false,
             true
@@ -2850,6 +2886,14 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            ['Illegal_form'],
+            false,
+            true
+        );
+
+        $this->expect(
             "'diff(x,y)",
             "'diff(x,y)",
             ['Illegal_form'],
@@ -3211,7 +3255,7 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
 
         $this->expect(
             '0..1',
-            '0. . 1',
+            '0.*.1',
             ['Illegal_power'],
             false,
             true
@@ -3219,7 +3263,7 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
 
         $this->expect(
             '0.1..1.2',
-            '0.1 . .1 . 2',
+            '0.1 . .1*.2',
             ['Illegal_power'],
             false,
             true
@@ -3227,7 +3271,7 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
 
         $this->expect(
             '0.1.1.2',
-            '0.1 . 1.2',
+            '0.1*.1*.2',
             ['Illegal_power'],
             false,
             true
@@ -4930,14 +4974,6 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            ['Illegal_form'],
-            false,
-            true
-        );
-
-        $this->expect(
             'x and y',
             'x and y',
             ['Illegal_form'],
@@ -5540,6 +5576,42 @@ final class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_s
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            ['Illegal_form'],
+            false,
+            true
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            ['Illegal_form'],
+            false,
+            true
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            ['Illegal_form'],
+            false,
+            true
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            ['Illegal_form'],
+            false,
+            true
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             ['Illegal_form'],
             false,
             true

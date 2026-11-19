@@ -61,6 +61,14 @@ final class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_te
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
             '(()x)',
             '(()*x)',
             [],
@@ -103,6 +111,30 @@ final class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_te
         $this->expect(
             '-3x(1+x)',
             '-3*x(1+x)',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0..1',
+            '0.*.1',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0.1..1.2',
+            '0.1 . .1*.2',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0.1.1.2',
+            '0.1*.1*.2',
             [],
             false,
             true
@@ -319,14 +351,6 @@ final class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_te
         $this->expect(
             'sin^-1(x)',
             'sin^-1*(x)',
-            [],
-            false,
-            true
-        );
-
-        $this->expect(
-            'x and',
-            'x*and',
             [],
             false,
             true
@@ -370,6 +394,14 @@ final class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_te
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
             '(()x)',
             '(()*x)',
             [],
@@ -412,6 +444,30 @@ final class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_te
         $this->expect(
             '-3x(1+x)',
             '-3*x(1+x)',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0..1',
+            '0.*.1',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0.1..1.2',
+            '0.1 . .1*.2',
+            [],
+            false,
+            true
+        );
+
+        $this->expect(
+            '0.1.1.2',
+            '0.1*.1*.2',
             [],
             false,
             true
@@ -628,14 +684,6 @@ final class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_te
         $this->expect(
             'sin^-1(x)',
             'sin^-1*(x)',
-            [],
-            false,
-            true
-        );
-
-        $this->expect(
-            'x and',
-            'x*and',
             [],
             false,
             true
@@ -1063,30 +1111,6 @@ final class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_te
         );
 
         $this->expect(
-            '0..1',
-            '0. . 1',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
-            '0.1..1.2',
-            '0.1 . .1 . 2',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
-            '0.1.1.2',
-            '0.1 . 1.2',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             '0.1. 1.2',
             '0.1 . 1.2',
             [],
@@ -3209,6 +3233,42 @@ final class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_te
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             [],
             true,
             false
@@ -3628,30 +3688,6 @@ final class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_te
         );
 
         $this->expect(
-            '0..1',
-            '0. . 1',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
-            '0.1..1.2',
-            '0.1 . .1 . 2',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
-            '0.1.1.2',
-            '0.1 . 1.2',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             '0.1. 1.2',
             '0.1 . 1.2',
             [],
@@ -5774,6 +5810,42 @@ final class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_te
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             [],
             true,
             false

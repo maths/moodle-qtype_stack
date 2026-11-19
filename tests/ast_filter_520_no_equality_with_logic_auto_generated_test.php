@@ -135,6 +135,14 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
             "'diff(x,y)",
             "'diff(x,y)",
             [],
@@ -552,7 +560,7 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
 
         $this->expect(
             '0..1',
-            '0. . 1',
+            '0.*.1',
             [],
             true,
             false
@@ -560,7 +568,7 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
 
         $this->expect(
             '0.1..1.2',
-            '0.1 . .1 . 2',
+            '0.1 . .1*.2',
             [],
             true,
             false
@@ -568,7 +576,7 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
 
         $this->expect(
             '0.1.1.2',
-            '0.1 . 1.2',
+            '0.1*.1*.2',
             [],
             true,
             false
@@ -2327,14 +2335,6 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             'x and y',
             'x and y',
             [],
@@ -2921,6 +2921,42 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             [],
             true,
             false
@@ -2988,6 +3024,14 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
             "'diff(x,y)",
             "'diff(x,y)",
             [],
@@ -3405,7 +3449,7 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
 
         $this->expect(
             '0..1',
-            '0. . 1',
+            '0.*.1',
             [],
             true,
             false
@@ -3413,7 +3457,7 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
 
         $this->expect(
             '0.1..1.2',
-            '0.1 . .1 . 2',
+            '0.1 . .1*.2',
             [],
             true,
             false
@@ -3421,7 +3465,7 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
 
         $this->expect(
             '0.1.1.2',
-            '0.1 . 1.2',
+            '0.1*.1*.2',
             [],
             true,
             false
@@ -5180,14 +5224,6 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             'x and y',
             'x and y',
             [],
@@ -5774,6 +5810,42 @@ final class ast_filter_520_no_equality_with_logic_auto_generated_test extends qt
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             [],
             true,
             false

@@ -45,24 +45,8 @@ final class ast_filter_545_wrong_decimal_separator_validation_auto_generated_tes
         $this->filter = stack_parsing_rule_factory::get_by_common_name('545_wrong_decimal_separator_validation');
 
         $this->expect(
-            '0..1',
-            '0. . 1',
-            ['forbiddenCharDecimal'],
-            false,
-            true
-        );
-
-        $this->expect(
             '0.1..1.2',
-            '0.1 . .1 . 2',
-            ['forbiddenCharDecimal'],
-            false,
-            true
-        );
-
-        $this->expect(
-            '0.1.1.2',
-            '0.1 . 1.2',
+            '0.1 . .1*.2',
             ['forbiddenCharDecimal'],
             false,
             true
@@ -82,24 +66,8 @@ final class ast_filter_545_wrong_decimal_separator_validation_auto_generated_tes
         $this->filter = stack_parsing_rule_factory::get_by_common_name('545_wrong_decimal_separator_validation');
 
         $this->expect(
-            '0..1',
-            '0. . 1',
-            ['forbiddenCharDecimal'],
-            false,
-            true
-        );
-
-        $this->expect(
             '0.1..1.2',
-            '0.1 . .1 . 2',
-            ['forbiddenCharDecimal'],
-            false,
-            true
-        );
-
-        $this->expect(
-            '0.1.1.2',
-            '0.1 . 1.2',
+            '0.1 . .1*.2',
             ['forbiddenCharDecimal'],
             false,
             true
@@ -167,6 +135,14 @@ final class ast_filter_545_wrong_decimal_separator_validation_auto_generated_tes
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
             "'diff(x,y)",
             "'diff(x,y)",
             [],
@@ -577,6 +553,22 @@ final class ast_filter_545_wrong_decimal_separator_validation_auto_generated_tes
         $this->expect(
             '-35.3 * 10^23',
             '-35.3*10^23',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '0..1',
+            '0.*.1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '0.1.1.2',
+            '0.1*.1*.2',
             [],
             true,
             false
@@ -2327,14 +2319,6 @@ final class ast_filter_545_wrong_decimal_separator_validation_auto_generated_tes
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             'x and y',
             'x and y',
             [],
@@ -2937,6 +2921,42 @@ final class ast_filter_545_wrong_decimal_separator_validation_auto_generated_tes
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             [],
             true,
             false
@@ -3004,6 +3024,14 @@ final class ast_filter_545_wrong_decimal_separator_validation_auto_generated_tes
         );
 
         $this->expect(
+            '2%e^x',
+            '2*%e^x',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
             "'diff(x,y)",
             "'diff(x,y)",
             [],
@@ -3414,6 +3442,22 @@ final class ast_filter_545_wrong_decimal_separator_validation_auto_generated_tes
         $this->expect(
             '-35.3 * 10^23',
             '-35.3*10^23',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '0..1',
+            '0.*.1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '0.1.1.2',
+            '0.1*.1*.2',
             [],
             true,
             false
@@ -5164,14 +5208,6 @@ final class ast_filter_545_wrong_decimal_separator_validation_auto_generated_tes
         );
 
         $this->expect(
-            'x and',
-            'x*and',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
             'x and y',
             'x and y',
             [],
@@ -5774,6 +5810,42 @@ final class ast_filter_545_wrong_decimal_separator_validation_auto_generated_tes
         $this->expect(
             '/*@ Comment @*/x+1',
             '/*@ Comment @*/x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @assume x = 1; */
+x+1',
+            '/* @assume x = 1; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @ignore warn_scalar_matrix_mult; */
+x+1',
+            '/* @ignore warn_scalar_matrix_mult; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* @function f(x) => x; */
+x+1',
+            '/* @function f(x) => x; */x+1',
+            [],
+            true,
+            false
+        );
+
+        $this->expect(
+            '/* Comment: -a<f(x)<a. */
+x^2',
+            '/* Comment: -a<f(x)<a. */x^2',
             [],
             true,
             false

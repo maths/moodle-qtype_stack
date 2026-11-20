@@ -75,6 +75,8 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
         $parsernotes = [];
         $ast = maxima_parser_utils::corrective_parse($input, $parsererrors, $parsernotes, $parseroptions);
 
+        $this->assertTrue($ast !== null, "The input $input does not parse anymore.");
+
         $filtererrors = [];
         $filternotes = [];
 

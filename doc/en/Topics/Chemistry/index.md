@@ -37,7 +37,7 @@ For example, the entry for `"H"`, hydrogen, is
 
 There are convenience functions which access this data.
 
-* `chem_units(dp)` Returns the units addociated with `dp`. E.g. `chem_units("AtomicMass")` gives `g*mol^(-1)`.
+* `chem_units(dp)` Returns the units associated with `dp`. E.g. `chem_units("AtomicMass")` gives `g*mol^(-1)`.
 * `chem_data_all(element)` returns all the data associated with `element`.  E.g. `chem_data_all("H")`.
 * `chem_data(element, dp)` returns the data `dp` associated with `element`.  E.g. `chem_data("H", "AtomicMass")` gives `1.008`.
 * `chem_data_units(element, dp)` returns the data `dp` associated with `element` using the `stackunits` function.  E.g. `chem_data_units("H", "AtomicMass")` gives `stackunits(1.008,g*mol^(-1))`.
@@ -46,15 +46,15 @@ Notes.
 
 1. Names of elements are always given as strings.  E.g. to access data for hydrogen use `"H"`.
 2. Field names are always given as strings, e.g. `"AtomicMass"` is a string (not an atom `AtomicMass`).
-3. The utility functions filter the `"Name"` field to give the name of the element with the local language selection.  STACK uses the global `%_STACK_LANG` variable.  If no local name is defined the `"Name"` in English is returned.   If you really want _all_ the data, just use `assoc(element, %_STACK_CHEM_ELEMENTS)` rather than ` chem_data_all(element)`.
-4. Note that, for efficiency reasons, data is stored in flat table and the above arrays are reconstructed from the flat table, the list of field names and any languages available.  Language data is separated which makes it easier to add a new language.  Chemical names are _not_ part of Moodle's normal language pack and need to be added explicitly to `chemistry.mac`.  See [github](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/chemistry.mac) for examples. As of Nov 2025, English, Finnish and German names are available.
+3. The utility functions filter the `"Name"` field to give the name of the element with the local language selection.  STACK uses the global `%_STACK_LANG` variable.  If no local name is defined the `"Name"` in English is returned.   If you really want _all_ the data, just use `assoc(element, %_STACK_CHEM_ELEMENTS)` rather than `chem_data_all(element)`.
+4. Note that, for efficiency reasons, data is stored in a flat table and the above arrays are reconstructed from the flat table, the list of field names and any languages available.  Language data is separated which makes it easier to add a new language.  Chemical names are _not_ part of Moodle's normal language pack and need to be added explicitly to `chemistry.mac`.  See [GitHub](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/chemistry.mac) for examples. As of Nov 2025, English, Finnish and German names are available.
 
-TODO: write a maxima function which gives an annotated atomic symbol in LaTeX, based on the chemical data e.g. \(^{25}_{12}\mbox{Mg}^{2+}\).
+TODO: write a Maxima function which gives an annotated atomic symbol in LaTeX, based on the chemical data e.g. \(^{25}_{12}\mbox{Mg}^{2+}\).
 
 
 ## Display of chemical formula in LaTeX
 
-For pure display of chemical formula in LaTeX, the [`mhcem` package](https://mhchem.github.io/MathJax-mhchem/) is already available in MathJaX.  Here is a minial example:
+For pure display of chemical formula in LaTeX, the [`mhchem` package](https://mhchem.github.io/MathJax-mhchem/) is already available in MathJax.  Here is a minimal example:
 
 ```
 \(\require{mhchem}\)

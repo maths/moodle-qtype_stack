@@ -1,4 +1,4 @@
-# Statistics support in STACK.
+# Statistics support in STACK
 
 
 The following optional packages provide statistics support in Maxima:
@@ -13,7 +13,7 @@ These packages are included by default. The Debian package manager currently has
 
 ## Package: descriptive
 
-Note that the "descriptive" package includes a number of functions to plotting graphs, such as boxplots and scatterplot.  These are not supported by STACK.
+Note that the "descriptive" package includes a number of functions for plotting graphs, such as boxplots and scatterplots.  These are not supported by STACK.
 
 ## STACK functions
 

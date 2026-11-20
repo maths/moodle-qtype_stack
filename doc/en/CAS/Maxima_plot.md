@@ -1,17 +1,17 @@
-# Embedding Maxima-generated plots via `plot()`, a wrapper for Maimxa's `plot2d()`
+# Embedding Maxima-generated plots via `plot()`, a wrapper for Maxima's `plot2d()`
 
 In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot2d` command.  The wrapper makes sure that an image file is given an appropriate name, file location, and that Maxima returns a URL to the user giving the image.  Not all of the features of `plot2d` are available through `plot`.
 
 For example,
 
 1. Try the following in a castext field. `{@plot(x^2,[x,-1,1])@}`.
-2. You can add a second variable to control the range of the y-axes. `plot(x^2,[x,-1,1],[y,0,2])`.
+2. You can add a second variable to control the range of the y-axis. `plot(x^2,[x,-1,1],[y,0,2])`.
 3. To plot many functions in a single image, we need to define a list of expressions. `plot([x^2,sin(x)],[x,-1,1])`.
 4. A list of functions can be created with Maxima's `makelist` command `(p(k):=x^k,pl:makelist(p(k),k,1,5),plot(pl,[x,-1,1]))`.
 
 Notes.
 
-* Some of these features are dependent on the version of Maxima you are using, e.g. implicit plots are only available from Maxima 46.0.
+* Some of these features are dependent on the version of Maxima you are using, e.g. implicit plots are only available from Maxima 5.46.0.
 * Currently STACK (PHP) calls Maxima, this in turn has `gnuplot` create a basic SVG image on the server and return a URL.
 * By default plots are surrounded by the `<div class="stack_plot">`.  This puts whitespace around a plot, and places the plot in the centre of the screen.  To suppress this `div` use the option `[plottags,false]`.
 * The default in Maxima is to include a legend consisting of a `string` representation of the plot.  In STACK this is turned off by default.  To switch it back on, use the command `[legend, true]`.  Any other value of the option `legend` will respect the original command.
@@ -95,7 +95,7 @@ The `ylabel` command rotates its argument through 90 degrees.  If you want a hor
 
 ## Grid
 
-The grid is controlled by the maxima command `grid2d`.  Compare the following.
+The grid is controlled by the Maxima command `grid2d`.  Compare the following.
 
     {@plot([x^2/(1+x^2),2*x/(1+x^2)^2], [x, -2, 2], [y,-2.1,2.1], grid2d)@}
     {@plot([x^2/(1+x^2),2*x/(1+x^2)^2], [x, -2, 2], [y,-2.1,2.1])@}
@@ -172,13 +172,13 @@ To illustrate how the `margin` option can be used compare the above with
 
 ## Contour plots
 
-Maxima will create contor plots, but (unlike with Maxima) you must use variable names `x` and `y` to define them.  E.g.
+Maxima will create contour plots, but (unlike with Maxima) you must use variable names `x` and `y` to define them.  E.g.
 
     {@plot([contour, sin(x)*y], [x,-10,10],[y,-2,2])@}
 
 ## Bode plots
 
-Maxima has a very basic package for bode diagrams, try `load(bode)` in a Maxima session.  This is not a supported package, so instead you can create Bode diagrams directly with code such as the following.
+Maxima has a very basic package for Bode diagrams, try `load(bode)` in a Maxima session.  This is not a supported package, so instead you can create Bode diagrams directly with code such as the following.
 
     /* Define two functions to do the plotting */
     bose_gain(f,r):=block([p,w], p:plot(20*log(abs( apply(f,[%i*w]) ))/log(10), [w, r[2],r[3]], [logx]), return(p) );

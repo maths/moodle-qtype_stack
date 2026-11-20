@@ -105,7 +105,7 @@ We now link the true branch of node 1 to node 2 (of `prt2`).  This gives us thre
 
 Node 1: did they evaluate their expression in part 1 correctly? If "yes", then go to node 2, else if "no", then exit with no marks.
 
-Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation, full marks.  If "no" then choose marks as suit your taste in this situation, and add some feedback, such as the following:
+Node 2: did they get part 1 correct?  If "yes" then this is the ideal situation, full marks.  If "no" then choose marks as suit your taste in this situation, and add some feedback, such as the following:
 
 	You have correctly evaluated your answer to part 1 at the given point, but your answer to part 1 is wrong. Please try both parts again.
 

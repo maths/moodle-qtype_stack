@@ -1,6 +1,6 @@
 # Rules and patterns
 
-Maxima has a system for defining rules and patterns.  For example, in desktop maxima
+Maxima has a system for defining rules and patterns.  For example, in desktop Maxima
 
 ```
 matchdeclare([a],true);
@@ -12,9 +12,9 @@ will give \(\sin(x)^4 \rightarrow \cos^4(x)-2\,\cos^2(x)+1\).
 
 Support for `let` was added in v4.8.0 (November 2024), and only partial support is currently available.
 
-In particular, Maxima's `let` function makes use of a special operator `->` which is unsupported in the Maxima-PHP connection.  To accommodate this, you must place `let` commands inside a block which returns it's last element.
+In particular, Maxima's `let` function makes use of a special operator `->` which is unsupported in the Maxima-PHP connection.  To accommodate this, you must place `let` commands inside a block which returns its last element.
 
-For example, put the following the question variables will work (but the above example will not):
+For example, putting the following in the question variables will work (but the above example will not):
 
 ```
 matchdeclare([a],true);

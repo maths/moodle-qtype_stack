@@ -2,7 +2,7 @@
 
 It is possible to use plots as the options in a [STACK MCQ](Multiple_choice_input.md), either Maxima-generated plots or external images.
 
-By design, the value of an MCQ selection are limited to legitimate CAS objects.
+By design, the values of an MCQ selection are limited to legitimate CAS objects.
 The `plot` command returns a string which is the URL of the dynamically generated image on the server.
 The "value" of this can't be assessed by the potential response trees.
 For this reason you must use the display option with plots and must only put the plot command in the display option.

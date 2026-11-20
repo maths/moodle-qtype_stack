@@ -14,7 +14,7 @@ which do not yet provide these functions in core. Edit the maintained source, no
 ## Documenting STACK-Maxima sources
 
 The directory tree under `/stack/maximasrc/` can be as deep as one wishes and
-can be modified with no effect to the actual systems behaviour it will however
+can be modified with no effect on the actual system's behaviour; it will, however,
 change the documentation addresses and thus affect any links someone might
 have to the documentation.
 
@@ -91,7 +91,7 @@ s_test_case(simp) := is(a_function(2,x*y)=...)$
 ```
 
 In the case of a global variable the documentation block starts with the same
-extra asterisk but has no need for annotations. Annotations, will however be
+extra asterisk but has no need for annotations. Annotations will, however, be
 needed if the variable is unbound. Here is an example:
 
 ```
@@ -118,8 +118,8 @@ default_foobar: fooo;
 
 Finally, inert-functions require the same kind of a documentation block as
 normal functions, but as with unbound variables that block must not be placed
-immediately before definition of something else and must contain an annotation
-to to the documentation to the identifier. It also needs to define
-the parameters at same time, e.g, `@inertfunction[] some_function(x,y,z)`.
+immediately before the definition of something else and must contain an annotation
+tying the documentation to the identifier. It also needs to define
+the parameters at the same time, e.g. `@inertfunction[] some_function(x,y,z)`.
 See the source of the documentation for `stackunits` or `stackbasen` for
 examples.

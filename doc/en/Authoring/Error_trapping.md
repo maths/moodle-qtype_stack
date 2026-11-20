@@ -1,6 +1,6 @@
 # Error trapping
 
-How to I trap errors generated from a student's answer?
+How do I trap errors generated from a student's answer?
 
 Errors are generated for a number of reasons.  Mostly, they are important and should not be ignored!  Normally, students should not be penalised if a question "does not work" because the PRT generated an error.  Any runtime error during traversing a PRT will cause an error.  This error will stop further execution of the tree, and students will see a runtime error message.  This will be flagged in the response summary as `[RUNTIME_ERROR]`.
 
@@ -19,5 +19,5 @@ If one of the feedback variables throws an error then this will not stop the PRT
 
 If `ans1:%pi/2` then `sa1` will be the empty list `[]`.  Otherwise, `sa1` will be the list containing the result, and you can use `first(sa1)` in a PRT.
 
-To trap a runtime error, or create a guard clause, you do need extra node in your tree (e.g. is `sa1` empty) or an `if` statement in your feedback variables.  The default is to show errors, so if you choose to test for and condone errors you need extra clauses.
+To trap a runtime error, or create a guard clause, you do need an extra node in your tree (e.g. is `sa1` empty) or an `if` statement in your feedback variables.  The default is to show errors, so if you choose to test for and condone errors you need extra clauses.
 

@@ -10,7 +10,7 @@ To make use of the bulk test users require the capability `qtype/stack:usediagno
 Bulk testing does the following.
 
 1. Check the STACK question for features which are no longer supported, such as the "mul" input option or the RegExp answer test, and suggest an alternative where there is one.  A few checks only apply to questions older than a given version, so they use the question's `stackversion` number: the version of the STACK plug-in _last used_ to edit the question (see [the STACK version stamp](../Moodle/Import_Export.md#the-stack-version-stamp)).
-2. Runs all question tests on all variants of each STACK question.
+2. Run all question tests on all variants of each STACK question.
 3. Catch any run-time errors generated in the above.
 4. List questions with deficiencies:
   * No question tests
@@ -25,7 +25,7 @@ Moodle site-admins can bulk test all STACK questions on a site. This is typicall
 
     [...]/question/type/stack/cli/bulkrestall.php
 
-On linux consider using "screen" to run this bulk test in the background.  Typically this process is done as part of upgrade acceptance testing.
+On Linux consider using "screen" to run this bulk test in the background.  Typically this process is done as part of upgrade acceptance testing.
 
 Site admins will find a link "Run all the question tests for all the questions in the system (slow, admin only)" at the bottom of the bulk-test web index page.  However, running all the tests on a large site is typically too slow.
 
@@ -38,7 +38,7 @@ You can add in `[[todo]]` blocks to the question description listing problems as
 * For the web page run the bulk-test on the chosen context, then run the page again with the option `&addtags=true` in the URL.  There is no web-form interface for this (advanced) option.
 * For the CLI use the flag `--addtags`.
 
-The purpose of adding `[[todo]]` blocks is (1) to find questions more easily without running the whole bulk test again, (2) enabling people without the capability `qtype/stack:usediagnostictools` to find questions which we know need work.
+The purpose of adding `[[todo]]` blocks is (1) to find questions more easily without running the whole bulk test again, and (2) to enable people without the capability `qtype/stack:usediagnostictools` to find questions which we know need work.
 
 The `[[todo]]` blocks are added for broken questions, problems with upgrade, runtime errors, missing seeds, missing tests and failing question tests.  The `[[todo]]` blocks are _not_ added for empty worked solutions.
 

@@ -10,7 +10,7 @@ Upper case Greek letters have an upper-case English first letter.  I.e.
     
 Many of the Greek letters already have a meaning in Maxima.
 
-* `beta`:  The beta function is defined as \(\gamma(a) \gamma(b)/\gamma(a+b)\).
+* `beta`:  The beta function is defined as \(\Gamma(a) \Gamma(b)/\Gamma(a+b)\).
 * `gamma`:  The gamma function.
 * `delta`: This is the Dirac Delta function (only defined in Laplace).
 * `zeta`: This is the Riemann zeta function.
@@ -22,7 +22,7 @@ Note that by default, `psi` requires arguments and any attempt to use this varia
 
 The following are given a specific value by STACK.
 
-* `pi` is defined to be the numeric constant which is the ratio of the diameter to the circumference of a circle.  In Maxima this is normally `%pi`, but STACK also defines the letter `pi` to have this value.
+* `pi` is defined to be the numeric constant which is the ratio of the circumference of a circle to its diameter.  In Maxima this is normally `%pi`, but STACK also defines the letter `pi` to have this value.
 * In Maxima the numeric constant which represents the so-called golden mean, \((1 + \sqrt{5})/2\) is `%phi`.
 
 ## "Undefine" Maxima defaults

@@ -8,7 +8,7 @@ already within Maxima.  Some of the more useful to us are
 listed below.   STACK defines an additional range of predicate
 functions.  Some are described here, others are in the relevant specific sections of the documentation, such as [numbers](Numbers.md).
 
-Since establishing mathematical properties are all about predicates they are particularly important for STACK.
+Since establishing mathematical properties is all about predicates they are particularly important for STACK.
 
 You can use predicate functions directly in the [potential response tree](../Authoring/Potential_response_trees.md) by comparing the result with `true` using the
 [answer test](../Authoring/Answer_Tests/index.md) AlgEquiv.
@@ -19,7 +19,7 @@ The following are a core part of Maxima, but there are many others.  Notice, pre
 
 | Function                | Predicate
 | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| `floatnump(ex)`         | Determines if \(ex\) is a float.  But use STACK's `float_floatnump(ex)` which works with `simp:false`.
+| `floatnump(ex)`         | Determines if \(ex\) is a float.  But use STACK's `simp_floatnump(ex)` which works with `simp:false`.
 | `numberp(ex)`           | Determines if \(ex\) is a number.  _NOTE_ `numberp` returns `false` if its argument is a symbol, even if the argument is a symbolic number such as \(\sqrt{2}\), \(\pi\) or \(i\), or declared to be even, odd, integer, rational, irrational, real, imaginary, or complex.   This function also does not work when `simp:false`, so see the dedicated page on [numbers](Numbers.md).
 | `setp(ex)`              | Determines if \(ex\) is a set.
 | `listp(ex)`             | Determines if \(ex\) is a list.
@@ -87,9 +87,9 @@ This predicate function decides if we have a term of the form \(\sin(n\, v)\) or
 
     fouriertermp(ex) := if ((safe_op(ex)="cos" or safe_op(ex)="sin") and linear_term_p(first(args(ex)), lambda([ex2], ex2=t))) then true else false$
 
-So, if you want to decide if the student's answer looks like \( \sum_{k=1}{n} a_k\cos(k\pi t) + a_k\cos(k\pi t) \) the combined predicate `linear_combination_p(ex, fouriertermp)` can be used.
+So, if you want to decide if the student's answer looks like \( \sum_{k=1}^{n} a_k\cos(k\pi t) + b_k\sin(k\pi t) \) the combined predicate `linear_combination_p(ex, fouriertermp)` can be used.
 
-Testing for form in this way is probably more reliable that the `substequiv` answer test which fails to match up expressions like \(A\sin(t)+B\cos(t)\) with \(A\sin(t)-B\cos(t)\).  As every, the minus sign is a problem.  However, the following predicate will work.
+Testing for form in this way is probably more reliable than the `substequiv` answer test which fails to match up expressions like \(A\sin(t)+B\cos(t)\) with \(A\sin(t)-B\cos(t)\).  As ever, the minus sign is a problem.  However, the following predicate will work.
 
     simpletrigp(ex) := if (ex=cos(t) or ex=sin(t)) then true else false$
 
@@ -98,10 +98,10 @@ and the test `linear_combination_p(ex, simpletrigp)` will be able to do this.
 
 # Related functions #
 
-This is not, strictly speaking, a predicate function.  It is common to want to ensure that a student's expression is free of things like \(\sqrt{2}\), \(a^{1/2}\) or \(1+\sqrt[3]{2}\) in the denominator.  This include any complex numbers.
+This is not, strictly speaking, a predicate function.  It is common to want to ensure that a student's expression is free of things like \(\sqrt{2}\), \(a^{1/2}\) or \(1+\sqrt[3]{2}\) in the denominator.  This includes any complex numbers.
 
 `rationalized(ex)` searches across the whole expression `ex` and looks in the denominators of any fractions.  If the denominators are free of such things the function returns `true` otherwise the function returns the list of offending expressions.  This design allows efficient feedback of the form ``the denominator in your expression should be free of the following: ...".
 
 ## See also
 
-[Maxima reference topics](index.md#reference.md)
+[Maxima reference topics](index.md#reference)

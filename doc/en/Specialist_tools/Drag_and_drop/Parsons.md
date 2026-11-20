@@ -1,18 +1,18 @@
-# Authoring Parson's problems (drag and drop) in STACK
+# Authoring Parsons problems (drag and drop) in STACK
 
-Parson’s problems require students to assemble pre-written blocks (typically containing text) into a correct order by dragging blocks into a tree structure.  E.g. to assemble a correct mathematical proof.
+Parsons problems require students to assemble pre-written blocks (typically containing text) into a correct order by dragging blocks into a tree structure.  E.g. to assemble a correct mathematical proof.
 
-This page provides a quick-start to authoring whole questions.  There are a number of parts to authoring a Parson's problem:
+This page provides a quick-start to authoring whole questions.  There are a number of parts to authoring a Parsons problem:
 
-1. [Defining strings](../../Topics/Proof/Proof_CAS_library.md) and creating drag and drop area using the [Parson's block](Question_block.md).
-2. Linking the Parson's block to a STACK input (string input).
+1. [Defining strings](../../Topics/Proof/Proof_CAS_library.md) and creating drag and drop area using the [Parsons block](Question_block.md).
+2. Linking the Parsons block to a STACK input (string input).
 3. [Assessing the student's answer](../../Topics/Proof/Proof_assessment.md) and providing meaningful feedback automatically.
 
 While drag and drop is certainly not new in automatic assessment, these problems have become popular in computer science, e.g. Parsons (2006).
 
-Parson’s problems enable students to focus on the structure and meaning, by providing all the right words but just not initially in the right order. Learning mathematical proof is well-known to be very difficult for most students. The scaffolding provided by Parson's problems has been found to be very useful to students in discrete mathematics. This may well be due to the _expert reversal effect_. The expert reversal effect is a well-established phenomenon that what is useful for a beginner is quite different, perhaps the opposite, of what is useful for an expert. Even when independent proof writing is the final goal of instruction, it is very likely that Parson's problems have an important place in formative learning towards that goal.
+Parsons problems enable students to focus on the structure and meaning, by providing all the right words but just not initially in the right order. Learning mathematical proof is well-known to be very difficult for most students. The scaffolding provided by Parsons problems has been found to be very useful to students in discrete mathematics. This may well be due to the _expert reversal effect_. The expert reversal effect is a well-established phenomenon that what is useful for a beginner is quite different, perhaps the opposite, of what is useful for an expert. Even when independent proof writing is the final goal of instruction, it is very likely that Parsons problems have an important place in formative learning towards that goal.
 
-Traditionally Parson’s problems require the student to create an ordered list. For mathematical proofs, we believe it is more natural to ask students to create a _tree_. Parson's problems in mathematics, especially proofs, do not always have a unique answer which is considered correct.
+Traditionally Parsons problems require the student to create an ordered list. For mathematical proofs, we believe it is more natural to ask students to create a _tree_. Parsons problems in mathematics, especially proofs, do not always have a unique answer which is considered correct.
 Hence, there are challenges in deciding what a correct answer is in particular cases, and how to develop authoring tools to robustly create problems with reliable marking algorithms.
 For example, in a proof of
 \[ A\text{ if and only if } B\]
@@ -22,7 +22,7 @@ We might expect/require two conscious and separate blocks
 2.  Assume \(B\), \(\cdots\), hence \(A\).
 
 The order in which these two sub-proofs are presented is (normally) irrelevant.  That is the _if and only if_ proof construct allows its two sub-proofs to commute.  This is precisely the same sense in which \(A=B\) and \(B=A\) are equivalent. There are _blocks_ within the proof which can change order. Furthermore, since proofs are often nested blocks these sub-proofs may themselves have acceptable options for correctness.
-Proofs often contain local variables.  Use of explicit block-structures clarify the local scope of variables, and the local scope of assumptions.
+Proofs often contain local variables.  Use of explicit block-structures clarifies the local scope of variables, and the local scope of assumptions.
 
 STACK provides ["proof construction functions"](../../Topics/Proof/Proof_CAS_library.md) with arguments. For example, an if and only if proof would be represented as `proof_iff(A,B)`.  Here `A` and `B` are either sub-proofs or strings to be shown to the student.
 
@@ -30,7 +30,7 @@ If the student has an opportunity to indicate more structure, then the assessmen
 
 Notes
 
-* Lists are a special case of a tree with one root (the list creation function) and an arbitrary number of nodes in order.  Hence our design explicitly includes traditional Parson's problems as a special case.
+* Lists are a special case of a tree with one root (the list creation function) and an arbitrary number of nodes in order.  Hence our design explicitly includes traditional Parsons problems as a special case.
 * Teachers who do not want to scaffold explicit block structures (e.g. signal types of proof blocks) can choose to restrict students to (i) flat lists, or (ii) lists of lists.
 
 ## Troubleshooting
@@ -41,12 +41,12 @@ Please see the [troubleshooting](Troubleshooting.md) page for known issues and h
 
 Please follow the examples below to understand how the components work.  Then we provide two tools.
 
-1. Advice on workflow for [authoring Parson's problems](../../Topics/Proof/Proof_Parsons_workflow.md).
+1. Advice on workflow for [authoring Parsons problems](../../Topics/Proof/Proof_Parsons_workflow.md).
 2. Template questions in the [STACK question library](../../STACK_question_admin/Library/index.md), under `Topics\Parsons-proof-template.xml` which you can load and use immediately.
 
-## Example 1: a minimal Parson's question
+## Example 1: a minimal Parsons question
 
-The following is a minimal Parson's question where there student is expected to create a list in one and only one order.
+The following is a minimal Parsons question where the student is expected to create a list in one and only one order.
 It shows the proof that _\(\log_2(3)\) is irrational_.
 
 ### Question variables
@@ -73,18 +73,18 @@ proof_steps: random_permutation(proof_steps);
 ta: proof("assume", "defn_rat", "defn_rat2", "defn_log", "defn_log2", "alg", "alg_int", "contra", "conc");
 ````
 
-The optional library `prooflib.mac` contain many useful functions for dealing with student's answers which represent proofs.
+The optional library `prooflib.mac` contains many useful functions for dealing with students' answers which represent proofs.
 
 The variable `proof_steps` holds all the keys that will be displayed on the string. 
 Each step is indexed by a key identifier, which are used to refer to the steps throughout the question (for example, when constructing the model answer).
 
-We can randomise the order the strings will be shown on the mpage through `random_permutation`.
+We can randomise the order the strings will be shown on the page through `random_permutation`.
 
 The variable `ta` holds the teacher's answer which is a proof construction function `proof`.  The arguments to this function are string keys, e.g. `"alg"` which refer to lines in the proof.  The teacher expects these lines in this order.
 
 ### Question text
 
-The example question text below contains a Parson's block. Within the header of the Parson's block, ensure that `input="ans1"` is included, where `ans1` is the identifier of the input. Place the following in the _Question text_ field:
+The example question text below contains a Parsons block. Within the header of the Parsons block, ensure that `input="ans1"` is included, where `ans1` is the identifier of the input. Place the following in the _Question text_ field:
 
 ````
 <p>Show that \(\log_2(3)\) is irrational. </p>
@@ -97,7 +97,7 @@ The example question text below contains a Parson's block. Within the header of 
 Notes:
 
 1. The function `parsons_encode` turns the variable `proof_steps` into a JSON object with hashed keys, as expected by the `parsons` block.
-2. The [Parson's block](Question_block.md) has a wide range of options such as `height` and `width` which are documented elsewhere.
+2. The [Parsons block](Question_block.md) has a wide range of options such as `height` and `width` which are documented elsewhere.
 
 ### Question note
 
@@ -138,7 +138,7 @@ In general, you need to provide a list of tags in place of `ta`, and the `proof_
 
 ## Example question 2: a proof with interchangeable block order
 
-The following Parson's question is an _if and only if_ proof, containing two blocks in order.
+The following Parsons question is an _if and only if_ proof, containing two blocks in order.
 
 ### Question variables
 
@@ -257,13 +257,13 @@ Old versions of the parsons block (before 2024072500) used `stackjson_stringify`
 `parsons_answer`, and `proof_parsons_interpret` in place of `parsons_decode`, and used the `String` input type. Legacy versions of questions are still 
 supported and should function as previously, so long as the `String` input type is used. 
 
-It is strongly recommended to update questions to use the new functions. These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
+It is strongly recommended to update questions to use the new functions. These will hash the keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
 
 Upgrading Parsons questions:
 
-1. Parsons blocks should use the `parsons_encode` function to create the JSON needed to go to the `[[parsons]]` block.  E.g.`[[parsons input="ans1"]]{# parsons_encode(proof_steps) #}[[/parsons ]]`
+1. Parsons blocks should use the `parsons_encode` function to create the JSON needed to go to the `[[parsons]]` block.  E.g. `[[parsons input="ans1"]]{# parsons_encode(proof_steps) #}[[/parsons ]]`
 2. The Input type field should be Parsons. The Model answer field should be a list `[ta, proof_steps]`.
-3. The feedback variables use the `parsons_encode` function, e.g. `sa:parsons_decode(ans1);`
+3. The feedback variables use the `parsons_decode` function, e.g. `sa:parsons_decode(ans1);`
 4. Test cases (question tests) are constructed using `parsons_answer(ta, proof_steps)`.
 
 The `parsons_encode`, `parsons_decode` and `parsons_answer` deal with the hash, as does choosing the "Parsons" input type.

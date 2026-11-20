@@ -4,7 +4,7 @@ STACK loads the "logic" package from Maxima.
 
 ## Boolean functions
 
-Maxima has Boolean operators `and`, `or`, and `not`.  These rely on the underlying LISP implementation and as a result the `simp:false` is ignored.
+Maxima has Boolean operators `and`, `or`, and `not`.  These rely on the underlying LISP implementation and as a result `simp:false` is ignored.
 To illustrate the problem, try the following.
 
     simp:false$
@@ -30,13 +30,13 @@ Teachers often need to use Boolean logic, and so need to consciously separate th
 
 Note, the answer tests do *not* convert noun forms to the Maxima forms.
 Otherwise both `x=1 or x=2` and `x=1 or x=3` would be evaluated to `false` and a teacher could not tell that they are different!
-To replace all `nounand` (etc) operators and replace them with the Maxima equivalent, use `noun_logic_remove(ex)`.
+To replace all `nounand` (etc.) operators with the Maxima equivalent, use `noun_logic_remove(ex)`.
 
 ## Operators and notes
 
-1. `and` This is a lisp function.  Teachers should use `nounand` to prevent evaluation of `x=1 and x=0` to `false` even without simplification.  Students type `and` and this is always converted internally to `nounand`.
-2. `or` This is a lisp function.  Teachers should use `nounor` to prevent evaluation of `x=1 or x=0` to `false` even without simplification.  Students type `or` and this is always converted internally to `nounor`.
-3. `not` This is a lisp function.  Teachers should use `nounnot` to prevent evaluation.  Students type `not` and this is always converted internally to `nounnot`.
+1. `and` This is a Lisp function.  Teachers should use `nounand` to prevent evaluation of `x=1 and x=0` to `false` even without simplification.  Students type `and` and this is always converted internally to `nounand`.
+2. `or` This is a Lisp function.  Teachers should use `nounor` to prevent evaluation of `x=1 or x=0` to `false` even without simplification.  Students type `or` and this is always converted internally to `nounor`.
+3. `not` This is a Lisp function.  Teachers should use `nounnot` to prevent evaluation.  Students type `not` and this is always converted internally to `nounnot`.
 4. `nand` is provided by the logic package, which respects the value of `simp`.
 5. `nor` is provided by the logic package, which respects the value of `simp`.
 6. `xor` is provided by the logic package, which respects the value of `simp`.
@@ -45,11 +45,11 @@ To replace all `nounand` (etc) operators and replace them with the Maxima equiva
 
 Notes
 
-* If you would like to accept `*` for `and` and `+` for `or` then you can use the feedback variables to replace operators.  E.g. by using `sa:subst(["*"="nounand", "+"="nounor","!"="nounnot"], ans1);`. Note that students cannot type `&` or an apostrophe as part of their input.  In the above example we use the post-fix factorial operator `!` is used for logical negation.
-* There is no existential operator (not that this is propositional logic, but for the record) or an interpretation of '?' as there exits, and there is no universal operator (which some people type in as `!`).
+* If you would like to accept `*` for `and` and `+` for `or` then you can use the feedback variables to replace operators.  E.g. by using `sa:subst(["*"="nounand", "+"="nounor","!"="nounnot"], ans1);`. Note that students cannot type `&` or an apostrophe as part of their input.  In the above example the post-fix factorial operator `!` is used for logical negation.
+* There is no existential operator (not that this is propositional logic, but for the record) or an interpretation of '?' as "there exists", and there is no universal operator (which some people type in as `!`).
 * To change between language or symbols for logic, use the Logic symbols [option](../Authoring/Tables.md). The default behaviour is to use language.
 
-The function `verb_logic(ex)` will remove the noun forms such as `nounand` and substitute in the lisp versions which will enable evaluation of expressions.  The function `noun_logic(ex)` will replace any remaining lisp but beware that any evaluation (even with `simp:false`) will evaluate lisp logical expressions.  It is best to use noun forms at the outset, e.g. in the question variables, and only use the lisp forms when calculating, e.g. to evaluate in the PRT.
+The function `noun_logic_remove(ex)` will remove the noun forms such as `nounand` and substitute in the Lisp versions which will enable evaluation of expressions.  The function `noun_logic(ex)` will replace any remaining Lisp but beware that any evaluation (even with `simp:false`) will evaluate Lisp logical expressions.  It is best to use noun forms at the outset, e.g. in the question variables, and only use the Lisp forms when calculating, e.g. to evaluate in the PRT.
 
 ## Answer tests
 
@@ -67,4 +67,4 @@ The value of the student's answer will always have `nounand` etc. inserted.  Bef
 
 STACK provides various functions for creating and dealing with [tables](../Authoring/Tables.md).
 
-`truth_table(ex)` returns the true table of the expression `ex`.  The function will throw an error if the number of variables exceeds 5.  The first row of the table is the headings, consisting of a list of variables, and the expression itself.  See the documentation on [tables](../Authoring/Tables.md) for more functionality.
+`truth_table(ex)` returns the truth table of the expression `ex`.  The function will throw an error if the number of variables exceeds 5.  The first row of the table is the headings, consisting of a list of variables, and the expression itself.  See the documentation on [tables](../Authoring/Tables.md) for more functionality.

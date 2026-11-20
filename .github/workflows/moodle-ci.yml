@@ -53,9 +53,8 @@ jobs:
             database: 'mariadb'
             maxima: 'GCL'
             moodle-app: true
-          # Note, Moodle 4.2 will run on PHP 8.0, but we require PHP 8.1 or newer.
-          - php: '8.1'
-            moodle-branch: 'MOODLE_402_STABLE'
+          - php: '8.2'
+            moodle-branch: 'MOODLE_404_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
             moodle-app: true
@@ -174,7 +173,6 @@ jobs:
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE",     "db");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",         "");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",        "0");'
-          #moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CI_LIGHT",            "1");'
 
           #cat ${{ github.workspace }}/moodle/config.php
 

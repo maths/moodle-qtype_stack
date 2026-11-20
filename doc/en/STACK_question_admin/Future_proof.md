@@ -21,13 +21,13 @@ Avoid using inline CSS styles in your CASText which may change and cause conflic
 
 * If at all possible remove all styles and the `<span>` tags related to them from the CASText. Most WYSIWYG editors have some **clear formatting** feature to do just that. You cannot have block level HTML elements inside a span tag, which is an inline element.
 * Do not define `font-size` anywhere. If you need a heading with big text then use the `<hX>...</hX>` tags, but not with too small or large values of X. *In Abacus `<h3>` and `<h4>` are recommended especially in model solutions.*
-* Other font style should be left to the surrounding system but feel free to use `<i>`, `<b>`, `<em>`, and `<strong>` if you need and assume that the surrounding system handles them correctly.
+* Other font styles should be left to the surrounding system but feel free to use `<i>`, `<b>`, `<em>`, and `<strong>` if you need and assume that the surrounding system handles them correctly.
 * You can use the `<code>` tag to explain how to type in answers.
-* The top level of your CASText document should consist of `<p>`, `<table>`, `<div>`, or CASText block elements not of raw text. For the PRT be careful about using `<p>` tags (which editors hide).  If you use the compact PRT style then STACK then puts this into span tags, and you cannot have block level HTML elements such as `<p>` inside a span tag.
+* The top level of your CASText document should consist of `<p>`, `<table>`, `<div>`, or CASText block elements not of raw text. For the PRT be careful about using `<p>` tags (which editors hide).  If you use the compact PRT style then STACK puts this into span tags, and you cannot have block level HTML elements such as `<p>` inside a span tag.
 * In the case of tables and images you may use a bit of styling, e.g. borders, padding, margins, and sizes, but you should always use relative units when describing those sizes. Scale to match the current font-size or maybe to the width of the viewport or even to the maximum dimension of the display not to pixels as pixels have very different actual sizes on different screens and we cannot assume that the software displaying things will make the same scaling assumptions for them in the future.
-* STACK now SVG, and this is preferred to embed images within the CASText.
+* STACK now supports SVG, and this is the preferred way to embed images within the CASText.
 * Only use supported JavaScript libraries, like JSXGraph.
-* Avoid complex LaTeX constructions where you inject values into multiple places, instead try to tune Maxima LaTeX generation to meet your needs, e.g. [showing working](../CAS/Matrix.md#showing-working-showing_working), using `texput`, or changing other features of Maxima constructs.
+* Avoid complex LaTeX constructions where you inject values into multiple places; instead, try to tune Maxima LaTeX generation to meet your needs, e.g. [showing working](../CAS/Matrix.md#showing-working-showing_working), using `texput`, or changing other features of Maxima constructs.
 
 If your CASText document contains scripts like JSXGraph content definitions you should ensure that if they require some external files to be evaluated you include those files with the question as links to external files will be broken at some point or the external files themselves change. In the case of JSXGraph use the `jsxgraph` CASText block which will handle the scripts at STACK level.
 
@@ -40,11 +40,11 @@ STACK does provide the option for [inclusions](../Authoring/Inclusions.md) withi
 
 The CAS code (internally keyvals and CASStrings) consists of Maxima assignment statements. Occasionally, Maxima's behaviour changes, and occasionally there are changes in the STACK provided Maxima functions. Changes cannot be avoided, but you can try to develop your questions based on as new as possible Maxima version to give them longer life. Otherwise there are some details that should be noted:
 
-* End your statements with semicolons (`;`) this will ease your life if you ever need to copy code to Maxima for testing. In the future semicolons may become mandatory, automatic conversion will however handle that change.
+* End your statements with semicolons (`;`): this will ease your life if you ever need to copy code to Maxima for testing. In the future semicolons may become mandatory, automatic conversion will however handle that change.
 * Avoid interesting chars in your variable names e.g. `_` has meaning and it is reasonable to assume that other chars might have new meanings in the future.
 * Never write to a variable sharing a name with an input!
 
-You should also heed to these general guidelines:
+You should also heed these general guidelines:
 
 * Correct answers are generally stored in variables named `ta1`, which match the corresponding input name.
 * Should there be need to process the student's answer it might make sense to store it to `sans1`, etc., which match the corresponding input name.
@@ -54,7 +54,7 @@ You should also heed to these general guidelines:
 
 ## Question tests & teacher's answers
 
-To detect broken questions we need to be able to test them and the only reasonable way to that is through the question tests. You must define some tests: at least one for each PRT in your question. Preferably provide one correct answer test for each PRT, tests for each branch in the PRTs, and some nonsense inputs to check for 'false positive' style failures.
+To detect broken questions we need to be able to test them and the only reasonable way to do that is through the question tests. You must define some tests: at least one for each PRT in your question. Preferably provide one correct answer test for each PRT, tests for each branch in the PRTs, and some nonsense inputs to check for 'false positive' style failures.
 
 For manual testing it is important to provide each input with the correct teacher's answer and that teacher's answer must be in a form that matches input requirements.  For example, if you require a floating-point number with a specific number of significant figures then do not specify the teacher's answer as a rational number!  Note that you will need to do the same output formatting for the question tests if your question cares about the formatting of the answer.
 
@@ -89,7 +89,7 @@ Author attribution in Abacus happens through keys/tags. Your questions should ha
 
 ### HTML
 
-All HTML needs to be valid XHTML. Empty `<p></p>`-tags and `<br/>`-tags are to be eliminated on sight. All content should go through **clear formatting**. Editing using the plain text area editor is strongly recommended, at the minimum authors should take a look at the source code view of their WYSIWYG editor and prune every now and then.
+All HTML needs to be valid XHTML. Empty `<p></p>`-tags and `<br/>`-tags are to be eliminated on sight. All content should go through **clear formatting**. Editing using the plain text area editor is strongly recommended; at the minimum authors should take a look at the source code view of their WYSIWYG editor and prune every now and then.
 
 ### Model solution
 
@@ -97,7 +97,7 @@ Abacus materials are expected to contain model solutions in the 'general feedbac
 
 ### Question note
 
-The question note must be filled correctly, i.e. all random variables must be present in it. It is also recommended that the note provides a summary of the question and answer, if multiple differing solution processes are possible the note should tell which of those is required in the variant. Question notes are used if one selects specific variants for use and all that information will help then.
+The question note must be filled correctly, i.e. all random variables must be present in it. It is also recommended that the note provides a summary of the question and answer; if multiple differing solution processes are possible the note should tell which of those is required in the variant. Question notes are used if one selects specific variants for use and all that information will help then.
 
 ### Localisation
 
@@ -111,6 +111,6 @@ It is perfectly acceptable to place the PRT-feedback marker within the question 
 
 Abacus materials should aim to use English names for the CAS variables, inputs and PRTs to ease debugging by other members. Realistically, when generating new localisations for an existing question the variables should be renamed at the same time unless they are already in English.
 
-If a variable name could cause confusion you should describe the variable in inline comments. You should use verbose internal variable names but not too verbose, try to aim for less than 10 characters. PascalCase/camelCase is the recommended way of dealing with multi word verbose names.
+If a variable name could cause confusion you should describe the variable in inline comments. You should use verbose internal variable names but not too verbose: try to aim for less than 10 characters. PascalCase/camelCase is the recommended way of dealing with multi word verbose names.
 
 Naming of PRTs is highly recommended, even `partA` and `partB` will be more descriptive names than `prt1` and `prt2`, naming of PRTs happens when you create them i.e. when you create that PRT-feedback marker. 

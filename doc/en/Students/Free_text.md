@@ -4,7 +4,7 @@ This input allows you to type in free text, e.g. your complete working or mathem
 
 1. You can type markdown text.
 2. You can type AsciiMath between backticks for mathematics: <code>`...`</code>
-3. You can include LaTeX between brackets, <code>\(...\)</code> for inline mathematics and <code>\[...\]</code> displayed mathematics.
+3. You can include LaTeX between brackets, <code>\(...\)</code> for inline mathematics and <code>\[...\]</code> for displayed mathematics.
 4. Sometimes, but not always, you will be able to include calculations between <code>{@...@}</code>.  Rather than reaching for an external calculator, the software will replace your requested calculation with the answer.
 
 ## Mathematics
@@ -32,7 +32,7 @@ If you have text on the same line as a backtick you will get _inline_ mathematic
 
 Markdown is a lightweight markup language for creating formatted text using a plain-text editor.
 
-Here are some example of what you need to type to format text.
+Here are some examples of what you need to type to format text.
 
 ```
 # Heading
@@ -60,12 +60,12 @@ Bullet lists nested within numbered list:
      - broccoli
 ```
 
-In normal markdown backticks are used for monospace
+In normal markdown backticks are used for monospace:
 
 ```
    `monospace`
 ```
-However free-text input uses backticks for AsciiMath, see below.
+However, free-text input uses backticks for AsciiMath; see below.
 
 ## AsciiMath
 
@@ -308,19 +308,19 @@ Note, you can also use `{...}` for curly braces and `abs(x)` for \(|x|\).
 
 ### Special Cases
 
-* Matrices: `[[a,b],[c,d]]` yields to \(\begin{bmatrix} a & b \\ c & d \end{bmatrix}\)
+* Matrices: `[[a,b],[c,d]]` yields \(\begin{bmatrix} a & b \\ c & d \end{bmatrix}\)
 
-* Column vectors: `((a),(b))` yields to \(\begin{pmatrix} a \\ b \end{pmatrix}\)
+* Column vectors: `((a),(b))` yields \(\begin{pmatrix} a \\ b \end{pmatrix}\)
 
-* Augmented matrices: `[[a,b,|,c],[d,e,|,f]]` yields to \(\left[\begin{array}{cc|c} a & b & c \\ d & e & f \end{array}\right]\)
+* Augmented matrices: `[[a,b,|,c],[d,e,|,f]]` yields \(\left[\begin{array}{cc|c} a & b & c \\ d & e & f \end{array}\right]\)
 
 * Matrices can be used for layout: `{(2x,+,17y,=,23),(x,-,y,=,5):}` yields  
 
 \[ \left\{\begin{array}{ccccc} 2x & + & 17y & = & 23 \\ x & - & y & = & 5 \end{array}\right.\]
 
-* Complex subscripts: `lim_(N->oo) sum_(i=0)^N` yields to \(\lim_{N \to \infty} \sum_{i=0}^{N}\)
+* Complex subscripts: `lim_(N->oo) sum_(i=0)^N` yields \(\lim_{N \to \infty} \sum_{i=0}^{N}\)
 
-* Subscripts must come before superscripts: `int_0^1 f(x)dx` yields to \(\int_{0}^{1} f(x),dx\)
+* Subscripts must come before superscripts: `int_0^1 f(x)dx` yields \(\int_{0}^{1} f(x)\,dx\)
 
 * Derivatives: `f'(x) = dy/dx` yields \(f'(x) = \frac{dy}{dx}\)
 
@@ -337,7 +337,7 @@ Note, you can also use `{...}` for curly braces and `abs(x)` for \(|x|\).
 
 ## LaTeX
 
-LaTeX is a software system for typesetting documents.  We support the mathematics environments between brackets, <code>\(...\)</code> for inline mathematics and <code>\[...\]</code> displayed mathematics.  This leaves dollars `$` for currency.
+LaTeX is a software system for typesetting documents.  We support the mathematics environments between brackets, <code>\(...\)</code> for inline mathematics and <code>\[...\]</code> for displayed mathematics.  This leaves dollars `$` for currency.
 
 
 ## Calculations
@@ -345,7 +345,7 @@ LaTeX is a software system for typesetting documents.  We support the mathematic
 When activated in a particular question, calculations between <code>{@...@}</code> will be automatically completed for you, rather than reaching for an external calculator.
 
 1. Type simple expressions using brackets for function arguments.
-2. Note angles are always in radians.  E.g. try <code>{@cos(pi)@}</code> for example.
+2. Note angles are always in radians.  Try <code>{@cos(pi)@}</code>, for example.
 3. Answers are given as floating point numbers, and you should choose the precision needed.  E.g. <code>{@round(cos(2),3)@}</code>
 
 

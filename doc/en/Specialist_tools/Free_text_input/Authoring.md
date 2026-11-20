@@ -94,7 +94,7 @@ This contains the original equation to solve `eq1` in Maxima syntax, `ta1` a str
 
 This question needs two inputs `ans1` and `ans2`, with an `[[ascii]]` block linking `ans1` to `ans2`.
 
-The complete (html) question text is therefore
+The complete (HTML) question text is therefore
 
 ```
 <p> Solve {@eq1@}.</p>
@@ -127,7 +127,7 @@ Note the `[[hint]]` block, using a `[[commonstring]]` block to provide standard 
 3. Note the input itself is hidden by HTML `<p style="display:none">` in the question text.
 4. (Optional, hide the validation.)
 
-To set up the PRT, a basic check of the final answer of the student's input is sufficient for demonstration: `ATEqualComAss(ans2,ta2)`.  A more complex PRT, and question tests, is provided in the example.
+To set up the PRT, a basic check of the final answer of the student's input is sufficient for demonstration: `ATEqualComAss(ans2,ta2)`.  A more complex PRT, and question tests, are provided in the example.
 
 This question can also be loaded from 
 
@@ -137,7 +137,7 @@ This question can also be loaded from
 
 For information on how to mix manually graded free-text answers with automatic assessment see the separate docs on [semi-automatic marking](../../Moodle/Semi-automatic_Marking.md).
 
-A manually graded question, which also has automatic assessed PRTs, is given in 
+A manually graded question, which also has automatically assessed PRTs, is given in 
 
     Features/input-type-sample-questions/Free-text_final_answer.xml
 

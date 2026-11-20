@@ -1,6 +1,6 @@
 # Static blocks
 
-Static blocks are mostly used when a random version is created, rather than relating to managing dynamic content such as Javascript.
+Static blocks are mostly used when a random version is created, rather than relating to managing dynamic content such as JavaScript.
 
 ## Lang block ##
 
@@ -16,7 +16,7 @@ Comment blocks allow you to put content into a CASText field which will not be s
 
     [[comment]] Place comments here which will not appear to students. [[/comment]]
 
-Before 4.4 the contents of the block needed to be syntactically correct CASText. That is no longer the case and you can much more easily use this block to comment our unfinished stuff.
+Before 4.4 the contents of the block needed to be syntactically correct CASText. That is no longer the case and you can much more easily use this block to comment out unfinished stuff.
 
 ## Todo blocks ##
 
@@ -42,7 +42,7 @@ The contents of this block are replaced by the static
 
     <!--- stack_todo --->
 
-to stop these being read by a user (student), and to provide a searchable tag in instantiated text which is not visible in regular html.
+to stop these being read by a user (student), and to provide a searchable tag in instantiated text which is not visible in regular HTML.
 
 
 ## The debug block ##
@@ -67,7 +67,7 @@ STACK can construct a text-file using CASText and provide a link to it for downl
 
 ## Include block ##
 
-A new feature in 4.4 is the ability to include content from an URL. The include block allows one to do that. However, it is not a recommended tool for novices and all users choosing to use it should consider what it means for the future maintenance and shareability of your questions. See the specific documentation on [include logic](../Inclusions.md).
+A new feature in 4.4 is the ability to include content from a URL. The include block allows one to do that. However, it is not a recommended tool for novices and all users choosing to use it should consider what it means for the future maintenance and shareability of your questions. See the specific documentation on [include logic](../Inclusions.md).
 
 ## QUID (question unique identifier) block ##
 
@@ -78,19 +78,19 @@ When scripting things one often needs to give elements identifiers and those ide
         stack_js.switch_content("[[quid id='target'/]]", "new content");
     [[/javascript]]
 
-You may think you will always remember to change your identifiers for all questions, but why worry about that when you can use this and keep the identifiers visible to you sensible, at the same time you eliminate the whole issue. Do note that if you write overly sensible identifier and include code from others that do that, you may still see collisions inside your own question, so maybe add your own prefixes as well... Don't just call something "target" and expect that there would not be other "targets" in play.
+You may think you will always remember to change your identifiers for all questions, but why worry about that when you can use this and keep the identifiers visible to you sensible, at the same time you eliminate the whole issue. Do note that if you write overly sensible identifiers and include code from others that do that, you may still see collisions inside your own question, so maybe add your own prefixes as well... Don't just call something "target" and expect that there would not be other "targets" in play.
 
 ## Template block ##
 
 Since 4.4.2 it has been possible to use templates to handle repetitive content or to override content deeper in libraries. Templates are essentially a way for handling repetition when `[[foreach]]` does not easily work or when inline CASText based function solutions are inconvenient. While inline CASText is often better it might not work as well as overridable templates when working with libraries.
 
-The template block has two parameters, the first being a name which should be a valid name for a function and the second being the mode parameter that controls the blocks behaviour and is of use especially for library builders. There are three different ways for using this block:
+The template block has two parameters, the first being a name which should be a valid name for a function and the second being the mode parameter that controls the block's behaviour and is of use especially for library builders. There are three different ways for using this block:
 
-1. To define a templates value for a given name one simply wraps that value in this block with that name. `[[template name="foobar"]]Whatever is {@whatever@}[[/template]]`. This will not output anything and can also be done in inline CASText either in the question-variables to effect the whole question or in feedback-variables to effect PRTs.
-2. To output that template, one simply uses the empty block form `[[template name="foobar"/]]` which will output whatever has been defined as that templates value or a warning about the template not been defined. One can add a mode parameter `mode="ignore missing"` to not see that warning. Typically, one will use the `[[define/]]` block to change the values used within the template.
-3. For library makers the most common operation mode is the `mode="default"` where the contents of the block are used if no overriding definition can be found. The default value will not define a default template and this intentional, if a template is to be shared then it needs to be defined at a global level where it always gets evaluated while default templates tend to be sensible to use even in conditionally evaluated contexts. Basically, if your library has any CASText that could benefit from being overridden you simply give it a name and wrap it with `[[template name="libarary_xyz" mode="default"]]...[[/template]]` and then maybe document somewhere that this name has this default where these injectable variables have these roles so that people may replace the wording and structure and still use the same values.
+1. To define a template's value for a given name one simply wraps that value in this block with that name. `[[template name="foobar"]]Whatever is {@whatever@}[[/template]]`. This will not output anything and can also be done in inline CASText either in the question-variables to affect the whole question or in feedback-variables to affect PRTs.
+2. To output that template, one simply uses the empty block form `[[template name="foobar"/]]` which will output whatever has been defined as that template's value or a warning about the template not having been defined. One can add a mode parameter `mode="ignore missing"` to not see that warning. Typically, one will use the `[[define/]]` block to change the values used within the template.
+3. For library makers the most common operation mode is the `mode="default"` where the contents of the block are used if no overriding definition can be found. The default value will not define a default template and this is intentional, if a template is to be shared then it needs to be defined at a global level where it always gets evaluated while default templates tend to be sensible to use even in conditionally evaluated contexts. Basically, if your library has any CASText that could benefit from being overridden you simply give it a name and wrap it with `[[template name="library_xyz" mode="default"]]...[[/template]]` and then maybe document somewhere that this name has this default where these injectable variables have these roles so that people may replace the wording and structure and still use the same values.
 
-Note in the background templates are just functions with CASText values. You can do the same with inline CASText and more importantly building your own functions allows you to use arguments for them and thus makes repetition with varying parameters simpler. For templates no arguments exist, for them the values come from the context where they get placed in, and must therefore be controlled though other means.
+Note in the background templates are just functions with CASText values. You can do the same with inline CASText and more importantly building your own functions allows you to use arguments for them and thus makes repetition with varying parameters simpler. For templates no arguments exist, for them the values come from the context where they get placed in, and must therefore be controlled through other means.
 
 Note that if you wish to use a template in both the question text and in the PRT feedback, you will need to define it in the question variables (in particular, if you define the template in the question text, it will not work in the PRT feedback since the PRT feedback is evaluated in a different scope from the question text). For instance:
 

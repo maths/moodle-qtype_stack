@@ -1,6 +1,6 @@
 # Using the `calculation` filter with free-text inputs
 
-The free-text input allows students to embed calculations within their answer.  Rather than reaching for a separate calculator, students can request the result of a calculation client-side using Javascript.
+The free-text input allows students to embed calculations within their answer.  Rather than reaching for a separate calculator, students can request the result of a calculation client-side using JavaScript.
 
 This document gives an example question using this feature.  See the [filter calculations](../../Authoring/Question_blocks/Filter_calculations.md) reference documentation for the various calculation options.
 

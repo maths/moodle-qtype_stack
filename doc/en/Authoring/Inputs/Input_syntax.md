@@ -1,17 +1,17 @@
 # Input syntax
 
-The whole point of STACK is to have the student enter an algebraic expression.  These input options related to choices for input syntax.
+The whole point of STACK is to have the student enter an algebraic expression.  These input options relate to choices for input syntax.
 
 ### Insert Stars ### {#Insert_Stars}
 
-Insert Stars affect the way STACK treats the validation of CAS strings.
+Insert Stars affects the way STACK treats the validation of CAS strings.
 
-There are the following options.
+There are the following options:
 
-* Don't insert stars:  This does not insert `*` characters automatically.  If there are any pattern identified the result will be an invalid expression.  Note, students can type in unknown functions such as `x(t+1)` and this will be valid.  If you need to _forbid_ this use a bespoke validator.
+* Don't insert stars:  This does not insert `*` characters automatically.  If there are any patterns identified the result will be an invalid expression.  Note, students can type in unknown functions such as `x(t+1)` and this will be valid.  If you need to _forbid_ this use a bespoke validator.
 * Insert `*`s for implied multiplication.  If any patterns are identified as needing `*`s as a pattern like `)(` then they will automatically be inserted into the expression quietly.
 * Insert `*`s assuming single character variable names.  In many situations we know that a student will only have single character variable names.  Identify variables in the student's answer made up of more than one character then replace these with the product of the letters.
-* Insert `*`s assuming no user-functions. If there is no function with name `x`, a pattern like `x(t+1)` will interpreted as `x*(t+1)`. Note, the student's formula is interpreted and variables identified, so \(\sin(ax)\) will not end up as `s*i*n*(a*x)` but as `sin(a*x)`.
+* Insert `*`s assuming no user-functions. If there is no function with name `x`, a pattern like `x(t+1)` will be interpreted as `x*(t+1)`. Note, the student's formula is interpreted and variables identified, so \(\sin(ax)\) will not end up as `s*i*n*(a*x)` but as `sin(a*x)`.
   
 It is also possible to select multiple options at the same time. The following options are currently available:
 

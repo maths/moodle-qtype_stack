@@ -3612,4 +3612,4 @@ load("stacksecure.lisp");
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2026101600$
+stackmaximaversion:2026111900$

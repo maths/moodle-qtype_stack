@@ -6,7 +6,7 @@ With these tests it is _essential_ that the SAns field is exactly the name of th
 
 Further information and examples are given in the page on [numbers](../../CAS/Numbers.md) and [scientific units](../../Topics/Units.md). 
 
-All software have limitations on the extent to which they can robustly deal with numerical quantities.  Maxima, PHP (and hence STACK) are no exceptions.  Integers are essentially unproblematic, and CAS will support (almost) arbitrary precision integers.  Floating-point representations of real numbers are more difficult, and a classic discussion of how to represent continuous quantities in finite state machine is given by D. Goldberg. _What every computer scientist should know about floating-point arithmetic._ Computing Surveys, 23(1):5-48, March 1991. 
+All software has limitations on the extent to which they can robustly deal with numerical quantities.  Maxima, PHP (and hence STACK) are no exceptions.  Integers are essentially unproblematic, and CAS will support (almost) arbitrary precision integers.  Floating-point representations of real numbers are more difficult, and a classic discussion of how to represent continuous quantities in a finite state machine is given by D. Goldberg. _What every computer scientist should know about floating-point arithmetic._ Computing Surveys, 23(1):5-48, March 1991. 
 
 ### NumRelative & NumAbsolute ###
 
@@ -19,7 +19,7 @@ NumRelative  and NumAbsolute can also accept lists and sets.  Elements are autom
 
 ### GT & GTE ###
 
-"Greater than" or "Greater than or equal to".  Both arguments are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.  Therefore, do expect some numerical rounding which may cause the test to fail in very sharp comparisons.
+"Greater than" or "Greater than or equal to".  Both arguments are assumed to be numbers. The answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.  Therefore, do expect some numerical rounding which may cause the test to fail in very sharp comparisons.
 
 ## Significant figure testing ##
 
@@ -46,17 +46,19 @@ To avoid this ambiguity some scientists adopt a convention where \(100\) has _ex
 
 In addition to the number of significant figures used to express the number, a teacher will also want to establish that the student actually has the right number!  In more liberal situations a teacher will condone an error in the last place.  E.g. they will accept an answer written to four significant figures, but where only three are actually correct.
 
-### StrictSigFigs ####
+Unless the significant-figure form is itself what is being assessed, prefer `NumRelative` or `NumAbsolute` with a suitable tolerance.  On a node which tests for a common wrong value use a tolerance test, even when the main node uses `NumSigFigs`, so that a wrong value with a trailing zero at the required precision is still recognised.
+
+### SigFigsStrict ###
 
 This test enforces the strict rules of significant figures.  It does not check for numerical precision and looks only at surface features of the number representation.
 
 The option is the required number of significant figures.  This must be an integer only.
 
-### NumSigFigs ####
+### NumSigFigs ###
 
-This is a more liberal test.  Primarily it checks numerical accuracy, but it also checks the number of significant figures in a liberal way.  That is to say, it makes sure that the number of significant figures specified by the teacher lies within the range inferred from the student's answer.  For example, this test will accept \(100\) as being correctly written to 1, 2 or 3 significant figures.  If you want to enforce the precise rules use the `StrictSigFigs` test.
+This is a more liberal test.  Primarily it checks numerical accuracy, but it also checks the number of significant figures in a liberal way.  That is to say, it makes sure that the number of significant figures specified by the teacher lies within the range inferred from the student's answer.  For example, this test will accept \(100\) as being correctly written to 1, 2 or 3 significant figures.  If you want to enforce the precise rules use the `SigFigsStrict` test.
 
-Tests 
+Tests:
 
 1. whether the student's answer contains `opt` significant figures, and
 2. whether the answer is accurate to `opt` significant figures.
@@ -65,7 +67,7 @@ Numerical accuracy here ensures the student's answer is within \(\pm .5\) of the
 
 If the option is a list `[n,m]` then we check the answer has been written to `n` significant figures, with an accuracy of up to `m` places.  If the answer is too far out then rounding feedback will not be given.   A common test would be to ask for \([n,n-1]\) to permit the student to enter the last digit incorrectly.
 
-If the options are of the form `[n,0]` then only the number of significant figures in `sa` will be checked.  This ignores any numerical accuracy and completely ignores the second argument to the function.  Note, that this test is liberal in establishing the number of significant figures.  For strict enforcement of the rules, use `StrictSigFigs` instead.
+If the options are of the form `[n,0]` then only the number of significant figures in `sa` will be checked.  This ignores any numerical accuracy and completely ignores the second argument to the function.  Note, that this test is liberal in establishing the number of significant figures.  For strict enforcement of the rules, use `SigFigsStrict` instead.
 
 If the options are of the form `[n,-1]` then the test checks the student has _at least_ `n` significant figures in the answer, and that numerical accuracy is correct.
 

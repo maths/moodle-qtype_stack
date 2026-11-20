@@ -11,26 +11,26 @@ If you cannot apply a patch, then create a copy of the question and put it in a 
 
 It is possible to change the weight of an individual question within a live quiz and re-grade. If the live question is impossible to fix you do have the option to disregard the question by assigning it a mark of \(0\) in the quiz.
 
-## Fixing broken MathJax and Javascript
+## Fixing broken MathJax and JavaScript
 
-A relatively common problem is that MathJax stops working half way through a question resulting in an equation showing up as a `[Math Error]` or similar error message, (or just showing the source).
+A relatively common problem is that MathJax stops working halfway through a question resulting in an equation showing up as a `[Math Error]` or similar error message, (or just showing the source).
 
-MathJax is a javascript library, and sometimes when it encounters malformed HTML it gives up.
+MathJax is a JavaScript library, and sometimes when it encounters malformed HTML it gives up.
 
 The first place to look is to check the integrity of the HTML in your question.  Do not use the WYSIWYG editors in Moodle.  The editors cut and paste all sorts of HTML formatting into LaTeX equations, e.g. "span" tags, which break MathJax.
 
 1. Choose the Moodle "plain textarea" editor from the user preferences.
-2. Edit your question and carefully tidy up your html.  Things to look for:
+2. Edit your question and carefully tidy up your HTML.  Things to look for:
   * span tags inside LaTeX equations.  Make sure your LaTeX has no HTML inside it, (entities like `&lt;` are fine).
   * the `[[input:....]]` and other tags should not be inside random span tags either.
 
-If your javascript code, e.g. JSXGraph, also stops working this is almost certainly because it has been edited with a WYSIWYG editor which has "protected" your code and so broken it.  Check with the plain textarea editor.
+If your JavaScript code, e.g. JSXGraph, also stops working this is almost certainly because it has been edited with a WYSIWYG editor which has "protected" your code and so broken it.  Check with the plain textarea editor.
 
-## Sorting out broken random versions.
+## Sorting out broken random versions
 
 __Do not change anything which alters the randomisation of variants.__
 
-In particular, do not add, remove or re-order `rand` statements or other statement which will increment the state of the pseudo random number generation. Students get a "seed" which starts the pseudo-random number generator.  If your changes change the random version, then the students' previous answers will still stand, and will now most likely be "wrong".  Minor typographical mistakes can be fixed, but often there is nothing you can do to fix seriously bad random versions.  This is why we have the "deploy" system and [question tests](../STACK_question_admin/Testing.md) so question variants can be checked in advance....
+In particular, do not add, remove or re-order `rand` statements or other statements which will increment the state of the pseudo random number generation. Students get a "seed" which starts the pseudo-random number generator.  If your changes change the random version, then the students' previous answers will still stand, and will now most likely be "wrong".  Minor typographical mistakes can be fixed, but often there is nothing you can do to fix seriously bad random versions.  This is why we have the "deploy" system and [question tests](../STACK_question_admin/Testing.md) so question variants can be checked in advance....
 
 Modifying the question variables in a way which does not alter random versions should be fine. E.g. adding variables for test case construction or improving a worked solution.
 
@@ -63,7 +63,7 @@ and make the question note include both `n1` and `n2` to show there are distinct
 
 Of course, if the question author has created [question tests](../STACK_question_admin/Testing.md) in the first place, and deployed random variants to check in advance, this problem would never have occurred!
 
-## I forgot to deploy random variants.
+## I forgot to deploy random variants
 
 Moodle creates a random integer to seed the random number generation for each question.  The seed is stored in the
 question-attempt and it is picked at the initiation of the quiz either from deployed ones or, if no variants have been deployed, is chosen freely.

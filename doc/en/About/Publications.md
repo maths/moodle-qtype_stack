@@ -2,7 +2,7 @@
 
 STACK is a very popular online assessment system, used by many groups in a variety of languages.  STACK has been the subject of research, and has itself enabled research projects to take place. This page contains a selection of publications.  
 
-### Publicity materials.
+### Publicity materials
 
 We have a booklet of [case studies](https://docs.stack-assessment.org/content/2019-cate-case-studies.pdf), and a PDF flyer about the [STACK project](https://docs.stack-assessment.org/content/2018-STACK.pdf).
 
@@ -14,7 +14,7 @@ We have a "Getting started with STACK" [guide](https://docs.stack-assessment.org
 
 [Computer Aided Assessment of Mathematics](http://ukcatalogue.oup.com/product/9780199660353.do#.UklVZtKSJuc), Chris Sangwin, Oxford University Press, 2013.
 
-This book provides an Introduction to Computer Aided Assessment using STACK as the main working example.
+This book provides an introduction to Computer Aided Assessment using STACK as the main working example.
 
 ### Nakamura (2010)
 
@@ -24,11 +24,11 @@ Y. Nakamura, [The STACK e-Learning and Assessment System for mathematics, scienc
 
 ## Papers about STACK
 
-Proceedings of the 1st International STACK Conference can be found can be found on the open access publication server Zenodo here: [https://zenodo.org/communities/stack](https://zenodo.org/communities/stack)
+Proceedings of the 1st International STACK Conference can be found on the open access publication server Zenodo here: [https://zenodo.org/communities/stack](https://zenodo.org/communities/stack)
 
 These recent papers about STACK are a good place to start:
 
-*  C. J. Sangwin, R. Bickerton, R. (2023). [Practical Online Assessment of Mathematical Proof](https://www.tandfonline.com/doi/abs/10.1080/0020739X.2021.1896813), International Journal of Mathematical Education in Science and Technology}, 53(10) doi:10.1080/0020739X.2021.1896813.  
+*  C. J. Sangwin and R. Bickerton (2023). [Practical Online Assessment of Mathematical Proof](https://www.tandfonline.com/doi/abs/10.1080/0020739X.2021.1896813), International Journal of Mathematical Education in Science and Technology, 53(10) doi:10.1080/0020739X.2021.1896813.  
 * C. J. Sangwin and I. Jones (2017). [Asymmetry in student achievement on multiple choice and constructed response items in reversible mathematics processes](https://dspace.lboro.ac.uk/dspace-jspui/handle/2134/22120). Educational Studies in Mathematics, 94:205-222.
 * C. J. Sangwin and N. Kocher (2016). [Automation of mathematics examinations](https://www.research.ed.ac.uk/portal/files/22213256/2015_11_9_AutomationExaminations.pdf). Computers and Education, 94:215-227.
 

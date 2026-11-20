@@ -39,7 +39,7 @@ Details of some colleagues who translated STACK are given under [credits](../Abo
 
 ## Installing a language pack in Moodle
 
-To allow users of your server to see interface in a certain language through Moodle, the language pack has to be installed on your server. In Moodle, to install a language pack on your server, go to `Site administration`, `Language`, `Language packs`. Here you can see a list of installed language packs, as well as a list of available languages. This is a list of all translations of Moodle, but note only some of them correspond to translations of STACK as well (see list above). To install a language pack, click on it and click `Install selected language pack`. 
+To allow users of your server to see the interface in a certain language through Moodle, the language pack has to be installed on your server. In Moodle, to install a language pack on your server, go to `Site administration`, `Language`, `Language packs`. Here you can see a list of installed language packs, as well as a list of available languages. This is a list of all translations of Moodle, but note only some of them correspond to translations of STACK as well (see list above). To install a language pack, click on it and click `Install selected language pack`. 
 
 Once a language pack is installed, a user can change the preferred language for Moodle and STACK by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language.
 
@@ -77,6 +77,6 @@ This contains all the language strings.
 
 ## Further reading
 
-Applying a language pack will change the language on the Moodle and STACK interface. It will not change question text unless this has been translated by the question author. For information on writing multilingual question text, see the page on [multilingual question authoring](../Authoring/Languages.md) in authoring section.
+Applying a language pack will change the language on the Moodle and STACK interface. It will not change question text unless this has been translated by the question author. For information on writing multilingual question text, see the page on [multilingual question authoring](../Authoring/Languages.md) in the authoring section.
 
 

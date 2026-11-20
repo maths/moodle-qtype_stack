@@ -40,7 +40,7 @@ We have separate advice on [fixing broken questions](Fixing_broken_questions.md)
 
 ## Identifying STACK questions using particular blocks
 
-It is possible to identify questions for dependencies, such as use of JSXGraph, inclusion of external maxima code, or "todo" blocks.
+It is possible to identify questions for dependencies, such as use of JSXGraph, inclusion of external Maxima code, or "todo" blocks.
 
 The dependency checker is available from the question setting page or from the "adminui" page
 
@@ -50,7 +50,7 @@ See also the notes on [advanced reporting](Advanced_reporting.md) of STACK quest
 
 ## Bulk change of the default settings
 
-You may need to upgrade question defaults over a range of questions. We recommend you do this offline, e.g. with the gitync project.
+You may need to upgrade question defaults over a range of questions. We recommend you do this offline, e.g. with the gitsync project.
 
 ## Import and replace questions
 

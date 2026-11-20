@@ -11,7 +11,7 @@ For developers the code to automatically generate the LISP images is described b
 
 ## Terminating runaway LISPS ##
 
-It is relatively easy for students to inadvertently generate an answer which takes Maxima a very long time to evaluate.  Typically this arises from where Maxima needs to expand out the brackets by comparing `(x-a)^59999` with a similar expression.  It is very hard to ensure this kind of calculation is impossible so in general this situation will arise from time to time.  The PHP scripts have a timeout, but on Linux systems you can also ensure the underlying LISP process is killed off using `timeout` command in Linux.  This is particularly valuable for production systems where stability is essential.
+It is relatively easy for students to inadvertently generate an answer which takes Maxima a very long time to evaluate.  Typically this arises where Maxima needs to expand out the brackets by comparing `(x-a)^59999` with a similar expression.  It is very hard to ensure this kind of calculation is impossible so in general this situation will arise from time to time.  The PHP scripts have a timeout, but on Linux systems you can also ensure the underlying LISP process is killed off using the `timeout` command in Linux.  This is particularly valuable for production systems where stability is essential.
 
 1. Check that your Linux has the `timeout` command.  Because this is not standard we have not included this mechanism by default.
 2. Make sure STACK is working.
@@ -31,7 +31,7 @@ Although CLISP is the most portable - due to being interpreted - other Lisps can
 
 ## Create Maxima Image ##
 
-Lisp is able to save a snapshot of its current state to a file. This file can then be used to restart Lisp, and hence Maxima, in exactly that state. This optimization involves creating a snapshot of Lisp with Maxima and all the STACK code loaded, which can speed up launch times by an order of magnitude on Linux. This tip was originally provided Niels Walet.
+Lisp is able to save a snapshot of its current state to a file. This file can then be used to restart Lisp, and hence Maxima, in exactly that state. This optimisation involves creating a snapshot of Lisp with Maxima and all the STACK code loaded, which can speed up launch times by an order of magnitude on Linux. This tip was originally provided by Niels Walet.
 
 The principle is to save an image of Maxima running with STACK libraries already loaded then run this directly.  The healthcheck page contains a link at the bottom "Create Maxima Image".  We strongly recommend you use the automated option to create a Maxima image.
 
@@ -119,7 +119,7 @@ Running Maxima on a separate server dedicated to the task is more secure. We bel
 improves performance because the server can start up Maxima processes in advance
 so they are all ready and waiting to compute some CAS with zero delay.
 
-See a [Maxima pool](http://github.com/maths/stack_util_maximapool) has been implemented to do this.  See <https://github.com/maths/stack_util_maximapool/blob/master/README.md>
+A [Maxima pool](http://github.com/maths/stack_util_maximapool) has been implemented to do this.  See <https://github.com/maths/stack_util_maximapool/blob/master/README.md>
 
 ## Optimisation results ##
 
@@ -247,7 +247,7 @@ Start Maxima and quit | 43
 Start STACK  and quit | 124
 Process AtAlgEquiv    | 133
 
-Without optimising Linux, compared to processing one AtAlgEquiv, there is approximately 93% overhead in starting the maxima process.
+Without optimising Linux, compared to processing one AtAlgEquiv, there is approximately 93% overhead in starting the Maxima process.
 
 Optimised Linux         | Time for 100 cycles (s)
 -----------------------| -----------------------
@@ -258,7 +258,7 @@ Process 100 plot       | 117
 
 The PHP processing time is almost insignificant against the time it takes to initiate and use the CAS.
 
-With the optimised Linux we have reduced the loading time, and the loading overhead considerably.  A single ATAlgEquiv request takes about 0.04s.  Asking for 100 ATAlgEquiv requests in a single session take 0.0092s per request.  Asking for 100 plot commands takes 1.05s per plot - which is rather slow (plots undertake a large number of floating point calculations).
+With the optimised Linux we have reduced the loading time, and the loading overhead considerably.  A single ATAlgEquiv request takes about 0.04s.  Asking for 100 ATAlgEquiv requests in a single session takes 0.0092s per request.  Asking for 100 plot commands takes 1.05s per plot - which is rather slow (plots undertake a large number of floating point calculations).
 The overhead times for loading Maxima might be reduced, and smoothed out by using the Maxima pool, see <http://github.com/maths/stack_util_maximapool> for an implementation of this.  The computation times are difficult to reduce.
 
 Memory appears to be modest: the optimised Linux takes about 15Mb of memory per process.

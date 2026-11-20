@@ -116,11 +116,11 @@ sans: match_set_row(sans);
 tans: match_set_row(ta);
 ```
 We can then do a regular algebraic equivalence test between `sans` and `ans`. 
-You should turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they the answer wrong.
+You should turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they get the answer wrong.
 
 ## Example: Grid example with an index
 
-One can add a left-hand index to the grid in first grid example by defining an `index` array in _Question variables_ and passing this through in the JSON inside the `parsons` block. 
+One can add a left-hand index to the grid in the first grid example by defining an `index` array in _Question variables_ and passing this through in the JSON inside the `parsons` block. 
 This will fix the row order and simplify assessment.
 
 Important points:
@@ -131,7 +131,7 @@ This item should appear in the index and not in the header.
 
 ### Question variables 
 
-The question variables with an index is as follows.
+The question variables with an index are as follows.
 
 ```
 stack_include_contrib("matchlib.mac");
@@ -195,11 +195,11 @@ and the number of rows.
 
 ### PRT
 
-As in with the previous , we first extract the two-dimensional array of used items from the students input.
+As in the previous example, we first extract the two-dimensional array of used items from the student's input.
 ```
 sans: match_decode(ans1, true);
 ```
 At this point the author may choose to assess by comparing `sans` and `ta` as they see fit. 
 Since we have fixed the order of both dimensions, there is only one correct answer which is given by `ta`. 
 Hence we have a basic PRT which tests only algebraic equivalence between `sans` and `ta`. 
-As always, turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they the answer wrong.
+As always, turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they get the answer wrong.

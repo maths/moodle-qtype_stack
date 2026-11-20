@@ -15,7 +15,7 @@ These are notes on configuring the MathJax filter options for use with STACK.
 
 Among other things, MathJax allows screenreaders to read mathematics in a meaningful way which is critical for students who rely on this technology, or simply find it easier to learn with an aural option. For this to work, information must be typed up, not contained in a screenshot.
 
-The accessibility features supported by MathJax are given detailed in the MathJax [documentation](https://docs.mathjax.org/en/latest/basic/accessibility.html) and [YouTube](https://www.youtube.com/watch?v=6GSgTjorewQ). 
+The accessibility features supported by MathJax are detailed in the MathJax [documentation](https://docs.mathjax.org/en/latest/basic/accessibility.html) and [YouTube](https://www.youtube.com/watch?v=6GSgTjorewQ). 
 
 ## Adding MathJax to additional HTML
 
@@ -28,7 +28,7 @@ A local installation may be preferable, e.g., if you want your STACK-equipped Mo
 1. Download [MathJax](http://www.mathjax.org/)
 2. Unpack the archive and rename folder to "mathjax".
 3. Place the mathjax folder in .../moodle/lib and set appropriate ownership, e.g., `chown -R root.root mathjax`.
-4. Carry out the procedure in Option 1, editing the script above to reflect your path to MathJax. The last line can resemble the following:
+4. Carry out the procedure in Option 2, editing the script above to reflect your path to MathJax. The last line can resemble the following:
 
        <script type="text/javascript" src="http://localhost/moodle/lib/mathjax/MathJax.js?config=TeX-AMS_HTML"></script>
 
@@ -57,14 +57,14 @@ As of August 2017, you can use an external CDN at `cdnjs.cloudflare.com`.
 
 Please note the following.
 
-* These settings enable only the strict LaTeX maths environments, and does not support the use of dollars;
+* These settings enable only the strict LaTeX maths environments, and do not support the use of dollars;
 * The `processEscapes` flag enables you to include a dollar symbol in mathematics environments with `\$`.
 * The line `extensions: ['enclose.js'],` enables support for [actuarial notation](../Reference/Actuarial.md).
 * The line `Macros: { pounds: '{\\it\\unicode{xA3}}', euro: '\\unicode{x20AC}' }` enables support for the UK pounds sign and the Euro symbol in LaTeX using `\pounds` and `\euro` macros respectively.  E.g. \(\pounds\) and \(\euro\).
 
 ### What about dollar mathematics delimiters? ###  {#delimiters}
 
-Please note that we strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments such as `$...$` and `$$...$$` for inline and displayed mathematics respectively.  As of STACK 4.0 use of dollars are officially unsupported.
+Please note that we strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments such as `$...$` and `$$...$$` for inline and displayed mathematics respectively.  As of STACK 4.0 use of dollars is officially unsupported.
 The reasons are (1) they do not match, which makes parsing more difficult, and (2) many courses use [currency](../Authoring/CASText.md#currency) which needs this symbol and protecting it is always problematic.
 
 If you have extensive existing materials using these delimiters then we have scripts which will automatically convert them for you.  All fields within existing questions can be converted with the automatic scripts available from

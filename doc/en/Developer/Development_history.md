@@ -2,14 +2,42 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.15.0 (2026111800)
+
+Released November 2026.
+
+Note, this release only supports Moodle 4.4 and later. We are aware of CI failures on Moodle 4.3 and earlier.
+
+This release includes `AGENTS.md` and an `agents/stack_essentials.md` file to support LLM authoring tools.
+
+1. Upgrade use of version numbers for import/export and testing.  See [the STACK version stamp](../Moodle/Import_Export.md#the-stack-version-stamp).
+   * Every STACK question _must_ now have a version number, the `<stackversion>` field in Moodle XML.  A question without one, or with something other than a version number such as `2026080600`, has an upgrade error.  The question dashboard reports it, and the bulk tester and the API's test route do not run the question's tests.  To fix a question, save it in the editing form, which stamps the site's current version.  Existing questions which have not been saved since STACK 4.2 (July 2018) have no version number, and will need to be saved again.
+   * A question with a version number newer than the site's STACK now gives a warning, on the question dashboard and in the bulk tester.  It is only a warning: many such questions use no new features.  The API's test route returns it in a new `warnings` field, so it does not count as an error.
+2. Add in support for complex arguments to vector functions. Fix to issue #1944.
+3. Improve `ATSet` by using `algebraic_equivalence` for pairwise comparisons.  Fix to issue #1931.
+4. The security map now lists the answer-test functions, such as `ATAlgEquiv`, as available to teachers only.  Behaviour is unchanged: they were already unavailable to students.
+5. Better Maxima error reporting.  When Maxima stops at an error of its own, such as a syntax error, before returning any results, STACK now reports "CAS failed to return any data because Maxima reported an error", followed by Maxima's message.  Previously this was reported as a timeout, which made such faults hard to diagnose.
+6. Update JSXGraph to 1.14.3.
+7. Fix testing:
+   * A question test which omits the expected answer note now fails with "Expected result is empty", rather than expecting the note `1-0-T`, which no tree produces.  This applies to Moodle's import and to the API.
+   * a question test which enters an invalid value in a matrix input and expects `NULL` no longer fails as "Empty question tests are not permitted!" when the input does not require verification.
+8. Fixes to decimal separators.
+   * a textarea input with a comma as the decimal separator and "Check the type of the response" set no longer fails to validate when the teacher's answer is a list of equations, each line reporting a CAS failure.  The equivalence reasoning input had the same fault: with a comma as the decimal separator, its `firstline` option accepted a wrong first line.  Validation now writes the teacher's answer as a student types it, as "Fill in correct response" does, before splitting it into lines.
+   * with a comma as the decimal separator, the equivalence reasoning input's `firstline` syntax hint wrote a decimal in the teacher's first line with a point, so the pre-filled line was invalid.  It now uses the question's decimal separator.
+9. Fix: the answer tests `Int`, `Antidiff`, `AddConst`, `Diff` and `EqualComAssRules` no longer change the value of `simp` when they return.  Previously `simp:false` could leak out of them, for example when one was called directly in the feedback variables.  Inside a potential response tree `simp` is already local, so marking is unchanged.
+10. Fix: the editing form and import now refuse `[[feedback:...]]` and `[[validation:...]]` placeholders in the general feedback, question note and question description, and `[[validation:...]]` in the specific feedback.  Previously only `[[input:...]]` placeholders were caught, and each was reported three times.
+11. Importing a question whose tests repeat a test-case number now keeps every test: the later one gets the next free number, with a warning.  Previously it silently replaced the earlier test.
+
 ## Version 4.14.0 (2026101500)
+
+Released October 2026.
 
 1. Add [metadata](../Authoring/Metadata.md) to STACK questions.  (Issue #1711).
 2. Update to version 2.5.1 of ASCIIMath (May 2026)
 3. Add in errors to the free text input, using stdin/stdout/stderr as a model for filter/extractor functions.
 4. Count authoring failures as XML import errors so Stop on error rejects invalid uploads before writes. Explicit repair imports retain broken diagnostics without changing Moodle version status.
 5. Refactor display of matrices so that brackets for `matrix`, `c` and `r` can be controlled in a consistent manner by the question wide `matrixparens` option.  See also Issue #1848.  Thanks to Oleksandr Kulkov for these contributions.
-6. Add in augmented matrix grids for fixed [matrix inputs](../Authoring/Inputs/Matrix_input.md) and Support augmented model answers in fixed and variable-size [matrix inputs](../Authoring/Inputs/Matrix_input.md). (Issue #1850).
+6. Add in augmented matrix grids for fixed [matrix inputs](../Authoring/Inputs/Matrix_input.md) and support augmented model answers in fixed and variable-size [matrix inputs](../Authoring/Inputs/Matrix_input.md). (Issue #1850).
 7. Move the [matrix library](../Topics/Linear_algebra/Matrix_library.md) into core STACK, with generated documentation and tests. The contributed package remains available for older STACK installations.
 8. `stackjson_parse()` parses in one pass, so its time grows linearly with the length of the JSON (it was quadratic: about 1 s for the state of a moderate JSXGraph sketch, called again in every PRT). The result no longer depends on `simp`, a number at the top level is parsed, and malformed input gives `und`.  (Issue #1898).
 
@@ -37,7 +65,7 @@ This release has a major new feature: ["free-text" input](../Specialist_tools/Fr
 
 **NOTE** [STACK issue #1777](https://github.com/maths/moodle-qtype_stack/issues/1777) means that importing free-text questions can break the display of the worked solution.  To work around this issue, (1) import the question, (2) edit the question without making changes, (3) save the question, (4) test the worked solution is correctly displayed.  We will resolve this issue.
 
-Issues with [github milestone 4.13.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.13.0) include
+Issues with [GitHub milestone 4.13.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.13.0) include
 
 1. Support for Maxima 5.47.0, 5.48.0, and 5.49.0.  This includes a fix for issue #1281 from 5.48.0.
 2. Question tests can now test the whole route through a PRT, rather than just the final node.  This is a significant improvement on the ability to test questions.  This is back-compatible with older questions.
@@ -79,7 +107,7 @@ __Changes and new features.__
 2. Add in support for number bases.
 3. Validation of XML imports. XML files that fail validation will be marked as broken but still imported where possible.
 4. Editing of question XML within STACK from link in STACK dashboard. STACK now requires the importasversion plugin to make this possible.
-5. Much code tidying to comply with updated to Moodle Code Checker.
+5. Much code tidying to comply with updates to the Moodle Code Checker.
 6. Add in support for `style` in Parsons blocks.  E.g. you can now use `style="compact"` to get smaller, tighter items.
 7. Facilitate bulk test for questions in a particular quiz.  (Issue #1521)  Follow the link from the question dashboard to see quizzes in which that question is used.
 8. STACK library now imports whole quizzes - look for a `.json` file in the library.
@@ -138,7 +166,7 @@ Released March 2025.
 5. Include the `rand_matrix.mac` contributed library, a collection of matrix randomisation functions for use in linear algebra, with the local STACK source code.  See the [random](../Topics/Linear_algebra/Random_Matrices.md) documentation for details.
 6. Add in a substantial library for dealing with [linear algebra problems](../Topics/Linear_algebra/index.md).
 7. Load Maxima's `eigen` library.
-8. The API now accepts moodle XML fragments, and sets default values for all other fields.  This significantly reduces the overhead in writing and maintaining XML in other external projects.
+8. The API now accepts Moodle XML fragments, and sets default values for all other fields.  This significantly reduces the overhead in writing and maintaining XML in other external projects.
 9. Remove support for the `win` platform (which hasn't been tested for many years).  See [issue #1379](https://github.com/maths/moodle-qtype_stack/issues/1379).
 10. Add in the [adapt block](../Authoring/Question_blocks/Dynamic_blocks.md) and associated dynamic blocks.
 
@@ -166,13 +194,13 @@ Released November 2024.
 
 1. Add in the ability to insert stars for "unknown functions" in inputs.  E.g. `x(t+1)` becomes `x*(t+1)`.  This only affects "unknown" functions, not core functions such as `sin(x)`.
 2. Add in tags to the `[[todo]]` blocks to help with multi-authoring [workflow](../STACK_question_admin/Authoring_workflow.md).
-3. Add in a [question library](../AbInitio/Authoring_quick_start_6.md) page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
-4. Major update of the docs to separate out reference, know how and topics.
+3. Add in a [question library](../AbInitio/Authoring_quick_start_6.md) page which allows users to load questions from the sample question folder on the server.  This gives users ready access to openly released sample materials.
+4. Major update of the docs to separate out reference, know-how and topics.
 5. Better document the sample proofs, and provide a generic Parsons question to make it easier to use them.  See the [Proof samples](../Topics/Proof/Proof_samples.md) documentation.
 6. Allow the feedback variables to stop the execution of the PRT.  This is equivalent to one of the inputs being "invalid" or "blank".  The PRT does not get executed.  See the discussion in [issue #1227](https://github.com/maths/moodle-qtype_stack/issues/1227).
 7. Allow use of Maxima `let` commands, to generate [rules and patterns](../CAS/Rules.md) for bespoke simplification.
-8. Provisional support for STACK questions in the Moodle App. STACK questions of all input types now function in the Moodle App while online, complete with input validation. Dropdowns and checkboxes use native elements. This feature should be considered as in beta and under trial while we gather feedback on computability with a wider range of devices, Moodle installations and questions. Existing questions may need work to fit better on a mobile screen. (Be sure to use App version 4.5+ to avoid a Moodle bug with MathJax in non-STACK questions.)
-9. Improve Parsons blocks by (i) hashing for keys, and (ii) Add ability to log history of an attempt (for research).
+8. Provisional support for STACK questions in the Moodle App. STACK questions of all input types now function in the Moodle App while online, complete with input validation. Dropdowns and checkboxes use native elements. This feature should be considered as in beta and under trial while we gather feedback on compatibility with a wider range of devices, Moodle installations and questions. Existing questions may need work to fit better on a mobile screen. (Be sure to use App version 4.5+ to avoid a Moodle bug with MathJax in non-STACK questions.)
+9. Improve Parsons blocks by (i) hashing for keys, and (ii) adding the ability to log the history of an attempt (for research).
 10. Add in a new [answer test based on a validator function](../Authoring/Answer_Tests/Other.md).
 
 ## Version 4.7.0 (2024072400)
@@ -181,7 +209,7 @@ Released July 2024.
 
 1. Fix [issue #1160](https://github.com/maths/moodle-qtype_stack/issues/879) Allow configuring the MathJax URL
 2. Add in stack preamble via `%_stack_preamble_end;` in the question variables to allow some variables to be available in inputs.  This fixes [issue #1207](https://github.com/maths/moodle-qtype_stack/issues/1207) and [issue #1133](https://github.com/maths/moodle-qtype_stack/issues/1133).
-3. Allow Maxima code in keyvals to terminate expressions with a `$` (as in Maxima) [issue #1019](https://github.com/maths/moodle-qtype_stack/issues/1019).  This will allow better copy/paste to and from desktop maxima.
+3. Allow Maxima code in keyvals to terminate expressions with a `$` (as in Maxima) [issue #1019](https://github.com/maths/moodle-qtype_stack/issues/1019).  This will allow better copy/paste to and from desktop Maxima.
 4. Add in an option to fine-tune the multiplication sign used for scientific units:  `multsgnstackunits`.  See discussion in [issue #1080](https://github.com/maths/moodle-qtype_stack/issues/1080).
 5. Add in the "Deploy from n to m" feature to systematically deploy seeds.
 6. Restyle response analysis page.
@@ -190,7 +218,7 @@ Released July 2024.
 
 Released June 2024.
 
-This version will require moodle 4.0+. Moodle 3.x is no longer supported.
+This version will require Moodle 4.0+. Moodle 3.x is no longer supported.
 
 1. Alter list of acceptable expressions.  Unicode super/subscripts now are invalid.  Use 150_replace filter in students' input.
 2. Add in the extra input option `feedback` to run in parallel with validators to give opportunities for bespoke messages.
@@ -198,13 +226,13 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 4. Fix display and simplification of binomial coefficients (issue #931).
 5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
 6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
-7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).   There is a new question option to choose between \(1.7 \times 10^{-9}\) and \(1.7E-9\).
+7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed as \(1.7 \times 10^{-9}\).   There is a new question option to choose between \(1.7 \times 10^{-9}\) and \(1.7E-9\).
 8. Add in support for drag and drop matching problems, as [grid](../Specialist_tools/Drag_and_drop/Grid.md) and [grouping](../Specialist_tools/Drag_and_drop/Grouping.md).
 
 
 ## Version 4.5.0-hf2 (2024012900)
 
-Fix critical bug in Javascript.
+Fix critical bug in JavaScript.
 Released January 2024.
 
 ## Version 4.5.0 (2023121100)
@@ -213,15 +241,15 @@ Released December 2023.
 
 Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 
-1. Re-factor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
+1. Re-factor the healthcheck scripts, especially to make unicode requirements for Maxima more prominent.
 2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TO-DO: possible option to change shape at the input level?)
 3. Allow users to [systematically deploy](../STACK_question_admin/Deploying_systematically.md) all variants of a question in a simple manner.
-4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
+4. Tag inputs with 'aria-live' set to 'assertive' for better screen reader support.
 5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
 6. Confirm support for PHP 8.2, (fixes issue #986).
 7. Add in a [GeoGebra block](../Specialist_tools/GeoGebra/index.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
 8. Add in an option `margin` to control margins around STACK-generated plots.
-9. Add in better support for proof as [Parson's problems](../Specialist_tools/Drag_and_drop/Parsons.md).  (First version, but still more to do including syntax hints, and locking after the quiz is closed.)
+9. Add in better support for proof as [Parsons problems](../Specialist_tools/Drag_and_drop/Parsons.md).  (First version, but still more to do including syntax hints, and locking after the quiz is closed.)
 
 There are also numerous minor improvements and bug fixes.
 
@@ -241,7 +269,7 @@ Released July 2023.
 4. Add in the `[[todo]]` [question block](../Authoring/Question_blocks/Static_blocks.md).
 5. Caschat page now saves question variables and general feedback back into the question.  Fixes issue #984.
 6. Confirm support for Maxima 5.46.0 and 5.47.0.
-7. All inputs now "allowempty" and "hideanswer" as extra options.  Fixes issue #997.
+7. All inputs now have "allowempty" and "hideanswer" as extra options.  Fixes issue #997.
 
 ## Version 4.4.4
 
@@ -262,7 +290,7 @@ __Action required__ Check that all your materials using `[[jsxgraph]]` continue 
 5. Add in the input extra option `validator` to allow user-defined validation functions.
 6. Reorganise the [answer test](../Authoring/Answer_Tests/index.md) documentation.
 
-Major re-working of Javascript in STACK.  Specifically
+Major re-working of JavaScript in STACK.  Specifically
 
 1. STACK-JS a VLE agnostic JavaScript system that moves all script execution into sandbox iframes and restricts the things those scripts can do outside that sandbox. Basically, replaces the `[[jsxgraph]]`-block and provides ways for doing other scripting.
 2. Initial implementation of the `[[reveal]]`-block (#570) using the STACK-JS system.
@@ -311,7 +339,7 @@ Major rewrite of the PRT and CASText systems, focus on performance and limitatio
 14. The security system now does runtime checks and no longer tries to catch evil things through static analysis in advance.
 15. Added `checkvars` option to inputs.
 16. Add in support for the [Damerau-Levenshtein distance](../Topics/Levenshtein_distance.md).
-17. Add in suppprt for the display of [Complex Numbers](../CAS/Complex_numbers.md).
+17. Add in support for the display of [Complex Numbers](../CAS/Complex_numbers.md).
 18. Add in basic solving of expressions with the not equals.  E.g. `x-1#0` is now considered equivalent to `x#1`.
 19. Add in support for Moodle 4.0.
 
@@ -829,7 +857,7 @@ Once completed we are ready for the **Beta release!**
 
 ##### Optimising Maxima
 
-1. Since I have optimized Maxima, I removed write permissions to /moodledata/stack/maximalocal.mac. This makes the healthcheck script unrunnable, and hence I cannot clear the STACK cache.
+1. Since I have optimised Maxima, I removed write permissions to /moodledata/stack/maximalocal.mac. This makes the healthcheck script unrunnable, and hence I cannot clear the STACK cache.
 2. Finish off the system for running Maxima on another server (https://github.com/maths/moodle-qtype_stack/pull/8)
 
 ##### Documentation system

@@ -1,6 +1,6 @@
 # Defining variables
 
-Only two fields allow you to define and manipulate computer algebra system (Maxima) variables the Question Variables and Feedback variables.
+Only two fields allow you to define and manipulate computer algebra system (Maxima) variables: the Question Variables and Feedback variables.
 
 Individual assignments take the form
 
@@ -16,7 +16,7 @@ These fields are known as _KeyVal_ fields.
 
 ## Maxima's assignments `a:3` ##
 
-Maxima, and hence STACK, uses the form `key:value`, to assign a value to a variable, which unusual and not intuitive.  Maxima reserves `:=` to denote function definition, e.g. `f(x):=x^2`.
+Maxima, and hence STACK, uses the form `key:value`, to assign a value to a variable, which is unusual and not intuitive.  Maxima reserves `:=` to denote function definition, e.g. `f(x):=x^2`.
 
 ## Notes ##
 
@@ -26,6 +26,7 @@ Maxima, and hence STACK, uses the form `key:value`, to assign a value to a varia
 * The `key` must be a simple variable name.  It must start with letters, and can contain numbers and underscore characters.
 * An equation such as `a = 3` does not assign a value, and gives no error: it is stored under an automatic name, and `a` remains a variable.
 * You cannot assign to the names of Maxima's system and option variables, such as `tab`, `title`, `values` or `key`.  Doing so stops the question variables with an error such as "The expression tab is forbidden".
+* Some other names are also unsafe.  `ind` is a Maxima constant, and assigning to it stops the CAS.  `on` is bound to `true`.  STACK redefines `pi`, `Pi`, `e`, `i` and `j`.
 * If a student uses a variable which has been assigned a value in the question variables then the attempt will be rejected as invalid.  You can use the "allowed words" to enable students' expressions with question variables to be considered valid.
     Hence, it is a sensible idea to use variable names which are not used as parameters in the question, or likely to occur in the student's answer. For example if you set an integration question then you should avoid using the variable `c`, otherwise students won't be able to write `+c` in the normal way to indicate a constant of integration.
 * You can include C-style block comments for increased clarity, and these may appear on separate lines
@@ -39,7 +40,7 @@ The question variables are evaluated when a variant of a question is created.   
 * Teacher's answers in [inputs](../Authoring/Inputs/index.md) are defined in terms of question variables.
 * [Question note](../Authoring/Question_note.md).
 * General feedback (also known as the worked solution).
-* All fields in each of the [potential response tree](Potential_response_trees.md).
+* All fields in each of the [potential response trees](Potential_response_trees.md).
 * Each input when testing the item.
 * Question variables are not available to inputs when a student is validating their answer, unless special ''context variables'' are defined in a preamble.
 
@@ -51,11 +52,11 @@ If the following commands appear within the question variables they will be avai
 * `assume` and `declare`.
 * `texput`, see notes directly below.
 
-This collection of special variables are called "context variables".
+This collection of special variables is called "context variables".
 
 STACK has a special constant `%_stack_preamble_end`.  Any variables _before_ this constant will be included within the context variables.  This enables you to define functions, e.g. to use with `texput`.  
 
-Note, that students are not permitted to use any variable name defined by the teacher in the question variables.  This includes both the context variables, and the regular remaining question variables.  It is not possible to define variables which a student can then use.  Students _can_ use function names defined in the preamble. e.g. you can put `vec(ex):=stackvector(ex);` into the preamble.
+Note that students are not permitted to use any variable name defined by the teacher in the question variables.  This includes both the context variables, and the regular remaining question variables.  It is not possible to define variables which a student can then use.  Students _can_ use function names defined in the preamble, e.g. you can put `vec(ex):=stackvector(ex);` into the preamble.
 
 For example, `assume(a>0)` will enable you to accept \(a\sqrt{5}=\sqrt{5a^2}\) using the `AlgEquiv` answer test.  Normally \(\sqrt{a^2}=|a|\neq a\).
 
@@ -99,10 +100,10 @@ When using the [potential response tree](Potential_response_trees.md) it is ofte
 to manipulate the student's answer _before_ applying any of the [Answer tests](Answer_Tests/index.md).
 This gives the opportunity to perform sophisticated mathematical operations.
 
-Before each answer test is applied the following list of variables is assembled and evaluated
+Before each answer test is applied the following list of variables is assembled and evaluated:
 
 1. The values of the question variables.
-2. The values of each [inputs](../Authoring/Inputs/index.md).
+2. The values of each [input](../Authoring/Inputs/index.md).
 3. The feedback variables.
 
 The values of the evaluated feedback variables can be used as expressions in the answer tests and in the feedback.

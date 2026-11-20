@@ -125,6 +125,21 @@ for ($i = 0; $i < $count; $i++) {
 }
 $endnew = microtime(true);
 
+$astnewcomma = null;
+$commaanswernotes = [];
+$commaerrors = [];
+try {
+    $options = stack_parser_options::get_old_config();
+    $options->separators = StackLexerSeparators::Comma;
+    $parser = $options->get_parser();
+    $lexer = $options->get_lexer($teststring);
+    $astnewcomma = $parser->parse($lexer, $commaanswernotes);
+} catch (stack_maxima_parser_exception $e) {
+    $ei = new stack_parser_error_interpreter($options);
+    $ei->interprete($e, $commaerrors, $commaanswernotes);
+}
+
+
 if ($parseable) {
     cli_writeln('The test-string was directly parseable by the old parser.');
 } else {
@@ -152,6 +167,16 @@ if ($astnew !== null) {
     cli_writeln('The new parser did not parse, errors and notes as follows:');
     print_r($newerrors);
     print_r($newanswernotes);
+}
+
+if ($astnewcomma !== null) {
+    cli_writeln('The new AST is like this, when parsed with decimal commas:');
+    cli_writeln($astnewcomma->debugPrint($astnewcomma->toString(['nosemicolon' => true])));
+    cli_writeln($astnewcomma->toString(['flattree' => true]));
+} else {
+    cli_writeln('The new parser did not parse with decimal commas, errors and notes as follows:');
+    print_r($commaerrors);
+    print_r($commaanswernotes);
 }
 
 if ($count > 1) {

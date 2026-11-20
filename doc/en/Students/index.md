@@ -1,45 +1,5 @@
-<!-- Drafting a new Student Guide for STACK 
-     Tim Lowe
-     September 2026 
- -->
-
-
-<!-- YAML specification of document header for pandoc PDF -->
-<!-- (could attempt via -M title=".." pandoc option, but ignores the formatting) -->
-
---- 
-title: "\\textbf{STACK Student Guide} 
-\\vspace*{-2\\baselineskip}"
-
-include-before: |
-  \begin{center}
-    \includegraphics[width=4cm]{logo_large.png}
-  \end{center}
-  
----
-
-<!--
-Note:
-. Below we temporarily define  *... ** aka HTML <em>
-  to give coloured text to indicate drafting notes
-. Stop h1 giving capital text (ghostwriter quirk)
--->
-
-<style>
-em  {color: red; background:yellow;}
-h1  {text-transform: none;}
-</style>
-
-
-
-(*This style of text is drafting notes*)
-
 # Answering online quiz questions
 
-*This text should replace that at
-(https://docs.stack-assessment.org/en/Students/index.md)*
-
-*I was not sure the best title. I want to avoid using the term STACK as most students will not know the name of the system, nor need to know it! I wanted to ensure this works for questions in both quizzes and embedded in other materials, for example text books*
 
 Some of the online questions you will be asked to answer use the world-leading [STACK](https://stack-assessment.org/) system, which enables you to enter mathematical answers and then assesses your answers based on their mathematical properties. Many of the questions are randomised, so that if you attempt the question again, you may get a different version, and different students may see different versions of the same question.
 

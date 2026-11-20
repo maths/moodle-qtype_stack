@@ -23,7 +23,7 @@ You should type in numbers without spaces, and use fractions rather than decimal
 For example, \(1/4\) should be entered as `1/4`, not as `0.25`. Also,
 
 * You can also use scientific notation for large numbers, e.g. \(1000\) can be entered as either `1E+3`, or as `1e3`.
-  * Note that in many situations floating point numbers are forbidden.
+  * Note, that in many situations floating point numbers are forbidden.
 * \(\pi\) is entered as either `pi` or `%pi`.
 
 * \(i\) is entered as either `i` or `%i`.

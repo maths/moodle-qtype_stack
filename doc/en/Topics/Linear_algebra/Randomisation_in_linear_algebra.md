@@ -1,11 +1,34 @@
 # Randomisation in linear algebra
 
-This page is a discussion of randomisation when setting linear algebra problems. This can be a particularly difficult problem to tackle in this subject: matrices have many degrees of freedom, and problems that seem very similar at a glance can have dramatically different solutions. On top of that, we often need to choose between posing a problem that contains "nice" numbers and requiring an answers that contain "nice" numbers; both at once is difficult or impossible in general! 
+This page is a discussion of randomisation when setting linear algebra problems. This can be a particularly difficult problem to tackle in this subject: matrices have many degrees of freedom, and problems that seem very similar at a glance can have dramatically different solutions. On top of that, we often need to choose between posing a problem that contains "nice" numbers and requiring an answer that contain "nice" numbers; both at once is difficult or impossible in general! 
 
 There are two tools that this article will use liberally: 
 
 - The [`rand_matrix.mac`](Random_matrices.md) library. This contains many functions that can be used to generate random matrices with defined structure or with defined properties.
-- The `scale_nicely` function. This takes a list or vector and returns the "simplest" list or vector that is parallel to the input. This was originally designed with basis problems in mind (i.e. it is often preferable to use \((2,1,1)\) than \((1,1,0.5)\)), but we will use it more liberally.
+- The `scale_nicely` function. This takes a list or vector and returns the "simplest" list or vector that is parallel to the input. This was originally designed with basis problems in mind (i.e. it is often preferable to use \((2,1,1)\) than \((1,1,0.5)\)), but we will use it in more ways than just this.
+
+## Principles
+
+### Should we even care about "nice" numbers?
+The rest of this discussion is focused on _how_ to generate certain problems and not whether it is actually a good idea. As teachers we need to carefully balance the degree to which we present learners with accessible, clear problems, and the degree to which we present students with realistic problems. It is not reasonable for a student to come away from a linear algebra course with the perception that it is reasonable for their matrix factorisations or solution to linear systems to always have integer values, or that any unit vectors they come across will usually have many zeros and a scaling factor smaller than \(\sqrt{10}\). However, if their first exposure to these concepts requires most of the brainpower to tackle difficult computation (or requires the use of calculators to manage them), then they will likely struggle to identify any patterns or symmetries, or to develop their intuition more than they otherwise would. 
+
+Therefore, this article is intended to give you, the teacher, some tools to develop "nice" questions that allow your student to work through the processes without the distraction of challenging arithmetic. Please consider also ignoring all these tools once your students have developed some level of expertise!
+
+### Variants
+STACK provides us with an incredibly powerful randomisation tool in the deployed variants identified by the question note. All of the strategies below can still sometimes create very challenging arithmetic, especially when the "level of complexity" input into the `rand_matrix` functions is higher. Even more commonly, trivial examples can appear. Thus, it is extremely important to write meaningful question notes and filter out any variants that are still inappropriate. In some cases you may wish to include some or all of the expected student working in the question note so that you can check that intermediate steps maintain "nice _enough_" numbers. The author finds it helpful to deploy many variants, copy the handful of seeds that generate the best variants into a separate notepad, and then utilise the "undeploy all and redeploy from list" functionality to filter the list in bulk. 
+
+Another, less elegant but highly functional strategy to any of those below is to brute force randomisation ahead of time. For instance, suppose you wanted a \(2\times 2\) matrix that has no zeros and a determinant of \(\pm 1\). Running the below code will produce such a list of matrices very inefficiently: 
+
+    stack_include_contrib("rand_matrix.mac");
+    mats: {};
+    for ii: 1 thru 1000 do block([mat, _good],
+      mat: rand_matrix(2,2,10),
+      _good: is(abs(determinant(mat)) = 1),
+      _good: _good and every(lambda([ex], not(is(ex=0))),list_matrix_entries(mat)),
+      if _good then mats: union(mats, {mat})
+    );
+
+If `mats` is formatted appropriately, perhaps with `{#mats#}` in question text somewhere (or in the CASchat), this list can be copied and pasted into another question. Then you can select `A: rand(mats)`. This was very inefficient one time (and could have been achieved other ways without much difficulty), but is extremely efficient when deploying variants and doesn't require too much creativity. 
 
 ## Linear systems with given fundamental subspaces
 
@@ -68,6 +91,29 @@ Let's look at partial pivoting, in which we want to swap the largest possible va
 
 Note that the sub-diagonal entries were restricted to being \(0\) or  \(\pm\frac{1}{2}\) here to keep the values small. This list can be extended, but each unique denominator introduced will likely cause the average entry in \(U\) to grow. 
 
+## QR Factorisation
+
+It is not very reasonable to assume that a \(QR\) factorisation will have truly "nice" numbers due to the requirement that \(Q\) has columns of unit length. If we're willing to allow surds throughout but still want to keep the numbers small, we could try an approoach like the following: 
+
+    stack_include_contrib("rand_matrix.mac");
+    Q: rand_orthcols(4,3,1);
+    Q: cols_to_matrix(map(scale_nicely,matrix_to_cols(Q)));
+    R: rand_triu_list(3,3,[-2,-1,1,2,3]);
+    A: Q . R;
+
+This generates an integer matrix \(Q\) with orthogonal (but probably not orthonormal) columns, and an integer upper triangular \(R\). A true \(QR\) factorisation will scale down each column of \(Q\) by its length and scale up the corresponding row of \(R\) by the same. Using `rand_orthcols` with a level of complexity of \(1\) gives a good chance that the original \(Q\) will have quite small entries and thus keep the overall system relatively simple.
+
+To really keep things simple, we can leverage pythagorean triples, quadruples or quintuples. For instance, it is easy to construct a matrix with orthogonal columns using the pythagorean quadruple \((1, 2, 2, 3)\). Then we just ensure that entries in \(R\) are multiples of \(3\) and we are done. Even simpler, we can use \((1,1,1,1,4)\) and ensure that all entries in \(R\) are even. The below code shows a way to randomise these that goes much further than necessary. 
+
+    stack_include_contrib("rand_matrix.mac");
+    Q3: matrix([2,2,1],[2,-1,-2],[1,-2,2])/3;
+    Q3: rand_perm_matrix(3) . rand_diag_list(3,3,[1,-1]) . Q3 . rand_diag_list(3,3,[1,-1]) . rand_perm_matrix(3);
+    R3: rand_triu_list(3,3,[-6,-3,3,6]);
+    
+    Q4: matrix([1,1,1,1],[1,-1,1,-1],[1,1,-1,-1],[1,-1,-1,1])/2;
+    Q4: rand_perm_matrix(4) . rand_diag_list(4,4,[1,-1]) . Q4 . rand_diag_list(4,4,[1,-1]) . rand_perm_matrix(4);
+    R4: rand_triu_list(4,4,[-4,-2,2,4]);
+
 ## Eigenvectors and eigenvalues
 
 Two matrices are called _similar_ when their eigenvalues are identical (including the structure of the generalised eigenspaces). Therefore, if we want to prescribe this structure for a matrix, we can start by generating a "simple" matrix with the eigenvalues we want and then convert it to a similar matrix using a similarity transformation of the form \(A = PMP^{-1}\). The \(P\) matrix here can be anything invertible, but you might find it useful to use `rand_integer_invertible` from the aforementioned library, as (alongside an integer-valued \(M\)), we guarantee that \(A=PMP^{-1}\) is integer-valued.
@@ -101,7 +147,7 @@ In general, Jordan blocks can have non-real eigenvalues on the diagonal. For a r
 
 \[\left[\begin{array}{cc}a+b\mathrm{i} & 0 \\ 0 & a - b\mathrm{i}\end{array}\right] \xrightarrow{\text{becomes}} \left[\begin{array}{rr}a & -b \\ b & a\end{array}\right].\]
 
-We can produce repeated non-real eignenvalues if we repeat this block along the diagonal with an identity matrix above it. An example is provided below to hopefully make this clearer.
+We can produce repeated non-real eigenvalues if we repeat this block along the diagonal with an identity matrix above it. An example is provided below to hopefully make this clearer.
 
     /* Real matrix with non-real eigenvalues */
     D_complex: matrix([2,-1,0,0],[1,2,0,0],[0,0,2,0],[0,0,0,-1]);

@@ -955,9 +955,9 @@ final class input_units_test extends qtype_stack_testcase {
             new stack_cas_security(true)
         );
         // This is related to issue #1619.  The new behaviour in parser2 is logical, but probably an unexpected change.
-        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('9 . 81*m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ 9\cdot 81\, {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
+        $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma <code>,</code> as a decimal separator!', $state->errors);
         $this->assertEquals(
             'The answer <span class="filter_mathjaxloader_equation">'
             . '<span class="nolink">\( 9{,}81\, {\mathrm{m}}/{\mathrm{s}^2} \)</span></span>, which can be typed as '

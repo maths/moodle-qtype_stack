@@ -192,11 +192,49 @@ class stack_question_test {
 
             $result->override_feedback($feedback);
             $results->set_prt_result($prtname, $result);
+            $results->set_prt_errors($prtname, self::describe_prt_errors($question, $prtname, $result));
         }
 
         $results->runtimeerrors = $question->runtimeerrors;
         $results->emptytestcase = $emptytestcase;
         return $results;
+    }
+
+    /**
+     * Describe the runtime errors from evaluating a PRT, each prefixed with where it happened.
+     *
+     * An error in the feedback of a node branch is prefixed with the answer note of that branch,
+     * for example "prt1-3-T: inpart: invalid index 2 of list or matrix." (Maxima's error for an
+     * out-of-range list index). Other errors are prefixed with the PRT name.
+     *
+     * @param qtype_stack_question $question the question the PRT belongs to.
+     * @param string $prtname the name of the PRT.
+     * @param prt_evaluatable $result the result of evaluating the PRT.
+     * @return string[] short error messages.
+     */
+    public static function describe_prt_errors($question, string $prtname, prt_evaluatable $result): array {
+        $nodes = [];
+        if (isset($question->prts[$prtname])) {
+            $nodes = $question->prts[$prtname]->get_nodes();
+        }
+
+        $errors = [];
+        foreach ($result->get_errors('objects') as $error) {
+            $location = $prtname;
+            // Errors in node feedback have a context like /p/0/n/<node key>/ft/... or .../ff/..., see stack_cas_error.
+            if (
+                preg_match('~^/p/\d+/n/([^/]+)/(ft|ff)(/|$)~', $error->get_context(), $matches) &&
+                isset($nodes[$matches[1]])
+            ) {
+                $node = $nodes[$matches[1]];
+                $note = $matches[2] === 'ft' ? $node->trueanswernote : $node->falseanswernote;
+                if (trim($note) !== '') {
+                    $location = trim($note);
+                }
+            }
+            $errors[] = $location . ': ' . trim($error->get_legacy_error());
+        }
+        return $errors;
     }
 
     /**

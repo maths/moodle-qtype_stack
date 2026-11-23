@@ -1,22 +1,24 @@
 # Answering online quiz questions
 
-
 Some of the online questions you will be asked to answer use the world-leading [STACK](https://stack-assessment.org/) system, which enables you to enter mathematical answers and then assesses your answers based on their mathematical properties. Many of the questions are randomised, so that if you attempt the question again, you may get a different version, and different students may see different versions of the same question.
 
-This document provides some advice on how to enter your answers to such questions. Note that individual questions may be configured in different ways, so there may be exceptions to the general advice given here. In general, there are three stages to entering your answer to these questions:
+This provides some advice on how to enter your answers to such questions. Note that individual questions may be configured in different ways, so there may be exceptions to the general advice given here. In general, there are three stages to entering your answer to these questions:
 
 1. Typing your answer
-2. Checking you entered your intended answer
+2. Checking you entered the answer you intended
 3. Submitting your answer for marking.
 
 There is a page of [Frequently asked questions](FAQ.md) online.
 
 ## Typing your answer
 
-Most questions will provide one or more boxes in which you should enter your answer(s). A typical box is shown below.
+There are two main styles of question you may be asked to answer: short answer questions and extended free-form text questions. These are outlined in the following sections.
 
-![A typical box into which answers are entered](images/student-guide-answerbox.png)
+### Short answer questions
 
+Short answer questions will provide one or more boxes in which you should enter your answer(s). A typical box is shown below.
+
+![A typical short answer box into which answers are entered](images/short-answer-box.png)
 
 Some questions may require you to enter a number as an answer, such as $7$, $1.4$, $3/4$, $\sqrt{3}$ or $2\pi$.
 
@@ -29,19 +31,29 @@ This can be entered into the system by typing
 
 `x^2/(2+x) + 3*sin(4*x) + exp(5*x)`
 
-Notice that powers are given using `^` and the syntax for exponentiation is `exp`. The denominator of the fraction in the first term has been enclosed within brackets, to ensure the whole of $1+x$ is within the denominator.
+Notice that powers are given using `^` and the syntax for exponentiation is `exp`. The denominator of the fraction in the first term has been enclosed within brackets, to ensure the whole of $2+x$ is within the denominator.
 
-In this example, the multiplication signs (`*`) have been included. Although many questions will accept answers without then, it is always best to enter them.
+In this example, the multiplication signs (`*`) have been included. Although many questions will accept answers without them, it is always best to enter them.
 
-There are more details on the syntax needed to enter your answer in the [Answer input](Answer_input.md) section. There are some forms of question that require a slightly different form of input. These are described in the [Free-text input](https://docs.stack-assessment.org/en/Students/Free_text/) section of the online documentation.
+This syntax for answering short-answer questions is the syntax of the Maxima computer algebra system. The are more details on this syntax in the [Short answer input](Answer_input_(short).md) section. 
 
+### Free-text input
 
+Some questions may allow you to enter multiple lines of text and mathematics containing an extended solution to some problem. These questions display two panels, as shown below, one (on the left) for entering your solution and one (on the right) where your answer is displayed properly formatted. Usually, only certain lines of your solution will be marked automatically, the individual question will state what is required. Your teacher may, however, review the complete answer.
 
+![A typical free text answer box showing a typed solution on the left, and a formatted version on the right](images/free-text-answerbox.png)
+
+In these questions, text can be formatted using *Markdown* syntax. There are more details on this in the [Free-text Markdown](Free-text-markdown.md) section. 
+
+Mathematics is entered between *backticks*, for example `` ` x^2 + 2x ` `` .  If there is text on the same line as the mathematics, or on the lines immediately above or below it, then the mathematics will be displayed inline, otherwise it will be shown as displayed mathematics. The syntax used within the backticks is called AsciiMath, which is an easy-to-write syntax for mathematics. There are more details on this syntax in the [Free-text AsciiMath](Free-text-AsciiMath-intro.md) section. 
+
+If you know LaTeX, you can also enter LaTeX syntax, for example ` \( x^2 + 2 x \) ` for inline mathematics or ` \[ sin(x)/{x+2} \]`for displayed mathematics .
+
+Finally, some (but not all!) questions of this type will permit you to use an internal calculator. This allows you to calculate the value of expressions, to save you having to use a separate physical device. For example, entering `{@ cos(pi) @}` will display the result, which is -1. (Note that angles are assumed to be in radians.) Decimal answers may be displayed to a large number of decimal places. To round an answer, for example to 3 decimal places, use `{@ round(cos(2), 3) @}`.
 
 ## Checking your answer
 
-Once you have entered your answer, most questions will display what you have entered in the correct mathematical format. An example is shown below.
-
+Once you have entered your answer, most questions will display the parts of your answer that will be automatically marked in the correct mathematical format. An example is shown below.
 
 ![An example answer box containing a typed student answer, and showing a mathematical rendering of the answer and a list of the variables detected wihtin the student answer.](images/student-guide-answer-validation.png)
 

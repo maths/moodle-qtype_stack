@@ -151,6 +151,8 @@ See documentation on [inclusions](../Authoring/Inclusions.md) for more detail of
 
 Then you can create random matrices, e.g. to generate a \(3\times 3\) invertible matrix use `{@rand_invertible(3)@}`.
 
+The functions are documented in [random matrices](../Topics/Linear_algebra/Random_Matrices.md).  For practical strategies see [randomisation in linear algebra](../Topics/Linear_algebra/Randomisation_in_linear_algebra.md).
+
 ## Direct access to the seed
 
 Every CAS (Maxima) session contains a constant `stack_seed` which holds the integer value of the seed used by that variant of the question.  If you want to create "random" questions in a carefully indexed way, using this variable is possible.  See [systematic deployment](../STACK_question_admin/Deploying_systematically.md).

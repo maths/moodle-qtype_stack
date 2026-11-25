@@ -30,6 +30,11 @@ for "binary" operations might be in a subdirectory "/basen/binary/". Each
 directory can then have a MarkDown file called `description.md` describing
 the common themes of that directory.
 
+The compiler also writes the metadata for these pages, that is the "Library"
+section of "CAS" in `/doc/meta_en.json`, so do not edit that section by hand.
+The first sentence of `description.md` becomes the description of the page in the
+metadata, so keep it to at most 160 characters.
+
 ### Functions, variables, inert and unbound
 
 The system currently supports documenting functions and variables by placing

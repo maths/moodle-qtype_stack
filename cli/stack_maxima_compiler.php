@@ -786,3 +786,95 @@ function node_handler(doc_tree_node $node, $indent = 0, $path = ''): string {
 $doc .= node_handler($categories[''], 0);
 $doc .= "\n";
 file_put_contents(__DIR__ . '/../doc/en/CAS/Library/index.md', $doc);
+
+
+// Generate the metadata entries, i.e. the "Library" section of "CAS", in `doc/meta_en.json`.
+// The rest of that file is maintained by hand, so we only replace the text of that section.
+
+/**
+ * Create a description of a category from the first sentence of its `description.md`.
+ * @param doc_tree_node $node The category.
+ * @param string $path Path of the category, e.g. "basen/binary".
+ * @return string Plain text, with at most 160 characters.
+ */
+function meta_description(doc_tree_node $node, string $path): string {
+    $text = str_replace("\r\n", "\n", trim($node->description));
+    $text = preg_split('/\n\s*\n/', $text)[0];
+    // Remove markdown links and code. This text ends up in an HTML attribute, so no double quotes.
+    $text = preg_replace('/\[([^\]]*)\]\([^)]*\)/', '$1', $text);
+    $text = str_replace(['`', '"', '<', '>'], ['', "'", '', ''], $text);
+    $text = trim(preg_replace('/\s+/', ' ', $text));
+    $text = preg_split('/(?<=[.!?]) (?=[A-Z])/', $text)[0];
+    if ($text === '') {
+        $text = "Reference documentation for the STACK specific Maxima functions in $path.";
+    }
+    if (strlen($text) > 160) {
+        $text = explode("\n", wordwrap($text, 157, "\n"))[0] . '...';
+    }
+    return $text;
+}
+
+/**
+ * Create the list of metadata entries for a category, including those of its subdirectories.
+ * @param doc_tree_node $node The category.
+ * @param string $path Path of the category, empty for the root.
+ * @return array In the structure used by `doc/meta_en.json`.
+ */
+function meta_entries(doc_tree_node $node, string $path = ''): array {
+    if ($path === '') {
+        $entries = [
+            [
+                'file' => 'index.md',
+                'title' => 'Index of STACK specific Maxima functions - STACK Documentation',
+                'description' => 'Tree index of STACK specific Maxima functions.',
+            ],
+            [
+                'file' => 'alphabetical.md',
+                'title' => 'Alphabetical index of STACK specific Maxima functions - STACK Documentation',
+                'description' => 'Alphabetical index of STACK specific Maxima functions.',
+            ],
+        ];
+    } else {
+        $entries = [
+            [
+                'file' => 'index.md',
+                'title' => "STACK specific Maxima functions: $path - STACK Documentation",
+                'description' => meta_description($node, $path),
+            ],
+        ];
+    }
+    foreach ($node->children as $child) {
+        $childpath = ltrim($path . '/' . $child->name, '/');
+        $entries[] = [$child->name => meta_entries($child, $childpath)];
+    }
+    return $entries;
+}
+
+$metafile = __DIR__ . '/../doc/meta_en.json';
+$meta = file_get_contents($metafile);
+$entries = meta_entries($categories['']);
+
+// There is another "Library" section elsewhere, so find the one in "CAS".
+// Match up to its closing bracket, ignoring any brackets inside strings.
+$pattern = '/"CAS"\s*:\s*\[.*?\n([ \t]*)"Library"\s*:\s*(\[(?:[^\[\]"]++|"(?:[^"\\\\]|\\\\.)*+"|(?2))*+\])/s';
+if (preg_match($pattern, $meta, $matches, PREG_OFFSET_CAPTURE) !== 1) {
+    cli_error('Could not find the "Library" section of "CAS" in doc/meta_en.json.');
+}
+$json = json_encode($entries, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+// Keep to the indentation already used in the file.
+$json = str_replace("\n", "\n" . $matches[1][0], $json);
+$newmeta = substr_replace($meta, $json, $matches[2][1], strlen($matches[2][0]));
+
+// Only write the file if this section is all that has changed.
+$expected = json_decode($meta, true);
+foreach ($expected['en'] ?? [] as $i => $section) {
+    foreach ($section['CAS'] ?? [] as $j => $entry) {
+        if (array_key_exists('Library', $entry)) {
+            $expected['en'][$i]['CAS'][$j]['Library'] = $entries;
+        }
+    }
+}
+if ($expected === null || json_decode($newmeta, true) !== $expected) {
+    cli_error('Failed to update the "Library" section of "CAS" in doc/meta_en.json.');
+}
+file_put_contents($metafile, $newmeta);

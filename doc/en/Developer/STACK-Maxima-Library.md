@@ -33,8 +33,8 @@ the following steps:
    STACK-Maxima, to run the tests simply say the following assuming normal path
    settings `load("maximasrccompiled_tests.mac")`.
 5. Remember to commit the logic in `stack/maxima/maximasrccompiled.mac`,
-   the tests in `stack/maxima/maximasrccompiled_tests.mac`, and the docs
-   under `doc/en/CAS/Library`. 
+   the tests in `stack/maxima/maximasrccompiled_tests.mac`, the docs
+   under `doc/en/CAS/Library`, and their metadata in `doc/meta_en.json`. 
 
 
 ## Directory docs

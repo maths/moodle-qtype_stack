@@ -4,20 +4,22 @@ This page is a discussion of randomisation when setting linear algebra problems.
 
 There are two tools that this article will use liberally: 
 
-- The [`rand_matrix.mac`](Random_matrices.md) library. This contains many functions that can be used to generate random matrices with defined structure or with defined properties.
+- The [`rand_matrix.mac`](Random_Matrices.md) library. This contains many functions that can be used to generate random matrices with defined structure or with defined properties.
 - The `scale_nicely` function. This takes a list or vector and returns the "simplest" list or vector that is parallel to the input. This was originally designed with basis problems in mind (i.e. it is often preferable to use \((2,1,1)\) than \((1,1,0.5)\)), but we will use it in more ways than just this.
 
 ## Principles
 
 ### Should we even care about "nice" numbers?
+
 The rest of this discussion is focused on _how_ to generate certain problems and not whether it is actually a good idea. As teachers we need to carefully balance the degree to which we present learners with accessible, clear problems, and the degree to which we present students with realistic problems. It is not reasonable for a student to come away from a linear algebra course with the perception that matrix factorisations or solution to linear systems will always have integer values, or that any unit vectors they come across will usually have many zeros and a scaling factor smaller than \(\sqrt{10}\). However, if their first exposure to these concepts requires most of the brainpower to tackle difficult computation (or requires the use of calculators to manage them), then they will likely struggle to identify any patterns or symmetries, or to develop their intuition more than they otherwise would. 
 
 Therefore, this article is intended to give you, the teacher, some tools to develop "nice" questions that allow your student to work through the processes without the distraction of challenging arithmetic. Please consider also ignoring all these tools once your students have developed some level of expertise and giving them something nastier!
 
 ### Variants
+
 STACK provides us with an incredibly powerful randomisation tool in the deployed variants identified by the question note. All of the strategies below can still sometimes create very challenging arithmetic, especially when the "level of complexity" input into the `rand_matrix` functions is higher. Even more commonly, trivial examples can appear. Thus, it is extremely important to write meaningful question notes and filter out any variants that are still inappropriate. In some cases you may wish to include some or all of the expected student working in the question note so that you can check that intermediate steps maintain "nice _enough_" numbers. The author finds it helpful to deploy many variants, copy the handful of seeds that generate the best variants into a separate notepad, and then utilise the "undeploy all and redeploy from list" functionality to filter the list in bulk. 
 
-Another less elegant but highly functional strategy to any of those below is to brute force randomisation ahead of time. For instance, suppose you wanted a \(2\times 2\) matrix that has no zeros and a determinant of \(\pm 1\). Running the below code will produce such a list of matrices very inefficiently: 
+Another less elegant but highly functional strategy to any of those below is to brute force randomisation ahead of time. For instance, suppose you wanted a \(2\times 2\) matrix that has no zeros and a determinant of \(\pm 1\). Running the following code, e.g. in the maxima sandbox, will produce such a list of matrices very inefficiently: 
 
     stack_include_contrib("rand_matrix.mac");
     mats: {};

@@ -14,7 +14,7 @@ However, toy problems are a very useful way to get students engaged with basic c
 
 It is still worth being careful when generating toy problems, though. Running the code `SVD(matrix([1,2],[3,4]))` will correctly give you two orthogonal matrices and one diagonal matrix, but it is _not_ nice to find these by hand. It is often sensible to begin randomising a question by generating the _answer_ and working back to create the question. In this regime, these factorisation functions are mostly useful for checking answers, or for generating answers when using matrices that are already known to be "nice". 
 
-The [`rand_matrix.mac` library](Random_Matrices.md) has some functions that might be useful for generating sensible matrices. 
+The [`rand_matrix.mac` library](Random_Matrices.md) has some functions that might be useful for generating sensible matrices. The page on [randomisation in linear algebra](Randomisation_in_linear_algebra.md) has worked strategies for generating "nice" \(LU\), \(QR\), eigenvalue and singular value decompositions in this way. 
 
 ## Diagonalisation
 

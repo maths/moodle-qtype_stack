@@ -73,7 +73,7 @@ function report($d) {
                             }
                         }
 
-                        $meta = stack_docs_page_metadata($fpath);
+                        $meta = stack_docs_page_metadata(rtrim($reldir, '/') . '/' . $f);
                         if ($meta === []) {
                             $a[] = [$fpath, 'W', "No metadata"];
                         } else {

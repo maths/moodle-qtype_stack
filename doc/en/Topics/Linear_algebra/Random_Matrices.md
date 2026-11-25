@@ -51,3 +51,5 @@ Careful use of [deployed variants](../../STACK_question_admin/Deploying.md) is k
 Don't forget to check that intermediate steps of working are appropriate too! It's quite common in linear algebra to generate a problem that has "nice" numbers at the beginning and "nice" numbers in the final answer, but with some horrid working in the middle.
 
 A good general principle is to work backwards from a solution.  E.g. if you want to randomly generate a linear system with "nice" row-reduction steps, consider randomly generating elementary matrices and multiplying the answer by these. This ensures an answer with the desired properties (e.g. unique integer solutions), finely controls the steps needed, and the intermediate working complexity.
+
+For worked strategies which use these functions, see [randomisation in linear algebra](Randomisation_in_linear_algebra.md).

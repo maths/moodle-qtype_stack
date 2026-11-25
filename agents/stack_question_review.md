@@ -12,8 +12,6 @@ or a particular teaching method. Record those choices with the author.
 - Check what the response format provides evidence of. A correct final value
   alone may not demonstrate a method or justification. Add reasoning steps only
   when they serve the objective; avoid separately grading duplicated evidence.
-  Where the student types working or a proof, apply the checklist in
-  [Free-text inputs](stack_free_text.md#review-checklist).
 - Define the accepted answers and any required form. For non-unique tasks,
   test the defining properties rather than equality with one example: a basis
   may differ in order, scaling or choice of vectors.

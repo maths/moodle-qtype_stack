@@ -46,29 +46,29 @@ Notice how the equals signs are automatically aligned.
 
 The syntax for some commonly used mathematical expressions or structures is given in the following table.
 
-| Mathematics               | Syntax example   | Display                                   |
-| ------------------------- | ---------------- | ----------------------------------------- |
-| Addition                  | `x + y`          | \(x+y\)                                   |
-| Subtraction               | `x - y`          | \(x-y\)                                   |
-| Multiplication (explicit) | `x xx y`         | \(x \times y\)                            |
-| Division                  | `x -: y`         | \(x \div y \)                             |
-| Fraction                  | `(a+b)/(c+d)`    | \(\frac{a+b}{c+d}\)                       |
-| Powers/superscript        | `x^2`            | \(x^2\)                                   |
-| Square root               | `sqrt x`         | \(\sqrt{x}\)                              |
-| Cube root                 | `root(3)(x)`     | \( \sqrt[3]{x}\)                          |
-| Subscript \(^*\)          | `x_n`            | \( x_n \)                                 |
-| Sum                       | `sum_(i=1)^n i ` | \(\sum_{i=1}^n i\)                        |
-| Product                   | `prod_(i=1)^n i` | \(\prod_{i=})^n i\)                       |
-| Less than                 | `x < y`          | \( x < y \)                               |
-| Greater than              | `x > y`          | \( x > y \)                               |
-| Less than or equal to     | `x <= y`         | \( x \le y \)                             |
-| Greater than or equal to  | `x >= y`         | \( x \ge y \)                             |
-| Not equal to              | `x != y`         | \( x \ne y \)                             |
-| Matrix (round brackets)   | `((a,b),(c,d))`  | \(\begin{pmatrix} a&b\\c&d\end{pmatrix}\) |
-| Matrix (square brackets)  | `[[a,b],[c,d]]`  | \(\begin{bmatrix} a&b\\c&d\end{bmatrix}\) |
-| Trigonometric functions   |                  | `sin(x)`                                  |
-| Inverse trig  functions   |                  | `arcsin(x)`                               |
-| pi                        | `pi`             | \(\pi\)                                   |
+| Mathematics              | Syntax example   | Display                                   |
+| ------------------------ | ---------------- | ----------------------------------------- |
+| Addition                 | `x + y`          | \(x+y\)                                   |
+| Subtraction              | `x - y`          | \(x-y\)                                   |
+| Multplication (explicit) | `x xx y`         | \(x \times y\)                            |
+| Division                 | `x -: y`         | \(x \div y \)                             |
+| Fraction                 | `(a+b)/(c+d)`    | \(\frac{a+b}{c+d}\)                       |
+| Powers/superscript       | `x^2`            | \(x^2\)                                   |
+| Square root              | `sqrt x`         | \(\sqrt{x}\)                              |
+| Cube root                | `root(3)(x)`     | \( \sqrt[3]{x}\)                          |
+| Subscript \(^*\)         | `x_n`            | \( x_n \)                                 |
+| Sum                      | `sum_(i=1)^n i ` | \(\sum_{i=1}^n i\)                        |
+| Product                  | `prod_(i=1)^n i` | \(\prod_{i=})^n i\)                       |
+| Less than                | `x < y`          | \( x < y \)                               |
+| Greater than             | `x > y`          | \( x > y \)                               |
+| Less than or equal to    | `x <= y`         | \( x \le y \)                             |
+| Greater than or equal to | `x >= y`         | \( x \ge y \)                             |
+| Not equal to             | `x != y`         | \( x \ne y \)                             |
+| Matrix (round brackets)  | `((a,b),(c,d))`  | \(\begin{pmatrix} a&b\\c&d\end{pmatrix}\) |
+| Matrix (square brackets) | `[[a,b],[c,d]]`  | \(\begin{bmatrix} a&b\\c&d\end{bmatrix}\) |
+| Trigonometric functions  |                  | `sin(x)`                                  |
+| Inverse trig  functions  |                  | `arcsin(x)`                               |
+| pi                       | `pi`             | \(\pi\)                                   |
 
 \(^*\): Any subscript needs to be given before any superscript/power.
 

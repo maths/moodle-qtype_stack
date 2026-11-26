@@ -1,6 +1,6 @@
 # Question metadata
 
-STACK questions support flexible metadata. Metadata is recorded in JSON format in two database fields - `metadata` and `prescribedmetadata`. The `metadata` field holds user-editable metadata. `prescribedmetadata` is currently empty and is reserved for storage of automatically generated and maintained metadata in the future, including a universal question id and some form of question ancestry. 
+STACK questions support flexible metadata. Metadata is recorded in JSON format in two database fields - `metadata` and `prescribedmetadata`. The `metadata` field holds user-editable metadata. `prescribedmetadata` holds metadata that STACK maintains automatically and that cannot be edited in the question form: a universal question id and the ids of the question's earlier versions (see [Question id and history](#question-id-and-history) below).
 
 New questions will be created with editable `metadata` similar to the following:
 ```
@@ -143,12 +143,54 @@ Example metadata:
     "freeform": {}
 }
 ```
+
+## Question id and history
+
+Every STACK question carries a universal id in `prescribedmetadata`. The id stays with the question when it is exported, shared and imported on another site, so that question databases such as ATLAS (atlas.nrw) can recognise a question they already hold and can tell that one question is a later version of another.
+
+A new id is created each time a question is saved in the STACK question editing form or in the XML editor. This includes the first save of a new question. The previous id, if there was one, is appended to `atlasIdHistory`.
+
+```
+{
+    "atlasId": "ATLAS-019a5c3f7e21-b4705fd52b77-9ebf4fb5-4c5f",
+    "atlasIdHistory": [
+        "ATLAS-0199d2a41c08-01a1da01c37f-3c5e9a12-3b96"
+    ]
+}
+```
+
+| Key | Written by | Meaning |
+| --- | --- | --- |
+| `atlasId` | STACK | The id of this version of the question. |
+| `atlasIdHistory` | STACK | The ids of the versions this question was derived from, oldest first. Empty for a question that was never edited. |
+
+### Format of the id
+
+```
+ATLAS-{time}-{hash}-{random}-{checksum}
+```
+
+| Part | Length | Content |
+| --- | --- | --- |
+| `time` | 12 hex digits | Time of creation in milliseconds since 1970-01-01 UTC. |
+| `hash` | 12 hex digits | The first 6 bytes of the SHA-1 hash of the question's Moodle XML export (see below). |
+| `random` | 8 hex digits | 4 random bytes. |
+| `checksum` | 4 hex digits | The first 4 hex digits of the SHA-256 hash of everything before it, i.e. of `ATLAS-{time}-{hash}-{random}`. |
+
+The hash is taken over the Moodle XML export of the single question, without category and context information, after removing
+
+* the `<prescribedmetadata>` element, and
+* the comment `<!-- question: 1234 -->` that Moodle writes before each question.
+
+The `<metadata>` element is part of the hashed text. Because of the time and the random part, saving the same question twice gives two different ids; the hash part only records which content the id was created for.
+
+### In Moodle XML
+
 Both metadata fields are exported and imported normally as part of Moodle XML, allowing automated addition of metadata to large question banks with the aid of Gitsync.
 ```
-<prescribedmetadata>
-    {"id": XXXX-XXX-XXXX_XXXX}
-</prescribedmetadata>
-<metadata>
-    {"author":[{"firstName":"Dave","lastName":"Summers","institution":"Edinburgh","year":"2025"},{"firstName":"Bob","lastName":"Smith","institution":"Open University","year":"2026"}],"language":["en"],"isPartOf":"HELM","license":"cc-4.0","additional":{"UoE":{"Course":{"Name":"Introductory Maths","Week":"3"},"Topic":"Calculus"}},"freeform":{}}
-</metadata>
+<prescribedmetadata>{"atlasIdHistory":["ATLAS-0199d2a41c08-01a1da01c37f-3c5e9a12-3b96"],"atlasId":"ATLAS-019a5c3f7e21-b4705fd52b77-9ebf4fb5-4c5f"}</prescribedmetadata>
+<metadata>{"author":[{"firstName":"Dave","lastName":"Summers","institution":"Edinburgh","year":"2025"},{"firstName":"Bob","lastName":"Smith","institution":"Open University","year":"2026"}],"language":["en"],"isPartOf":"HELM","license":"cc-4.0","additional":{"UoE":{"Course":{"Name":"Introductory Maths","Week":"3"},"Topic":"Calculus"}},"freeform":{}}</metadata>
 ```
+
+If you edit question XML outside Moodle (for example with Gitsync or a text editor), leave `<prescribedmetadata>` as it is. No new id is created for such an edit. A database that receives the file sees a known id with changed content and treats the question as a new version of that id.
+

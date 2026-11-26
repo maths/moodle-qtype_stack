@@ -368,6 +368,8 @@ class stack_cas_keyval {
 
         // And then the parsing.
         $ast = maxima_parser_utils::parse_and_insert_missing_semicolons_with_includes($str);
+        // Whether the statements call a random function, including one defined in included code.
+        $random = ($ast instanceof MP_Root) && self::ast_uses_random($ast);
 
         // Then we will build the filter chain for the syntax-candy. Repeat security checks just in case.
         // Note that we add special 600-series filters.
@@ -490,6 +492,7 @@ class stack_cas_keyval {
                 'contextvariables' => $contextvariables,
                 'references' => $referenced,
                 'includes' => array_keys($includes),
+                'random' => $random,
             ];
         }
 
@@ -499,6 +502,79 @@ class stack_cas_keyval {
             'statement' => $statements,
             'contextvariables' => $contextvariables,
             'references' => $referenced,
+            'random' => $random,
         ];
+    }
+
+    /**
+     * Whether text in keyval form calls a random function, after expanding any inclusions.
+     * Unlike a search of the text alone, this finds a random function defined in an included library.
+     * Included content is fetched, so prefer a compiled result where there is one.
+     * @param string $text the question variables.
+     * @return bool true if the statements call a random function.
+     */
+    public static function text_uses_random(string $text): bool {
+        $ast = maxima_parser_utils::parse_and_insert_missing_semicolons_with_includes($text);
+        return ($ast instanceof MP_Root) && self::ast_uses_random($ast);
+    }
+
+    /**
+     * Whether parsed keyval statements call a random function.
+     *
+     * The random functions are those with the random feature in the security map, and `stack_seed`.
+     * A function defined in the statements, for example in an included library, is random if its
+     * body refers to a random function, directly or through other such definitions. The statements
+     * are random if any statement which is not a function definition refers to a random function.
+     * @param MP_Root $ast the statements, with any inclusions expanded.
+     * @return bool true if a statement refers to a random function.
+     */
+    public static function ast_uses_random(MP_Root $ast): bool {
+        $random = array_flip(stack_cas_security::get_all_with_feature('random'));
+        $random['stack_seed'] = true;
+
+        $identifiers = function ($node): array {
+            $found = [];
+            if ($node instanceof MP_Identifier) {
+                $found[$node->value] = true;
+            }
+            $node->callbackRecurse(function ($n) use (&$found) {
+                if ($n instanceof MP_Identifier) {
+                    $found[$n->value] = true;
+                }
+                return true;
+            });
+            return $found;
+        };
+
+        $definitions = [];
+        $executed = [];
+        foreach ($ast->items as $item) {
+            if (!($item instanceof MP_Statement)) {
+                continue;
+            }
+            $st = $item->statement;
+            if (
+                $st instanceof MP_Operation && $st->op === ':=' &&
+                $st->lhs instanceof MP_FunctionCall && $st->lhs->name instanceof MP_Identifier
+            ) {
+                $name = $st->lhs->name->value;
+                $definitions[$name] = ($definitions[$name] ?? []) + $identifiers($st->rhs);
+            } else {
+                $executed += $identifiers($item);
+            }
+        }
+
+        // A definition is random if it refers to anything random; repeat until nothing changes.
+        do {
+            $changed = false;
+            foreach ($definitions as $name => $used) {
+                if (!isset($random[$name]) && array_intersect_key($used, $random)) {
+                    $random[$name] = true;
+                    $changed = true;
+                }
+            }
+        } while ($changed);
+
+        return (bool) array_intersect_key($executed, $random);
     }
 }

@@ -51,6 +51,16 @@ Feature: Test input of correct answers on freetext inputs.
     # MathJax 3 will have rendered, MathJax 2 probably won't. Moodle 5 gives us the flattened plain text. Sigh...
     And I check the value of iframe element "asciiContainerRow" contains one of '\begin{align*}\n& & f(x)  & = 4sqrt(2x^2+1)+c\\\n& & f(0)  & = 5 => c = 1\\\n& & f(x)  & = 4sqrt(2x^2+1)+1\\\n\end{align*}\n' or '𝑓⁡(𝑥)=4⁢𝑠⁢𝑞⁢𝑟⁢𝑡⁢(2⁢𝑥2+1)+1' or 'f(x)=4sqrt(2x2+1)+1'
 
+  @current
+  Scenario: Test Freetext ASCII toolbar buttons
+
+    When I am on the "Freetext" "core_question > preview" page logged in as teacher
+    And I change the viewport size to "mobile"
+    And I wait until ".stack-ascii-input-toolbar" "css_element" exists
+    And I click on "{@" "button" in the ".stack-ascii-input-toolbar" "css_element"
+    And I click on "@}" "button" in the ".stack-ascii-input-toolbar" "css_element"
+    Then the field with xpath "//textarea[contains(@id, '_ans1')]" matches value "{@@}"
+
   Scenario: Test Freetext input with ASCII block teacher answer markdown and no input
 
     When I am on the "Freetext (ASCII no input)" "core_question > preview" page logged in as teacher

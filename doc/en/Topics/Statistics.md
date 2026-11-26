@@ -6,7 +6,7 @@ STACK was originally designed with algebra and calculus in mind, rather than sta
 
 ### Code
 
-Most statistics courses use programming in R or python. It may be tempting to assess code snippets by asking students to input a string, but this is very hard to assess due to different interpretations of what is required, and different variable names.
+Most statistics courses use programming in R or Python. It may be tempting to assess code snippets by asking students to input a string, but this is very hard to assess due to different interpretations of what is required, and different variable names.
 
 If you wish to assess code using a Moodle quiz, this can be done using the [Coderunner question type](https://docs.moodle.org/405/en/CodeRunner_question_type). This question type allows students to write code which is assessed on its effectiveness on specified examples.
 
@@ -18,11 +18,11 @@ Most teachers using STACK make use of randomisation, but this relies on Maxima's
 
 #### Distribution functions
 
-STACK loads the "distrib" package from maxima by default. Check that your server in the plugin 'STACK' settings has `distrib` in the box `Load optional Maxima libraries`.
+STACK loads the "distrib" package from Maxima by default. Check that your server in the plugin 'STACK' settings has `distrib` in the box `Load optional Maxima libraries`.
 
 ######  Key points:
 
-Mostly, it is simple to figure out the format of the maxima equivalent, however there are some points that may cause issues. (This is especially true if you are less familiar with statistics.)
+Mostly, it is simple to figure out the format of the Maxima equivalent, however there are some points that may cause issues. (This is especially true if you are less familiar with statistics.)
 
 - For the function r* in \(R\), or random* in Maxima, the order of the inputs is different. 
 - Maxima and R have different default settings for the Gamma distribution. Maxima uses the shape and scale parameters, while R uses the shape and rate parameters. As such, be careful to translate.
@@ -41,11 +41,11 @@ table, th, td {
 |`d*`|`pdf_*`|Probability density function for a distribution. \(P(X=x)\)|&nbsp;|
 |`p*`|`cdf_*`|Cumulative distribution function for a distribution. \(P(X\leq x) = \int_{-\infty}^x P(X=i)\; \mathrm{di} \)|
 |`q*`|`quantile_*`|Inverse of CDF. By inputting \(y\), we calculate the value of \(x\) for which the \(P(X \leq x)=y\). Value at a specified percentile.|Useful for confidence intervals.|
-|`r*`|`random_*`|A list of random numbers with respect to the specified distribution.|in R, inputs will be (n,[vars]), in maxima inputs are ([vars], n). See normal for example.|
+|`r*`|`random_*`|A list of random numbers with respect to the specified distribution.|in R, inputs will be (n,[vars]), in Maxima inputs are ([vars], n). See normal for example.|
 
 
     
-Let us now see an example; the normal distribution.
+Let us now see an example: the normal distribution.
 
 |R-Code|Maxima|
 |---|---|
@@ -77,13 +77,13 @@ From this, we can generally estimate what the translation will be, however let u
 |`*geom(x,m)`|`*geometric(x,m)`|
 |`*nbinom(x,m,s)`|`*negative_binomial(x,m,s)`|
 
-For detailed informaion on this see the [distrib package documentation](https://maths.cnam.fr/Membres/wilk/MathMax/help/Maxima/maxima_47.html). This also provides information on calculating skewness and kurtosis.
+For detailed information on this see the [distrib package documentation](https://maths.cnam.fr/Membres/wilk/MathMax/help/Maxima/maxima_47.html). This also provides information on calculating skewness and kurtosis.
 
-##### Mean variance and standard deviation
+##### Mean, variance and standard deviation
 
 ###### Key points
 
-- R and maxima have different default settings for Variance (and by extension, standard deviation). `var(x)` in R will calculate the sample variance while maxima calculates the population variance. In maxima, `var1(x)` would be the equivalent to `var(x)` in R.
+- R and Maxima have different default settings for variance (and by extension, standard deviation). `var(x)` in R will calculate the sample variance while Maxima calculates the population variance. In Maxima, `var1(x)` would be the equivalent to `var(x)` in R.
 - In R, if no mean and standard deviation is provided, mean = 0 and standard deviation = 1.
 - In Maxima, the default mean is 0 and standard deviation is 1.
 
@@ -91,8 +91,8 @@ For detailed informaion on this see the [distrib package documentation](https://
 |---|---|---|
 |`var(x)`|`var1(x)`|Sample variance of a dataset \(s^2=\frac{\sum(x_i-\bar{x})^2}{n-1}\)|
 |`var(x)*(n-1)/n`|`var1(x)`|Population variance of dataset \(\sigma^2=\frac{\sum(x_i-\bar{x})^2}{N}\)|
-|`sd(x)`|`std1(x)`|Sample standard deviation \(\sqrt(s^2)\)|
-|`sd(x)*sqrt((n-1)/n)`|`std(x)`|Population standard deviation \(\sqrt(\sigma^2)\)|
+|`sd(x)`|`std1(x)`|Sample standard deviation \(\sqrt{s^2}\)|
+|`sd(x)*sqrt((n-1)/n)`|`std(x)`|Population standard deviation \(\sqrt{\sigma^2}\)|
 |`mean(x)`|`mean(x)`|Mean of the dataset \(\frac{\sum x_i}{n} \)|
 
 #### Linear regression
@@ -113,7 +113,7 @@ Maxima can calculate linear regressions. The function `linear_regression(x)` tak
 - aic: Akaike’s information criterion.
 - bic: Bayes’s information criterion. 
 
-Results can be used using the function `take_inference(prop, res)` where `prop` is the property you want to extract and `res` is the variable the linear regression is saved to.
+Results can be extracted using the function `take_inference(prop, res)` where `prop` is the property you want to extract and `res` is the variable the linear regression is saved to.
 For example,
 
 	XY: addcol(matrix(), x, y);
@@ -220,6 +220,6 @@ Give your answer to an appropriate number of significant figures.</p>
 **SAns:** ans2
 **TAns:** UB
 **Test options:** 0.01
-**Node 1 when true:** **Mod** + **Score** 0.5
+**Node 2 when true:** **Mod** + **Score** 0.5
 
-**Node 1 false feedback:** Your upper bound is incorrect.
+**Node 2 false feedback:** Your upper bound is incorrect.

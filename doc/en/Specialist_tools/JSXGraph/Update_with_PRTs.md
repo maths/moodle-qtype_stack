@@ -9,7 +9,7 @@ The following steps should be taken to react to feedback inside of the JSXGraph 
 1. Include an empty span with a unique identifier inside the feedback of a PRT node, so that JSXGraph can look for that element
 2. Call the function `stack_js.get_content(id)` with the id of the span you placed inside your feedback in the JSXGraph code. As this function is async and returns a promise for the content, make sure to write your code for changing the graph state inside a chained `.then()`.
 
-A common use case for this could be that you want to make a point fixed so that the user can not drag it anymore after he submitted the question and received a certain feedback. A minimal example for this would then look like this:
+A common use case for this could be that you want to make a point fixed so that the user can not drag it anymore after they submitted the question and received a certain feedback. A minimal example for this would then look like this:
 
 In one of your PRTs, you place an empty span with an id like for example `feedback-1`
 

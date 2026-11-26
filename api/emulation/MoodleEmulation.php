@@ -37,6 +37,33 @@ require_once('../config.php');
 // Required to pass Moodle code check.
 require_login();
 
+// Unless config.php sets them, take the version numbers from the code itself, as Moodle does on
+// install and upgrade, so the API cannot disagree with the STACK code it runs.
+if (empty($CFG->version)) {
+    if (
+        !preg_match(
+            '~\$plugin->version\s*=\s*(\d{10})~',
+            file_get_contents(dirname($CFG->dirroot) . '/version.php'),
+            $matches
+        )
+    ) {
+        throw new Exception('STACK version number not found in version.php.');
+    }
+    $CFG->version = $matches[1];
+}
+if (empty($CFG->stackmaximaversion)) {
+    if (
+        !preg_match(
+            '~stackmaximaversion:(\d{10})~',
+            file_get_contents(dirname($CFG->dirroot) . '/stack/maxima/stackmaxima.mac'),
+            $matches
+        )
+    ) {
+        throw new Exception('Maxima libraries version number not found in stackmaxima.mac.');
+    }
+    $CFG->stackmaximaversion = $matches[1];
+}
+
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class moodle_exception extends Exception {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

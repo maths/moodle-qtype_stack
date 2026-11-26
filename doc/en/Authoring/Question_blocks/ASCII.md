@@ -2,7 +2,7 @@
 
 This block has two purposes:
 
-1. to process and display the contents of a [free-text input](../Inputs/Text_input.md) using client-side Javascript to process text including markdown, AsciiMath and LaTeX (etc).
+1. to process and display the contents of a [free-text input](../Inputs/Text_input.md) using client-side JavaScript to process text including markdown, AsciiMath and LaTeX (etc).
 2. to extract information from the text (as it is processed) and link that to another STACK input.
 
 Examples of how to use this block within complete questions are given in the [free-text specialist tools](../../Specialist_tools/Free_text_input/index.md) documentation.
@@ -25,7 +25,7 @@ Currently, it is only possible to link one source input.
 
 ### Block parameters
 
-Functionality and styling can be customized through the use of block parameters.
+Functionality and styling can be customised through the use of block parameters.
 
 1. `input` (required): string. The name of the free-text input which provides input to this block.
 2. `height`: string containing a positive float + a valid CSS unit (e.g. `"480px"`, `"100%"`, ...). Default is `"400px"`. This fixes the height of the display window.
@@ -50,7 +50,7 @@ A filter is specified with a `[[filter]]` child block inside the `[[ascii]]` blo
 
 ### Filter block parameters
 
-1. `type` (required): the filter type. Currently available: `markdown`, `calculation`, `cas`.
+1. `type` (required): the filter type. Currently available: `markdown`, `markdown-math`, `plain`, `calculation`, `cas`.
 2. `transforms` (for `markdown` type): a comma-separated list of transforms to apply. Available transforms: `aligneq`, `asciimath`, `boldfilter`, `minwrap`.
 3. `reset`: if `"true"`, this filter operates on the original raw input rather than the output of any preceding filter(s).
 4. `display`: if `"true"`, the output of this filter is used as the final display and subsequent filters cannot modify the display.
@@ -60,9 +60,9 @@ A filter is specified with a `[[filter]]` child block inside the `[[ascii]]` blo
 
 #### `markdown-math` filter
 
-This is the default behaviour. If you do not specify a filter then `[[filter type="markdown-math" tansforms="aligneq"/]]` will be used.
+This is the default behaviour. If you do not specify a filter then `[[filter type="markdown-math" transforms="aligneq"/]]` will be used.
 
-The `markdown-math` filter processes the student's text as markdown and renders mathematical content. The following rendering rules are applied to recognized token types:
+The `markdown-math` filter processes the student's text as markdown and renders mathematical content. The following rendering rules are applied to recognised token types:
 
 - **`code_inline`**: A single backtick expression is treated as inline AsciiMath.  If the content is identified as LaTeX then no processing takes place.  Otherwise, the content is converted to LaTeX.  The result is always wrapped in `\(...\)`.
 
@@ -73,7 +73,7 @@ The `markdown-math` filter processes the student's text as markdown and renders 
 
 - **`asciimath_block`**: A backtick on its own line opens a multi-line AsciiMath block; another solitary backtick closes it. If the content is identified as LaTeX then no processing takes place.  Otherwise, each line of content is converted to LaTeX and any configured transforms are applied. The result is wrapped in `\[...\]` if needed.
 
-In the following example, the transform `aligneq` is applied to line up equations on the `=` sign by using LaTeX `begin{align*}` environments.
+In the following example, the transform `aligneq` is applied to line up equations on the `=` sign by using LaTeX `\begin{align*}` environments.
 
 ```
   `
@@ -90,7 +90,7 @@ In the following example, the transform `aligneq` is applied to line up equation
   ```
 ![Math_inline display](../../../content/math_inline.png)
 
-- **`math_block`**: Display LaTeX delimited by `\[...\]` is passed through and any configured transforms are applied.  Note, while our code ignores `$$...$$` as LaTeX delimiters, your local MathJax settings might pick this up and display the contents as mathematics.  In the following example, the transform `aligneq` is applied to line up equations on the `=` sign by using LaTeX `begin{align*}` environments
+- **`math_block`**: Display LaTeX delimited by `\[...\]` is passed through and any configured transforms are applied.  Note, while our code ignores `$$...$$` as LaTeX delimiters, your local MathJax settings might pick this up and display the contents as mathematics.  In the following example, the transform `aligneq` is applied to line up equations on the `=` sign by using LaTeX `\begin{align*}` environments.
 
   ```
   \[
@@ -120,11 +120,11 @@ While you are free to specify these transformations, the `markdown-math` filter 
 
 #### `markdown` filter
 
-This processes the text as (plain) markdown, without the mathematical extensions above.  You can add any of the transforms as arguments, but the following will treat the text as markdown, without processing any of the AsciiMath (as is done by `markdown-math`
+This processes the text as (plain) markdown, without the mathematical extensions above.  You can add any of the transforms as arguments, but the following will treat the text as markdown, without processing any of the AsciiMath (as is done by `markdown-math`):
 
     [[filter type="markdown" /]]
 
-Note that the following are equivalent
+Note that the following are equivalent:
 
     [[filter type="markdown" transforms="asciimath,minwrap" /]]
     [[filter type="markdown-math" /]]

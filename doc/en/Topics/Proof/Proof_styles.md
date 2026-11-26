@@ -23,7 +23,7 @@ This is typical question style, from the Moodle theme, containing the following 
 Back to the typical Moodle style.
 </div>
 
-Note, the proof container is minimal, and subtle and does not intrude too much but contains a proof as a distinct entity.
+Note, the proof container is minimal and subtle, and does not intrude too much but contains a proof as a distinct entity.
 
 ### `<div class="proof-block">`
 
@@ -123,7 +123,7 @@ Consider the following proof by induction. \(P(n)\)
 <div class="proof-block">
 <div class="proof-line">
  <div class="proof-num">12.</div>
- <div class="proof-step">Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principal of mathematical induction.</div>
+ <div class="proof-step">Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principle of mathematical induction.</div>
 </div>
 </div>
 </div>
@@ -262,7 +262,7 @@ Consider the following proof by induction. \(P(n)\)
 <div class="proof-block">
 <div class="proof-line">
  <div class="proof-num">12.</div>
- <div class="proof-column">Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principal of mathematical induction.</div>
+ <div class="proof-column">Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principle of mathematical induction.</div>
 </div>
 </div>
 </div>
@@ -280,9 +280,9 @@ This class enables ordered lists to have connected numbered statements.
 <li>E1,</li>
 <li>E2,</li>
 </ol> ... Er be the elementary matrices corresponding to the elementary row operations that reduce A to R.</li>
-<li>Then Er ... E1 A = [[input:ans1]]]</li>
+<li>Then Er ... E1 A = [[input:ans1]]</li>
 <li>Taking determinants of both sides, we obtain: det(Er) ... det(E_1) det(A) = det(R).</li>
-<li>The determinants of all the elementary matrices are all [[input:ansdropdown]]]</li>
+<li>The determinants of all the elementary matrices are all [[input:ansdropdown]]</li>
 <li>We conclude that det(A) is not zero if and only if det(R) is not zero.</li>
 <li>Now suppose that A is invertible.
  <ol class="proof-steps">

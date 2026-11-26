@@ -1,10 +1,10 @@
 # Geometry related Maxima functions
 
-STACK adds a number of geometry related functions to maxima to help teachers establish mathematical properties, particularly when using the [Geogebra input](../Specialist_tools/GeoGebra/index.md).
+STACK adds a number of geometry related functions to Maxima to help teachers establish mathematical properties, particularly when using the [GeoGebra input](../Specialist_tools/GeoGebra/index.md).
 
 These functions are defined in `stack/maxima/geometry.mac`.
 
-___Note that unless already defined in Maxima, function names should match function names in Geogebra___
+___Note that unless already defined in Maxima, function names should match function names in GeoGebra___
 
 
 ### `Length`

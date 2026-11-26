@@ -14,8 +14,8 @@ which do not yet provide these functions in core. Edit the maintained source, no
 ## Documenting STACK-Maxima sources
 
 The directory tree under `/stack/maximasrc/` can be as deep as one wishes and
-can be modified with no effect to the actual systems behaviour it will however
-change the documentation addressess and thus affect any links someone might
+can be modified with no effect on the actual system's behaviour; it will, however,
+change the documentation addresses and thus affect any links someone might
 have to the documentation.
 
 *TODO: we should have a method for linking directly to identifiers no matter
@@ -29,6 +29,11 @@ under the same directory to ease browsing by theme, e.g., if it is related to
 for "binary" operations might be in a subdirectory "/basen/binary/". Each
 directory can then have a MarkDown file called `description.md` describing
 the common themes of that directory.
+
+The compiler also writes the metadata for these pages, that is the "Library"
+section of "CAS" in `/doc/meta_en.json`, so do not edit that section by hand.
+The first sentence of `description.md` becomes the description of the page in the
+metadata, so keep it to at most 160 characters.
 
 ### Functions, variables, inert and unbound
 
@@ -91,7 +96,7 @@ s_test_case(simp) := is(a_function(2,x*y)=...)$
 ```
 
 In the case of a global variable the documentation block starts with the same
-extra asterisk but has no need for annotations. Annotations, will however be
+extra asterisk but has no need for annotations. Annotations will, however, be
 needed if the variable is unbound. Here is an example:
 
 ```
@@ -104,7 +109,7 @@ default_foobar: fooo;
 
 /**
  * In the above one `fooo` is obviously somewhat special, and possibly it is
- * an unbound variable with no definition and should not be bound globaly
+ * an unbound variable with no definition and should not be bound globally
  * we should document that. We can do it by adding a documentation block
  * somewhere where it is not immediately being followed by some definition
  * of an relevant object. And adding a special annotation to that block to name
@@ -118,8 +123,8 @@ default_foobar: fooo;
 
 Finally, inert-functions require the same kind of a documentation block as
 normal functions, but as with unbound variables that block must not be placed
-immediately before defintion of something else and must contain an annotation
-to to the documentation to the identifier. It also needs to define
-the parameters at same time, e.g, `@inertfunction[] some_function(x,y,z)`.
+immediately before the definition of something else and must contain an annotation
+tying the documentation to the identifier. It also needs to define
+the parameters at the same time, e.g. `@inertfunction[] some_function(x,y,z)`.
 See the source of the documentation for `stackunits` or `stackbasen` for
 examples.

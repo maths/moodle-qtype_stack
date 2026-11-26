@@ -4,7 +4,7 @@ This page provides examples of how to assess the solutions to ordinary different
 
 ## Assessing answers ##
 
-ODEs provide a good example of the principle that we should articulate the properties we are looking for in ordinary differential equations.  These properties are
+ODEs provide a good example of the principle that we should articulate the properties we are looking for in ordinary differential equations.  These properties are:
 
 1. The answer satisfies the differential equation.
 2. The answer satisfies any initial/boundary conditions.
@@ -28,7 +28,7 @@ E.g. in Maxima code
     sa2:ev(sa1,nouns);
     sa3:fullratsimp(expand(sa2));
 
-`sa1`, `sa2` and `sa2` can be used as part of the feedback when a student doesn't get the right answer.
+`sa1`, `sa2` and `sa3` can be used as part of the feedback when a student doesn't get the right answer.
 
 ### Satisfying any initial/boundary conditions ###
 
@@ -70,7 +70,7 @@ Generating these kinds of problems is relatively simple: we just need to create 
 Let us assume we have two real roots.  We might expect an answer \( Ae^{\lambda_1 t}+Be^{\lambda_2 t} \).
 We might have an unusual, but correct, answer such as  \( Ae^{\lambda_1 t}\left(1+Be^{\lambda_2 t}\right) \).  Hence, we can't just "look at the answer".
 
-Take question variables.
+Take the following question variables.
 
     sa1 : subst(y(t)=ans1,ode);
     sa2 : ev(sa1,nouns);
@@ -94,9 +94,9 @@ For example, you might like the top operation to be a \(+\), i.e. sum.   This ca
 
 Then test `aop` is `true` with another answer test.  Note that the arguments to answer tests cannot contain double quotes, so a question variable is needed here.
 
-Next, let us assume we have complex root, e.g. in the equation
+Next, let us assume we have complex roots, e.g. in the equation
 
-\[ \ddot{y}+2\dot{y}+5=0 \]
+\[ \ddot{y}+2\dot{y}+5y=0 \]
 
 we have \(\lambda = -1 \pm 2i\).
 
@@ -110,7 +110,7 @@ We potentially have quite a variety of solutions.
 
 The advantage is that the same code correctly assesses all these forms of the answer.
 
-### Separating the general from particular solution.
+### Separating the general from particular solution
 
 Consider the differential equation \[ \ddot{y}+4\dot{y}=8\tan(t) \] with corresponding general solution
 
@@ -163,7 +163,7 @@ where this last equality arises from the differential equation.  Rearranging thi
 
 Similarly we may solve for
 \[ c_2(x) = \int\left( q(x,y)- \frac{\mathrm{d}}{\mathrm{d}x}\left(\int p(x,y)\mathrm{d}y \right)\right) \mathrm{d}x.\]
-If \(h_1=h_2\) then we have an exact differential equation, and \(h=h_1=h_2\) given the integral of our ODE.
+If \(h_1=h_2\) then we have an exact differential equation, and \(h=h_1=h_2\) gives the integral of our ODE.
 
 ### Example \(x\dot{y}+y+4=0\) ###
 

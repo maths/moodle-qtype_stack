@@ -65,6 +65,7 @@ $aliases = [
     // Functions are things that are called.
     'Functions' => ['function'],
     'Function' => ['function'],
+    'function' => ['function'], // Lower case in some Maxima documentation.
     'System function' => ['function'],
     'Scene constructor' => ['function'],
 
@@ -75,6 +76,7 @@ $aliases = [
 
     // Operators are just that and should not be used as variable names.
     'Operator' => ['operator'],
+    'Infix Operator' => ['operator'],
     'Input terminator' => ['operator'], // Note that ; and $ are basically operators.
 
     // Properties should not be used as variable names.
@@ -92,6 +94,7 @@ $aliases = [
     'System variable' => ['variable'], // These are mostly forbidden.
     'Optional variable' => ['variable'],
     'Option variable' => ['variable'],
+    'Debugging variable' => ['variable'],
 
     // Some types are ignored as they have no meaning.
     'Function_partitions' => null, // Existed in 5.35.1 documentation.
@@ -108,11 +111,38 @@ $aliases = [
     '_comment' => null, // For our own comments.
 ];
 
+// Identifiers documented in the Maxima manual that only exist inside optional share
+// packages STACK does not load.  Most are short or generic names a student might type,
+// so they must not reach the security-map from the documentation.
+$skipidentifiers = [
+    // Package gentran: mode switches passed to gentran_on/gentran_off, documented
+    // as option variables (fortran is also a core function and is kept).
+    'c', 'ratfor',
+    // Package quantum_computing.
+    'Rx', 'Ry', 'Rz', 'CNOT',
+];
+
 foreach ($identifierdata as $identifier => $types) {
+    if (in_array($identifier, $skipidentifiers, true)) {
+        continue;
+    }
     foreach ($types as $type => $blaah) {
         if (array_key_exists($type, $aliases)) {
             if ($aliases[$type] !== null) {
                 foreach ($aliases[$type] as $t) {
+                    // A word that STACK already knows as a function is called as one,
+                    // e.g. %union(...), whatever the Maxima documentation calls it.
+                    // Flagging it as an operator would make it invalid wherever it appears
+                    // as an identifier, including inside STACK's own %_C(...) runtime checks.
+                    // Symbolic operators such as + and - are set by hand and unaffected.
+                    if (
+                        $t === 'operator' && isset($olddata[$identifier]['function']) &&
+                            !isset($olddata[$identifier]['operator']) &&
+                            preg_match('/^[%A-Za-z_][%A-Za-z0-9_]*$/', $identifier)
+                    ) {
+                        cli_writeln("Not flagging function '$identifier' as an operator.");
+                        continue;
+                    }
                     if (!isset($olddata[$identifier])) {
                         $olddata[$identifier] = [$t => '?'];
                     } else if (!isset($olddata[$identifier][$t])) {

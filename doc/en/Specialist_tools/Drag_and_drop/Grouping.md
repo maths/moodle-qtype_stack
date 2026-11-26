@@ -1,7 +1,7 @@
 # Grouping drag and drop questions
 
-This will set up a number of columns, each of which behave similarly to the single left-hand column of the **Proof** configuration, where the student may drag and drop items starting at the top of each column. 
-This is useful when we are only interesting in grouping items together, and specific row positions do not matter, or when each column may have variable length.
+This will set up a number of columns, each of which behaves similarly to the single left-hand column of the **Proof** configuration, where the student may drag and drop items starting at the top of each column. 
+This is useful when we are only interested in grouping items together, and specific row positions do not matter, or when each column may have variable length.
 
 Example usage: `[[parsons columns="3"]] ... [[/parsons]]`.
 
@@ -42,7 +42,7 @@ The re-orientation button allows the student to switch between vertical and hori
 
 By default, answer lists in groupings and grid layouts will get default headers indexed by positive whole numbers. The available list will get a default header of "Drag from here:". These will become row indexes in **Row grouping** layout, or when the user presses the re-orient button.
 
-Answer list headers can be changed by assigning the key `"headers"` key an an array of strings containing the new headers. The single header for the available list can be changed by assigning the `"available_header"` key to a string.
+Answer list headers can be changed by assigning the key `"headers"` an array of strings containing the new headers. The single header for the available list can be changed by assigning the `"available_header"` key to a string.
 
 #### Question variables
 
@@ -68,7 +68,7 @@ steps: [
 [[/parsons]]
 ```
 
-Note that `headers.` must be a list of the same length as the number of columns and `available` must be a string. 
+Note that `headers` must be a list of the same length as the number of columns and `available` must be a string. 
 Beware that long headers may overflow boxes when using several columns so it is best to keep them short.
 
 ## Index
@@ -184,5 +184,5 @@ So we may convert the columns of `sans` and `ans` to sets in feedback variables 
 sans: match_column_set(sans);
 tans: match_column_set(ta);
 ```
-We can then do a regular algebraic equivalence test between `sans` and `ans`. You should turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they the answer wrong.
+We can then do a regular algebraic equivalence test between `sans` and `ans`. You should turn the node to `Quiet: Yes`, otherwise the student will see unhelpful code if they get the answer wrong.
 

@@ -23,7 +23,7 @@ Now we just multiply the remaining two brackets as normal:
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>a:rand(10)+1;

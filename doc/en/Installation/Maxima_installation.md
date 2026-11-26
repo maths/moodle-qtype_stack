@@ -1,8 +1,8 @@
-# Compiling Maxima from source.
+# Compiling Maxima from source
 
 As of 12th April 2024 the following has been used to compile Maxima from source on Linux Ubuntu 22.04.3.
 
-If you compile Maxima from source you _must_ include unicode support. This is essential even if you only use Maxima in English.  Students' answers, and teacher's content, increasingly uses unicode which inevitably passes through Maxima.
+If you compile Maxima from source you _must_ include unicode support. This is essential even if you only use Maxima in English.  Students' answers, and teachers' content, increasingly use Unicode which inevitably passes through Maxima.
 
 ### You will need the following, and GNU autotools 
 

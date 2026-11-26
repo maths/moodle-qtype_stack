@@ -4,6 +4,6 @@ This page records the steps needed to take `qtype_stack` (originally designed fo
 
 1. All code needed for the ILIAS plugin should be available in the `stack` directory (from the top level).
 2. TO-DO: how to get updated language packs?
-3. TOTO: How to map Moodle specific functions (e.g. `stack_string`) to the ILIAS version?
+3. TO-DO: How to map Moodle specific functions (e.g. `stack_string`) to the ILIAS version?
 
 

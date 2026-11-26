@@ -112,7 +112,7 @@ Note, this means if you have capture groups within your search term any line whi
 * Returns a JSON object `{"matches": [...]}` as a string. The target input should be a string or JSON input. (Choose JSON for better debugging.)
 
 ```
-[[extractor type="regexallmatch" targetinput="ans2" regex="fruit" /]]
+[[extractor type="allregexmatch" targetinput="ans2" regex="fruit" /]]
 ```
 
 For example, if you have a regular expression which matches "fruit" within the student's answer (!), then the expected output will be in the form:
@@ -153,9 +153,9 @@ Where
   * `all` return all matches
   * `first` return the first occurrence
 * `<what>` refers to the search method
-  * `block` looks for asciimaths (both in-line and multiline blocks) and returns the whole thing
+  * `block` looks for AsciiMath (both in-line and multiline blocks) and returns the whole thing
   * `calc` look in calculation blocks
-  * `expr` looks for asciimaths (both in-line and multiline blocks) and returns the last line
+  * `expr` looks for AsciiMath (both in-line and multiline blocks) and returns the last line
   * `string` match a literal string somewhere in the text
   * `regex` use a regular expression
 * `<how-much>` What do we return?

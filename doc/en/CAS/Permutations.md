@@ -17,7 +17,7 @@ One way to do this is to make sure the first element in the list is the minimum 
         return(perm_min_first(append(rest(ex), [first(ex)])))
     );
 
-Assume the student's answer `ans1` is entered as `[[1],[2, 3]]`.  In the feeback variables make sure each list in `ans1` has the smallest element first with the following code.
+Assume the student's answer `ans1` is entered as `[[1],[2, 3]]`.  In the feedback variables make sure each list in `ans1` has the smallest element first with the following code.
 
     sa1:maplist(perm_min_first, ans1);
 

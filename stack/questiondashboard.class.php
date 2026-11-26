@@ -121,7 +121,8 @@ class stack_question_dashboard {
         $output->stackversion = ($this->question->stackversion == null) ?
             stack_string('stackversionnone') :
             stack_string('stackversionedited', $this->question->stackversion) . ' ' .
-            stack_string('stackversionnow', get_config('qtype_stack', 'version'));
+            stack_string('stackversionnow', get_config('qtype_stack', 'version')) . ' ' .
+            $this->question->validate_stackversion_newer();
 
         return $output;
     }

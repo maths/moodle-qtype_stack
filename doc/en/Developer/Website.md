@@ -8,15 +8,15 @@ Instructions for updating the main website [www.stack-assessment.org](https://ww
 
 ## Framework
 
-The website is built using [MkDocs](https://www.mkdocs.org/), a static site generator which converts STACK documentation, within the `/doc` directory, into HTML files and pushes them to the `gh-pages` branch. The website structure mirrors the file structure: the file `doc/en/Authoring/Answer_Tests/index.md` will be available on `docs.stack-assessment.org/en/Authoring/Answer_tests/`. Every sub-folder has an `index.md` file that will take that folder's name on the website: `doc/en/Authoring/index.md` will be available on `docs.stack-assessment.org/en/Authoring/`.
+The website is built using [MkDocs](https://www.mkdocs.org/), a static site generator which converts STACK documentation, within the `/doc` directory, into HTML files and pushes them to the `gh-pages` branch. The website structure mirrors the file structure: the file `doc/en/Authoring/Answer_Tests/index.md` will be available on `docs.stack-assessment.org/en/Authoring/Answer_Tests/`. Every sub-folder has an `index.md` file that will take that folder's name on the website: `doc/en/Authoring/index.md` will be available on `docs.stack-assessment.org/en/Authoring/`.
 
-MkDocs is configured in the `mkdocs.yml` file. MkDocs has a full list of [available configuration options](https://www.mkdocs.org/user-guide/configuration/). MkDocs can either generate the navigation bar automatically, or accept a custom navigation configuration in the `nav` variable. The online docs uses the first option. The advantage is that new files are automatically added to the navigation bar when they are added to the repository. The disadvantage is that we cannot tweak the navigation bar manually. The online docs get around this with a number of workarounds.
+MkDocs is configured in the `mkdocs.yml` file. MkDocs has a full list of [available configuration options](https://www.mkdocs.org/user-guide/configuration/). MkDocs can either generate the navigation bar automatically, or accept a custom navigation configuration in the `nav` variable. The online docs use the first option. The advantage is that new files are automatically added to the navigation bar when they are added to the repository. The disadvantage is that we cannot tweak the navigation bar manually. The online docs get around this with a number of workarounds.
 
 MkDocs cannot display MathJax out-of-the-box, so we use the markdown extension [mdx_math](https://github.com/mitya57/python-markdown-math), specified in `mkdocs.yml`, with the variable `extra_javascript` set to include MathJax.
 
 MkDocs can accept a third-party theme, and the main STACK website uses the [Material Theme](https://squidfunk.github.io/mkdocs-material/), mainly for its better search display and adaptive structure.
 
-The site is hosted by [GitHub Pages](https://pages.github.com/) from the `gh-pages` branch. A workflow under `.github` ensures that MkDocs runs its command `mkdocs gh-deploy` every time the repository is pushed to, which rebuilds the website and pushes the built HTML piles to the `gh-pages` branch. This overrides all the files currently in the `gh-pages` branch, so **you must never edit files directly in the `gh-pages` branch**.
+The site is hosted by [GitHub Pages](https://pages.github.com/) from the `gh-pages` branch. A workflow under `.github` ensures that MkDocs runs its command `mkdocs gh-deploy` every time the repository is pushed to, which rebuilds the website and pushes the built HTML files to the `gh-pages` branch. This overrides all the files currently in the `gh-pages` branch, so **you must never edit files directly in the `gh-pages` branch**.
 
 ## STACK-specific Workarounds
 
@@ -26,7 +26,7 @@ The online docs use a number of workarounds to make MkDocs compatible with the S
 
 MkDocs expects a single folder to contain all the website files, starting with an `index.md` file that is to be the landing page. However, STACK's docs have a different structure: `doc` contains the `content` folder, and the two language folders where the documentation is provided. The landing page is under `en/index.md`.
 
-To work around this, we set `doc` to be the location of the docs, and use the plugin [mkdocs-exclude](https://pypi.org/project/mkdocs-exclude/) to unwanted files from the navigation, such as `/de` and `en/Site_map.md`. We then use the plugin [mkdocs-redirects](https://pypi.org/project/mkdocs-redirects/) to redirect the non-existing `index.md` file to the true landing page `en/index.md`. The effect of this is that [docs.stack-assessment.org](https://docs.stack-assessment.org) will always redirect to [docs.stack-assessment.org/en/](https://docs.stack-assessment.org/en/).
+To work around this, we set `doc` to be the location of the docs, and use the plugin [mkdocs-exclude](https://pypi.org/project/mkdocs-exclude/) to exclude unwanted files from the navigation, such as `/de` and `en/Site_map.md`. We then use the plugin [mkdocs-redirects](https://pypi.org/project/mkdocs-redirects/) to redirect the non-existing `index.md` file to the true landing page `en/index.md`. The effect of this is that [docs.stack-assessment.org](https://docs.stack-assessment.org) will always redirect to [docs.stack-assessment.org/en/](https://docs.stack-assessment.org/en/).
 
 We also update the sidebar navigation, such that it does not show the `en` directory. This is done by overriding Material's `nav-item` partial in the `site_overrides/partials/` directory. 
 
@@ -44,7 +44,7 @@ When you change the documentation, the website automatically updates as well. Th
 
 ### Updating the style
 
-The online docs uses a custom [CSS stylesheet](https://github.com/maths/moodle-qtype_stack/blob/master/doc/custom.css) which you can edit. This stylesheet builds upon the stylesheets of MkDocs and Material.
+The online docs use a custom [CSS stylesheet](https://github.com/maths/moodle-qtype_stack/blob/master/doc/custom.css) which you can edit. This stylesheet builds upon the stylesheets of MkDocs and Material.
 
 You can also edit the theme directly. Any file in the `site_overrides` folder will override files of the same name in [Material's directory](https://github.com/squidfunk/mkdocs-material/tree/master/material). The `main.html` file is designed to make it easy to override some [predetermined blocks](https://squidfunk.github.io/mkdocs-material/customization/#overriding-blocks), but sometimes it is necessary to override files directly. Notice we directly override some of [Material's partials](https://github.com/squidfunk/mkdocs-material/tree/master/material/partials).
 

@@ -1,8 +1,8 @@
-# Equivalence input assessent
+# Equivalence input assessment
 
 This is reference documentation for assessing answers from the [equivalence reasoning input](Equivalence_input.md).
 
-## Answer tests ###
+## Answer tests ##
 
 There are a number of answer tests which seek to establish whether a student's list of expressions are all equivalent.
 
@@ -12,20 +12,20 @@ The tests share code with the input type, and feedback from the test will be ide
 You will also need to set options, as in the input type above, to get the answer tests to reflect the options set.
 The options supported are `assume_pos`, `assume_real`, and `calculus`.
 
-### EquivReasoning ###
+### Equiv ###
 
 This test establishes that all the items in the list are equivalent, using algebraic equivalence.
 
 ### EquivFirst ###
 
 1. This test establishes that all the items in the list are equivalent, using algebraic equivalence.
-2. Test that the first line of the student's answer is equivalent to the first line of the teacher's answer up to commutativity and associativity (using the answer test EqualComAss.)
+2. Test that the first line of the student's answer is equivalent to the first line of the teacher's answer up to commutativity and associativity (using the answer test EqualComAss).
 
 To test the last line of an argument is in the correct form will require a separate node in the potential response tree.  To add this to the answer test gives too many possibilities.
 
 ## Natural domains ##
 
-The equivalence reasoning input tracks natural domains of expressions.  This is via the STACK's `natural_domain(ex)` function.  Natural domains are shown to students in the validation feedback.
+The equivalence reasoning input tracks natural domains of expressions.  This is via STACK's `natural_domain(ex)` function.  Natural domains are shown to students in the validation feedback.
 \[ \begin{array}{lll} &\frac{5\,x}{2\,x+1}-\frac{3}{x+1}=1&{\color{blue}{{x \not\in {\left \{-1 , -\frac{1}{2} \right \}}}}}\cr \color{green}{\Leftrightarrow}&5\,x\,\left(x+1\right)-3\,\left(2\,x+1\right)=\left(x+1\right)\,\left(2\,x+1\right)& \end{array} \]
 At the moment STACK quietly condones silent domain enlargements such as in the above example.
 
@@ -41,10 +41,10 @@ For this reason, STACK accepts \(x=3\) as equivalent to \((x-3)^2=0\), but with 
 
 ## Other functions ##
 
-The maxima function `stack_disp_arg(ex, [showlogic, showdomain])` can be used to display a list of expressions `ex` in the same form as used in the input and answer tests.  This is useful for displaying the teacher's worked solution in the general feedback.  
+The Maxima function `stack_disp_arg(ex, [showlogic, showdomain])` can be used to display a list of expressions `ex` in the same form as used in the input and answer tests.  This is useful for displaying the teacher's worked solution in the general feedback.  
 
 The second two arguments are optional.
-1. The boolean variable `showlogic` determines whether the equivalence symbols are shown.  For a worked solution you probably need to use the following:
+1. The boolean variable `showlogic` determines whether the equivalence symbols are shown.
 2. The boolean variable `showdomain` determines whether the natural domains are shown.
 
 For a worked solution you probably need to use the function

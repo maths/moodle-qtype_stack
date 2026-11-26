@@ -4,7 +4,7 @@
 
 A STACK question may have one or more _parts_. Each part may have one or more _inputs_, such as typing in a mathematical expression as your answer. An individual mathematical expression you type might be used in more than one part. This sounds complicated, but since there are many possibilities it is difficult to make general statements. The question should be clear.  If not, please ask your teacher.
 
-If you need to answer a part but have not then you will be told to do so. You should normally answer all the parts!
+If you need to answer a part but have not, then you will be told to do so. You should normally answer all the parts!
 
 Your answers are assessed in a two-stage process.
 
@@ -41,8 +41,8 @@ There are a number of reasons why your answer could be considered to be invalid.
   * equations: `3*x=x^2-1`. These need an equals sign!
   * inequalities: `x<=1`.
   * sets: `{1,2,3}`. Sets must be in curly brackets.
-  * lists: `[1,1,2,3]`. List must be in square brackets.
-  * matrices.  `matrix([1,2],[3,3])`.
+  * lists: `[1,1,2,3]`. Lists must be in square brackets.
+  * matrices: `matrix([1,2],[3,3])`.
 
 Think about the form your answer should have before you type it in.
 
@@ -57,9 +57,9 @@ When your answers are all valid you submit them again. This time they are assess
 
 Assessing your answer is not often a simple case of _correct_ or _incorrect_. Often we might want your answer to satisfy a number of different mathematical properties. For example:
 
-* If your expression algebraically equivalent to the correct expression?
+* Is your expression algebraically equivalent to the correct expression?
 * Is your expression fully simplified (e.g. have you gathered all like terms or factored your expression)?
-* does your expression _satisfy the equation_?
+* Does your expression _satisfy the equation_?
 * Is every element of your set a solution? Does your set of solutions contain them all?
 
 Answering the question is all about thinking about what properties your answer should have! If you are unsure then you need to ask the teacher.

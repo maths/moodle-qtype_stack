@@ -123,4 +123,59 @@ final class restore_logic_test extends \advanced_testcase {
         $this->assertStringContainsString('Question name "test-3"', $restoreplugin->get_log());
         $this->assertStringContainsString('Node 8 is not in the graph', $restoreplugin->get_log());
     }
+
+    /**
+     * A malformed PRT must be logged, not stop the restore, even when nothing
+     * else has loaded the question type.  The graph layout throws
+     * stack_exception, which is defined in locallib.php.  This runs in a
+     * separate process, and creates its records without the question
+     * generator, so that locallib.php is not already loaded by other code.
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function test_fix_prt_roots_without_question_type_loaded(): void {
+        global $DB;
+        $this->resetAfterTest();
+
+        // The restore plugin, loaded by this file alone, must define everything its code throws.
+        $this->assertTrue(class_exists('stack_exception', false));
+
+        $questionid = $DB->insert_record('question', [
+            'name' => 'malformed',
+            'questiontext' => '',
+            'generalfeedback' => '',
+            'qtype' => 'stack',
+            'stamp' => make_unique_id_code(),
+        ]);
+        $DB->insert_record('qtype_stack_prts', [
+            'questionid' => $questionid,
+            'name' => 'prt1',
+            'feedbackvariables' => '',
+            'firstnodename' => -1,
+        ]);
+        // Node 0 links to node 7, which does not exist.
+        $DB->insert_record('qtype_stack_prt_nodes', [
+            'questionid' => $questionid,
+            'prtname' => 'prt1',
+            'nodename' => 0,
+            'answertest' => 'AlgEquiv',
+            'sans' => 'ans1',
+            'tans' => 'ta1',
+            'testoptions' => '',
+            'truenextnode' => 7,
+            'trueanswernote' => 'prt1-1-T',
+            'truefeedback' => '',
+            'falsenextnode' => -1,
+            'falseanswernote' => 'prt1-1-F',
+            'falsefeedback' => '',
+        ]);
+
+        $restoreplugin = new restore_logic_test_class();
+        $restoreplugin->after_execute_question();
+
+        $this->assertStringContainsString('The PRT named "prt1" is malformed', $restoreplugin->get_log());
+        $this->assertStringContainsString('Question name "malformed"', $restoreplugin->get_log());
+        $this->assertStringContainsString('Node 8 is not in the graph', $restoreplugin->get_log());
+    }
 }

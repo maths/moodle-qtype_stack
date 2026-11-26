@@ -19,7 +19,7 @@ When adding 1 to a fraction you need to express 1 as a fraction with a denominat
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>u:rand([x,t]);

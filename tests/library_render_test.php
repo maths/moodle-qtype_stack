@@ -173,13 +173,31 @@ final class library_render_test extends externallib_advanced_testcase {
         $cache->purge();
         $file = new \StdClass();
         $file->url = 'fakeURL';
+        $file->githubcredential = ['setting' => 'githubtoken_bank', 'repository' => 'https://api.github.com/repos/a/b'];
         $cache->set(\stack_question_library::GITHUB . '_flat_file_list', ['file' => $file]);
         // Set the required capabilities - webservice access and export rights on course.
         $context = context_course::instance($this->course->id);
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = fake_render::render_execute($this->qcategory->id, 'file', \stack_question_library::GITHUB, '');
+        $renderer = new class extends fake_render {
+            /** @var array the credential passed to the last external request. */
+            public static array $credential = [];
+            /**
+             * Record the credential, then make the fake request.
+             *
+             * @param string $requestedfile path of the requested file.
+             * @param string $external URL of the external library.
+             * @param array $apikey the GitHub credential for the request.
+             * @return string XML of question
+             */
+            public static function call_external_request($requestedfile, $external, $apikey) {
+                self::$credential = $apikey;
+                return parent::call_external_request($requestedfile, $external, $apikey);
+            }
+        };
+        $returnvalue = $renderer::render_execute($this->qcategory->id, 'file', \stack_question_library::GITHUB, '');
+        $this->assertSame($file->githubcredential, $renderer::$credential);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.

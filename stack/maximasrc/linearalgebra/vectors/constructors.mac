@@ -1,0 +1,66 @@
+/**
+ * A row vector with comma-separated components, for example `row_vector(a,b,c)`.
+ * Available in every question and displayed using the question's matrix delimiters.
+ *
+ * This is inert notation: it keeps its row-vector identity instead of immediately
+ * evaluating to a matrix. Use `vec_convert` for matrix arithmetic and answer tests:
+ * `vec_convert(row_vector(a,b,c))` gives `matrix([a,b,c])`.
+ * Matrix and variable-size matrix inputs preserve this constructor in responses.
+ *
+ * @inertfunction[] row_vector([entries])
+ * @param[expressions] entries, the comma-separated vector components.
+ * @return[row_vector] the inert row-vector expression.
+ */
+
+/**
+ * A column vector with comma-separated components, for example `column_vector(a,b,c)`.
+ * Available in every question and displayed using the question's matrix delimiters.
+ *
+ * This is inert notation: it keeps its column-vector identity instead of immediately
+ * evaluating to a matrix. Use `vec_convert` for matrix arithmetic and answer tests:
+ * `vec_convert(column_vector(a,b,c))` gives `matrix([a],[b],[c])`.
+ * Matrix and variable-size matrix inputs preserve this constructor in responses.
+ *
+ * @inertfunction[] column_vector([entries])
+ * @param[expressions] entries, the comma-separated vector components.
+ * @return[column_vector] the inert column-vector expression.
+ */
+
+declare([row_vector,column_vector],nonscalar)$
+texput(row_vector,lambda([ex],stack_matrix_disp(matrix(args(ex)))))$
+texput(column_vector,lambda([ex],stack_matrix_disp(transpose(matrix(args(ex))))))$
+
+s_test_case(simp) := is(safe_op(row_vector(1,2))="row_vector")$
+s_test_case(simp) := is(safe_op(column_vector(1,2))="column_vector")$
+s_test_case(simp) := is(args(row_vector(a,b))=[a,b])$
+s_test_case(simp) := is(args(column_vector(a,b))=[a,b])$
+s_test_case(simp) := nonscalarp(row_vector(a,b))$
+s_test_case(simp) := nonscalarp(column_vector(a,b))$
+s_test_case(simp) := is(vec_convert(row_vector(1,2,3))=matrix([1,2,3]))$
+s_test_case(simp) := is(vec_convert(column_vector(1,2,3))=matrix([1],[2],[3]))$
+s_test_case(simp) := block([],local(c,r),stack_linear_algebra_declare(true),is(r(a,b)=row_vector(a,b)))$
+s_test_case(simp) := block([],local(c,r),stack_linear_algebra_declare(true),is(c(a,b)=column_vector(a,b)))$
+s_test_case(simp) := is(vec_convert([column_vector(a),row_vector(b)])=[matrix([a]),matrix([b])])$
+s_test_case(simp) := is(vec_convert(column_vector(1,2)+column_vector(3,4))=matrix([1],[2])+matrix([3],[4]))$
+s_test_case(simp) := is(vec_convertedp(column_vector(a,b))=false)$
+s_test_case(simp) := is(vec_convertedp(row_vector(a,b))=false)$
+s_test_case(simp) := is(vec_convertedp([column_vector(a),row_vector(b)])=false)$
+s_test_case(simp) := vec_convertedp(vec_convert(column_vector(a,b)))$
+s_test_case(simp) := is(convert_to_colvec(column_vector(a,b))=matrix([a],[b]))$
+s_test_case(simp) := is(cols_to_matrix([column_vector(1,0),column_vector(0,1)])=ident(2))$
+s_test_case(simp) := is(de_aug(aug(matrix([1],[2]),column_vector(3,4)))=matrix([1,3],[2,4]))$
+s_test_case(simp) := is(tex1(row_vector(a,b))=tex1(matrix([a,b])))$
+s_test_case(simp) := is(tex1(column_vector(a,b))=tex1(matrix([a],[b])))$
+s_test_case(simp) := block([lmxchar:"("],is(tex1(row_vector(a,b))=tex1(matrix([a,b]))))$
+s_test_case(simp) := block([lmxchar:"{"],is(tex1(column_vector(a,b))=tex1(matrix([a],[b]))))$
+s_test_case(simp) := is(args(column_vector())=[]) and is(safe_op(column_vector())="column_vector")$
+s_test_case(simp) := is(args(row_vector())=[]) and is(safe_op(row_vector())="row_vector")$
+s_test_case(simp) := is(un_vec_convert(matrix([1,2]))=row_vector(1,2))$
+s_test_case(simp) := is(un_vec_convert(matrix([1],[2]))=column_vector(1,2))$
+s_test_case(simp) := block([],local(c,r),stack_linear_algebra_declare(true),is(safe_op(c(1))="column_vector"))$
+s_test_case(simp) := block([],local(c,r),stack_linear_algebra_declare(true),is(safe_op(r(1))="row_vector"))$
+s_test_case(simp) := block([],local(c,r),stack_linear_algebra_declare(true),is(c()=column_vector()) and is(r()=row_vector()))$
+s_test_case(simp) := block([],local(c,r),stack_linear_algebra_declare(true),is(tex1(c(a,b))=tex1(column_vector(a,b))))$
+s_test_case(simp) := block([],local(c,r),stack_linear_algebra_declare(true),is(tex1(r(a,b))=tex1(row_vector(a,b))))$
+s_test_case(simp) := is(safe_op(c(1,2))="c") and is(safe_op(r(1,2))="r")$
+s_test_case(simp) := is(vec_convert(c(1,2))=c(1,2))$

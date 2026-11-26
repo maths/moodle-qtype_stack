@@ -14,9 +14,9 @@ Notice the use of the `'` character in front of the `diff` function to prevent e
 
 ### Entering DEs
 
-The syntax to enter a derivative in Maxima is `diff(y,x,n)`.  Teachers need to use an apostrophe`'` character in front of the `diff` function to prevent evaluation in question variables (etc). E.g. to type in \( \frac{\mathrm{d}^2y}{\mathrm{d}x^2}\) you need to use `'diff(y,x,2)`.
+The syntax to enter a derivative in Maxima is `diff(y,x,n)`.  Teachers need to use an apostrophe `'` character in front of the `diff` function to prevent evaluation in question variables (etc). E.g. to type in \( \frac{\mathrm{d}^2y}{\mathrm{d}x^2}\) you need to use `'diff(y,x,2)`.
 
-Students' answers always have noun forms added. If a student types in `diff(y,x)` then this is protected by a special function `noundiff(y,x)` (etc), and ends up being sent to answer test as `'diff(y,x,1)`. If a student types in (literally) `diff(y,x)+1 = 0` this will end up being sent to answer test as `'diff(y,x,1)+1 = 0`.
+Students' answers always have noun forms added. If a student types in `diff(y,x)` then this is protected by a special function `noundiff(y,x)` (etc), and ends up being sent to the answer test as `'diff(y,x,1)`. If a student types in (literally) `diff(y,x)+1 = 0` this will end up being sent to the answer test as `'diff(y,x,1)+1 = 0`.
 
 The answer test `AlgEquiv` evaluates all nouns.   This has a (perhaps) unexpected side-effect that `noundiff(y,x)` will be equivalent to `0`, and `noundiff(y(x),x)` is not.  For this reason we have an alternative [answer test](../../Authoring/Answer_Tests/index.md) `AlgEquivNouns` which does not evaluate all the nouns.
 The `ATEqualComAss` also evaluates its arguments but does not "simplify" them.  So, counter-intuitively perhaps, we currently do have `ATEqualComAss(diff(x^2,x), 2*x);` as true.
@@ -39,7 +39,7 @@ Further work is needed to better support partial derivatives (input, display and
 
 Maxima has two notations to display ODEs.
 
-If `derivabbrev:false` then`'diff(y,x)` is displayed in STACK as \( \frac{\mathrm{d}y}{\mathrm{d}x}\).   Note this differs from Maxima's normal notation of \( \frac{\mathrm{d}}{\mathrm{d}x}y\).
+If `derivabbrev:false` then `'diff(y,x)` is displayed in STACK as \( \frac{\mathrm{d}y}{\mathrm{d}x}\).   Note this differs from Maxima's normal notation of \( \frac{\mathrm{d}}{\mathrm{d}x}y\).
 
 If `derivabbrev:true` then `'diff(y,x)` is displayed in STACK and Maxima as \( y_x \).
 
@@ -52,4 +52,4 @@ If `derivabbrev:true` then `'diff(y,x)` is displayed in STACK and Maxima as \( y
  
 ## See also
 
-[Maxima reference topics](index.md#reference) 
+[Maxima reference topics](../../CAS/index.md#reference) 

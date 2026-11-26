@@ -80,6 +80,23 @@ div.stack-hint-content {
     max-width: 100%;
     resize: both;
 }
+.stack-ascii-input-toolbar {
+    display: none;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 0.35rem;
+    max-width: 100%;
+}
+.stack-ascii-input-toolbar button {
+    min-width: 3.5rem;
+}
+
+@media (max-width: 768px) {
+    .stack-ascii-input-toolbar {
+        display: flex;
+    }
+}
+
 #id_questionvariables,
 textarea[id*=feedbackvariables],
 textarea[name=maximavars] {

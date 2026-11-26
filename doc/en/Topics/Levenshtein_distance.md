@@ -1,13 +1,13 @@
 # Damerau-Levenshtein distance and strings
 
-The Damerau-Levenshtein (Levenshtein for short) distance is a metric, or edit distance, for measuring the difference between two strings. Informally, the Levenshtein distance is the minimum number of single-character edits (insertions, deletions, transition or substitutions) required to change one string into the other. It is named after [Vladimir Levenshtein](https://en.wikipedia.org/wiki/Levenshtein_distance).  Support for Levenshtein distance was added to STACK in 2022 by Achim Eichhorn and Andreas Helfrich-Schkarbanenko.
+The Damerau-Levenshtein (Levenshtein for short) distance is a metric, or edit distance, for measuring the difference between two strings. Informally, the Levenshtein distance is the minimum number of single-character edits (insertions, deletions, transpositions or substitutions) required to change one string into the other. It is named after [Vladimir Levenshtein](https://en.wikipedia.org/wiki/Levenshtein_distance).  Support for Levenshtein distance was added to STACK in 2022 by Achim Eichhorn and Andreas Helfrich-Schkarbanenko.
 
 The use of this distance automatically includes an element of spell checking, which is one of its significant advantages.  Indeed, the Levenshtein distance is widely used for spell checking and auto-complete.
 (See, e.g., F. J. Damerau, _A technique for computer detection and correction of spelling errors_, Communications of the ACM (7)3, March 1964 pp 171–176. [https://doi.org/10.1145/363958.363994](https://doi.org/10.1145/363958.363994))
 
 ## Basic usage example
 
-In STACK `levenshtein(s, t)` takes strings `s`, `t` to compare and returns an integer, the Levensthein distance between `s` and `t`.  This is basically the number of single-character edits.  For example `levenshtein("Add", "And")` gives 1, since one letter needs to be changed. `levenshtein("Add", "and")` gives 2, since two leters need to be changed.  Adding or removing letters are each a single edit, so that `levenshtein("Subtract", "Subtraction");` gives 3.
+In STACK `levenshtein(s, t)` takes strings `s`, `t` to compare and returns an integer, the Levenshtein distance between `s` and `t`.  This is basically the number of single-character edits.  For example `levenshtein("Add", "And")` gives 1, since one letter needs to be changed. `levenshtein("Add", "and")` gives 2, since two letters need to be changed.  Adding or removing letters are each a single edit, so that `levenshtein("Subtract", "Subtraction");` gives 3.
 
 Rather than using this "distance" a tolerance is defined by the normalised "Levenshtein similarity" between 0 (totally different) and 1 (identical).  The Maxima code for this function is simple enough to list here explicitly.
 
@@ -28,7 +28,7 @@ When you test the student's answer the test finds the most similar string in `al
 1. the most similar string is within the `allow` list, and then that
 2. the similarity of the student's string to the most similar allow string is better than the specified tolerance.
 
-Notes on using the answer test in STACK.
+Notes on using the answer test in STACK:
 
 1. The first argument to the test (the "student's answer") must be a string.
 2. The second argument to the test (the "teacher's answer") must be a list in the form `[allow, deny]` where both `allow` and `deny` are themselves lists of strings.  The `allow` list must be non-empty, but the `deny` list could be empty.
@@ -38,7 +38,7 @@ Notes on using the answer test in STACK.
 
 The current answer test provides feedback indicating which of the allow strings was most similar.  The test does not provide feedback indicating which of the deny strings was most similar, but if you can find a use-case which needs deny based feedback please contact the developers and we will add an option.
 
-The answernote records the most similar allow string, the most similar deny string and the corresponding tolerance values.  It is likely that a teacher will need to examine students' answers in the fist use cycle and fine tune the `allow`, `deny` and tolerance values (perhaps with a regrade) to reach an acceptable level of test reliability: the use of the tolerance means this test is not as objective as some other STACK assessments.
+The answer note records the most similar allow string, the most similar deny string and the corresponding tolerance values.  It is likely that a teacher will need to examine students' answers in the first use cycle and fine tune the `allow`, `deny` and tolerance values (perhaps with a regrade) to reach an acceptable level of test reliability: the use of the tolerance means this test is not as objective as some other STACK assessments.
 
 It is likely this test will benefit from a wide range of text pre-processing options prior to the test being executed, e.g. using functions from Maxima's stringproc library.  For example
 
@@ -46,11 +46,11 @@ It is likely this test will benefit from a wide range of text pre-processing opt
 
 At this point we do not propose to add these as options to the test itself as the pre-processing can be done in the feedback variables as required.  However, pre-processing does affect the feedback given by the test and so test options might be very useful.  If you create such processing functions and have compelling use-cases we would appreciate an opportunity to document, and support them as core functionality: please contact the developers.
 
-## Advice on processing strings in this context.
+## Advice on processing strings in this context
 
 1. To trim whitespace and full stops from each end of a string, you can define `sans1:strim(" .",ans1);` in the feedback variables.
 2. STACK provides a function `sremove_chars(rem, st)` which removes all occurrences of each _character_ in the string `rem` from the string `st`.  For example to remove all selected punctuation characters use `sremove_chars(".,!?", ans1)`.
-3. STACK provides a function `ssquish` which changes tabs and newlines to spaces; trips whitespace at the ends; and replaces multiple whitespace characters with a single whitespace.
+3. STACK provides a function `ssquish` which changes tabs and newlines to spaces; trims whitespace at the ends; and replaces multiple whitespace characters with a single whitespace.
 
 ## Writing a STACK question
 
@@ -74,7 +74,7 @@ Then:
 3. The PRT uses a single node and single answer test: `Levenshtein(ans1, [allow1,deny1], 0.8)` here 0.8 is the (somewhat arbitrary) similarity.
 4. Add in question tests, but remember the test cases should be entered as strings, e.g. `"complete square"`.
 
-With this set of allow strings we have `ans1:"complete square"` gives the following answer note from the potential response tree
+With this set of allow strings, `ans1:"complete square"` gives the following answer note from the potential response tree
 
     ATLevenshtein_far: [[0.78947,"Complete the square"],[0.4,"Square"]].
 
@@ -84,11 +84,11 @@ The note `ATLevenshtein_far` means the closest string was in the allow list, but
 
 You can test in other ways using the feedback variables and the following functions.
 
-`levenshtein(s, t)` takes strings `s`, `t` to compare and returns an integer, the Levensthein distance between `s` and `t`.  This is basically the number of single-character edits.
+`levenshtein(s, t)` takes strings `s`, `t` to compare and returns an integer, the Levenshtein distance between `s` and `t`.  This is basically the number of single-character edits.
 
-`levenshtein_plv(s, t)` weights the levenshtein most similar between 0 (totally different) and 1 (identical).  In Maxima code this function is defined as
+`levenshtein_plv(s, t)` gives the normalised Levenshtein similarity, between 0 (totally different) and 1 (identical).  In Maxima code this function is defined as
 
      levenshtein_plv(s, t) := 1.0-levenshtein(s, t)/max(slength(s), slength(t));
 
-`levenshtein_compare_strings(needle, haystack)` looks for the string `needle` in the list of stings `haystack`.  It returns `[maxscore, index_haystack_found]` where `maxscore` is the value of the closest match and `index_haystack_found` is the index to the string found.  The `maxscore` is rounded to five decimal places to help with comparison of floats later.
+`levenshtein_compare_strings(needle, haystack)` looks for the string `needle` in the list of strings `haystack`.  It returns `[maxscore, index_haystack_found]` where `maxscore` is the value of the closest match and `index_haystack_found` is the index to the string found.  The `maxscore` is rounded to five decimal places to help with comparison of floats later.
 

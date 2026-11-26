@@ -139,6 +139,7 @@ class library_render extends \external_api {
         } else if ($external && $external === stack_question_library::GITHUB) {
             $externalfiles = $cache->get($params['cacheid'] . '_flat_file_list');
             $requestedfile = $externalfiles[$params['filepath']]->url;
+            $apikey = $externalfiles[$params['filepath']]->githubcredential ?? [];
         } else if ($external && $external === stack_question_library::NRWSEARCH) {
             $requestedfile = $params['filepath'];
             $apikey = get_config('qtype_stack', 'nrwapikey');

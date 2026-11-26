@@ -171,9 +171,9 @@ function stack_docs_render_markdown($page, $preprocess = true) {
 }
 
 /**
- * Add description here.
- * @param string $url Docs page being considered.
- * @return array Metadata content.
+ * Look up the metadata for a docs page.
+ * @param string $uri Docs page being considered, relative to the docs root, e.g. "/CAS/Matrix.md".
+ * @return array Metadata content, which is empty if there is no metadata for this page.
  */
 function stack_docs_page_metadata($uri) {
 
@@ -201,11 +201,18 @@ function stack_docs_page_metadata($uri) {
     }
 
     foreach ($pathtofile as $key) {
+        $found = false;
         foreach ($meta as $ml) {
             if (array_key_exists($key, $ml)) {
                 // We are at the directory level, so go down the tree.
                 $meta = $ml[$key];
+                $found = true;
+                break;
             }
+        }
+        if (!$found) {
+            // No metadata for this directory. Don't fall back to a page of the same name in a parent directory.
+            return [];
         }
     }
 

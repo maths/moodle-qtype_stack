@@ -33,15 +33,15 @@ Notes:
 2. If the validator function returns a non-empty string, then the student's answer will be considered invalid, and the string displayed to the student as a validation error message as part of the input validation.  Any string returned by the feedback function is displayed to the student, and validity is not changed.
 3. If the validator function returns an empty string or `true` then the student's input is considered to be valid.  The use of an empty string here for valid is designed to encourage teachers to write meaningful error messages to students!
 4. The function can reference other question variables, e.g. the teacher's answer.
-5. The function is always executed with `simp:false` regardless of the question settings.
+5. The function is always executed with `simp:false` regardless of the question settings.  So, for example, a set literal is not put into canonical order, and `subsetp(setify(listofvars(ex)), {x1,x2,x3})` rejects `x2+x1`.  Wrap such tests in `ev(..., simp)`, as in the example in the section on language support below.
 6. The function is called after the built-in validation checks, and only if the expression is already valid otherwise.  So, you cannot replace basic validation (by design).  This means you will/should have an expression which Maxima can evaluate if it gets as far as your validator function.  E.g. no missing `*` or mismatched brackets.
-8. The student still cannot use any of the variable names defined in the question variables.
-9. Validators only operate on a single input, and there is no mechanism to validate a combination of inputs at once.
-10. The recommended style for naming validator functions is to begin the name with `validate_` or `feedback_`.
+7. The student still cannot use any of the variable names defined in the question variables.
+8. Validators only operate on a single input, and there is no mechanism to validate a combination of inputs at once.
+9. The recommended style for naming validator functions is to begin the name with `validate_` or `feedback_`.
 
 A single validator function can be re-used on multiple inputs within a single question. If you regularly copy validator functions from question to question please consider contributing this as a function to the core of STACK (see below for details). We expect to collect and support regularly used validators in future.
 
-Validator functions basically test for a particular property.  Validator functions can be re-used to create an answer test. See the documentation on [`ATValidtor`](../Authoring/Answer_Tests/Other.md).
+Validator functions basically test for a particular property.  Validator functions can be re-used to create an answer test. See the documentation on [`ATValidator`](../Authoring/Answer_Tests/Other.md).
 
 ## Combining validators
 
@@ -75,7 +75,7 @@ If any validator throws an error then the student's answer is invalid.  E.g. usi
 
 ## Supported validators
 
-The Maxima code is stored in the sourcecode in `stack/maxima/validator.mac`, e.g. on [github](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/validator.mac).
+The Maxima code is stored in the source code in `stack/maxima/validator.mac`, e.g. on [GitHub](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/validator.mac).
 
 ### Contributing validators to the core of STACK {#contributing}
 
@@ -83,15 +83,15 @@ When you regularly find yourself testing for particular properties, and copying 
 
 You can [post your suggestion on the project's GitHub site](https://github.com/maths/moodle-qtype_stack/issues) or [submit code directly as a pull request](https://github.com/maths/moodle-qtype_stack/pulls).
 
-## Improving validation feedback messages.
+## Improving validation feedback messages
 
 It is possible to include the student's answer, or part of the answer, in the validation feedback. This needs more work, of course.
 
-The validator must return a string.  One way to include the studnet's answer in the message is to use `sconcat`, e.g. as follows
+The validator must return a string.  One way to include the student's answer in the message is to use `sconcat`, e.g. as follows
 
     sconcat("User-defined functions are not permitted in this input. In your answer ", stack_disp(op1, "i"), " appears to be used as a function. ")
 
-Another option is to use the `castext` function.  Note, that the castext function has to be used only at the top level.  An example is given in the next section on language support.  You cannot currently return the result of multiple `castext` calls in a concatinated string.
+Another option is to use the `castext` function.  Note that the castext function has to be used only at the top level.  An example is given in the next section on language support.  You cannot currently return the result of multiple `castext` calls in a concatenated string.
 
 An example of how to construct such a validator is `validate_nofunctions` in the contributed validators.
 
@@ -145,7 +145,7 @@ Note, when injecting a value `m0='X'` the `X` must be a Maxima expression, not a
 1. to inject the Maxima expression `X` with `{@...@}` injection (without wrapping like `\(...\)`) to a named placeholder `m0` use `m0='X'`.
 1. to inject the Maxima expression `X` with `{#...#}` injection, to get raw values, to a named placeholder `m0` use `raw_m0='X'`.
 
-For other prefix options see the [documentaiton for the commonstring block](../Authoring/Question_blocks/Static_blocks.md#commonstring-block).
+For other prefix options see the [documentation for the commonstring block](../Authoring/Question_blocks/System_blocks.md).
 
 ## Further examples
 
@@ -159,14 +159,14 @@ To forbid the underscore character in a student's input.
 It is common to want to share validators between questions.  It would also be very helpful to contribute commonly used validator functions back to the STACK project.  To include a validator in more than one question you could post your validator function publicly.
 
 1. Get the validator function working reliably in your question, locally.
-2. Add the maxima function to this file, [`https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac`](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac) or another file, preferably contributing to the STACK project.
+2. Add the Maxima function to this file, [`https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac`](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac) or another file, preferably contributing to the STACK project.
 3. Add documentation and comprehensive test cases (please!) to let other people know what the validator is intended to do, and to help ensure behaviour remains stable.
 4. Include the [optional validators within the cas logic](../Authoring/Inclusions.md#inclusions-within-cas-logic) with either of the following
 
     stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/validators.mac");
     stack_include_contrib("validators.mac");
 
-Note the url `https://raw.githubusercontent.com/` is used to include the raw content of this file.
+Note the URL `https://raw.githubusercontent.com/` is used to include the raw content of this file.
 
 Including external content always poses a minor additional security risk.  In this case (1) the content is included and then subject to the same checks as if you had typed it yourself, and (2) the developers will take the same care in accepting contributions to the master branch as they do with the existing code base.
 
@@ -194,4 +194,4 @@ Users have reported that in some circumstances, questions using bespoke validato
 
 It seems that this behaviour is related to calculus functions like `limit` and `integrate` in the question variables, independent of what the validator does. As a workaround, it often helps to forcefully evaluate such expressions using `ev(..., simp)`, e.g. try `c : ev(int(e^(s*x),x,0,1), simp);` instead of `c : int(e^(s*x),x,0,1);`.
 
-Also, Maxima was originally designed as desktop software and it has an "interactive mode" somewhat hard-wired into the core code.  Try `integrate(x^n,x)` in a blank Maxima desktop session for an example.  The interactive mode has it's place, but if a validator uses one of the functions which has an interactive mode, and the student triggers this behaviour, then there will be a timeout.  We have looked at switching this off, but that's not completely possible.  This is another possible source of issues.
+Also, Maxima was originally designed as desktop software and it has an "interactive mode" somewhat hard-wired into the core code.  Try `integrate(x^n,x)` in a blank Maxima desktop session for an example.  The interactive mode has its place, but if a validator uses one of the functions which has an interactive mode, and the student triggers this behaviour, then there will be a timeout.  We have looked at switching this off, but that's not completely possible.  This is another possible source of issues.

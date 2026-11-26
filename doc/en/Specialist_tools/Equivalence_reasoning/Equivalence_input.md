@@ -4,7 +4,7 @@ This is reference documentation for the equivalence reasoning input.
 
 ##  What is reasoning by equivalence and this input type?
 
-This input type enables us to capture and evaluate student's line-by-line reasoning.
+This input type enables us to capture and evaluate students' line-by-line reasoning.
 
 ## How do students use this input?
 
@@ -12,7 +12,7 @@ This input type enables us to capture and evaluate student's line-by-line reason
 
 In traditional practice students work line by line rewriting an equation until it is solved.  
 This input type is designed to capture this kind of working and evaluate it based on the assumption that each line should be equivalent to the previous one.  
-We have [instructions for students](../../Students/Equivalence_reasoning.md).  Some common observations about this form of reasoning are
+We have [instructions for students](../../Students/Equivalence_reasoning.md).  Some common observations about this form of reasoning are:
 
 1. Students often use no logical connectives between lines.
 2. Students ignore the natural domain of an expression, e.g. in \(\frac{1}{x}\) the value \(x=0\) is excluded from the domain of definition.
@@ -56,7 +56,7 @@ blurs the distinction between validation and correctness, but in a way which is 
 
 ## Notes for question authors
 
-* The position of the validation tags, e.g. `[[validation:ans1]]` are ignored for this input type.  Validation feedback is always displayed next to the TextArea into which students type their answer.
+* The position of the validation tags, e.g. `[[validation:ans1]]`, is ignored for this input type.  Validation feedback is always displayed next to the TextArea into which students type their answer.
 * The teacher's answer and any syntax hint must be a list.  If you just pass in an expression strange behaviour may result.
 * The input type works very much like the TextArea input type.  Internally, the student's lines are turned into a list.  If you want to use the "final answer" then use code such as `last(ans1)` in your potential response tree.
 * If students type in an expression rather than an equation, the system will assume they forgot to add \(=0\) at the end and act accordingly.  This is displayed to the student.
@@ -73,7 +73,7 @@ Teachers must explicitly use the `nounor` and `nounand` commands, not the `and` 
 
 The result of evaluating the syntax hint castext must be a list.  This will be re-interpreted by Maxima, and if you just pass in an expression strange behaviour may result.
 
-The castext may be used to fine-tune the syntax hint. In particular, if you want to remove `*`s from the first line, then this is one (rare) situation where it's best to work at the _display_ level, not at the Maxima expression level.  Normally, especially with PRTs, it's best to work at the maxima level to establish the mathematical meaning.  However, here we need to fine tune how an expression is displayed.  There are currently two options for creating a clean string representation of an expression.
+The castext may be used to fine-tune the syntax hint. In particular, if you want to remove `*`s from the first line, then this is one (rare) situation where it's best to work at the _display_ level, not at the Maxima expression level.  Normally, especially with PRTs, it's best to work at the Maxima level to establish the mathematical meaning.  However, here we need to fine tune how an expression is displayed.  There are currently two options for creating a clean string representation of an expression.
 
 1. `sh:stack_disp(unary_minus_sort(p), "")` will provide the LaTeX output (fine-tuned by STACK).  The problems with using this format here, outside the LaTeX maths environment, are things like (i) use of `\left(...\right)`, use of `\frac{}{}` for division etc.
 2. `sh:sremove("*", string(unary_minus_sort(p)))` will provide the string output.  The problems with this format are things like (i) too many brackets, (ii) nounforms are not converted (`nounand`).  This Maxima function has not been fine-tuned by STACK.
@@ -106,22 +106,22 @@ To enter options for this input use the "extra options field".   Options should 
 `firstline` takes the first line of the teacher's answer and forces the student to have this as the first line of the student's answer.  The test used is equality up to commutativity and associativity (EqualComAss answer test).
 
 `assume_pos` sets the value of Maxima's `assume_pos` variable to be true.  
-If we `assume_pos` they any negative solutions will be ignored, whether or not they exist.  So \(x=\pm 2\) will now be equivalent to \(x=2\).  
+If we `assume_pos` then any negative solutions will be ignored, whether or not they exist.  So \(x=\pm 2\) will now be equivalent to \(x=2\).  
 You might not want this equivalence.  In particular, this also has the effect of condoning squaring or rooting both sides of an equation.  
-For example \(x^4=2\) will now be equivalent to \(x=2\) (rather than \(x=2 \vee x=-2\)).  
+For example \(x^2=4\) will now be equivalent to \(x=2\) (rather than \(x=2 \vee x=-2\)).  
 This is not the default, but is useful in situations where a student is rearranging an equation to a given subject, and all the variables are assumed to be positive.  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
 
 `assume_real` sets an internal flag to work over the real numbers.  If `true` then \(x=1\) will be considered equivalent to \(x^3=1\).  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
 
 `calculus` allows calculus operations in an argument.  Note, this option is only for the input type. You will also need to set this in the answer test options to also affect the answer test.  This is at a very early stage of development.  
-For example, constants of integration are not currently checked by this currently.
+For example, constants of integration are not currently checked by this.
 
 If the syntax hint is just the keyword `firstline` then the first line of the *value* of the teacher's answer will appear as a syntax hint.  
 This enables a randomly generated syntax hint to appear in the box.
 
 ### "let" ###
 
-Students can assigne a value to a variable by typing `let v=a`.  This value will be used in all subsequent working.
+Students can assign a value to a variable by typing `let v=a`.  This value will be used in all subsequent working.
 
 For example, try the following in the equiv-reasoning input.
 
@@ -131,7 +131,7 @@ For example, try the following in the equiv-reasoning input.
 
 Internally there is a special function `stacklet(v,a)` which is used to indicate the variable `v` should have the value `a` within equivalence reasoning.  Note, this only assigns a value to a variable, and by design is not intended for definition of functions (sorry).
 
-To find all assignments in a student's answer, such as `ans1`, you can filter on the `stacklet` function within the feedback variables.  Note, the student's answer will be a list..
+To find all assignments in a student's answer, such as `ans1`, you can filter on the `stacklet` function within the feedback variables.  Note, the student's answer will be a list.
 
     L1:sublist(ans1,lambda([ex],safe_op(ex)="stacklet"));
 

@@ -15,7 +15,7 @@ This document describes the ways STACK provides feedback to students. It will no
   See [reporting](../STACK_question_admin/Reporting.md). The ability to automatically generate data about an individual student or
   across a cohort is one particular strength of CAA, potentially enabling regular, detailed evaluative assessment.
 
-In STACK multi-part questions there is a complete separation between two important components.
+In STACK multi-part questions there is a complete separation between two important components:
 
 1. a list of [inputs](Inputs/index.md)
 2. a list of [potential response trees](Potential_response_trees.md)
@@ -24,7 +24,7 @@ Specific feedback is associated with each input and each potential response tree
 
 ## Validation ##
 
-Before an input is available to a [potential response trees](Potential_response_trees.md),
+Before an input is available to a [potential response tree](Potential_response_trees.md),
 it must be validated.  In particular, at each attempt, each input is assigned a status.
 
 1. NULL, which indicates the field has not been previously given a value by the student,
@@ -58,9 +58,9 @@ Each potential response tree calculates a numerical score between 0 and 1.  This
 
 The numerical scores are assembled by traversing each potential response tree.
 
-* Each branch of each node can add, subtract or set an absolute, score.
+* Each branch of each node can add, subtract or set an absolute score.
 * The outcome at the end should be between 0 and 1.  If the score, \(s\), lies outside this range it is taken to be \( \min(\max(s,0),1) \) to bring it within range, then it is scaled by multiplying by the [question value](Potential_response_trees.md#Question_value) for that potential response tree.
-* A "penalty" may also set in the potential response tree for this attempt. Normally the penalty field in each branch of the potential response tree is empty, in which case the question level penalty value is used.  However, these fields are useful to _remove_ any penalty for this outcome, by setting it to zero explicitly.
+* A "penalty" may also be set in the potential response tree for this attempt. Normally the penalty field in each branch of the potential response tree is empty, in which case the question level penalty value is used.  However, these fields are useful to _remove_ any penalty for this outcome, by setting it to zero explicitly.
 * After the whole tree has been traversed, if the score is 1 then the penalty is always assigned to 0.
 
 STACK adjusts the score for each potential response tree, based on the number of valid, different attempts.  The penalty scheme deducts from the score a small amount (default is \(0.1=10\%\)) for each different and valid attempt which is not completely correct.   It is designed to _reward persistence and diligence_ when students initially get a question wrong, but they try again.
@@ -75,7 +75,7 @@ It works in the following way. For each attempt \(k\), we let
 
 The default penalty scheme takes the _maximum_ score for each attempt, so that by accruing further penalties a student may never be worse off.
 
-To be specific
+To be specific:
 
 1. Let \( (s_i,p_i) \) for \(i=1,\cdots n\) be the list of scores and penalties for a particular potential response tree, for each different valid attempt.
 2. The score for attempt \(k\) is defined to be
@@ -92,18 +92,20 @@ The text-based feedback for students is a concatenation of the following element
 
 * *Answer test feedback.* Many of the [answer tests](Answer_Tests/index.md) generate feedback of their own. This can be suppressed using the quiet option. While this feedback is often not needed, it would be very difficult for the teacher to re-create this.
 * *Bespoke feedback.* Each branch of the [potential response trees](Potential_response_trees.md) generates some feedback.
-* *Generic feedback.* Once the [potential response trees](Potential_response_trees.md) has been traversed and all feedback assigned, the score is used to generate some generic feedback. If the raw score equals \(0\) then the default feedback is _Incorrect answer_.   If the raw score equals \(1\) then the default feedback is _Correct answer, well done_. Otherwise the generic feedback is _Your answer is partially correct_.  
+* *Generic feedback.* Once the [potential response tree](Potential_response_trees.md) has been traversed and all feedback assigned, the score is used to generate some generic feedback. If the raw score (before any penalty) is \(0\) then the default feedback is _Incorrect answer_.   If the raw score is \(1\) then the default feedback is _Correct answer, well done_. Otherwise the generic feedback is _Your answer is partially correct_.  (Scores are compared to within \(10^{-6}\).)  No generic feedback is shown if the tree has a runtime error, and only potential response trees with the "Standard" feedback style show it (see [feedback style](Potential_response_trees.md#feedbackstyle)).
 
-Generic feedback strings can be modified in the [options](Question_options.md).  Generic feedback defaults make use of the common language string blocks.  The default feedback for _Correct answer, well done_ is generated by accessing the language pack via the block
+When a question has more than one potential response tree, one of the generic feedback strings is also shown at the start of the specific feedback, chosen by the weighted total of the scores of the trees.  This only happens when the specific feedback field is not empty.
+
+Generic feedback strings can be modified in the [options](Question_options.md#standard_feedback).  The text is CASText, evaluated once for each variant with the question variables, so it cannot refer to the student's answer.  Generic feedback defaults make use of the common language string blocks.  The default feedback for _Correct answer, well done_ is generated by accessing the language pack via the block
 
     [[commonstring key="defaultprtcorrectfeedback"/]]
 
-The partially correct and incorrect strings are, respectivly,
+The partially correct and incorrect strings are, respectively,
 
     [[commonstring key="defaultprtpartiallycorrectfeedback"/]]
     [[commonstring key="defaultprtincorrectfeedback"/]]
 
-The default values for generic feedback combines the language block (as above) and a symbolic block.
+The default values for generic feedback combine the language block (as above) and a symbolic block.
 
     [[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]
 
@@ -111,13 +113,15 @@ In English the HTML is
 
     <span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.
     
-which is displayed in as
+which is displayed as
 
 <span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.
 
-The symbolic feedback is also used for compact PRT feedback.  Typcially we do not expect the symbolic tags  (`symbolicprtcorrectfeedback`, `symbolicprtpartiallycorrectfeedback` or `symbolicprtincorrectfeedback`) to vary between language packs, but there may be important cultural reasons to do so (or individuals might like to modify this locally via local language packs).  For this reasons the symbols are included as language strings.
+The symbolic feedback is also used for compact PRT feedback.  Typically we do not expect the symbolic tags  (`symbolicprtcorrectfeedback`, `symbolicprtpartiallycorrectfeedback` or `symbolicprtincorrectfeedback`) to vary between language packs, but there may be important cultural reasons to do so (or individuals might like to modify this locally via local language packs).  For this reason the symbols are included as language strings.
 
 Using the common language string block means the feedback will be the string from the language pack in the current requested language (e.g. corresponding to tag `defaultprtcorrectfeedback`).  E.g. if your site and materials are in German, the default string will also be shown in German.  If a user then requests French, this tag will choose the version from the French language pack.
+
+New questions, and imported questions which omit these fields, take the site's STACK settings `qtype_stack | prtcorrect`, `qtype_stack | prtpartiallycorrect` and `qtype_stack | prtincorrect`.  These became the language string blocks above in STACK 4.12.0, but a site upgraded from an earlier version keeps its old settings (hardcoded English HTML) until an administrator changes them.  To be sure an exported question uses the language pack wherever it is imported, keep the three fields in the XML.
 
 If you change the feedback from the default, and you also want localisation of the feedback, then you will have to use the [multi language system](Languages.md) within these feedback strings (as normal).   We recommend using built-in `[[lang]]` castext blocks in STACK, not the Moodle multilang filter.
 

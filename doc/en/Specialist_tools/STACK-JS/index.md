@@ -4,12 +4,12 @@ This page documents the STACK-JS system, used to connect question inputs and out
 
 However, if you use raw JavaScript you may tie yourself down to the behaviour of your current VLE (e.g. Moodle) version and the scripting may break during the next update of that VLE, or during some security crackdown. Currently, STACK allows both raw JavaScript (i.e. the use of `<script>`-tags) and STACK-JS managed JavaScript executing inside limited sandboxes, the latter provides a limited interface that aims to map logical restricted actions to corresponding features on whatever VLE is currently in use. We **strongly** recommend the use of the latter option, and may at any point in the future actively limit the ability to use the former.
 
-For technical reasoning on why we do not recommend the use of raw JavaScript to [our short description of the security issues](../../Developer/STACK-JS.md#the-general-security-reason), related to unknown JavaScript being executed outside secure contexts.
+For the technical reasons why we do not recommend the use of raw JavaScript, see [our short description of the security issues](../../Developer/STACK-JS.md#the-general-security-reason), related to unknown JavaScript being executed outside secure contexts.
 
 
 ## Basic interface features
 
-The STACK-JS interface is asynchronic, it communicates whatever you request from it to the VLE side and waits for a response before it can provide any answers. Thus any actions that expect a response will typically provide a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) as the result. To get the result you will need to provide logic that executes once said promise resolves. For an example, the following bit of logic asks for the contents of a named element on the VLE side:
+The STACK-JS interface is asynchronous: it communicates whatever you request from it to the VLE side and waits for a response before it can provide any answers. Thus any actions that expect a response will typically provide a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) as the result. To get the result you will need to provide logic that executes once said promise resolves. For an example, the following bit of logic asks for the contents of a named element on the VLE side:
 
 ```
 [[javascript]]
@@ -26,16 +26,16 @@ promise.then((content) => {
 });
 [[/javascript]]
 ```
-Here the `stack_js.get_content()`-function promises to return the `innerHTML` of that element or `null` if such element can not be found, but it does not give that value now as some parts of logic might still be starting up. On the other hand `stack_js.toggle_visibility()` returns no promises as it has no sensible thing to return, however even it is asynchronous, the visibility will not be toggled before the connection from this sandbox to the VLE becomes ready.
+Here the `stack_js.get_content()`-function promises to return the `innerHTML` of that element or `null` if such element can not be found, but it does not give that value now as some parts of logic might still be starting up. On the other hand `stack_js.toggle_visibility()` returns no promises as it has no sensible thing to return, however, even it is asynchronous: the visibility will not be toggled before the connection from this sandbox to the VLE becomes ready.
 
 ## Basic restrictions
 
-The STACK-JS system limits what you can you access on the VLE side as well as what you can send there, the basic rules are as follows:
+The STACK-JS system limits what you can access on the VLE side as well as what you can send there, the basic rules are as follows:
 
  1. You can only access things inside questions, not necessarily limited to the question that contains your logic, but you can limit your request to it. Basically, you cannot touch any of the VLE controls or contents that might be present on the page but are not part of the question display area.
  2. When sending content to the VLE side, it either goes into an input without filtering or it is being used to replace the `innerHTML` of a named element in which case that content will be filtered for scripts, event-handlers and remote references. Basically, you cannot move logic from the sandbox to the VLE side.
 
-Do not ask for exceptions to those rules, otherwise the we are happy to make sensible extensions to the interface to selectively access and interact with the questions from sandboxed logic.
+Do not ask for exceptions to those rules; however, we are happy to make sensible extensions to the interface to selectively access and interact with the questions from sandboxed logic.
 
 
 ## Function reference
@@ -68,12 +68,12 @@ The callback function will receive one argument and that is the id of the button
 
 This function will simply clear whatever value or selection a named input has. You do not need to use `stack_js.request_access_to_input()` before calling this.
 
-Note that for now does not work with matrix-inputs.
+Note that for now this does not work with matrix-inputs.
 
 
 #### `stack_js.get_input_metadata(name)`
 
-Etracts metadata about a given input that has previously been connected to the sandbox, either by `stack_js.request_access_to_input()` or by certain convenience attributes. This metadata describes the type of an input this is on the VLE side as well as details related to syntax. In particular, this can be used to identify which decimal separator is in use.
+Extracts metadata about a given input that has previously been connected to the sandbox, either by `stack_js.request_access_to_input()` or by certain convenience attributes. This metadata describes the type of an input this is on the VLE side as well as details related to syntax. In particular, this can be used to identify which decimal separator is in use.
 
 
 #### `stack_js.register_validation_state_listener(name, callback, limittoquestion)`
@@ -104,7 +104,7 @@ Changes the styling of the target element, if `show` is `true` will set `display
 
 #### `stack_js.switch_content(elementid, newcontent)`
 
-Replaces the `innerHTML` of the target element with the given string of content. The content will be filtered for scripts and other things previously dicussed. Should no element of matching id be found an error will be made visible (assuming execution in non hidden sandbox).
+Replaces the `innerHTML` of the target element with the given string of content. The content will be filtered for scripts and other things previously discussed. Should no element of matching id be found an error will be made visible (assuming execution in non hidden sandbox).
 
 #### `stack_js.get_content(elementid)`
 
@@ -130,7 +130,7 @@ Note that there is no function to trigger that button.
 
 #### `stack_js.has_submit_button()`
 
-Will return a promise that will resolve to a boolean signaling whether we even have a submit button.
+Will return a promise that will resolve to a boolean signalling whether we even have a submit button.
 
 #### `stack_js.enable_submit_button(enable)`
 
@@ -144,32 +144,32 @@ Allows changing the text of the submit button.
 ## Other STACK-JS libraries
 
 Note that while the above listing presents the functionality of the `stack_js`
-library, there are others that come with norm STACK distributions. 
+library, there are others that come with normal STACK distributions. 
 
 First and foremost among them is the `stack_jxg` library that is always
 automatically imported to `[[jsxgraph]]` blocks but can naturally also be
-importted elsewhere, e.g., larger IFRAME constructs with internal JSXGraphs
+imported elsewhere, e.g., larger IFRAME constructs with internal JSXGraphs
 mixed with other things. See [documentation](../../Specialist_tools/JSXGraph/index.md)
  on `[[jsxgraph]]`
 for more details about this library.
 
 Then there is the `stack_geogebra` library for similar activities with
-[GeoGebra](../../Specialist_tools/GeoGebra//index.md). Again automatically imported
+[GeoGebra](../../Specialist_tools/GeoGebra/index.md). Again automatically imported
 in `[[geogebra]]` blocks. This library is probably only sensible inside
 that block.
 
-[../Drag_and_drop/](Parsons-problems or the drag and drop) feature also 
-has its own tool library, `stack_sortable`. Again probaly only sensible
+The [Parsons problems or drag and drop](../Drag_and_drop/index.md) feature also 
+has its own tool library, `stack_sortable`. Again probably only sensible
 inside the related block.
 
-`stack_css_utils` is first of the libraries independent of blocks. It does
-one thing and thign only. It writes local context CSS stylesheets into
-element level definitions. So that one can style thing inside an iframe with
+`stack_css_utils` is the first of the libraries independent of blocks. It does
+one thing and one thing only. It writes local context CSS stylesheets into
+element level definitions. So that one can style things inside an iframe with
 stylesheets and then transfer those things outside of the iframe with
 the styles inlined.
 
-`stack_mp_lite` is parser for a subset of the full STACK-Maxima syntax. It is
+`stack_mp_lite` is a parser for a subset of the full STACK-Maxima syntax. It is
 meant for tasks where one needs to translate that Maxima style syntax to
 something else. It comes with predefined logic for translation to JS and
 JessieCode, but one can freely define new translations through the library.
-See and example (STACK_MP_LITE.md)[here].
+See an example [here](STACK_MP_LITE.md).

@@ -14,15 +14,19 @@ This option sets the value of [Maxima](../CAS/Maxima_background.md)'s
 
 variable.
 
-If `true` and the sign of a parameter \(x\) cannot be determined from the current context or other considerations, `sign` and `asksign(x)` return `true`. This may forestall some automatically-generated asksign queries, such as may arise from integrate or other computations
+If `true` and the sign of a parameter \(x\) cannot be determined from the current context or other considerations, `sign` and `asksign(x)` return `true`. This may forestall some automatically-generated asksign queries, such as may arise from integrate or other computations.
 
-Default is False
+Default is false.
 
 ### Question Penalty {#Question_penalty} ###
 
 This is the percentage of the marks deducted from each different and valid attempt which is not completely correct, when the penalty mark modification scheme is in use. The default is \(10\%\) of the marks available for this question, entered at \(0.1\).
 
 Note that Moodle stores scores to 7 decimal places, so, \(1/3\) should be entered as \(0.3333333\), and \(2/3\) as \(0.6666667\). If you input any number close to \(1/3\), but with less precision, then the extra digits will automatically be added. The exact range affected is that any penalty \(\ge 0.33\) and \(\le 0.34\) is changed to \(0.3333333\), and any penalty \(\ge 0.66\) and \(\le 0.67\) is changed to \(0.6666667\).
+
+### Standard feedback {#standard_feedback} ###
+
+The three options "Standard feedback for correct", "Standard feedback for partially correct" and "Standard feedback for incorrect" hold the generic feedback a potential response tree shows before its own feedback.  New questions take their values from the site's STACK settings.  We recommend keeping the defaults, which use the language pack so the feedback is shown in the student's language.  See [generic feedback](Feedback.md) for details.
 
 ## Output ##
 
@@ -39,7 +43,7 @@ The design of this option is discussed further in the [developer docs](../Develo
 
 Teachers must always use strict Maxima syntax, which requires `.`, including in test case construction.
 
-### Scientific notation formal {#scientificnotation} ###
+### Scientific notation format {#scientificnotation} ###
 
 Choose the format for display of scientific notation.
 
@@ -117,7 +121,7 @@ Do you really want to continue using \(\sqrt{}\) in your teaching?  In his *Elem
 
 A lot of elementary mathematics involves converting from one form to another and back again.  Sometimes these forms have important differences of use, e.g. factored form or completed square form for a quadratic.  However, sometimes these equivalent forms are more customary than because it *"manifestly corresponds with the nature of the thing"* in question.  I digress...
 
-STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n]{x}\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostrophe to create the nounform `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
+STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n]{x}\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostrophe to create the noun form `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
 
 ### sqrt(-1) {#sqrt_minus_one} ###
 
@@ -151,15 +155,15 @@ If you are using \(i,j,k\) as basis vectors then consider the following in your 
     p:3*i+4*j+5*k;
     q:a*i+b*j+c*k;
 
-Then, your expressions `p` and `q` will be displayed repectively as \[{3\cdot \vec{i}+4\cdot \vec{j}+5\cdot \vec{k}}\] and \[{a\cdot \vec{i}+b\cdot \vec{j}+c\cdot \vec{k}}.\]
-Further examples are given in the [vectors](../CAS/Matrix.md#vectors).documentation.
+Then, your expressions `p` and `q` will be displayed respectively as \[{3\cdot \vec{i}+4\cdot \vec{j}+5\cdot \vec{k}}\] and \[{a\cdot \vec{i}+b\cdot \vec{j}+c\cdot \vec{k}}.\]
+Further examples are given in the [vectors](../Topics/Linear_algebra/Vectors.md) documentation.
 
 
 ### Matrix parentheses ###
 
 See the entry on [matrices](../CAS/Matrix.md#matrixparens).
 
-### Inline and displayed fractions. ###
+### Inline and displayed fractions ###
 
 There are three ways to display fractions.
 

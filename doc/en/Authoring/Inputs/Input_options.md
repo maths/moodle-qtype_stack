@@ -41,7 +41,7 @@ For documentation about the various options not documented on this page look at 
 
 Notes:
 
-1. The numerical and units input type ignore the strict syntax option and always assume strict syntax is "true".
+1. The numerical and units input types ignore the strict syntax option and always assume strict syntax is "true".
 Otherwise patterns for scientific numbers such as `2.23e4` will have multiplication characters inserted.
 
 ### Extra option: hideanswer ### {#extra_option_hideanswer}
@@ -54,9 +54,9 @@ Do not use this option in questions in place of the normal quiz settings.
 
 ### Extra option: allowempty ###
 
-Normally a _blank_, i.e. empty, answer has a special status and are not considered "valid".  Hence, a PRT relying on an input left blank will not be traversed.  Answers consisting only of whitespace are also considered as empty.  The extra option `allowempty` allows the input to be empty.  Internally it is essential that the variable name of the input, (e.g. `ans1`) is really assigned a specific value.
+Normally a _blank_, i.e. empty, answer has a special status and is not considered "valid".  Hence, a PRT relying on an input left blank will not be traversed.  Answers consisting only of whitespace are also considered as empty.  The extra option `allowempty` allows the input to be empty.  Internally it is essential that the variable name of the input, (e.g. `ans1`) is really assigned a specific value.
 
-* Most inputs, including the algebraic input, an empty answer will be replaced by the Maxima atom `EMPTYANSWER`.  The teacher will need to deal with `EMPTYANSWER` tags in the PRT.
+* For most inputs, including the algebraic input, an empty answer will be replaced by the Maxima atom `EMPTYANSWER`.  The teacher will need to deal with `EMPTYANSWER` tags in the PRT.
 * String inputs will return the empty string `""` as an empty answer (to avoid a type-mismatch).
 * Textarea inputs will return `[EMPTYANSWER]` to make sure the answer is always a list (to avoid a type-mismatch).
 * Matrix inputs will return the correct size matrix filled with `null` atoms, e.g. `matrix([null,null],[null,null])`.
@@ -92,13 +92,13 @@ Actually simplify the student's answer during the validation process.  This will
 
     makelist(k^2,k,1,8)
 
-If teacher's want this kind of thing, then a syntax hint is probably in order as well.
+If teachers want this kind of thing, then a syntax hint is probably in order as well.
 
 You may need to `ev(ans1,simp)` explicitly in any potential response tree.
 
 It makes no sense to simplify the equivalence reasoning input type, so this has been omitted.
 
-Note, STACK does it's best to preserve the number of significant figures in a student's answer.  For example, if a student types in `0.200*0.00500` then it should be displayed at \( 0.200\cdot 0.00500 \) in validation (depending on the symbol chosen in the question for multiplication).  However, if this extra option is chosen then the calculation will be performed.  If the result is a single floating point number, then the number of decimal places displated will be the _maximum_ number of decimal places entered in a float used by a student.  Otherwise Maxima's default way of displaying results used.  In particular, for floats, trailing zeros are removed.  More significant figures may be displayed than entered.
+Note, STACK does its best to preserve the number of significant figures in a student's answer.  For example, if a student types in `0.200*0.00500` then it should be displayed as \( 0.200\cdot 0.00500 \) in validation (depending on the symbol chosen in the question for multiplication).  However, if this extra option is chosen then the calculation will be performed.  If the result is a single floating point number, then the number of decimal places displayed will be the _maximum_ number of decimal places entered in a float used by a student.  Otherwise Maxima's default way of displaying results is used.  In particular, for floats, trailing zeros are removed.  More significant figures may be displayed than entered.
 
 ### Extra option: align ###
 
@@ -106,7 +106,7 @@ Controls if the student's answer is aligned 'left' or 'right' within the input b
 
 ### Extra option: nounits ###
 
-As of STACK 4.3, if units are declared in a question then the whole question will use a units context for parsing inputs.  For example, in a multi-part question you may use a matrix input.  If you do so, and use variable names, then these will be parsed expecting them to be usits.  To prevent this in a particular input, use the `nounits` option
+As of STACK 4.3, if units are declared in a question then the whole question will use a units context for parsing inputs.  For example, in a multi-part question you may use a matrix input.  If you do so, and use variable names, then these will be parsed expecting them to be units.  To prevent this in a particular input, use the `nounits` option.
 
 ### Extra option: consolidatesubscripts ###
 
@@ -128,7 +128,7 @@ As of STACK 4.4.0, there is an option to check, or allow comparison between, var
 
 This option takes the form of `checkvars:n`, where `n` is an integer. Omitting this option is equivalent to setting `n=0`.
 
-The binary bits are used to set this options.
+The binary bits are used to set this option.
 
 1. If the 1st binary bit of `n` is 1 (i.e. `n` is odd) then we flag up spurious variables.
 2. If the 2nd binary bit of `n` is 1 then we flag up missing variables.
@@ -145,17 +145,18 @@ Writing bespoke validators is an advanced feature, but offers two significant be
 
 1. Students are less likely to be penalised on a technicality, especially in high-stakes situations;
 2. Potential response tree authoring becomes much easier and more reliable because the validation acts as a "guard clause" only allowing correctly structured information through to the PRT.  This means type-checking need not be done in the PRT before assessment.
-3. The extra option `validator` is designed to allow you to choose extra expressions to be invalid.  The extra option `feedback` will simply print an additional message to students in the validation feedback.
+
+The extra option `validator` is designed to allow you to choose extra expressions to be invalid.  The extra option `feedback` will simply print an additional message to students in the validation feedback.
 
 ### Extra option: monospace ###
 
-This option is available for many inputs, including algebraic, numerical, units, varmatrix, textare, equiv and freetext. It controls if the student's answer is displayed using monospace font. `monospace` and `monospace:true` will force the input to use monospace. `monospace:false` will force proportional font.
+This option is available for many inputs, including algebraic, numerical, units, varmatrix, textarea, equiv and freetext. It controls if the student's answer is displayed using monospace font. `monospace` and `monospace:true` will force the input to use monospace. `monospace:false` will force proportional font.
 
 If `monospace` is not specified, then the CURRENT system default for the given input type will be used when the question is displayed. 
 
 ### Extra option: manualgraded ###
 
-Most input types support the extra option extra option `manualgraded`, and the default is `manualgraded:false`.  Only freetext inputs have default `manualgraded:true`.  When `manualgraded:true` then the _whole STACK question_ will require manual grading!  See [Semi-automatic Marking](../../Moodle/Semi-automatic_Marking.md) for more details.
+Most input types support the extra option `manualgraded`, and the default is `manualgraded:false`.  Only freetext inputs have default `manualgraded:true`.  When `manualgraded:true` then the _whole STACK question_ will require manual grading!  See [Semi-automatic Marking](../../Moodle/Semi-automatic_Marking.md) for more details.
 
 
 ## Future extra options ##

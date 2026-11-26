@@ -152,6 +152,9 @@ class library_import extends \external_api {
             // We've got a quiz file. Load JSON and instantiate.
             if ($external) {
                 $url = $externalfiles[$params['filepath']]->url;
+                if ($external === stack_question_library::GITHUB) {
+                    $apikey = $externalfiles[$params['filepath']]->githubcredential ?? [];
+                }
                 $quizcontents = stack_question_library::get_external_file($url, $external, $apikey);
             } else {
                 $quizcontents = file_get_contents($requestedfile);
@@ -218,6 +221,9 @@ class library_import extends \external_api {
             $qformat->setCatfromfile(true);
             if ($external) {
                 $url = $externalfiles[$category]->url;
+                if ($external === stack_question_library::GITHUB) {
+                    $apikey = $externalfiles[$category]->githubcredential ?? [];
+                }
                 file_put_contents($requestedfile, stack_question_library::get_external_file($url, $external, $apikey));
                 $qformat->setFilename($requestedfile);
             } else {
@@ -271,6 +277,7 @@ class library_import extends \external_api {
             $qformat->setCatfromfile(true);
             if ($external === stack_question_library::GITHUB) {
                 $url = $externalfiles[$file]->url;
+                $apikey = $externalfiles[$file]->githubcredential ?? [];
                 file_put_contents($requestedfile, stack_question_library::get_external_file($url, $external, $apikey));
                 $qformat->setFilename($requestedfile);
             } else if ($external === stack_question_library::NRWSEARCH) {

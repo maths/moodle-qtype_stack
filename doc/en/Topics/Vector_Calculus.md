@@ -27,11 +27,11 @@ If you would like to work with differentials, using `diff(f)` without specifying
     (%i2) diff(f);
     (%o2) x y del(z) + x z del(y) + y z del(x)
 
-The Maxima differentials will display as \(d(x)\).  If you prefer notation such as \(\mathrm{d}x\) you might like to redfine the tex function associated with `del` e.g.
+The Maxima differentials will display as \(d(x)\).  If you prefer notation such as \(\mathrm{d}x\) you might like to redefine the tex function associated with `del` e.g.
 
     texput(del,lambda([ex],sconcat("\\mathrm{d}",tex1(first(ex)))));
 
-If you need to assert that one or more variables are constant, you can use `declare([a,b,c],constant)` means that, using the previous example, `diff(f*c)` would return `c x y del(z) + c x z del(y) + c y z del(x)` rather than `c x y del(z) + c x z del(y) + c y z del(x) + x y z del(c)`.
+If you need to assert that one or more variables are constant, you can use `declare([a,b,c],constant)`, which means that, using the previous example, `diff(f*c)` would return `c x y del(z) + c x z del(y) + c y z del(x)` rather than `c x y del(z) + c x z del(y) + c y z del(x) + x y z del(c)`.
 
 If you want to assert that one variable depends on the other, you can use `depends([f,g],[x,y])` to mean that \(f\) and \(g\) both depend on \(x\) and \(y\). If you just want to note that \(y\) depends on \(x\), then `depends(y,x)` is sufficient. This is useful when asking students to perform implicit partial differentiation and solve for the given derivative. Here is an example that wants students to find a partial derivative of one variable with respect to another, holding another variable constant: 
 
@@ -79,7 +79,7 @@ Here is some example code that shows how you might procedurally generate solutio
     solns: map(lambda([ex],map(rhs,firstn(radcan(ex),2))),solve(equations, [x, y, L]));
     ta: sublist(solns,lambda([ex],real_numberp(first(ex)) and real_numberp(second(ex))));
 
-This code will generate all correct solutions, trim out the value of \(\lambda\) which typically does not concern us, removes any complex solutions, and returns the final answer as a list of ordered pairs. This is useful because it allows us to use the TextArea input type. To enter their answers, students can give as many or as ordered pairs as they like.
+This code will generate all correct solutions, trim out the value of \(\lambda\) which typically does not concern us, removes any complex solutions, and returns the final answer as a list of ordered pairs. This is useful because it allows us to use the TextArea input type. To enter their answers, students can give as many ordered pairs as they like.
 
 To mark this question, we could use some code like the following:
 
@@ -102,9 +102,9 @@ There are several considerations when creating a vector plot:
 3) What aesthetic choices are important to aid readability? 
 4) How should function information be passed from Maxima to JSXGraph?
 
-There is no single answer to these, and your answer will likely differ per question. Below is one approach to creating a vector plot question. Note that it assumes you are working with a plain text editor and so `<`, `>`, and `&&` are all viable options. If you work in a different editor (such as a the Moodle default) you may like to define your own functions to prevent conversion to `&lt;`, `&gt;` or `&amp;` upon saving. 
+There is no single answer to these, and your answer will likely differ per question. Below is one approach to creating a vector plot question. Note that it assumes you are working with a plain text editor and so `<`, `>`, and `&&` are all viable options. If you work in a different editor (such as the Moodle default) you may like to define your own functions to prevent conversion to `&lt;`, `&gt;` or `&amp;` upon saving. 
 
-Let us first assume a general vector function, called `F`. In the question variables, we could define `fx` and `fy` and then define `F: [fx,fy]`. If we were wanting to instead plot a gradient, we could define a function `f` and then define its gradient as `F: [diff(f,x),diff(f,y)]`. We will also need a version of `F` that uses valid JavaScript syntax. You might like to convert manually using something like `fx_jsx: ssubst("**","^",string(fx))`, though this relies on you knowing the form of the function and can cause problems with the unary minus. A better option could be to use [JXG.JessieCode](https://jsxgraph.org/docs/symbols/JXG.JessieCode.html). Lastly, we want a JavaScript function to output the direction at a given point. Something like the the following suffices.
+Let us first assume a general vector function, called `F`. In the question variables, we could define `fx` and `fy` and then define `F: [fx,fy]`. If we were wanting to instead plot a gradient, we could define a function `f` and then define its gradient as `F: [diff(f,x),diff(f,y)]`. We will also need a version of `F` that uses valid JavaScript syntax. You might like to convert manually using something like `fx_jsx: ssubst("**","^",string(fx))`, though this relies on you knowing the form of the function and can cause problems with the unary minus. A better option could be to use [JXG.JessieCode](https://jsxgraph.org/docs/symbols/JXG.JessieCode.html). Lastly, we want a JavaScript function to output the direction at a given point. Something like the following suffices.
 
     var F = function(x,y) { return [{@fx_jsx@},{@fy_jsx@}] };
 
@@ -135,7 +135,7 @@ Before we iterate through this, we need to define the function that will actuall
         });
     }
     
-A couple of things to note: Firstly, the variable `vecScaler` is always equal to the reciprocal of the length of the vector, which means that in this example it will always plot a "unit" vector (where a unit here is the grid size). This can (and perhaps should) be changed unless you wish to use colour to denote different vector length (which is poor accessibility practice on its own). Secondly, these vectors are eminating from the grid point, which is plotted itself with a transparent dot. In fact, everything is partially transparent to avoid excessive busyness in the plot. You could easily set this up to instead plot with the centre of the arrow being the location, or could tweak any of the other visual settings. In general, it is good to indicate where the vector originates for clarity. 
+A couple of things to note: Firstly, the variable `vecScaler` is always equal to the reciprocal of the length of the vector, which means that in this example it will always plot a "unit" vector (where a unit here is the grid size). This can (and perhaps should) be changed unless you wish to use colour to denote different vector length (which is poor accessibility practice on its own). Secondly, these vectors are emanating from the grid point, which is plotted itself with a transparent dot. In fact, everything is partially transparent to avoid excessive busyness in the plot. You could easily set this up to instead plot with the centre of the arrow being the location, or could tweak any of the other visual settings. In general, it is good to indicate where the vector originates for clarity. 
 
 Now we can finally plot the vectors. 
 

@@ -34,6 +34,14 @@ const transformLib = {
     minwrap
 };
 
+export const inputToolbarButtons = [
+    { label: '`', insert: '`', titlekey: 'asciistringtoolbarmarkdowninline' },
+    { label: '\\(', insert: '\\(', titlekey: 'asciistringtoolbarmarkdowninlinelatexstart' },
+    { label: '\\)', insert: '\\)', titlekey: 'asciistringtoolbarmarkdowninlinelatexend' },
+    { label: '\\[', insert: '\\[', titlekey: 'asciistringtoolbarmarkdowndisplaylatexstart' },
+    { label: '\\]', insert: '\\]', titlekey: 'asciistringtoolbarmarkdowndisplaylatexend' }
+];
+
 /**
  * Shared mutable state updated before each render so the single shared converter instance
  * can serve calls with different transforms and collectors without being re-created.

@@ -2,8 +2,7 @@
 
 STACK has a [contributed library](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/matrixfactorizations.mac) for matrix factorisation functions.  To use this library you must load it into the question variables.
 
-* To use the latest code from github: `stack_include_contrib("matrixfactorizations.mac");`
-* Loading this library automatically declares `stack_linear_algebra_declare(true);` to provide context.
+* To use the latest code from GitHub: `stack_include_contrib("matrixfactorizations.mac");`
 
 This page contains reference documentation on functions in this library.
 
@@ -11,11 +10,11 @@ This page contains reference documentation on functions in this library.
 
 This package provides functions that find factorisations of arbitrary matrices. In practical applications, these sorts of computations are performed with floating point operations and utilise highly optimised algorithms. Firstly, `matrixfactorizations.mac` makes no claims to optimisation or efficiency. On matrices much bigger than 4×4, you might notice significant slowdowns when using some of these functions. Secondly, if you are using STACK to assess numerical linear algebra techniques, then this author suggests you might look elsewhere, such as to [CodeRunner](https://coderunner.org.nz/).
 
-However, toy problems are a very useful way to get students engaged with basic concepts of linear algebra, and so it still important to provide support for things like matrix factorisations. For small matrices (that is, matrices that one can tackle when working by hand), these functions work nicely. 
+However, toy problems are a very useful way to get students engaged with basic concepts of linear algebra, and so it is still important to provide support for things like matrix factorisations. For small matrices (that is, matrices that one can tackle when working by hand), these functions work nicely. 
 
-It is still worth being careful when generating toy problems, though. Running the code `SVD(matrix([1,2],[3,4]))` will correctly give you two orthogonal and one diagonal matrix, but it is _not_ nice to find these by hand. It is often sensible to begin randomising a question by generating the _answer_ and working back to create the question. In this regime, these factorisation functions are mostly useful for checking answers, or for generating answers when using matrices that are already known to be "nice". 
+It is still worth being careful when generating toy problems, though. Running the code `SVD(matrix([1,2],[3,4]))` will correctly give you two orthogonal matrices and one diagonal matrix, but it is _not_ nice to find these by hand. It is often sensible to begin randomising a question by generating the _answer_ and working back to create the question. In this regime, these factorisation functions are mostly useful for checking answers, or for generating answers when using matrices that are already known to be "nice". 
 
-The [`rand_matrix.mac` library](Random_Matrices.md) has some functions that might be useful for generating sensible matrices. 
+The [`rand_matrix.mac` library](Random_Matrices.md) has some functions that might be useful for generating sensible matrices. The page on [randomisation in linear algebra](Randomisation_in_linear_algebra.md) has worked strategies for generating "nice" \(LU\), \(QR\), eigenvalue and singular value decompositions in this way. 
 
 ## Diagonalisation
 

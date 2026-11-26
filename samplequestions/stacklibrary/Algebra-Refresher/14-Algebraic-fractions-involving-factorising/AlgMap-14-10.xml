@@ -25,7 +25,7 @@ It is clear that the factor \({@v+c@}\) is common in both fractions and so we ca
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>v:rand([x,y,z,t]);

@@ -27,15 +27,24 @@ require_once(__DIR__ . '/filter.interface.php');
 /**
  * AST filter that prevents the use of any floats.
  */
-class stack_ast_filter_101_no_floats implements stack_cas_astfilter_exclusion {
+class stack_ast_filter_101_no_floats implements stack_cas_astfilter_exclusion, stack_cas_astfilter_parametric {
+    /** @var string The decimal separator, '.' or ',', used in the example in the error message. */
+    private $decimals = '.';
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function set_filter_parameters(array $parameters) {
+        $this->decimals = (($parameters['decimals'] ?? '.') === ',') ? ',' : '.';
+    }
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $checkfloats = function ($node) use (&$answernotes, &$errors) {
+        $example = '0' . $this->decimals . '3333';
+        $checkfloats = function ($node) use (&$answernotes, &$errors, $example) {
             if ($node instanceof MP_Float) {
                 $node->position['invalid'] = true;
                 if (array_search('Illegal_floats', $answernotes) === false) {
                     $answernotes[] = 'Illegal_floats';
-                    $errors[] = stack_string('Illegal_floats');
+                    $errors[] = stack_string('Illegal_floats', $example);
                 }
             }
             return true;

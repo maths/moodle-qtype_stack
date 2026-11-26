@@ -13,6 +13,8 @@ Points the Moodle webservice to the ionic template and javascript files. (Worth 
 ### mobile.css
 Mostly a straight copy of styles.css with a few extra classes. Also moves pix references to within STACK due to relative URL issues.
 
+The app injects this stylesheet as text, so relative image URLs would resolve against the app rather than the Moodle site. `mobile.css.php` serves this stylesheet with the STACK pix paths expanded to absolute Moodle URLs; `db/mobile.php` must point the handler at that endpoint.
+
 ### mobile/stack.html
 Ionic template to build the question. This is very basic as we are essentially just filtering the original in-browser HTML. Because STACK questions are so complicated and can have elements in any order we can't do anything clever here.
 

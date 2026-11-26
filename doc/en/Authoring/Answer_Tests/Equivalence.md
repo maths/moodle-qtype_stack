@@ -29,10 +29,10 @@ This is the most commonly used test.  The pseudo code (for mathematical _express
     else
       false.
 
-This test will work with a variety of [types of object](../../CAS/Maxima_background.md#Types_of_object) of mathematical objects, including lists, sets, equations, inequalities and matrices.
+This test will work with a variety of [types of object](../../CAS/Maxima_background.md#Types_of_object), including lists, sets, equations, inequalities and matrices.
 
 * This test disregards whether [simplification](../../CAS/Simplification.md) is switched on, it always fully simplifies all its arguments.
-* Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../../CAS/Predicate_functions.md), to test the result is true.  But note that many predicate functions only work without simplification!  In particular, testing for "form" such as scientific notation need `simp:false`, in which case use `EqualComAss(predicate(ex),true)` rather than algebraic equivalence.
+* Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../../CAS/Predicate_functions.md), to test the result is true.  But note that many predicate functions only work without simplification!  In particular, testing for "form" such as scientific notation needs `simp:false`, in which case use `EqualComAss(predicate(ex),true)` rather than algebraic equivalence.
 
 Note: exactly what this answer test does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.
 
@@ -47,7 +47,7 @@ Equations and expressions are very different.  Two equations are equivalent if t
     else
       false.
 
-That is to say, we turn the equation `ex1` into an expression `x1:simplify(lhs(ex1)-rhs(ex1))` and the equation `ex2` into an expression `x2:simplify(lhs(ex2)-rhs(ex2))`, and then simplify the ratio of the two numerators of `x1` and `x2`:, i.e. `num(x1)/num(x2)` (with some edge case detection of course).  If this is a number then we have cancelled algebraic factors precisely, and roots match (with multiplicity).  Notice we do not actually "solve" the equations during this process, thereby side-stepping the decidability question.  (We would need a separate test to ignore multiplicity of roots.)
+That is to say, we turn the equation `ex1` into an expression `x1:simplify(lhs(ex1)-rhs(ex1))` and the equation `ex2` into an expression `x2:simplify(lhs(ex2)-rhs(ex2))`, and then simplify the ratio of the two numerators of `x1` and `x2`, i.e. `num(x1)/num(x2)` (with some edge case detection of course).  If this is a number then we have cancelled algebraic factors precisely, and roots match (with multiplicity).  Notice we do not actually "solve" the equations during this process, thereby side-stepping the decidability question.  (We would need a separate test to ignore multiplicity of roots.)
 
 In calculating the ratio `x1/x2` we use Maxima's simplifier, which may be modified by commands like `assume`.  However, since we do not actually solve the equations we do not use `assume` to reject solutions themselves.  For example, in the following situation
 
@@ -55,7 +55,7 @@ In calculating the ratio `x1/x2` we use Maxima's simplifier, which may be modifi
     eq1: a = (c*x^3)/x;
     eq2: a*x = c*x^3;
 
-`eq1` does not have \(0\) as a solution, whereas `eq2` does have \(0\) as a solution, the ratio simplifies to `1/x` indicating that `eq2` has a zero solution which is not balanced by a corresponding solution in `eq`.   Since the equations are never solved, the `assume(x>0)` never comes into play here.  (We would need a separate test to use `assume` statements and reject roots.)
+`eq1` does not have \(0\) as a solution, whereas `eq2` does have \(0\) as a solution, the ratio simplifies to `1/x` indicating that `eq2` has a zero solution which is not balanced by a corresponding solution in `eq1`.   Since the equations are never solved, the `assume(x>0)` never comes into play here.  (We would need a separate test to use `assume` statements and reject roots.)
 
 Inequalities are turned into sets of real numbers they represent.  When this is done it is indicated by the answer note `ATInequality_solver.`  If you want `a>1` to be _not_ the same as `x>1` then you need to test in a more syntactic way, not using algebraic equivalence.
 
@@ -74,10 +74,10 @@ This is Cardano's example from Ars Magna, but currently the AlgEquiv test cannot
 
 We recommend you do _not_ use algebraic equivalence testing for floating point numbers.  Instead use one of the [numerical tests](Numerical.md).  Examples of why algebraic equivalence fails when you might expect it to pass, e.g. `ATAlgEquiv(452,4.52*10^2)` (Maxima 5.44.0, November 2022), are given in the documentation on [numerical rounding](../../CAS/Numbers.md).
 
-In establishing equivalence with zero, this test tries to factor the expression and then check whether any of the factors are zero.  This works very well most of the time.  Expanding out expressions is not used, indeed we avoid operations that leads to expression growth.
+In establishing equivalence with zero, this test tries to factor the expression and then check whether any of the factors are zero.  This works very well most of the time.  Expanding out expressions is not used, indeed we avoid operations that lead to expression growth.
 
 * Expanding out expressions is a problem, e.g. try `expand((x-a)^100-(x-b^100));` 
-* Factoring expressions can also be a problem, e.g. try `factor(%e^(10*k)-%e^(10*x));`, or `factor(x^105-1)` in maxima.
+* Factoring expressions can also be a problem, e.g. try `factor(%e^(10*k)-%e^(10*x));`, or `factor(x^105-1)` in Maxima.
 * Use of `trigexpand` can also lead to computational explosion, e.g. try `trigexpand:true; trigsimp(sin(100*k));`
 
 If you have an expression with large exponents, then this can cause a problem when algebraic equivalence testing uses factoring leading to a timeout.  You can avoid factoring using this variable in the feedback variable section of the PRT.
@@ -125,7 +125,7 @@ Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which rend
 
 * Because we have to test every possibility, the algorithm is factorial in the number of variables.  For this reason, the test only works for 4 or fewer variables.
 * This test makes a substitution then uses AlgEquiv.
-* If you add an answer test option (not required) in the form of a list of variables, these variables will be "fixed" during the comparison.  The list of variable is removed from both lists of the teacher's and student's variable lists before any comparison.
+* If you add an answer test option (not required) in the form of a list of variables, these variables will be "fixed" during the comparison.  The list of variables is removed from both lists of the teacher's and student's variable lists before any comparison.
   * `ATSubstEquiv(x=A+B, x=a+b)` will match with `[A = a,B = b,x = x]`.
   * `ATSubstEquiv(x=A+B, x=a+b, [x])` will match with `[A = a,B = b]`.
   * `ATSubstEquiv(y=A+B, x=a+b, [x])` will not match since `x` in the teacher's answer is fixed here, but does not occur in the student's answer.
@@ -136,7 +136,7 @@ The optional argument, which must be a list of variables, is useful if you want 
 ### SysEquiv ###
 
 The SysEquiv (system equivalence) test takes in two lists of polynomial equations in any number of variables and determines whether the two systems have the same set of solutions.
-This is done using the theory of Grobner bases to determine whether the ideals generated by the two systems are equal.
+This is done using the theory of Gröbner bases to determine whether the ideals generated by the two systems are equal.
 As the test allows for polynomials in several variables, it can cope with the intersections of the conic sections, as well as a large number of geometrically interesting curves.
 
 * This test does not check if the student actually "fully solved" the equations!  E.g. \[ [x^2=1] \equiv [(x-1)\cdot (x+1)=0] \] under this test.

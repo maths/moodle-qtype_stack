@@ -20,7 +20,7 @@ Then we can cancel the compound term, \({@x-a@}\) from the numerator and denomin
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>a:(rand(5)+1);

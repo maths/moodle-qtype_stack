@@ -24,7 +24,7 @@ Therefore \((a+b)^2 = (x+4y)^2. \)</text>
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>ta:factor(x^2+8*x*y+16*y^2);</text>

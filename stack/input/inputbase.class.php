@@ -791,7 +791,7 @@ abstract class stack_input {
         $checktype = false;
         if ('checktype' == $validationmethod || 'units' == $validationmethod || 'unitsnegpow' == $validationmethod) {
             $checktype = true;
-            $tresponse = $this->maxima_to_response_array($teacheranswer);
+            $tresponse = $this->teacher_answer_to_response_array($teacheranswer);
             $tcontents = $this->response_to_contents($tresponse);
             [$tvalid, $terrors, $tnotes, $tmodifiedcontents, $tcaslines]
                 = $this->validate_contents($tcontents, $secrules, $localoptions);
@@ -1790,6 +1790,16 @@ abstract class stack_input {
         } else {
             return '';
         }
+    }
+
+    /**
+     * Turn the teacher's answer, as the CAS returns it, into a response, so that validation
+     * can compare a student's answer with the teacher's line by line ("same type" checking).
+     * @param string $teacheranswer the teacher's answer, as written by Maxima.
+     * @return array the response, as for maxima_to_response_array().
+     */
+    protected function teacher_answer_to_response_array($teacheranswer) {
+        return $this->maxima_to_response_array($teacheranswer);
     }
 
     /**

@@ -24,7 +24,7 @@ Notes
 
 In order to understand how the tests work it is essential to understand how we represent unary minus and division internally.
 
-Without simplification, Maxima has a unary minus function:  literally `minus(x)`.  This is transformed into `UNARY_MINUS nounmul ex`  The use of multiplication here allows `-` to commute with other multiplication, so we can spot things like \(-x \times -y = --xy\) using associativity and commutativity.
+Without simplification, Maxima has a unary minus function:  literally `minus(x)`.  This is transformed into `UNARY_MINUS nounmul ex`.  The use of multiplication here allows `-` to commute with other multiplication, so we can spot things like \(-x \times -y = --xy\) using associativity and commutativity.
 
 Similarly, we replace division \(a/b\) with `a nounmul UNARY_RECIP(b)`.  This means that `UNARY_RECIP(b)` is not automatically the same as `1 nounmul UNARY_RECIP(b)`, without an additional rule.
 
@@ -34,7 +34,7 @@ This is an advanced test.
 
 This test allows question authors to create equivalence classes based on equality up to associativity and commutativity with the addition of optional rules. For example, the teacher can include the identity operations of addition and multiplication: \(0+ x\rightarrow x\) and \(1\times x\rightarrow x\).  This makes it much easier to establish things like \(0-1\times i\) is equivalent to \(-i\).  However, more general integer arithmetic is still not automatically included so \(2\times 3 \neq 6\).
 
-This test always assumes associativity of addition and multiplication.   By default the test assumes commutativity of addition and multiplication, but this can be dropped.  Essentially this test extends the `EqualComAss` test by adding in additional rules. Without assumptions of commutativity and associativity we would need all sorts of additional rules, such as \(x+0 \rightarrow x\), since without commutativity this would not be captured by the rule `zeroAdd`, i.e. \(0+x \rightarrow x\).  Furthermore, the way `EqualComAss` deals with unary minus and division make associativity and commutativity difficult to add in their pure form.
+This test always assumes associativity of addition and multiplication.   By default the test assumes commutativity of addition and multiplication, but this can be dropped.  Essentially this test extends the `EqualComAss` test by adding in additional rules. Without assumptions of commutativity and associativity we would need all sorts of additional rules, such as \(x+0 \rightarrow x\), since without commutativity this would not be captured by the rule `zeroAdd`, i.e. \(0+x \rightarrow x\).  Furthermore, the way `EqualComAss` deals with unary minus and division makes associativity and commutativity difficult to add in their pure form.
 
 Each rule is a named function in Maxima, and each rule has an associated predicate function to decide if the rule is applicable at the top level of an expression.   E.g. `zeroAddp(0+x)` would return `true` and `zeroAdd(0+x)` would return `x`.
 
@@ -87,10 +87,10 @@ The teacher must supply an option consisting of a list of the following rule nam
 Notes: 
 
 * We do not guarantee the simplification is mathematically correct!  E.g. if you are unlucky enough to try the rule `zeroPow` on the expression `0^(1-1)` then since `1-1` is not equal to zero (taken literally) then the rule applies and you have failed to spot a potential `0^0` error.
-* The rule `negOrd` deserves comment.  Ultimately we only compare parse trees exactly, and so we need to order terms in sums and products (commutativity). However \(y-x\) is never ordered as \(-x+y\).  Furthermore, \(-(x-y) \neq -x+y\).  We need to factor out the unary minus and ensure that the coefficient of the leading term is not negative. Factoring out is better than distributing here, since in a produce such as \(-(x-y)(x-z)\) it is not clear which term in the product the initial minus sign will end up in. Since `negOrd` is a factor command, it is incompatible with `negDist`.
+* The rule `negOrd` deserves comment.  Ultimately we only compare parse trees exactly, and so we need to order terms in sums and products (commutativity). However \(y-x\) is never ordered as \(-x+y\).  Furthermore, \(-(x-y) \neq -x+y\).  We need to factor out the unary minus and ensure that the coefficient of the leading term is not negative. Factoring out is better than distributing here, since in a product such as \(-(x-y)(x-z)\) it is not clear which term in the product the initial minus sign will end up in. Since `negOrd` is a factor command, it is incompatible with `negDist`.
 * Note that `oneDiv` only operates on the very special case of a single \(1\) in the denominator of a fraction.  E.g. in \(\frac{x}{1\times a}\) we have a product \(1\times a\) in the denominator.  To further simplify this you need `oneMul` rather than `oneDiv`.
 
-By default the test assumes commutativity of addition and multiplication.  If you choose the `nonmulCom` rule then you can switch off commutativity of multiplication.  However, rules such as `zeroMul` include both \(0\times x \rightarrow 0\) and \(x\times 0 \rightarrow 0\).  The rules `intMul` (etc) would appear to be non-compatible with `nonmulCom`, however they are very useful in that by performing integer arithmetic we bring integers to the front of the expression.
+By default the test assumes commutativity of addition and multiplication.  If you choose the `noncomMul` rule then you can switch off commutativity of multiplication.  However, rules such as `zeroMul` include both \(0\times x \rightarrow 0\) and \(x\times 0 \rightarrow 0\).  The rules `intMul` (etc) would appear to be non-compatible with `noncomMul`, however they are very useful in that by performing integer arithmetic we bring integers to the front of the expression.
 
 For convenience sets of rules can be specified.  E.g. you can use the name `ID_TRANS` in place of the list `[zeroAdd,zeroMul,oneMul,oneDiv,onePow,idPow,zeroPow,zPow]` to include all of the basic identity operators.
 
@@ -132,9 +132,9 @@ Each rule has a predicate function, which decides if the rule can be applied _at
 
 To deal with unary minus we transform it into multiplication with a special tag `UNARY_MINUS`. For example `-x` becomes `UNARY_MINUS * x`.  This approach looks odd at first, but does not confuse `UNARY_MINUS` with the integer \(-1\) or the unary function "minus".  In this way multiple unary minus operations commute to the front of an expression.  E.g. `(-x)*(-y) = UNARY_MINUS * UNARY_MINUS * x * y` (when `*` is assumed to be commutative and associative, of course!)
 
-Similarly, division is also conveted to `UNARY_RECIP`.  E.g. `(-x)/(-y) = UNARY_MINUS nounmul UNARY_RECIP(UNARY_MINUS nounmul y) nounmul x`.
+Similarly, division is also converted to `UNARY_RECIP`.  E.g. `(-x)/(-y) = UNARY_MINUS nounmul UNARY_RECIP(UNARY_MINUS nounmul y) nounmul x`.
 
-We the use the rule `negDiv` to pull out the unary minus outside the devision (pulls `UNARY_MINUS` outside `UNARY_RECIP`), but we also need the rules `assMul` (associativity) and `comMul` (commutativity).  E.g. try the following in the STACK-maxima sandbox.
+We then use the rule `negDiv` to pull out the unary minus outside the division (pulls `UNARY_MINUS` outside `UNARY_RECIP`), but we also need the rules `assMul` (associativity) and `comMul` (commutativity).  E.g. try the following in the STACK-maxima sandbox.
 
     ex:(-x)/(-y);
     ex:equals_commute_prepare(ex);
@@ -146,7 +146,7 @@ This results in `UNARY_MINUS nounmul UNARY_MINUS nounmul x nounmul UNARY_RECIP(y
 
 gives `x nounmul UNARY_RECIP(y)`.
 
-The goal of this code is to create reliable equivalence classes of expressions.  We are gradually expanding the use to allow full control over elementary expressions. Note in particular the use of `UNARY_MINUS` and `UNARY_RECIP` are likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The function `verb_arith` removes all the noun forms used by this simplifier, translating the expression back to core Maxima functions. Note however that `UNARY_MINUS` and `UNARY_RECIP(ex)` are normally replaced by `(-1)*` and `ex^(-1)` respectively.
+The goal of this code is to create reliable equivalence classes of expressions.  We are gradually expanding the use to allow full control over elementary expressions. Note in particular the use of `UNARY_MINUS` and `UNARY_RECIP` is likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The function `verb_arith` removes all the noun forms used by this simplifier, translating the expression back to core Maxima functions. Note however that `UNARY_MINUS` and `UNARY_RECIP(ex)` are normally replaced by `(-1)*` and `ex^(-1)` respectively.
 
 The simplifier is designed to go in one direction only to establish membership of an equivalence class. We do not (as of Dec 2024) support displaying the resulting manipulated expressions in traditional form.
 

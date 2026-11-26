@@ -374,7 +374,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $out = stack_string('runquestiontests_icon') . stack_string('runquestiontests');
             if (
                 empty($this->question->deployedseeds) &&
-                    qtype_stack_question::random_variants_check($this->question->options->questionvariables)
+                    qtype_stack_question::random_variants_check_with_includes($this->question->options->questionvariables)
             ) {
                 $out = stack_string_error('questionnotdeployedyet');
             }

@@ -1,0 +1,220 @@
+# Setting up and using the STACK API
+
+**Audience: the assistant. How to run STACK questions outside Moodle while authoring them.**
+
+The STACK API is STACK's own code as a stateless web service. It takes the
+Moodle XML of one question in each request, so it needs no Moodle, no database
+and no import, and it answers in seconds. Use it to run a question's tests,
+look at its variants and try answers while writing the XML. The essentials
+file (`agents/stack_essentials.md`, "Run the tests through the STACK API") says
+why and when; this file says how. The developer documentation for every route
+is `api/README.md` in the STACK source.
+
+## Set it up
+
+The API runs as two Docker containers: `stackmaths/stackapi` (PHP, STACK) and
+`mathinstitut/goemaxima` (Maxima with STACK's libraries).
+
+**Every version number must be the target site's STACK version**: the number
+in the site's `question/type/stack/version.php` (`$plugin->version`), which is
+also the question's `<stackversion>`. For example, STACK 4.13.1 is
+`2026080600`. Four places carry it, and they must agree:
+
+1. the `goemaxima` image tag, `mathinstitut/goemaxima:<version>-latest`;
+2. the `stackapi` image: a published tag, or one built from the same release;
+3. `$CFG->stackmaximaversion` in the API's `api/config.php`;
+4. `$CFG->version` in the same file.
+
+A mismatch tests different code from the site's: random variants and marking
+can differ, so tests fail that pass on the site, or pass when they should not.
+
+**Keep the number in one place.** Set it once, as the environment variable
+`STACK_VERSION`, and let everything else read it: the compose file below takes
+both image tags from it, and the configuration takes both version lines from
+it. Moving to a new STACK release is then one change. Do not copy a number
+from these instructions: take it from the site.
+
+**The `goemaxima` image** is published for every STACK release. **The
+`stackapi` image** is published for each release by a release workflow, but
+not for some older releases: check the tags of `stackmaths/stackapi` on Docker
+Hub. Each tag is the version followed by a build: a numbered build, such as
+`stackmaths/stackapi:2026062900-1` or `mathinstitut/goemaxima:2026062900-1.2.0`,
+names one image, while `-latest` follows whichever build was published last
+for that version, including a faulty one. If the API fails in a way no
+question explains, or to keep a setup reproducible, replace `-latest` with a
+numbered build that works. When there is no `stackapi` image for the target
+version, build it from STACK's source at the site's release tag. Set `RELEASE` to that
+tag, for example `v4.13.1` for a site on STACK 4.13.1:
+
+    RELEASE=v4.13.1
+    git clone --depth 1 --branch "$RELEASE" \
+        https://github.com/maths/moodle-qtype_stack.git stack-src
+    STACK_VERSION=$(sed -n 's/^\$plugin->version *= *\([0-9]*\);.*/\1/p' stack-src/version.php)
+    echo "$STACK_VERSION"
+    cp stack-src/api/config_sample.txt stack-src/api/config.php
+    docker build -f stack-src/api/docker/Dockerfile --target production \
+        -t stackapi-local:"$STACK_VERSION" stack-src
+
+Check that the number printed is the site's `$plugin->version`, for example
+`2026080600` for `v4.13.1`. If not, the tag is wrong. The build needs
+`api/config.php` in the source: without it the build fails at the step that
+installs language packs. The build takes several minutes and needs a network
+connection. The image is local to the machine.
+
+**Configuration.** Copy `api/config_sample.txt` to `config.php` and mount it
+into the container at `/srv/stack/api/config.php`. If the sample says the API
+reads its version numbers from the code, leave the two version lines commented
+out: numbers 3 and 4 then always match the API image. Older releases need them
+set; take them from `STACK_VERSION` rather than writing the number in:
+
+```php
+$CFG->stackmaximaversion = getenv('STACK_VERSION');
+$CFG->version = getenv('STACK_VERSION');
+```
+
+Raise `$CFG->castimeout` if the CAS is slow, for example when the amd64 images
+run under emulation on another architecture.
+
+**Compose file.** Adapt `api/docker/docker-compose.yml`:
+
+```yaml
+services:
+  maxima:
+    image: mathinstitut/goemaxima:${STACK_VERSION}-latest
+    tmpfs:
+      - "/tmp"
+    restart: unless-stopped
+    cap_add:
+      - SETGID
+      - SETUID
+    cap_drop:
+      - ALL
+    environment:
+      GOEMAXIMA_QUEUE_LEN: 32
+    read_only: true
+  stack:
+    # Or stackmaths/stackapi:${STACK_VERSION}-latest, where it is published,
+    # or a numbered build in place of -latest.
+    image: stackapi-local:${STACK_VERSION}
+    restart: unless-stopped
+    environment:
+      STACK_VERSION: ${STACK_VERSION}
+    volumes:
+      - ./config.php:/srv/stack/api/config.php:ro
+    ports:
+      - '3080:80'
+```
+
+Put `STACK_VERSION=<version>` in a file `.env` beside the compose file, where
+`docker compose` reads it, and start the API with
+`docker compose -f docker-compose.yml up -d`. The service name
+`maxima` matters: the API finds Maxima at `http://maxima:8080/maxima` unless
+`MAXIMA_URL` says otherwise.
+
+**Check it.** Render an empty question, which the API fills with defaults, and
+read the version it reports:
+
+    curl -s http://localhost:3080/render -H 'Content-Type: application/json' \
+      -d '{"questionDefinition": "<quiz><question type=\"stack\"></question></quiz>"}'
+
+The response's `aboutapi.stackmaxima` must be the target version. If every
+request returns the "STACK-Maxima libraries ... does not match" error, the
+four numbers above disagree.
+
+## Use it
+
+Every route is `POST` with a JSON body, and every body carries
+`questionDefinition`: the Moodle XML of exactly one question, as a string. The
+API rejects a file holding several questions, so split it first, one
+`<quiz><question>...</question></quiz>` per request. Omitted elements take the
+API's defaults (`api/questiondefaults.yml`), not a site's settings.
+
+| Route | Use it to | Extra fields |
+|---|---|---|
+| `/test` | run the question's tests on every deployed seed | none |
+| `/render` | see one variant: its text, general feedback and question note | `seed` |
+| `/grade` | mark one answer and see its route through each PRT | `seed`, `answers` |
+| `/validate` | see how STACK validates one input | `inputName`, `answers` |
+| `/diff` | list the elements that differ from the API's defaults | none |
+
+A `seed` must be one of the question's deployed seeds ("The specified seed
+belongs to no deployed variant" otherwise); without one the API uses the
+first. A randomised question with no deployed seeds cannot be
+rendered or graded, and `/test` returns no results for it.
+
+### Run the tests
+
+`POST /test`. The response has question-level `messages` and
+`isupgradeerror`, and `results`, keyed by seed. For each seed check `passes`,
+`fails` and `messages`; each failing entry in `outcomes` has a `reason` naming
+what did not match (score, penalty or answer note), and its PRT outcomes give
+the actual and expected `answernote`. On versions where the test-level reason
+is empty, inspect the PRT-level reasons too.
+
+**On STACK 4.14.0 and earlier, send one seed per request.** These releases
+generate the variant of the first deployed seed only and run every seed's
+tests against it, so the other seeds' results are wrong. Send a copy of the
+question with a single `<deployedseed>` for each seed.
+
+**Reconcile execution with the submitted question.** Before sending a request,
+enumerate its deployed seeds and explicit `<qtest>/<testcase>` IDs. Then:
+
+- Require results for every declared seed, with no missing or unexpected IDs.
+  Explicit deployed seeds are used even for a non-random question. With no
+  deployed seeds, a non-random question uses `noseed`; a random question with
+  no deployed seeds has no test coverage.
+- Require an outcome for every explicit testcase on every expected seed.
+  Compare IDs as well as counts: a substituted test or seed can leave the
+  total unchanged. Duplicate testcase or seed IDs cannot establish distinct
+  coverage in a keyed response.
+- Require non-negative integer `passes` and `fails`, consistent with the
+  individual `passed` verdicts and expected test count. Null counts, missing
+  outcomes and an empty `results` are incomplete execution.
+- Inspect question-level `messages` and `isupgradeerror`, and every seed's
+  `messages`, even when the counts report success. Runtime or general-feedback
+  errors need investigation. Preserve warnings and report their implications.
+- Check `istests`. Without explicit question tests, the API may run an
+  automatic model-answer test; that does not establish the intended regression
+  coverage. Description-only questions need rendering checks separately.
+
+Input validation errors can be intentional in a test, for example when the
+expected PRT answer note is `NULL`. Check whether STACK reports that the
+expectation passed; do not classify every input-level error as a failed test.
+
+Record the question revision, API/CAS versions, expected and completed coverage,
+failures and anything not checked. Treat HTTP errors and unreadable responses as
+unverified executions. Do not silently drop them from a batch's denominator.
+
+### Choose deployed seeds
+
+`/render` returns `questionnote` for a seed, so a question's variants can be
+surveyed before seeds are chosen. In a scratch copy of the question, deploy a
+range of candidate seeds, say 1 to 50, and render each:
+
+    {"questionDefinition": "...", "seed": 17}
+
+Keep one seed for each distinct note you want, check those variants are not
+degenerate, and deploy only those in the real question. Then run `/test`.
+
+### Try an answer
+
+`POST /grade` with `answers` mapping each input name to what a student would
+type, for example `{"ans1": "3*x^2"}`. `prtresults` gives each PRT's `score`,
+`penalty` and `answernotes`: the full route, including the answer tests' own
+notes. Use it to see where an answer goes, then write the route the PRT is
+designed to take into a test. Do not copy the route back unchecked.
+
+### When something goes wrong
+
+- **Every question fails with a version-mismatch error:** the four version
+  numbers disagree.
+- **Blank scores or failures on some seeds:** inspect the question-level and
+  seed-level messages and the individual test outcomes. Reproduce the failure
+  with the same XML, input and seed before assigning a cause. Timeouts,
+  generator defects and marking faults can all depend on the seed. Check CAS
+  diagnostics before changing `castimeout`; passing on other seeds does not
+  rule out a question defect.
+- **"Question variables invalid" or no response:** check the `maxima`
+  container is running and reachable from the `stack` container.
+- **Passes in the API, fails on the site:** the site's settings, plugins or
+  STACK version differ. The site is the final check.

@@ -4,7 +4,7 @@ There are a small number of answer tests for specific situations.
 
 ### Sets ###
 
-This test deals with equality of sets.  The algebraic equivalence functions give very minimal feedback.  This test is designed to give much more detailed feedback on what is and _is not_ included in the student's answer.  Hence, this essentially tells the student what is missing.  This is kind of feedback is tedious to generate without this test.
+This test deals with equality of sets.  The algebraic equivalence functions give very minimal feedback.  This test is designed to give much more detailed feedback on what is and _is not_ included in the student's answer.  Hence, this essentially tells the student what is missing.  This kind of feedback is tedious to generate without this test.
 
 The test simplifies both sets, and does a comparison based on the simplified versions.  The comparison relies on `ev(..., simp, nouns)` to undertake the simplification.  If you need stronger simplification (e.g. trig) then you will need to add this to the arguments of the function first.
 
@@ -12,7 +12,7 @@ Elements which are still different after simplification, and are expressions, ar
 
 If the student's set contains two forms of the same element, such as \(\{5, 5(1+i)-5i\}\), the test gives the answer note `ATSets_duplicates` and tells the student.  Duplicates do not make the answer wrong: \(\{5, 5(1+i)-5i\}\) and \(\{5\}\) are equal sets.
 
-### Equiv and EquivFirstLast ###
+### Equiv and EquivFirst ###
 
 These answer tests are used with [equivalence reasoning](../../Specialist_tools/Equivalence_reasoning/index.md).  See the separate documentation.
 

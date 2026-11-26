@@ -12,7 +12,7 @@ Those new to authoring STACK questions will probably prefer to begin with the [a
 * [Authoring quick start 8](Authoring_quick_start_8.md): Turning simplification off.
 * [Authoring quick start 9](Authoring_quick_start_9.md): Importing and quizzes.
 
-Note that if you don't want to write your own questions then [Authoring quick start 6](Authoring_quick_start_6.md) describes importing question from the STACK question library.
+Note that if you don't want to write your own questions then [Authoring quick start 6](Authoring_quick_start_6.md) describes importing questions from the STACK question library.
 
 ## See also
 

@@ -41,7 +41,7 @@ Hence,
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>v:rand([s,t,z]);

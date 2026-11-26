@@ -31,14 +31,14 @@ See Maxima's documentation for more details.
 2. No warnings or errors are issued if more than one is encountered.
 3. The `orderless` or `ordergreat` command is executed _first_ before any other commands.  Therefore the argument names are literal atoms and you _cannot_ use variable names.
 
-As an example of the last point, consider the following in _desktop maxima_
+As an example of the last point, consider the following in _desktop Maxima_
 
    p:a+b;
    x:a;
    ordergreat(x);
    p:a+b;
 
-The output of the last line, as expected will be \(a+b\).  However, if you put the above in the question variables then effectively you will have the following.
+The output of the last line, as expected, will be \(a+b\).  However, if you put the above in the question variables then effectively you will have the following.
 
    ordergreat(x);
    /* Other stuff, including setting up error trapping for the execution of commands below. */
@@ -46,13 +46,13 @@ The output of the last line, as expected will be \(a+b\).  However, if you put t
    x:a;
    p:a+b;
 
-The output of the last line, as expected will be \(b+a\).  STACK moves `ordergreat` to be executed first, and at that point you have no assigned `x` to be the atom `a`.
+The output of the last line, as expected, will be \(b+a\).  STACK moves `ordergreat` to be executed first, and at that point you have not assigned `x` to be the atom `a`.
 
 This is a limitation, especially in questions where you want to have a randomly generated variable name.
 
 ## Fixing the order of some terms in sums and products
 
-By default, maxima returns `a+b` as `b+a` because `b` is "greater" than `a`.
+By default, Maxima returns `a+b` as `b+a` because `b` is "greater" than `a`.
 
 Sometimes we don't want to change the order in which Maxima displays expressions, but within part of an expression we do want to fix the order in the sum, even with `simp:true`.
 
@@ -185,9 +185,9 @@ Why does STACK (i.e. Maxima) not print out the parentheses?  For example, try th
 
 The result is \(a+b+c\).  Where have the parentheses gone?  On the other hand `p2:a+(b+c)` is displayed as \(a+\left(b+c\right)\).  Why are these displayed differently?  Assuming `simp:false` and using Maxima's `?print` command we can see the internal structure.
 
-* `?print(a+b+c)` gives `((MPLUS) $A $B $C)`.  This means we have the flattened (nary) sum of the three variables.  This will always not have brackets.
+* `?print(a+b+c)` gives `((MPLUS) $A $B $C)`.  This means we have the flattened (nary) sum of the three variables.  This will never have brackets.
 * `?print((a+b)+c)` gives `((MPLUS) ((MPLUS) $A $B) $C)`.  This is not yet flattened to an nary sum, but Maxima's tex routines suppress the parentheses, even with `simp:false`.  This is part of the problem.
-* `?print(a+(b+c))` gives `((MPLUS) $A ((MPLUS) $B $C))`.  This is not yet flattened to an nary sum, and in this case it displayed as \(a+\left(b+c\right)\) by Maxima's TeX function.
+* `?print(a+(b+c))` gives `((MPLUS) $A ((MPLUS) $B $C))`.  This is not yet flattened to an nary sum, and in this case it is displayed as \(a+\left(b+c\right)\) by Maxima's TeX function.
 
 Note, this display problem is not a bug.  Experts would interpret \(a+b+c\) as \((a+b)+c\) not as \(a+(b+c)\).  This is only a problem in teaching when we want to display (arguably not needed) parentheses.  To solve this display problem STACK has an inert `disp_parens` function.  All this function does is print round brackets (parentheses) around its argument.
 
@@ -207,7 +207,7 @@ It may be necessary to remove the `disp_parens` from an expression.  STACK provi
 
 The function `disp_parens` has no mathematical definition.  It just changes the TeX output.  The above function re-evaluates the expression, with this function equal to the identity function (`lambda([ex2], ex2))`).  Giving `disp_parens` this mathematical definition effectively removes it.
 
-Note that the answer tests do not remove the `disp_parens` function from a teacher's expression.  Hence, `a+b+c` and ``disp_parens(a+b)+c` are not algebraically equivalent.  Teachers who use these display functions must remove them before answer tests are applied.  Students cannot use the `disp_parens` function.  Indeed, currently a student's input of `(a+b)+c` is displayed as Maxima does without the brackets (yes, this might be considered a bug).
+Note that the answer tests do not remove the `disp_parens` function from a teacher's expression.  Hence, `a+b+c` and `disp_parens(a+b)+c` are not algebraically equivalent.  Teachers who use these display functions must remove them before answer tests are applied.  Students cannot use the `disp_parens` function.  Indeed, currently a student's input of `(a+b)+c` is displayed as Maxima does without the brackets (yes, this might be considered a bug).
 
 ## Selecting, and highlighting part of an expression
 
@@ -221,7 +221,7 @@ For example, to select all the integers in an expression you can use the predica
 
 It is possible to use any of the existing predicate functions, or to define your own function in the question variables.
 
-The function `select_apply(f1, ex)` traverses the expression and when it encounters the `disp_select` function it applied the function `f1` to that sub-tree of the expression.  This allows for selective simplification/modification of highlighted sub-trees.  For example,
+The function `select_apply(f1, ex)` traverses the expression and when it encounters the `disp_select` function it applies the function `f1` to that sub-tree of the expression.  This allows for selective simplification/modification of highlighted sub-trees.  For example,
 
     simp:false;
     p1:select(zeroMulp, (1-1)*x^2+0*x+1);
@@ -262,7 +262,7 @@ How do we do the following in Maxima?
      factor(radcan((x-1)*(k*(x-1))^a))
 
 
-Maxima's internal representation of an expression sometimes does not correspond with what you expect -- in that case, `dispform` may help to bring it into the form you expect. For example, the output of `solve` in the following code shows the \(b\) in the denominator as \(b^{-1}\) which gives unnatural-looking output when a value is substituted in -- this is fixed by using `dispform` and substituting into that variants instead.
+Maxima's internal representation of an expression sometimes does not correspond with what you expect -- in that case, `dispform` may help to bring it into the form you expect. For example, the output of `solve` in the following code shows the \(b\) in the denominator as \(b^{-1}\) which gives unnatural-looking output when a value is substituted in -- this is fixed by using `dispform` and substituting into that variant instead.
 
     simp:true;
     eqn:b = 1/(6*a+3);
@@ -303,8 +303,8 @@ There are two tests you probably want to apply to the student's answer.
 You probably then want to make sure a student has "gathered" like terms.  In particular you'd like to make sure a student has either
 \[ 2\sqrt{5}-3 \text{ or } \sqrt{20}-3\]
 but not \[ 5+4\sqrt{2}-2\sqrt{2}+6.\]
-This causes a problem because `ATComAss` thinks that \[ 2\sqrt{5}-3 \neq \sqrt{20}-3.\]
-So you can't use `ATComAss` here, and guarantee that all random variants will work by testing that we really have \(5+4\sqrt{2}\) for example.
+This causes a problem because `ATEqualComAss` thinks that \[ 2\sqrt{5}-3 \neq \sqrt{20}-3.\]
+So you can't use `ATEqualComAss` here, and guarantee that all random variants will work by testing that we really have \(5+4\sqrt{2}\) for example.
 
 What we really want is for the functions `sqrt` and `+` to appear precisely once in the student's answer, or that the answer is a sum of two things.
 
@@ -315,9 +315,9 @@ is equivalent to
 
 If we were dealing with two *numbers*, then Maxima has no problem in establishing that 
 \[ \frac{-\sqrt{57}-3}{6}-\frac{\sqrt{19}}{2\cdot \sqrt{3}}-\frac{1}{2} = 0\]
-On the maxima command line try `p:(-3 + sqrt(9 + 48))/6+1/2 - sqrt(1/4 + 4/3);` then `radcan(p)`.  Within the AlgEquiv test `radcan` is applied automatically to _numbers_ within an expression, and this returns zero.
+On the Maxima command line try `p:(-3 + sqrt(9 + 48))/6+1/2 - sqrt(1/4 + 4/3);` then `radcan(p)`.  Within the AlgEquiv test `radcan` is applied automatically to _numbers_ within an expression, and this returns zero.
 
-The problem with _sets_ is that we don't have the difference between two numbers.  We're trying to write all numbers in an unambiguous form, and then comepare the representation.  This (subtle) difference is the problem.  Instead of looking at equivalence with zero, we need to contol the form of surds explicitly.
+The problem with _sets_ is that we don't have the difference between two numbers.  We're trying to write all numbers in an unambiguous form, and then compare the representation.  This (subtle) difference is the problem.  Instead of looking at equivalence with zero, we need to control the form of surds explicitly.
 
 ### Control of surds ###
 
@@ -363,7 +363,7 @@ See the page on [propositional logic](../Topics/Propositional_Logic.md).
 Some further examples are given elsewhere:
 
 * Matrix examples in [showing working](Matrix.md#Showing-working).
-* An example of a question with `simp:false` is discussed in [authoring quick start 7](../AbInitio/Authoring_quick_start_7.md).
+* An example of a question with `simp:false` is discussed in [authoring quick start 8](../AbInitio/Authoring_quick_start_8.md).
 * Generating [random algebraic expressions](Random.md) which need to be "gathered and sorted".
 
 Note also that [question tests](../STACK_question_admin/Testing.md#Simplification) do not simplify test inputs.

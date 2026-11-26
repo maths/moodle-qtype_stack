@@ -8,13 +8,13 @@ Many of the fields in a STACK question, such as the question text, are of this t
 
 Information about [Basic HTML](http://www.w3schools.com/html/) is available elsewhere.
 
-Currently STACK does not process the LaTeX itself.  It is displayed on the user's browser in a variety of ways, such as using [MathJax](http://http://www.mathjax.org/).   If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
+Currently STACK does not process the LaTeX itself.  It is displayed on the user's browser in a variety of ways, such as using [MathJax](http://www.mathjax.org/).   If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
 
 * Anything enclosed between `\( .... \)` symbols is treated as an _inline equation_, as is the case with normal LaTeX.
 * Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line.
 * We do not support the use of dollar symbols such as `$...$` and `$$...$$` for denoting LaTeX mathematics environments.  See the notes on [currency](CASText.md#currency) below and also the page on [MathJax](../Installation/Mathjax.md#delimiters) for more information.
 * Don't use LaTeX text formatting features such as `\\` outside equations, instead use the HTML versions.
-* Anything enclosed between `{@` and `@}` delimiters is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
+* Anything enclosed between `{@` and `@}` delimiters is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes:
  * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `\({@ stuff @}\)`, and that `{@ stuff @}` is sufficient.
  * To get a displayed equation centred on a line of its own, you must use `\[{@ stuff @}\]`, as in LaTeX.
  * The outer `{}` characters of `{@ stuff @}` will be left in the output to ensure that the output is considered as a single group by LaTeX.
@@ -33,26 +33,36 @@ Here is an example
 
 CASText may depend on variables previously defined in the [question variables](Variables.md#Question_variables) field.
 
-Where the CASText appears in the fields of a [potential response trees](Potential_response_trees.md),
+Where the CASText appears in the fields of a [potential response tree](Potential_response_trees.md),
 the variables in the [feedback variables](Variables.md#Feedback_variables) may also be included.
 
 To control whether or not the CAS expressions are simplified, see the details about [selective simplification](../CAS/Simplification.md#selective-simplification).
 
+## Displaying random values ##
+
+Many problems with displaying randomly generated values are best solved at the level of the CAS, not in the LaTeX.
+
+* Do not put a randomly generated value into a LaTeX template, as in `\(x^2+{@b@}x+{@c@}\)`.  When `b` is negative this displays as \(x^2+-3x\), and when `b` is \(1\) or \(0\) it displays \(1x\) or \(0x\).  Instead, display the whole expression, `\({@x^2+b*x+c@}\)`, and Maxima will display the signs correctly.  The same applies to `{@k@}v` before any symbol.
+* Expressions in several variables are displayed in Maxima's order, e.g. \(-3z+3y-2x\).  Use `ordergreat(x,y,z)` once, near the top of the question variables (see [simplification](../CAS/Simplification.md)).
+* With simplification on, surds may be displayed as fractional powers, e.g. `sqrt(8)` becomes \(2^{3/2}\).  Build displayed values from square-free surds, e.g. `2*sqrt(2)`.
+* A list is displayed with square brackets.  For coordinates use `ntuple(a,b)`.  Use [`column_vector` and `row_vector`](../CAS/Library/linearalgebra/vectors/index.md) for vector notation.
+* Amounts of money computed with rational numbers, e.g. `P*(1+r/100)^n`, are displayed as fractions such as \(\frac{5832}{5}\).  Define a separate variable for display, e.g. `bal_d:dispdp(float(round(bal*100)/100),2)`, and keep the exact value for assessment.
+
 ## Question text {#question_text}
 
-The question text what the student actually sees.  This was called "question text" in previous versions.
+The question text is what the student actually sees.  This was called "question text" in previous versions.
 
-It is a slightly modified form of CAStext.  To allow a student to answer a question you must include an [inputs](../Authoring/Inputs/index.md) in the question text. For example, students need a box into which their answer will be put.
+It is a slightly modified form of CAStext.  To allow a student to answer a question you must include an [input](../Authoring/Inputs/index.md) in the question text. For example, students need a box into which their answer will be put.
 
-To place an [input](../Authoring/Inputs/index.md) into the question enclose the name of the [Maxima](../CAS/Maxima_background.md) variable to which the student's answer is assigned between inside the following tag.  If the student's answer is going to be assigned to the variable `ans1` then use the tag `[[input:ans1]]`.  You will also be required to place a corresponding tag to indicate the position of any validation feedback (whether or not this is shown to the student): `[[validation:ans1]]`.  You can use any legitimate variable name.
+To place an [input](../Authoring/Inputs/index.md) into the question enclose the name of the [Maxima](../CAS/Maxima_background.md) variable to which the student's answer is assigned inside the following tag.  If the student's answer is going to be assigned to the variable `ans1` then use the tag `[[input:ans1]]`.  You will also be required to place a corresponding tag to indicate the position of any validation feedback (whether or not this is shown to the student): `[[validation:ans1]]`.  You can use any legitimate variable name.
 
 * When the question is created this is replaced with the appropriate [input](../Authoring/Inputs/index.md).
-* When the student answers, this variable name is available to each [potential response trees](Potential_response_trees.md).
+* When the student answers, this variable name is available to each [potential response tree](Potential_response_trees.md).
 * Inputs are created and deleted by adding appropriate tags to the question text.  Therefore, beware if you delete the tags as this will also delete the input from the question.
 
 To place another potential response tree in the question just choose a sensible name and add in a tag `[[feedback:prt1]]`.
 
-* These tags are replaced by appropriate feedback as necessary.  Note, if you add the feedback to the question text this will always be shown by the STACK question, regardless of the quiz settings.  You may prefer to place the tags in the "specific feedback" block of the editing form.  Availability of the specific feedback is controlled by the Moodle quiz settings.  There is some compromise here between the ability to position the feedback tags anywhere in the question text (e.g. next to a particular input) and control over when it is shown.  This is most difficult in questions with many parts.  For a single part question we recommend you use the specific feedback block.
+* These tags are replaced by appropriate feedback as necessary.  Whether the tag is in the question text or in the "specific feedback" block of the editing form, the feedback is shown only when the quiz's "Specific feedback" review option allows it.  A tag in the question text lets you place the feedback next to a particular input.  A tag in the specific feedback places it in the feedback area below the question, and when a question has more than one potential response tree that area also shows the overall standard feedback.  For a single part question we recommend you use the specific feedback block.
 * Tags can be moved anywhere within the question text.
 * Do **not** place feedback tags within LaTeX equations!
 * PRTs are created and deleted by adding appropriate tags to the question text.  Therefore, beware if you delete the tags as this will also delete the PRT from the question, which may result in lost work.
@@ -97,7 +107,7 @@ STACK has an in-built formula sheet which is used for facts and hints.  Standard
 
 ## Reference materials ##
 
-HTML and LaTeX are needed for authoring STACK questions, and some basic reference materials is give elsewhere.
+HTML and LaTeX are needed for authoring STACK questions, and some basic reference materials are given elsewhere.
 
 * Some basic [HTML](../Reference/HTML.md) examples.
 * Some basic [LaTeX](../Reference/Latex.md) examples.

@@ -20,7 +20,7 @@ This is clearly a difference of two squares so the fully factored form is:
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>ta:factor(50*a^3-18*a*b^2);</text>

@@ -827,6 +827,7 @@ final class library_import_test extends externallib_advanced_testcase {
                 \stack_question_library::GITHUB
             );
 
+        $this->assertFalse(isset($files->error), $files->error ?? '');
         $cache->set(\stack_question_library::GITHUB . '_TEST_flat_file_list', $flatfiles);
         $this->filepath = 'Course1/top/CR_Diff_01/CR-Diff-01-basic-1-e.xml';
     }

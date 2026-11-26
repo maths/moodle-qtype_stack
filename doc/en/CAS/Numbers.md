@@ -24,7 +24,7 @@ Optionally, depending on the question settings, you have
 
 Sometimes you need to use \(e\), or other constants, as an abstract symbol not a number.  The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.  This resets all the special constants defined by STACK so the symbols can be redefined in an individual STACK question.  (On Maxima 5.42.1 (and possibly others) `stack_reset_vars(true)` also resets `ordergreat`, so if you need to use `stack_reset_vars(true)` it must be the first command in the question variables.  Since this has been fixed in Maxima 5.44.0, it was probably a bug in Maxima.)
 
-If you want to change the display of the constant \(e\) you need to refer to the `%e%` value, e.g. `texput(%e, "\mathrm{e}");`.
+If you want to change the display of the constant \(e\) you need to refer to the `%e` value, e.g. `texput(%e, "\mathrm{e}");`.
 
 ## Modular arithmetic ##
 
@@ -58,13 +58,13 @@ For its internal representation, Maxima always truncates trailing zeros from a f
 
 Display of numbers in STACK is controlled with LaTeX, and the underlying LISP provides flexible ways to represent numbers.
 
-Note, that apart from the units input, all other input types truncate the display of unnecessary trailing zeros in floating point numbers, loosing information about significant figures.  So, when the student's answer is a floating point number, trailing zeros will not be displayed.  If you want to specifically test for significant figures, use the [units input type](../Topics/Units.md), with the teacher's answer having no units.  The units input type should display the same number of significant figures as typed in by the student.
+Note, that apart from the units input, all other input types truncate the display of unnecessary trailing zeros in floating point numbers, losing information about significant figures.  So, when the student's answer is a floating point number, trailing zeros will not be displayed.  If you want to specifically test for significant figures, use the [units input type](../Topics/Units.md), with the teacher's answer having no units.  The units input type should display the same number of significant figures as typed in by the student.
 
 ## Display of numbers with LaTeX ##
 
 The display of numbers is controlled by Maxima's `texnumformat` command, which STACK modifies.
 
-Stack provides two variables to control the display of integers and floats respectively.  The default values are
+STACK provides two variables to control the display of integers and floats respectively.  The default values are
 
     stackintfmt:"~d";
     stackfltfmt:"~a";
@@ -87,7 +87,7 @@ To force all floating point numbers to decimal floating point numbers use
 
     stackfltfmt:"~f";
 
-You can also force all integers to be displayed as floating point decimals or in scientific notation using `stackintfmt` and the appropriate template.  This function calls the LISP `format` function, which is complex and more example are available [online](http://www.gigamonkeys.com/book/a-few-format-recipes.html) elsewhere.
+You can also force all integers to be displayed as floating point decimals or in scientific notation using `stackintfmt` and the appropriate template.  This function calls the LISP `format` function, which is complex and more examples are available [online](http://www.gigamonkeys.com/book/a-few-format-recipes.html) elsewhere.
 
 | Template       | Input       |  TeX Output      |  Description/notes
 | ----------- | ----------- | ---------------- | ----------------------------------------------------------------------------------------------
@@ -138,7 +138,6 @@ The following commands which are relevant to manipulation of numbers are defined
 | `coeff_list_nz(ex,v)`           | This function takes an expression \(ex\) and returns a list of nonzero coefficients of \(v\).
 | `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)
 | `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).
-| `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).
 | `numexactp(sa,ta)`              | This function checks if one number equals another, but only when the floating point number is _exact_.   E.g. if `ta=1/4` then it has an exact decimal \(0.25\).  Here the float will be converted to a rational and compared.  However if `ta=1/3` then this decimal does not terminate, and so floats in `sa` will not be converted.
 
 The following commands generate displayed forms of numbers.  These will not be manipulated further automatically, so you will need to use these at the last moment, e.g. only when generating the teacher's answer etc.
@@ -168,9 +167,9 @@ Please note that these predicate functions need to be used with `simp:false`.  S
 
 The functions `decimalplaces(x,n)` and `dispdp(x,n)` perform rounding.  See the separate notes on [numerical rounding](Numerical_rounding.md) for details.  There are some edge cases.
 
-* If `x` is not a real number (judged by `real_numberp`) then we return `ex` (without an error).
+* If `x` is not a real number (judged by `real_numberp`) then we return `x` (without an error).
 * `n` must be an integer, otherwise we throw an error.
 * If `n` equals zero, then we round to the nearest integer with Maxima's `round` command.
-* `n` negative is possible, in which case we round. e.g. `decimalplaces(314.15,-2)` gives `300`.
-* `decimalplaces(x,n)` returns an integer if possible.  That is we don't return a float like `7.0` we return the integer `7` instead.
+* `n` negative is possible, in which case we round, e.g. `decimalplaces(314.15,-2)` gives `300`.
+* `decimalplaces(x,n)` returns an integer if possible.  That is, we don't return a float like `7.0`; we return the integer `7` instead.
 * `dispdp(x,n)` returns an inert form intended to display trailing zeros (if any).  In this case `x` must be a real number, otherwise we throw an error.

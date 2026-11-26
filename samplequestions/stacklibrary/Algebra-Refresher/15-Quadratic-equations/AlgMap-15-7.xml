@@ -31,7 +31,7 @@ So in this example we have {@ev(expand(ta),simp)@}. Therefore we complete the sq
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>v:ev(rand([x,y,z,t]),simp);

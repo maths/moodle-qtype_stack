@@ -10,8 +10,9 @@ in row echelon form.
 
 Use [`REFp`](#REFp) for row echelon form, [`symp`](#symp) for symmetry, [`invertiblep`](#invertiblep) for
 invertibility, and [`diagonalizablep`](#diagonalizablep) for diagonalizability. The orthogonality
-predicates test columns using the ordinary dot product or a supplied scalar
-product.
+predicates test columns using the standard inner product (the dot product for
+real vectors, conjugated in the second slot for complex vectors) or a supplied
+scalar product.
 
 Most predicates require a Maxima matrix. [`orthogonal_columnsp`](#orthogonal_columnsp) and
 [`orthonormal_columnsp`](#orthonormal_columnsp) also accept lists of column vectors through
@@ -56,8 +57,8 @@ Return `true` when the argument is a Maxima matrix with exactly one column.
 A 1-by-1 matrix satisfies both [`col_vecp`](#col_vecp) and [`row_vecp`](#row_vecp).
 
 For example, `col_vecp(matrix([a],[b]))` is `true`, but
-`col_vecp(matrix([a,b]))` and `col_vecp(c(a,b))` are `false`.
-Use `vec_convert` first when accepting the inert `c`/`r` notation.
+`col_vecp(matrix([a,b]))` and `col_vecp(column_vector(a,b))` are `false`.
+Use `vec_convert` first when accepting the vector notation.
 Lists, scalars and `matrix()` return `false`.
 
 
@@ -164,9 +165,9 @@ determinant as nonzero. Non-square and non-matrix inputs return `false`.
 
 ## orth_matrixp(M)<a id='orth_matrixp'></a>
 
-Is a given object an orthogonal matrix?
-i.e. Is M^T . M = M . M^T = I?
-Requires a square Maxima matrix and uses the ordinary dot product.
+Is a given object an orthogonal matrix (real entries) or a unitary matrix (complex entries)?
+i.e. Is M^* . M = M . M^* = I, where M^* is the conjugate transpose (M^T for a real M)?
+Requires a square Maxima matrix and uses the standard inner product.
 Unlike [`orthonormal_columnsp`](#orthonormal_columnsp), this function has no scalar-product argument.
 
 
@@ -191,15 +192,15 @@ Unlike [`orthonormal_columnsp`](#orthonormal_columnsp), this function has no sca
 Does the given matrix/list have orthogonal columns with respect to scalar product sp?
 i.e. for any two distinct columns v1 and v2, is sp(v1, v2) = 0?
 Returns false in case of malformed input.
-In case no scalar product is provided, the standard dot product is used.
-These are bilinear products, without complex conjugation.
+In case no scalar product is provided, the standard inner product is used: the dot product
+for real vectors, and u^T.conjugate(v) for complex vectors (linear in the first slot).
 
 
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
 | L | matrix | A mxn matrix or list of column vectors, see cols_to_matrix |
-| sp | function or matrix | (Optional) A scalar product or a symmetric positive definite matrix S representing a scalar product sp(u, v) := u^T.S.v |
+| sp | function or matrix | (Optional) A scalar product or a positive definite (real symmetric, or Hermitian) matrix S representing a scalar product sp(u, v) := u^T.S.conjugate(v) |
 
 
 
@@ -217,15 +218,15 @@ These are bilinear products, without complex conjugation.
 Does the given matrix/list have orthonormal columns with respect to scalar product sp?
 i.e. for columns v_i and v_j, is sp(v_i, v_i) = 1 and sp(v_i, v_j) = 0 for i # j?
 Returns false in case of malformed input.
-In case no scalar product is provided, the standard dot product is used.
-These are bilinear products, without complex conjugation.
+In case no scalar product is provided, the standard inner product is used: the dot product
+for real vectors, and u^T.conjugate(v) for complex vectors (linear in the first slot).
 
 
 
 | Argument name | type | description |
 | ------------- | ---- | ----------- |
 | L | matrix | A mxn matrix or list of column vectors, see cols_to_matrix |
-| sp | function or matrix | (Optional) A scalar product or a symmetric positive definite matrix S representing a scalar product sp(u, v) := u^T.S.v |
+| sp | function or matrix | (Optional) A scalar product or a positive definite (real symmetric, or Hermitian) matrix S representing a scalar product sp(u, v) := u^T.S.conjugate(v) |
 
 
 
@@ -244,8 +245,8 @@ Return `true` when the argument is a Maxima matrix with exactly one row.
 A 1-by-1 matrix satisfies both [`row_vecp`](#row_vecp) and [`col_vecp`](#col_vecp).
 
 For example, `row_vecp(matrix([a,b]))` is `true`, but
-`row_vecp(matrix([a],[b]))` and `row_vecp(r(a,b))` are `false`.
-Use `vec_convert` first when accepting the inert `c`/`r` notation.
+`row_vecp(matrix([a],[b]))` and `row_vecp(row_vector(a,b))` are `false`.
+Use `vec_convert` first when accepting the vector notation.
 Lists, scalars and `matrix()` return `false`.
 
 This is a shape check: `matrix([])` has one row and no columns, so it
@@ -329,7 +330,7 @@ For example, `trilp(matrix([a,0],[b,c],[d,e]))` is `true`.
 Diagonal entries may be zero or symbolic, so this does not test invertibility
 or row echelon form. Use [`triup`](#triup) to check the other triangular part.
 
-Non-matrix arguments, including lists and inert `c`/`r` expressions, return
+Non-matrix arguments, including lists and vector expressions, return
 `false`. With no entries to reject, `matrix()`, `matrix([])` and
 `matrix([],[])` return `true`.
 
@@ -364,7 +365,7 @@ For example, `triup(matrix([a,b,c],[0,d,e]))` is `true`.
 Diagonal entries may be zero or symbolic, so this does not test invertibility
 or row echelon form. Use [`trilp`](#trilp) to check the other triangular part.
 
-Non-matrix arguments, including lists and inert `c`/`r` expressions, return
+Non-matrix arguments, including lists and vector expressions, return
 `false`. With no entries to reject, `matrix()`, `matrix([])` and
 `matrix([],[])` return `true`.
 
@@ -392,8 +393,8 @@ algebraically zero expressions should be accepted.
 ## vectorp(ex)<a id='vectorp'></a>
 
 Return `true` for a matrix accepted by either [`col_vecp`](#col_vecp) or [`row_vecp`](#row_vecp).
-This includes 1-by-1 matrices. It does not accept lists or inert `c`/`r`
-expressions; apply `vec_convert` first if the `c`/`r` forms are permitted.
+This includes 1-by-1 matrices. It does not accept lists or vector
+expressions; apply `vec_convert` first when accepting vector notation.
 
 For example, `vectorp(matrix([a],[b]))` and `vectorp(matrix([a,b]))`
 are `true`, while `vectorp(matrix([a,b],[c,d]))` is `false`.

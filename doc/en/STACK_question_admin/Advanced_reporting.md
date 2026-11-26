@@ -5,10 +5,10 @@ There are a number of [reporting options](../Authoring/../STACK_question_admin/R
 It is often useful to know numbers about STACK usage on your local server.  To do this we need to work in the Moodle database.  E.g.
 
 1. How many STACK questions were initialised for students during the last time interval?
-2. How many attempts those students made to those question during that time on average?
+2. How many attempts those students made to those questions during that time on average?
 3. Which courses had most attempts and which courses had the most STACK questions in use?
 4. Question bank status by course, how many questions were in use, which questions have not been used for a long time?
-5. Quiz/activity usage, i.e. in what context are the questions being used and for example how many questions are present in a quiz by average?
+5. Quiz/activity usage, i.e. in what context are the questions being used and for example how many questions are present in a quiz on average?
 6. Duplicate questions, how many copies of the same questions are present in the question banks?
 
 To get this kind of data you will need the [Ad-hoc database queries plugin](https://moodle.org/plugins/report_customsql).
@@ -139,7 +139,7 @@ That is the number of questions that students have interacted with.
     AND q.qtype = 'stack'
     AND qa.timemodified BETWEEN %%STARTTIME%% AND %%ENDTIME%%
     
-And, here is a query that does number of questions attempted (ever) by course
+And, here is a query that counts the number of questions attempted (ever) by course
 
     SELECT c.shortname AS Website, COUNT(1) AS Number_of_STACK_questions_attempted
 
@@ -160,7 +160,7 @@ Moodle has a built-in report that will count the number of questions of any type
 
 #### Closing date of quizzes which use STACK
 
-Another useful report, which we use for planning the time of upgrades, is this one, which lists the close date of quizzes uses STACK (including ones that use STACK questions via Moodle's 'Random question' feature:
+Another useful report, which we use for planning the time of upgrades, is this one, which lists the close date of quizzes that use STACK (including ones that use STACK questions via Moodle's 'Random question' feature):
 
     SELECT DISTINCT
         c.shortname AS Website,
@@ -189,7 +189,7 @@ Another useful report, which we use for planning the time of upgrades, is this o
 
 #### List all the people who have created STACK questions in your site
 
-One final query, which lists all the people who have created STACK questions in your site (useful if you need to email them about something:
+One final query, which lists all the people who have created STACK questions in your site (useful if you need to email them about something):
 
     SELECT u.firstname, u.lastname, u.username, u.email, number_created, number_modified
 

@@ -1,6 +1,6 @@
-# Discrete mathematics and graph theory.
+# Discrete mathematics and graph theory
 
-A graph in discrete mathematics is a set of edges and vertices.  Maxima has a "graphs" package, which we do not currently support (see github issue #572 for a discussion of why).
+A graph in discrete mathematics is a set of edges and vertices.  Maxima has a "graphs" package, which we do not currently support (see GitHub issue #572 for a discussion of why).
 
 
 
@@ -23,7 +23,7 @@ The following question variables produce the complete graph on `m` vertices.
 
 ## Displaying graphs with `plot()`
 
-It is possible to plot simple discrete graphs directly using STACK's [`plot`](Plots.md) command by building a combination of discrete and line plots.  If you want to do this, we _strongly_ recommend you work offline first in Maxima using `plot2d` to ensure your Maxima code works.
+It is possible to plot simple discrete graphs directly using STACK's [`plot`](../CAS/Maxima_plot.md) command by building a combination of discrete and line plots.  If you want to do this, we _strongly_ recommend you work offline first in Maxima using `plot2d` to ensure your Maxima code works.
 
 In general it is better to (1) separate connections of points from the coordinates of points, and (2) deal with lists of coordinates.  That way we can pass a connection, or the coordinates of a point into a function more easily.  Create a list of coordinates, where each coordinate is a point [x,y].
 

@@ -1,6 +1,6 @@
 # Free text input
 
-At it's core, STACK provides input boxes into which students can type algebraic expressions. The "equivalence reasoning" input type extends this, allowing multi-line input but that's also limited to algebraic expressions. What's missing is the facility to type a complete mathematical argument.
+At its core, STACK provides input boxes into which students can type algebraic expressions. The "equivalence reasoning" input type extends this, allowing multi-line input but that's also limited to algebraic expressions. What's missing is the facility to type a complete mathematical argument.
 
 The free-text input allows students to type a complete mathematical argument.  By default:
 

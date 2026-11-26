@@ -94,4 +94,4 @@ expected:
   name: 'prt1'
   expectedscore:
   expectedpenalty:
-  expectedanswernote: '1-0-T'
+  expectedanswernote: ''

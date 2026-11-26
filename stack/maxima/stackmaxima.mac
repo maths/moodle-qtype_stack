@@ -184,6 +184,8 @@ if is(MAXIMA_VERSION_NUM<44.0) then load("stack44.mac");
 
 /* This file is a modified core Maxima function with local variable name clashes fixed. */
 load("trigrat.lisp");
+/* A copy of Maxima's ntrig package, extended to %pi/8 and %pi/12: exact trig values. */
+load("ntrigloc.mac");
 load("trigtools");
 load("diag");
 load("eigen");
@@ -400,8 +402,9 @@ s_assert(ex1, ex2):= if is(ex1=ex2) then true else
 /* ****************************************************** */
 /* Developer warning: random functions determining        */
 /* whether a question is a singleton.                     */
-/* When adding new "random" functions, also update        */
-/* question->has_random_variants()                        */
+/* When adding new "random" functions, give them the      */
+/* "random" feature in stack/cas/security-map.json, and   */
+/* check question->random_variants_check() finds them.    */
 /* ****************************************************** */
 
 /* Change the random seed */
@@ -1035,11 +1038,29 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex, [ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr,
-        filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug,
-        plotgrid2d, plotbox, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid, margin],
+    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp,
+        filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake,
+        plotgrid2d, plotbox, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid, margin,
+        plotunsafe, shellbad],
     stack_mtell_quiet:true,
-    plotdebug: false,
+    /* Text written to the gnuplot script or the shell must not contain control */
+    /* characters or any of the characters in the list bad.                     */
+    plotunsafe: lambda([s, bad], not(stringp(s)) or
+        some(lambda([c], is(cint(c) < 32 or cint(c) = 127) or member(c, bad)), charlist(s))),
+    shellbad: ["'", "\"", "`", ";", "|", "&", "$", "<", ">", "(", ")"],
+    /* Check the site settings.  Authors cannot set these, so this is defence in depth. */
+    if not(member(PLOT_TERMINAL, ["svg", "png"])) then
+        error("Plot error: PLOT_TERMINAL must be \"svg\" or \"png\"."),
+    if plotunsafe(PLOT_TERM_OPT, ["`", ";"]) then
+        error("Plot error: PLOT_TERM_OPT contains characters that are not permitted."),
+    if plotunsafe(GNUPLOT_CMD, [";", "|", "&", "`", "$", "<", ">", "(", ")"]) then
+        error("Plot error: GNUPLOT_CMD contains characters that are not permitted."),
+    if plotunsafe(IMAGE_DIR, shellbad) or plotunsafe(maxima_tempdir, shellbad) then
+        error("Plot error: IMAGE_DIR or maxima_tempdir contains characters that are not permitted."),
+    if plotunsafe(URL_BASE, ["'", "\"", "`", "<", ">"]) then
+        error("Plot error: URL_BASE contains characters that are not permitted."),
+    if not(stringp(MAXIMA_PLATFORM)) then
+        error("Plot error: MAXIMA_PLATFORM must be a string."),
     /* Check for grid2d  in the plotoptions. */
     plotgrid2d: false,
     if member(grid2d, ra) or member(STACKGRID, ra) then
@@ -1053,7 +1074,6 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
         ),
     /* For new versions. */
     if member(nobox, ra) then plotbox:false,
-    if plotdebug then print("Should plot2d print a box? ", plotbox),
     /************************************/
     /* Arguments to plot must be lists. */
     ral: sublist(ra, listp), /* The actual arguments used by plot. */
@@ -1101,6 +1121,12 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     ralforbid:sublist(ral, lambda([ex], not(member(first(ex), permitted_options)))),
     if not(emptyp(ralforbid)) then
         error("Plot error: STACK does not currently support the following plot2d options: \\(",string(ralforbid),"\\)"),
+    /* Text options are written into the gnuplot script: refuse unsafe characters. */
+    for opt in sublist(ral, lambda([o], member(first(o), [xlabel, ylabel, label, legend]))) do
+        for s in flatten(rest(opt)) do
+            if not(s = true or s = false or numberp(s)) and
+                plotunsafe(if stringp(s) then s else string(s), ["`", "@"]) then
+                error("Plot error: text in plot options may not contain control characters, backquotes or @."),
     /********************************************/
     /* Create a unique identifier for the plot. */
     plotpid:errcatch(?getpid()),
@@ -1122,7 +1148,11 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if member(legend, maplist('first, ral)) then block([lv],
             /* If we have [legend, true] then we should use the default legend */
             lv: sublist(ral, lambda([ex], (first(ex)=legend))),
-            if second(first(lv))=true then ral:delete([legend, true], ral)
+            /* The default legend is the text of the expressions. */
+            if second(first(lv))=true then (
+                if plotunsafe(string(ex), ["`", "@"]) then
+                    error("Plot error: the expression cannot be used as a legend."),
+                ral:delete([legend, true], ral))
         ) else block(
             ral: append(ral, [[legend, false]])
         ),
@@ -1145,7 +1175,6 @@ set output ", afn),
     /* Add in the command for the nobox. */
     if not(plotbox) then if MAXIMA_VERSION_NUM>47 then
         ral:append(ral, [nobox]) else ral:append(ral, [[box,false]]),
-    if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
     if PLOT_TERMINAL="svg" then
         set_plot_option([gnuplot_svg_term_command, preamble])
@@ -1167,19 +1196,15 @@ set output ", afn),
         tfnp2: ssubst("\\\\", "\\", tfnp2)
         ),
     set_plot_option([gnuplot_out_file, tfnp1]),
-    if plotdebug then print(plot_options),
     /* Create and execute the actual plot commands. */
     ex:%_ce_expedite(ex),
     pltargs: append([ex], ral),
-    if plotdebug then print(pltargs),
     plotfunmake: funmake(plot2d, pltargs),
     ev(plotfunmake),
     sysp: concat(GNUPLOT_CMD, " ", tfnp2),
-    sysr: concat(DEL_CMD, " ", tfnp3),
-    if plotdebug then print([sysp,sysr]),
-    system(sysp),
-    if not(plotdebug) then system(sysr),
-    simp: old_simp,
+    /* system() is disabled in stacksecure.lisp: use the Lisp-only handles. */
+    ?stack\-system\-original(sysp),
+    ?stack\-delete\-plot\-file(tfnp3),
     return(ufn)
 )$
 
@@ -2987,9 +3012,7 @@ strip_int_const(ex, v) := block([ex2,fargs],
 /* sa is the students' answer,                                      */
 /* sbl is a list consisting of (1) the answer, and (2) the variable */
 /********************************************************************/
-ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sbdisp, ret, cont, constint, acceptformal, atoptions],
-    oldsimp:simp,
-    simp:false,
+ATInt(sa, sb, so) := block([simp:false, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sbdisp, ret, cont, constint, acceptformal, atoptions],
     Validity:true, RawMark:false,
     FeedBack:"", AnswerNote:"",
     keepfloat:true,
@@ -3049,7 +3072,6 @@ ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Ans
         keepfloat:true,
         ret:Intfun(sa, sb, sbdisp, constint, acceptformal, var)
         ),
-    simp:oldsimp,
     return(ret)
     )$
 
@@ -3247,8 +3269,7 @@ ATIntGetVar(ex):= block(
 /* An answer test for antiderivative questions.                     */
 /********************************************************************/
 
-ATAntidiff(sa, sb, so) := block([var, sbdisp],
-    simp:false,
+ATAntidiff(sa, sb, so) := block([simp:false, var, sbdisp],
     /* How to display the teacher's answer? */
     sbdisp:[],
 
@@ -3297,8 +3318,7 @@ ATAntidiff(sa, sb, so) := block([var, sbdisp],
 /* This answer test ignores the teacher answer completely.          */
 /********************************************************************/
 
-ATAddConst(sa, sb, so) := block([oldsimp, SAresult, SAnote, SBresult, SBnote],
-    simp: false,
+ATAddConst(sa, sb, so) := block([simp:false, SAresult, SAnote, SBresult, SBnote],
 
     SAA:errcatch(ev(sa, simp, nouns)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then
@@ -3387,8 +3407,8 @@ hasAddConst(expr, vars) := block([othervars, const, deriv, allvariables, strict]
 /* sbl is a list consisting of (1) the answer, and (2) the variable */
 /********************************************************************/
 ATDiff(sa, sb, so) :=
-    block([old_simp, keepfloat, RawMark, FeedBack, AnswerNote, ret, str, da, db, dd, dc, var, cont, SAA, SBB, SOO],
-    old_simp:simp, simp:false, RawMark:false, FeedBack:"", AnswerNote:"",
+    block([simp:false, keepfloat, RawMark, FeedBack, AnswerNote, ret, str, da, db, dd, dc, var, cont, SAA, SBB, SOO],
+    RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
 
     SAA:errcatch(ev(sa, nouns, simp)),
@@ -3405,7 +3425,6 @@ ATDiff(sa, sb, so) :=
         keepfloat:true,
         ret:Difffun(sa, sb, so)
         ),
-    simp:old_simp,
     return(ret)
 )$
 
@@ -3588,6 +3607,9 @@ load(linearalgebra);
 %_STACK_LANG: "en"$
 is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
+/* Disable dangerous Maxima functions (see stacksecure.lisp).  Must be the last file loaded. */
+load("stacksecure.lisp");
+
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2026101600$
+stackmaximaversion:2026111900$

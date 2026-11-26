@@ -21,7 +21,7 @@ Multiple choice input types return a CAS object which is then assessed by the po
 
 The goal of these input types is to provide *modest* facilities for MCQ.  An early design decision was to restrict each of the possible answers to be a CAS expression.  In particular, we decided *NOT* to make each possible answer [CASText](../../Authoring/CASText.md).  Adopting CASText would have provided more flexibility but would have significantly increased the complexity of the internal code. If these features are extensively used we will consider a different input type.
 
-Example questions are in the stack library under `Features\MCQ_....`.
+Example questions are in the STACK library under `Features\MCQ_....`.
 
 It is possible to include [plots within MCQ](Multiple_choice_plots.md).
 
@@ -49,7 +49,7 @@ STACK provides some helper functions
 1. `mcq_correct(ta)` takes the "model answer" list and returns a list of values for which `correct` is true.
 2. `mcq_incorrect(ta)` takes the "model answer" list and returns a list of values for which `correct` is false.
 
-Note, that the optional `display` field is *only* used when constructing the choices seen by the student when displaying the question.  The student's answer will be the `value`, and this value is normally displayed to the student using the validation feedback, i.e. "Your last answer was interpreted as...". A fundamental design principal of STACK is that the student's answer should be a mathematical expression, and this input type is no exception.
+Note, that the optional `display` field is *only* used when constructing the choices seen by the student when displaying the question.  The student's answer will be the `value`, and this value is normally displayed to the student using the validation feedback, i.e. "Your last answer was interpreted as...". A fundamental design principle of STACK is that the student's answer should be a mathematical expression, and this input type is no exception.
 
 In situations where there is a significant difference between the optional `display` and the `value` which would be confusing, the only current option is to turn off validation feedback.  After all, this should not be needed anyway with this input type.  In the example above when a student is asked to choose the right method the `value` could be an integer and the display is some kind of string.
 
@@ -57,7 +57,7 @@ An example which includes the `display` option is
 
     tacp:[[A, false, "A. Direct proof"],  [B, false, "B. Definition-chasing"], [C, false, "C. If and only if"], [D, false, "D. Exhaustive cases"], [E, false, "E. Induction"], [F, false, "F. Contrapositive"], [G, true, "G. Contradiction"]];
 
-Note in this example the `value` of the student's answer will be a letter which is literally a Maxima variable name.  In this situation you can't really randomize the letters used easily.  (Not impossible with some cunning code, but a lot of work....)
+Note in this example the `value` of the student's answer will be a letter which is literally a Maxima variable name.  In this situation you can't really randomise the letters used easily.  (Not impossible with some cunning code, but a lot of work....)
 
 When using checkbox or radio input types, the `display` value can include LaTeX code. (See below for including mathematics in a drop down input type.) Any `\` in the LaTeX code needs to be *escaped* to `\\`. For example a model answer might be
 
@@ -66,7 +66,7 @@ When using checkbox or radio input types, the `display` value can include LaTeX 
 
 If you choose to use an integer, and randomly shuffle the answers then the validation feedback would be confusing, since an integer (which might be shuffled) has no correspondence to the choices selected.  *This behaviour is a design decision and not a bug! It may change in the future if there is sufficient demand, but it requires a significant change in STACK's internals to have parallel "real answer" and "indicated answer". Such a change might have other unintended and confusing consequences.*
 
-Normally we don't permit duplicate values in the values of the teacher's answer.  If the input type receives duplicate values STACK will throw an error.  This probably arises from poor randomization.  However it may be needed.  If duplicate entries are permitted use the display option to create unique value keys with the same display. *This behaviour is a design decision may change in the future.*
+Normally we don't permit duplicate values in the values of the teacher's answer.  If the input type receives duplicate values STACK will throw an error.  This probably arises from poor randomisation.  However it may be needed.  If duplicate entries are permitted use the display option to create unique value keys with the same display. *This behaviour is a design decision and may change in the future.*
 
 When STACK displays the "teacher's answer", e.g. after a quiz is due, this will be constructed from the `display` fields corresponding to those elements for which `correct` is `true`.  I.e. the "teacher's answer" will be a list of things which the student could actually select.  Whether the student is able to select more than one, or if more than one is actually included, is not checked.  The teacher must indicate at least one choice as `true`.
 
@@ -76,7 +76,7 @@ If you need "none of these" you must include this as an explicit option, and not
 
 If one of the responses is \(x=1 \text{ or } x=2\) then use `nounor` which is commutative and associative.  Do not use `or` which always simplifies its arguments.  In this example `x=1 or x=2` evaluates to `false`.
 
-Functions `diff` and `int` will evaluate, so you don't have displayed calculus operation.  If one of the responses is a _displayed_ derivative or integral then construct your answer with Maxima's inert forms `'diff` and `'int`.
+Functions `diff` and `int` will evaluate, so you don't have displayed calculus operations.  If one of the responses is a _displayed_ derivative or integral then construct your answer with Maxima's inert forms `'diff` and `'int`.
 
 ## Model answer: mathematics display in dropdowns ##
 
@@ -84,13 +84,13 @@ HTML dropdowns cannot display LaTeX within the options.  This is a restriction o
 
     ta1:[[0,false,"n/a"],[1,true,"&ge;"],[2,false,"&le;"],[3,false,"="],[4,false,"?"]];
 
-Note here that an integer will returned internally.
+Note here that an integer will be returned internally.
 
 Similarly, you can include logical symbols. For example
 
     ta1:[[0, false, "&#8658;"], [1, true, "&#8656;"], [2, false, "&#8660;"]];
 
-will give a choice, e.g. a dropdown, from &#8658;, &#8656; and &#8660; and an integer will returned internally.
+will give a choice, e.g. a dropdown, from &#8658;, &#8656; and &#8660; and an integer will be returned internally.
 
     ta1:[[0, false, "&#8704;"], [1, true, "&#8707;"]];
 
@@ -141,7 +141,7 @@ To enable a student to indicate "none of the others", the teacher must add this 
 
 The radio and dropdown types always add a "not answered" option as the first option.  This allows a student to retract their choice, otherwise they will be unable to "uncheck" a radio button, which will be stored, validated and possibly assessed (to their potential detriment).  If you want to remove this then use the extra option `nonotanswered`, but keep in mind the possible effect when using the penalty scheme.
 
-If one of the items in the teacher's answer list is is the special variable name `notanswered`, and then default message `(Clear my choice)` will be replaced by the `display` value.  If no `display` value is given (and it is optional) then the original message will remain.  `notanswered` will not appear in the list of valid choices for a user and `value` for this input is ingored.
+If one of the items in the teacher's answer list is the special variable name `notanswered`, then the default message `(Clear my choice)` will be replaced by the `display` value.  If no `display` value is given (and it is optional) then the original message will remain.  `notanswered` will not appear in the list of valid choices for a user and `value` for this input is ignored.
 
 
 ## Extra options ##
@@ -240,7 +240,7 @@ STACK has helper functions to create MCQ arrays in Maxima.
 
 This function takes two lists `corbase` and `wrongbase` and two integers `numcor` and `numwrong`.
 It randomly selects `numcor` from `corbase`, and `numwrong` from `wrongbase` and then creates the MCQ list `ta` with these selections,
-and an answernote `variant`.
+and an answer note `variant`.
 
 The function returns a list with two arguments.
 The first argument of the list is the MCQ array, the second is just the list of answers which is useful for the answer note.
@@ -288,17 +288,17 @@ For example, here the return values (with inline maths) could be
 
 Notes
 
-1. The fifth optional argument to ` multiselqnalpha` controls the display style of the LaTeX.  Use `"i"` (a string containing `i`) for inline, `"d"` for displayed and `"id"` for inline "displaystyle" (which is the default).
-2. Note that the "student's" answer will now be a _string_ such as `"(a)"`.  When you construct the PRT you will not need to check against these strings, not the original CAS expressions.
+1. The fifth optional argument to `multiselqnalpha` controls the display style of the LaTeX.  Use `"i"` (a string containing `i`) for inline, `"d"` for displayed and `"id"` for inline "displaystyle" (which is the default).
+2. Note that the "student's" answer will now be a _string_ such as `"(a)"`.  When you construct the PRT you will need to check against these strings, not the original CAS expressions.
 3. The `variant` retains the CAS statements, in order.
-4. Do not use `multiselqnalpha` in conjunction with the `shuffle` option.  There is no need as the selection are permuted, and it messes up the order of the choices for the student.
+4. Do not use `multiselqnalpha` in conjunction with the `shuffle` option.  There is no need as the selections are permuted, and it messes up the order of the choices for the student.
 
 
 ## Dealing with strings in MCQ ##
 
 A likely situation is that a teacher wants to include a language string as one of the options for a student's answer in a multiple-choice question.
 
-Recall: *A fundamental design principal of STACK is that the student's answer should be a mathematical expression which can be
+Recall: *A fundamental design principle of STACK is that the student's answer should be a mathematical expression which can be
 manipulated by the CAS as a valid expression.* Students are very limited in the keywords they are permitted to use in an input type.
 It is very likely that strings will contain keywords forbidden in student expressions.
 
@@ -310,7 +310,7 @@ The optional display part of this input is displayed to the student.  Their answ
 
 To construct appropriate arrays use the `multiselqnalpha` function.
 
-The quotation marks will be removed from strings, and the strings will not be wrapped `<code>...</code>` tags or LaTeX mathematics environments.
+The quotation marks will be removed from strings, and the strings will not be wrapped in `<code>...</code>` tags or LaTeX mathematics environments.
 
 Question authors should consider using the Moodle MCQ question type in addition to these facilities for purely text-based answers.
 
@@ -341,7 +341,7 @@ Since 4.4 it has been possible to write more complex labels using inline CASText
     /* Same using a inline CASText */
     [oc(-inf,a), false, castext("The half interval: {@oc(-inf,a)@}")]
 
-You may write normal CASText syntax inside that string and it should behave exactly like it does in question-text or PRT feedback etc.. The only limitation at this time is that the list that includes these labels must be defined in the question-variables, you may not write inline CASText directly to the model answer field of the input. The `castext()`-function is not a real CAS-function it is converted to more complex logic at compile time and therefore it must receive a static string as its argument.
+You may write normal CASText syntax inside that string and it should behave exactly like it does in question-text or PRT feedback etc. The only limitation at this time is that the list that includes these labels must be defined in the question-variables, you may not write inline CASText directly to the model answer field of the input. The `castext()`-function is not a real CAS-function it is converted to more complex logic at compile time and therefore it must receive a static string as its argument.
 
 The most obvious use case for inline CASText is to provide localisation inside MCQ labels in situations where the mlang2-filter is not an option:
 

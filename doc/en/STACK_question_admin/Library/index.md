@@ -2,7 +2,7 @@
 
 STACK is distributed with a library of over 4200 questions.
 
-* Examples are tied to documentation and to demonstrate features.
+* Examples tied to documentation, and demonstrating features.
 * Templates for particular types of problems, e.g. drag and drop Parsons proofs
 * Collections of questions for particular groups of students, e.g. engineering students.
 
@@ -18,7 +18,7 @@ The question files are contained in the STACK source code under
 This directory contains sub-directories with large libraries of questions, some of which arose from specific projects:
 
 * `HELM` provides [comprehensive workbooks for engineering undergraduates](HELM.md).  Question numbers are linked to the original workbooks.
-* `Algebra-Refresher` contains elementary algebra questions to cover all parts of the [The Map of Algebraic Manipulation](Algebra_refresher.md). Question numbers are linked to the map.
+* `Algebra-Refresher` contains elementary algebra questions to cover all parts of [The Map of Algebraic Manipulation](Algebra_refresher.md). Question numbers are linked to the map.
 * `Calculus-Refresher` contains questions to cover all of the [Calculus Refresher](https://docs.stack-assessment.org/static/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
 * `Introductory-Mathematics` is a comprehensive course of mathematics questions for students at the upper level of school or the transition to university. 
 * `Topics` contains questions on a variety of mathematical topics.
@@ -35,22 +35,22 @@ A significant advantage of using questions from the STACK library is that they a
 
 You can use the question library to import a whole folder of questions, or a quiz.
 
-Some directories have quiz files which are stored as `.json` files in the directories.  If you import this file then STACK will create a simple quiz.   Which questions, the order in quiz, pagination, etc. are imported.  Assessment policies such as behaviour (e.g. adaptive mode), due date, number of attempts and so on need to be set by hand.
+Some directories have quiz files which are stored as `.json` files in the directories.  If you import this file then STACK will create a simple quiz.   Which questions, the order in the quiz, pagination, etc. are imported.  Assessment policies such as behaviour (e.g. adaptive mode), due date, number of attempts and so on need to be set by hand.
 
 ## HTML fragments
 
-STACK questions in the library are incomplete .xml files, missing the following fields
+STACK questions in the library are incomplete .xml files, missing the following fields:
 
-* Standard PRT feedback (e.g. "Correct answer, well done"
+* Standard PRT feedback (e.g. "Correct answer, well done")
 * Decimal separator option
 
-When imported STACK chooses the current system default. 
+When they are imported, STACK chooses the current system default. 
 
 # Local site libraries
 
 Additional libraries of STACK questions can be installed on your Moodle server. Once STACK is installed, there will be a `stack/sitelibrary` directory within the Moodle data directory. STACK will interpret each top-level subdirectory of `stack/sitelibrary` as a separate library and allow you to switch between them (and the STACK question library) using a dropdown on the library page displaying subdirectory names. Ask your server administrator to copy a library you wish to use into a suitably named subdirectory in `stack/sitelibrary`. After any update to an installed library, the Moodle MUC cache will need to be cleared.
 
-Note, questions in `stack/sitelibrary` will be available to any teacher on this moodle site to import.
+Note, questions in `stack/sitelibrary` will be available to any teacher on this Moodle site to import.
 
 # Moodle courses released with STACK #
 
@@ -62,5 +62,5 @@ You can "restore" this into your version of Moodle.  It has a number of quizzes,
 
 # Open Educational Resources #
 
-* The FETLAR project released a large collection of STACK questions in English covering calculus and algebra in April 2010.  These materials have been redeveloped are now part of the STACK library.
+* The FETLAR project released a large collection of STACK questions in English covering calculus and algebra in April 2010.  These materials have been redeveloped and are now part of the STACK library.
 * Abacus is a material bank for STEM education which seeks to produce, share and host high-quality educational material between collaborators.  For more information see [https://abacus.aalto.fi/](https://abacus.aalto.fi/) 

@@ -56,9 +56,12 @@ $string['stack:exporttoexternallibraries'] = 'Allow export to external libraries
 // Versions of STACK.
 $string['stackversionedited']     = 'This question was authored with STACK version {$a}.';
 $string['stackversionnow']        = 'The current version of STACK is {$a}.';
-$string['stackversionnone']       = 'This question has not been edited since question variant numbering was introduced in STACK 4.2.  Please review your question carefully.';
+$string['stackversionmissing']    = 'This question does not have a valid STACK version number (found "{$a}").  Every question must record the version of STACK it was last edited with, a number such as 2026101500.  Save the question in the editing form, or set the stackversion field in its XML.';
+$string['stackversionnone']       = 'This question does not record the version of STACK it was last edited with.  It may not have been edited since STACK 4.2, or it was imported without one.  Please review your question carefully.';
 $string['stackversionerror']      = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
 $string['stackversionerroralt']   = 'An alternative is {$a}.';
+$string['stackversionnewer']       = 'This question was authored with STACK version {$a->question}, which is newer than the version of STACK on this site ({$a->site}).  It may use features this site does not have.';
+$string['stackversionnodefeedback'] = 'Feedback of node {$a}';
 $string['stackversionmulerror']   = 'This question has an input which uses the "mul" option, which is not supported after STACK version 4.2.  Please edit this question.';
 $string['stackversionregexp']     = 'The RegExp answer test is not supported after STACK version 4.3.  Please use the new SRegExp instead.';
 $string['stackfilesizeerror']      = 'One or more files (e.g. images) is more than 1MB in size.';
@@ -498,6 +501,7 @@ $string['languageproblemsextra']   = 'The field {$a->field} has the following la
 
 $string['alttextmissing']    = 'One or more images appears to have a missing or empty \'alt\' tag in "{$a->field}" ({$a->num}).';
 $string['todowarning']       = 'You have un-resolved todo blocks in "{$a->field}".';
+$string['studentreadablevariables'] = 'The question variables assign to {$a->names}, which students are permitted to type. A student who types one of these names will see the value you give it. If this was unintended then rename these variables.';
 
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';
@@ -775,6 +779,7 @@ $string['missingnextnode'] = 'The PRT structure is malformed. {$a->type} next no
 $string['multipleinputs'] = 'Multiple inputs have the same name: {$a}.';
 $string['multipleprts'] = 'Multiple prts have the same name: {$a}.';
 $string['multiplenodes'] = 'Multiple nodes have the name: {$a->node} in PRT: {$a->prt}.';
+$string['multipletestcases'] = 'Multiple question tests have the number {$a->number}. The later one has been renumbered {$a->newnumber}.';
 
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';
@@ -1099,6 +1104,7 @@ $string['stackCas_allFailed']               = 'CAS failed to return any evaluate
 $string['stackCas_failedReturn']            = 'CAS failed to return any data.';
 $string['stackCas_failedReturnOne']         = 'CAS failed to return some data.';
 $string['stackCas_failedtimeout']           = 'CAS failed to return any data due to timeout.';
+$string['stackCas_failederror']             = 'CAS failed to return any data because Maxima reported an error: {$a}';
 
 // Used in keyval.class.php.
 $string['stackCas_inputsdefined']           = 'You may not use input names as variables.  You have tried to define <code>{$a}</code>';
@@ -1139,7 +1145,7 @@ $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Maxima_Args']  = 'args: argument must be a non-atomic expression. ';
 $string['Variable_function']   = 'The following appear in your expression as both a variable and a function: {$a->m0}.  Please clarify your input.  Either insert <code>*</code> symbols to remove functions, or make all occurrences functions.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
-$string['Illegal_floats'] = 'Your answer contains floating point numbers, that are not allowed here.  You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, which is after all only an approximation to one third.';
+$string['Illegal_floats'] = 'Your answer contains a floating point number, which is not allowed here.  You need to type numbers as exact fractions.  For example, type <code>1/3</code> rather than <code>{$a}</code>, because a decimal is only an approximation to one third.';
 $string['Illegal_strings'] = 'Your answer contains "strings" these are not allowed here.';
 $string['Illegal_lists'] = 'Your answer contains lists "[a,b,c]" these are not allowed here.';
 $string['Illegal_sets'] = 'Your answer contains sets "{a,b,c}" these are not allowed here.';
@@ -1188,6 +1194,15 @@ $string['asciistringextractorregexnotfound'] = 'No line matched the requested re
 $string['asciistringfiltercalculationfunctionnotallowed'] = 'Function not allowed:';
 $string['asciistringfiltercalculationoperatornotallowed'] = 'Operator not allowed:';
 $string['asciistringfiltercalculationnodetypenotallowed'] = 'Node type not allowed:';
+$string['asciistringtoolbarcalculationstart'] = 'Insert calculation start delimiter';
+$string['asciistringtoolbarcalculationend'] = 'Insert calculation end delimiter';
+$string['asciistringtoolbarcasstart'] = 'Insert CAS start delimiter';
+$string['asciistringtoolbarcasend'] = 'Insert CAS end delimiter';
+$string['asciistringtoolbarmarkdowninline'] = 'Insert inline maths delimiter';
+$string['asciistringtoolbarmarkdowninlinelatexstart'] = 'Insert inline LaTeX start delimiter';
+$string['asciistringtoolbarmarkdowninlinelatexend'] = 'Insert inline LaTeX end delimiter';
+$string['asciistringtoolbarmarkdowndisplaylatexstart'] = 'Insert display LaTeX start delimiter';
+$string['asciistringtoolbarmarkdowndisplaylatexend'] = 'Insert display LaTeX end delimiter';
 
 $string['stackBlock_filter_type_required'] = 'You must define the type of filter you want to use.';
 $string['stackBlock_filter_unknown'] = 'Unknown type \'{$a->type}\' for the filter block. Valid types are: \'{$a->filters}\'';
@@ -2152,3 +2167,11 @@ $string['varmatrixaugmentedstructure'] = 'You need to enter a matrix with the co
 $string['varmatrixaugmentedellipsis'] = 'The dots (...) stand for optional extra entries.';
 $string['varmatrixaugmentedrows'] = 'Choose the number of rows; keep block widths consistent.';
 $string['varmatrixaugmentedonerow'] = 'Use only one row.';
+
+$string['settinggithubtoken'] = 'Default GitHub access token';
+$string['settinggithubtoken_desc'] = '<p>Optional token for GitHub libraries that have no token of their own, or whose token is denied access. Leave blank to access public libraries without a default token. To add a token for one library, save its entry in the external library settings first.</p>
+<p>Use a fine-grained personal access token with read-only Contents permission for the repositories you want to share. Users allowed to use external libraries share this access. Anyone with a preview image URL can view that image without logging in.</p>
+<p>Moodle encrypts saved tokens. Include its encryption key in site backups.</p>';
+
+$string['settinggithublibrarytoken'] = 'GitHub access token for {$a}';
+$string['settinggithublibrarytoken_desc'] = 'Optional token to use first for this library. If GitHub denies access, STACK tries the default token once. Rate limits and connection errors do not trigger a retry with another token. Leave blank to use the default token.';

@@ -1,12 +1,12 @@
-# Parson's problem (drag and drop) question blocks
+# Parsons problem (drag and drop) question blocks
 
-Parson’s problems require students to assemble pre-written text into a correct order by dragging blocks into a tree structure.  
+Parsons problems require students to assemble pre-written text into a correct order by dragging blocks into a tree structure.  
 
 This page provides reference documentation for the `[[parsons]] ... [[/ parsons]]` question block.  
 
 The question author pre-defines strings to drag within the block.  These strings can be defined as Maxima variables in the question text, or just defined within the question block itself.
 
-Users interact with the strings, dragging them into a tree structure.  Note, a list is a special case of a more structured tree.  The block can be linked to a STACK input so that the student's configuration can be stored and/or assessed.  This page is reference documentation for the `[[parsons]]` block.  Documentation on how to use this block in a complete question is given under topics: [Authoring Parson's problems](Parsons.md).
+Users interact with the strings, dragging them into a tree structure.  Note, a list is a special case of a more structured tree.  The block can be linked to a STACK input so that the student's configuration can be stored and/or assessed.  This page is reference documentation for the `[[parsons]]` block.  Documentation on how to use this block in a complete question is given under topics: [Authoring Parsons problems](Parsons.md).
 
 ## Basic usage
 
@@ -41,7 +41,7 @@ proof_steps: [
 
 ### JSON "options"
 
-The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", optimised and with default options for Parson's problems. Moreover, there are default settings we add in, such as the headers for each of the two lists. These may be customised by structuring the JSON in the block contents as follows:
+The `[[parsons]]` block is a wrapper for the JavaScript library "Sortable.js", optimised and with default options for Parsons problems. Moreover, there are default settings we add in, such as the headers for each of the two lists. These may be customised by structuring the JSON in the block contents as follows:
 
 ````
 [[parsons input="ans1"]]
@@ -73,7 +73,7 @@ The default for "headers" and "available_header" are:
 
 #### Troubleshooting
 
-If your Parson's problem is not displaying properly, in particular if the all the items are displayed in a single yellow block, then
+If your Parsons problem is not displaying properly, in particular if all the items are displayed in a single yellow block, then
 double-check that you have spelled the keys of the JSON inside the Parsons block correctly as described above. They should be a subset of 
 ```
 {"steps", "options", "headers", "available_header"}
@@ -99,8 +99,8 @@ Functionality and styling can be customised through the use of block parameters.
 9. `columns` : string containing an integer `"n"`. How many vertical answer lists to display. By default, this is not used. If it is specified, then the styling will change to a grid-format with multiple vertical answer lists of unspecified length.
 10. `rows` : string containing an integer `"m"`. How many horizontal answer lists to display. By default, this is not used. If it is specified and `columns` is _not_ specified, this will change to a grid-format with multiple horizontal answer lists of unspecified width. If both `columns` and `rows` are specified then this will provide a fixed length and width grid format, where items can be dragged to any position in the grid in any order. You cannot specify `rows` without specifying `columns`.
 11. `transpose` : `"true"` or `"false"`; `"false"` by default. While the student is able to re-orient between vertical and horizontal as they wish, the default on load is for columns to be vertical. If you wish them to default to being horizontal, then pass `transpose="true"`.
-12. `log` : `"true"` or `"false"`; `"false"` by default. When set to `"true"` the student's will contain their entire drag-and-drop move history for that attempt, along with the timestamp (number of seconds since 00:00 GMT 01/01/1970) of that move.
-13. `style`: string containing the base name of a local minimised CSS file contained in `question/type/stack/corsscripts/parsonsstyles` directory e.g `compact`. This parameter is unset by default.
+12. `log` : `"true"` or `"false"`; `"false"` by default. When set to `"true"` the student's input will contain their entire drag-and-drop move history for that attempt, along with the timestamp (number of seconds since 00:00 GMT 01/01/1970) of that move.
+13. `style`: string containing the base name of a local minimised CSS file contained in `question/type/stack/corsscripts/parsonsstyles` directory, e.g. `compact`. This parameter is unset by default.
 
 ## Sortable options
 
@@ -110,7 +110,7 @@ The final JSON key allowed inside the `parsons` block is `"options"` whose value
 
 To track which random variants of a question a student sees, and make sure they return to the same variant, we need to perform all randomisation at the Maxima level.
 
-To create a random order, you must define steps as Maxima objects using a `proof_steps` list (see the documentation of for [CAS libraries for representing text-based proofs](../../Topics/Proof/Proof_CAS_library.md)) then you can randomly order the `proof_steps` as follows.
+To create a random order, you must define steps as Maxima objects using a `proof_steps` list (see the documentation for [CAS libraries for representing text-based proofs](../../Topics/Proof/Proof_CAS_library.md)) then you can randomly order the `proof_steps` as follows.
 
 1. Define a variable `proof_steps` as normal.
 2. Add in `proof_steps:random_permutation(proof_steps);` to the question variables.
@@ -118,10 +118,10 @@ To create a random order, you must define steps as Maxima objects using a `proof
 
 ## Block connection with Maxima
 
-All communication to and from the Parsons block uses the JSON format.  However, internally STACK uses maxima objets.  We therefore need to convert between Maxima syntax and JSON format.
+All communication to and from the Parsons block uses the JSON format.  However, internally STACK uses Maxima objects.  We therefore need to convert between Maxima syntax and JSON format.
 
-1. The maxima function `parsons_encode(proof_steps)` will convert a list of `proof_steps` into a JSON string with hashed keys.
-2. The maxima function `parsons_decode(ans1)` will convert a JSON string into a [proof construction function](../../Topics/Proof/Proof_CAS_library.md).
+1. The Maxima function `parsons_encode(proof_steps)` will convert a list of `proof_steps` into a JSON string with hashed keys.
+2. The Maxima function `parsons_decode(ans1)` will convert a JSON string into a [proof construction function](../../Topics/Proof/Proof_CAS_library.md).
 
 ### Block parameters: `height` and `width`
 
@@ -133,11 +133,11 @@ Additional display options including `height` and `width` may also be passed to 
 [[/parsons]]
 ````
 
-## Adding plots to a Parson's block
+## Adding plots to a Parsons block
 
-Since HTML can be embedded into strings dragged within a Parson's block, images can be included with the HTML `<img>` tags as normal.
+Since HTML can be embedded into strings dragged within a Parsons block, images can be included with the HTML `<img>` tags as normal.
 
-STACK-generated [plots](../../CAS/Maxima_plot.md) can also be included just using `{@plot(x^2,[x,-1,1])@}` as might be expected.  This is because of the _order_ of evaluation.  The full URL of the image is only created in the (complex) chain of events after the value has been substituted into the javascript code.
+STACK-generated [plots](../../CAS/Maxima_plot.md) can also be included just using `{@plot(x^2,[x,-1,1])@}` as might be expected.  This is because of the _order_ of evaluation.  The full URL of the image is only created in the (complex) chain of events after the value has been substituted into the JavaScript code.
 
 ````
 proof_steps: [
@@ -149,7 +149,7 @@ proof_steps: [
 ## Legacy versions
 
 In (2024072500) we changed the way we deal with Parsons problems, adding in a special input type to support them.
-These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. 
+These will hash the keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. 
 This also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
 
 | Use   | Old versions              | New versions          |             |

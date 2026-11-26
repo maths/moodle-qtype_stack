@@ -151,6 +151,43 @@ final class question_test_test extends qtype_stack_testcase {
         $this->assertTrue($result->passed());
     }
 
+    public function test_matrix_invalid_input_is_not_empty(): void {
+        // A test entering an invalid matrix and expecting NULL is not an empty test,
+        // whether or not the input requires verification.
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $cat = $generator->create_question_category();
+        $seed = 1;
+
+        foreach (['0', '1'] as $mustverify) {
+            $question = $generator->create_question(
+                'stack',
+                'matrix_input',
+                ['category' => $cat->id, 'ans1mustverify' => $mustverify]
+            );
+
+            // The float is invalid because the input forbids floats.
+            $qtest = new stack_question_test('', ['ans1' => 'matrix([1,2],[3,0.5])']);
+            $qtest->add_expected_result('prt1', new stack_potentialresponse_tree_state(1, true, null, null, '', ['NULL']));
+            $result = $qtest->test_question($question->id, $seed, context_system::instance());
+            $this->assertTrue($result->passed(), 'mustverify ' . $mustverify);
+            $this->assertTrue($result->passed_with_reasons()['passed'], 'mustverify ' . $mustverify);
+
+            // A test that enters nothing is still empty.
+            $qtest = new stack_question_test('', ['ans1' => '']);
+            $qtest->add_expected_result('prt1', new stack_potentialresponse_tree_state(1, true, null, null, '', ['NULL']));
+            $result = $qtest->test_question($question->id, $seed, context_system::instance());
+            $this->assertFalse($result->passed(), 'mustverify ' . $mustverify);
+            $this->assertEquals(
+                stack_string('questiontestempty'),
+                $result->passed_with_reasons()['reason'],
+                'mustverify ' . $mustverify
+            );
+        }
+    }
+
     public function test_test_answer_note(): void {
         // This unit test runs comprehensive tests of the test_answer_note function.
         global $DB;

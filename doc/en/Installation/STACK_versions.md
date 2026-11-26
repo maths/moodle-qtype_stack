@@ -3,12 +3,13 @@
 This file contains a mapping between the Moodle plugin version number and STACK release name.
 To be used for communication. 
 
-To generate a row for this table, use the command `cli/getversionstring.php`, remeber to do that
+To generate a row for this table, use the command `cli/getversionstring.php`, remember to do that
 when releasing.
 
 
 Release | Version number | Supported Maxima versions
 --------|----------------|--------------------------
+4.15.0 | 2026111800 | 5.40.0, 5.41.0, 5.42.0, 5.42.1, 5.42.2, 5.43.0, 5.43.1, 5.43.2, 5.44.0, 5.45.0, 5.46.0, 5.47.0, 5.48.0, 5.49.0
 4.14.0 | 2026101500 | 5.40.0, 5.41.0, 5.42.0, 5.42.1, 5.42.2, 5.43.0, 5.43.1, 5.43.2, 5.44.0, 5.45.0, 5.46.0, 5.47.0, 5.48.0, 5.49.0
 4.13.1 | 2026080600 | 5.40.0, 5.41.0, 5.42.0, 5.42.1, 5.42.2, 5.43.0, 5.43.1, 5.43.2, 5.44.0, 5.45.0, 5.46.0, 5.47.0, 5.48.0, 5.49.0
 4.13.0 | 2026062900 | 5.40.0, 5.41.0, 5.42.0, 5.42.1, 5.42.2, 5.43.0, 5.43.1, 5.43.2, 5.44.0, 5.45.0, 5.46.0, 5.47.0, 5.48.0, 5.49.0

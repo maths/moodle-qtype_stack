@@ -590,7 +590,7 @@ class stack_api_test_data {
                     <penalty>0.1000000</penalty>
                     <hidden>0</hidden>
                     <stackversion>
-                    <text/>
+                    <text>2026010500</text>
                     </stackversion>
                     <questionvariables>
                     <text><![CDATA[A:ev(rand(matrix([5,5],[5,5]))+matrix([2,2],[2,2]),simp);

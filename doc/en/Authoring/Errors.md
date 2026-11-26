@@ -7,7 +7,7 @@ authors and so some of these errors might be new and appear during upgrades, and
 In some cases we have good reasons for now preventing actions which may have been permitted in the past.
 For some situations one can do things differently to lift the suspicions of the validation system.
 
-Summary of advice.
+Summary of advice:
 
 1. Do not attempt to redefine function names or constants which are already defined as part of Maxima.
 2. Avoid using the same name for functions and variables.
@@ -31,7 +31,7 @@ We suggest you do not attempt to redefine function names or constants which are 
 Should you do substitutions of values in your code and the target of the substitution is an identifier that is later used as a function-name,
 things may become difficult. Avoid using the same name for functions and variables. Also if you use complex means to construct the substitutions themselves the system may need to assume that all possible identifiers in the expression that the substitutions are applied to are being targeted by unknown values, this can be avoided by avoiding complex construction of the substitution itself.
 
-Note, these issues are now much rarer after the security system changed in 4.4. Yo should not even see these errors with the new system.
+Note, these issues are now much rarer after the security system changed in 4.4. You should not even see these errors with the new system.
 
 ### Example 1
 
@@ -64,9 +64,9 @@ TAns11 : subst([vars[1]=A,vars[2]=B],solution);
 TAns12 : subst([vars[2]=A,vars[1]=B],solution);
 ```
 
-Here the error messsages will claim that pretty much everything that goes into `solution` is potentially redefined in unclear substitutions. What the code above does is that it solves a differential equation with CAS and then asks the CAS for the names of the constants being used. Depending on the shape of the equation there might be more than one but in this case there are always exactly two of them. `%k1` and `%k2`, if there were only one it would probably get called `%c` so there is a reason for checking what they are.
+Here the error messages will claim that pretty much everything that goes into `solution` is potentially redefined in unclear substitutions. What the code above does is that it solves a differential equation with CAS and then asks the CAS for the names of the constants being used. Depending on the shape of the equation there might be more than one but in this case there are always exactly two of them. `%k1` and `%k2`, if there were only one it would probably get called `%c` so there is a reason for checking what they are.
 
-Why the example asks for those constants names is because the author has chosen to force the student to use `A` and `B` as the constants and constructs different correct answers for the two ways of selecting the order of the constants. The problem arises from the substitution of the constants which now finds the names of them from a list (`vars`) that is not directly visible to the validation system. There are two ways forward from this. Firstly, the question could use the SubstEquiv test that allows any names for those constants to be used and then just confirms that the correct ones were used if that matters, however then the teachers answer might look silly with those CAS-style constants so you would still need to replace them. Secondly, one can hard-code the names of the constants, in this case they are always the same so that should not be a problem:
+Why the example asks for those constants' names is because the author has chosen to force the student to use `A` and `B` as the constants and constructs different correct answers for the two ways of selecting the order of the constants. The problem arises from the substitution of the constants which now finds the names of them from a list (`vars`) that is not directly visible to the validation system. There are two ways forward from this. Firstly, the question could use the SubstEquiv test that allows any names for those constants to be used and then just confirms that the correct ones were used if that matters, however then the teacher's answer might look silly with those CAS-style constants so you would still need to replace them. Secondly, one can hard-code the names of the constants, in this case they are always the same so that should not be a problem:
 ```
 solution : rhs(ode2(eqn,y,x));
 
@@ -74,9 +74,9 @@ TAns11 : subst([%k1=A,%k2=B],solution);
 TAns12 : subst([%k2=A,%k1=B],solution);
 ```
 
-## Use of the students answer
+## Use of the student's answer
 
-Since 4.3 you have been forbidden from writing to the variable storing the students answer, feel free to simply store whatever you wanted to store in any other valid variable. You are now also forbidden from using the students input directly as a function-name, if you need to do so rewrite the logic as a "switch", unfortunately this also applies to MCQ inputs:
+Since 4.3 you have been forbidden from writing to the variable storing the student's answer, feel free to simply store whatever you wanted to store in any other valid variable. You are now also forbidden from using the student's input directly as a function-name, if you need to do so rewrite the logic as a "switch", unfortunately this also applies to MCQ inputs:
 
 ```
 /* Not like this. */
@@ -121,8 +121,8 @@ tmp: ev(a+1,a=2);
 
 # Some recommendations
 
-The validation of certain things evaluates dependency graphs of identifiers so if you can keep those graphs small things tend to work faster. To do so avoid redefining the same variable if at all possible and just create a new variable when needed, i.e. do not reuse some `tmp`-var for all the calculations, if you do then the graph of that variable will become quite large and that may slow things down. Many small graphs tend to be faster to deal with than few large ones and a large graph may mean that features of node in the graph may block other nodes from doing certain things, e.g. being used as function identifiers.
+The validation of certain things evaluates dependency graphs of identifiers so if you can keep those graphs small things tend to work faster. To do so avoid redefining the same variable if at all possible and just create a new variable when needed, i.e. do not reuse some `tmp`-var for all the calculations, if you do then the graph of that variable will become quite large and that may slow things down. Many small graphs tend to be faster to deal with than few large ones and a large graph may mean that features of a node in the graph may block other nodes from doing certain things, e.g. being used as function identifiers.
 
 Likewise, avoid reusing same variable names for multiple different types of things in the question, i.e. if `A` is a matrix let it stay as such and don't turn it into a list or a function if you wish the validation during saving and first execution after import/upgrade to be fast.
 
-If you are using `local()` to define local-scope variables always call it as the first thing in a `block` (if you use the list of identifiers logic then you should not use `local()` in the same block) or in a `lambda` (after arguments). This allows the graph building to identify the point of disconnection of the graphs and to separate the scopes. Calling `local` after any variables have been used will confuse the logic and we do not want to invest into dealign with that special case.
+If you are using `local()` to define local-scope variables always call it as the first thing in a `block` (if you use the list of identifiers logic then you should not use `local()` in the same block) or in a `lambda` (after arguments). This allows the graph building to identify the point of disconnection of the graphs and to separate the scopes. Calling `local` after any variables have been used will confuse the logic and we do not want to invest into dealing with that special case.

@@ -24,6 +24,7 @@
 namespace qtype_stack;
 
 use qtype_stack_testcase;
+use stack_secure_loader;
 use stack_ast_container;
 use stack_ast_container_silent;
 use stack_cas_keyval;
@@ -40,6 +41,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
+require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
 /**
@@ -3414,5 +3416,17 @@ final class cassession2_test extends qtype_stack_testcase {
             $this->assertEquals($case[1], $p->get_value());
             $this->assertEquals($case[2], $p->get_display());
         }
+    }
+
+    public function test_maxima_error_is_not_reported_as_timeout(): void {
+        // Code Maxima cannot parse stops it before it writes any results. This used to be
+        // reported as a timeout; it should name the error Maxima reported.
+        $s1 = new stack_secure_loader('broken:(1+', 'test');
+        $s2 = stack_ast_container::make_from_teacher_source('ok:1+1', 'ok');
+        $session = new stack_cas_session2([$s1, $s2]);
+        $session->instantiate();
+        $this->assertStringNotContainsString(stack_string('stackCas_failedtimeout'), $s2->get_errors());
+        $this->assertStringContainsString('Maxima reported an error: syntax error', $s2->get_errors());
+        $this->assertStringContainsString('Maxima reported an error: syntax error', $session->get_errors());
     }
 }

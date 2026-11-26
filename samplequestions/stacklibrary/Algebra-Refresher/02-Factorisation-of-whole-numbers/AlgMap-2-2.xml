@@ -15,7 +15,7 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text/>
+      <text>2026101500</text>
     </stackversion>
     <questionvariables>
       <text>a:2^(rand(1)+1)*3^(rand(2))*5^(rand(2));

@@ -1,6 +1,6 @@
 # Question metadata
 
-STACK questions support flexible metadata. Metadata is recorded in JSON format in two database fields - `metadata` and `prescribedmetadata`. The `metadata` field holds user-editable metadata. `prescribedmetadata` is currently empty and is reserved for storage of automatically generated and maintained metadata in the future, including a universal question id and some form of question ancestory. 
+STACK questions support flexible metadata. Metadata is recorded in JSON format in two database fields - `metadata` and `prescribedmetadata`. The `metadata` field holds user-editable metadata. `prescribedmetadata` is currently empty and is reserved for storage of automatically generated and maintained metadata in the future, including a universal question id and some form of question ancestry. 
 
 New questions will be created with editable `metadata` similar to the following:
 ```

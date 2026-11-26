@@ -23,7 +23,7 @@ This combination is a pragmatic middle ground between trying to extract all answ
 
 To pre-fill in the "syntax hint" in the free-text input you need to do two things.
 
-First create a maxima variable as a `castext` string
+First create a Maxima variable as a `castext` string
 
 ```
 sh1:castext("
@@ -41,7 +41,7 @@ Characteristic polynomial =
 
 This contains
 
-1. the matrix in the question, but by using `args(M)` we get AsciiMath form `M = [[8,-6,9],[12,-10,12],[0,0,-1]]` rather than maxima syntax `M = matrix([8,-6,9],[12,-10,12],[0,0,-1])`.  Note how we use castext within Maxima here, and we embed variables with the `{#...#}` form, so they are without LaTeX symbols.
+1. the matrix in the question, but by using `args(M)` we get AsciiMath form `M = [[8,-6,9],[12,-10,12],[0,0,-1]]` rather than Maxima syntax `M = matrix([8,-6,9],[12,-10,12],[0,0,-1])`.  Note how we use castext within Maxima here, and we embed variables with the `{#...#}` form, so they are without LaTeX symbols.
 2. the syntax hint contains the prompt for students to ensure the regex has a reasonable target: `Characteristic polynomial = `
 3. the input `ans1` has syntax hint as castext `{#sh1#}` which displays the castext without `"`s, but maintaining the linebreaks.
 
@@ -52,7 +52,7 @@ Note the ASCII block has an extractor
 ```
 [[input:ans1]] [[validation:ans1]]
 [[ascii input="ans1"]]
-  [[extractor type="regexmatch" targetinput="scp" regex="^\\s*Characteristic polynomial\\s*=\\s*" /]]
+  [[extractor type="lastregexremainder" targetinput="scp" regex="^\\s*Characteristic polynomial\\s*=\\s*" /]]
 [[/ascii]]
 ```
 
@@ -69,7 +69,7 @@ but the validation tag will be visible if students make a syntax error.
 
 The teacher's answer for `ans1` is also written as castext within Maxima, in a very similar style to the syntax hint. 
 
-## Questions with a multiple extractors and multiple standard STACK inputs
+## Questions with multiple extractors and multiple standard STACK inputs
 
 This is a complex question which can be loaded from 
 
@@ -105,7 +105,7 @@ This is the complete question text:
 <p>\(f(x)=\) [[input:saf]][[validation:saf]]</p>
 ```
 
-Notes.
+Notes:
 
 1. The inputs `saa` and `sab` are hidden with `<p style="display:none">`, however validation information is available via compact validation so students can see their answers are correctly extracted.
 2. Note the use of the `laststringremainderwhitespace` extractor, with a simpler search term, rather than a regular expression.

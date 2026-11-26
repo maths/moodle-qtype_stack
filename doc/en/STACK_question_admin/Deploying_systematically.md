@@ -24,13 +24,13 @@ We recommend you add in a question variable, e.g. `n1:stack_seed;` and then use 
 
 If you want to exclude the moon, then you can omit seed 4, and deploy only seeds 1,2,3,5,6,7,8,9,10. (Of course, alternatively you could delete the entries for the moon from the list!)
 
-Note, in Maxima the list index starts at 1. I.e the first element of a list is `l[1]` (not zero).
+Note, in Maxima the list index starts at 1. I.e. the first element of a list is `l[1]` (not zero).
 
-It is your responsibility to make sure the index remains within range!  You can ensure this by creating an index variable such as `n1:mod(stack_seed-1,10)+1;` and then using this
+It is your responsibility to make sure the index remains within range!  You can ensure this by creating an index variable such as `n1:mod(stack_seed-1,10)+1;` and then using this:
 
     The planet {@planet[n1]@} has mass \({@mass[n1]*10^(24)@} \mathrm{kg}\).
 
-It is sensible to always ensure your `stack_seed` does not create run-time errors.  Notice that although the `mod` function does return `0` we have avoided possible zero indexes when defining `n1`.
+It is sensible to always ensure your `stack_seed` does not create run-time errors.  Notice that although the `mod` function can return `0` we have avoided possible zero indexes when defining `n1`.
 
 Of course, there are many other ways to map deployed seeds onto systematic deployment of variants.  Using consecutive integers from \(1, \ldots, n\) as the starting point is probably simplest and easiest to maintain.  For this reason there is a special option to do this on the deploy variants page.  There is also an option to use consecutive integers from \(n, \ldots, m\).
 

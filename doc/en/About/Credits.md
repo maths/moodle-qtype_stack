@@ -33,6 +33,7 @@ STACK is an open source project and many others have made contributions of vario
 STACK is released in many languages, using Moodle's AMOS language system.
 
   * EN: English (British), by Chris Sangwin (and others)
+  * DE: German, by Michael Kallweit
   * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
   * DA: Danish, by Malthe Sporring

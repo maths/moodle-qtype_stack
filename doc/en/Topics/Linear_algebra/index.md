@@ -9,6 +9,7 @@ Core functionality and question design:
 3. Using [vectors](Vectors.md).
 4. Assessment of matrices with [answer tests](Answer_tests.md).
 5. Practical strategies for [randomisation in linear algebra](Randomisation_in_linear_algebra.md), including generating linear systems, matrix factorisations and eigenvalue problems with "nice" answers.
+6. [Validators for linear algebra](../../CAS/Validator.md#linear-algebra), which reject answers such as a parametrised or complex vector before a property test can accept them.
 
 Reference documentation for contributed libraries:
 

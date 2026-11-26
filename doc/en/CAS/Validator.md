@@ -188,6 +188,44 @@ Create a new question.
 
 As above, include the contributed validators.  Use the extra option `validator:validate_nofunctions` in the input.
 
+### Validators for linear algebra {#linear-algebra}
+
+Linear algebra answers are often graded by a property rather than compared with one fixed answer: a vector is an eigenvector, a set of vectors is a basis, a formula defines a linear map.  A property test may hold for an answer the student should not be allowed to give.  For example, `eigenvectorp(matrix([t],[t]), matrix([2,1],[1,2]))` is `true`, and so is the same test with `%i` in place of `t`.  So a student who enters a parameter, or a complex number in a real question, can get full marks.  These validators reject such answers as invalid, with a message, before any marking takes place.
+
+Include the contributed validators as above.  The validators which take no other argument are used directly, e.g. `validator:validate_nummat`.
+
+| Validator | Accepts |
+| --- | --- |
+| `validate_nummat` | a matrix of real numbers |
+| `validate_nummat_c` | a matrix of numbers, possibly complex |
+| `validate_ratmat` | a matrix of integers and fractions |
+| `validate_numset`, `validate_numset_c` | a set of numbers, e.g. eigenvalues; `{}` is valid |
+| `validate_numlist`, `validate_numlist_c` | a list of numbers; `[]` is valid |
+
+The others need a size or a list of variables, and a validator takes only one argument.  Define your own validator in the question variables which supplies it, e.g.
+
+    stack_include_contrib("validators.mac");
+    validate_vecset3(ex) := validate_vecset(ex, 3);
+    validate_x3(ex) := validate_vars(ex, [x1, x2, x3]);
+
+and use `validator:validate_vecset3` in the input.
+
+| Validator | Accepts |
+| --- | --- |
+| `validate_vecset(ex, n)`, `validate_vecset_c(ex, n)` | a set of column vectors `c(...)` with `n` entries, e.g. a basis: `{c(1,2,3), c(4,5,6)}`; `{}` is valid |
+| `validate_veclist(ex, n)`, `validate_veclist_c(ex, n)` | a list of column vectors, when the order matters: `[c(1,2,3), c(4,5,6)]`; `[]` is valid |
+| `validate_vars(ex, vars)`, `validate_vars_c(ex, vars)` | an expression using only the variables in the list `vars`, e.g. one component of a linear map |
+| `validate_poly(ex, vars)`, `validate_poly_c(ex, vars)` | a polynomial in the variables in the list `vars` |
+
+Notes:
+
+1. The plain versions require real numbers: they reject `i`, and anything which simplifies to a non-real number such as `sqrt(-4)`.  The `_c` versions allow complex numbers.  Use the plain versions whenever the field is \(\mathbb{R}\): `listofvars(%i)` is `[]`, so checking for variables alone does not reject `i`.
+2. Validators run with `simp:false`.  These validators look for variables in the unsimplified answer, so `0*t` is rejected even though it simplifies to `0`.
+3. For a single number use the [numerical input](../Authoring/Inputs/Numerical_input.md) with the option `realnum` rather than a validator.
+4. A vector may be entered as `c(...)` or `column_vector(...)`.  To convert a set or list of vectors to a list of lists, for example for `lin_indp`, use `map(lambda([v], list_matrix_entries(vec_convert(v))), listify(ans1))`.  A set is put into canonical order, so do not rely on the order of its elements.
+5. For variables with numerical subscripts, such as `x1`, also use the input option `consolidatesubscripts`, so that a student's `x_1` is accepted as `x1`.
+6. Add a question test with an invalid answer, e.g. `{c(1,t,0)}`, to check that the validator is in place.
+
 # Validators and Maxima timeouts
 
 Users have reported that in some circumstances, questions using bespoke validators run into seemingly unrelated Maxima timeouts. Examples of this behaviour are discussed in [Issue #1211](https://github.com/maths/moodle-qtype_stack/issues/1121) and on the [Zulip Community chat](https://stack-assessment.zulipchat.com/#narrow/channel/384532-question-troubleshooting/topic/Bespoke.20Validators.20and.20maxima.20timeouts).

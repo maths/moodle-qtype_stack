@@ -54,3 +54,107 @@ validate_interval_syntax(ex):= block(
   else if is(safe_op(ex)="%union") then apply(sconcat, map('validate_interval_syntax, args(ex)))
   else return("")
 );
+
+/****************************************************************/
+/*  Validators for linear algebra                               */
+/*                                                              */
+/*  Validators run with simp:false.  Each of these checks for   */
+/*  variables in the unsimplified answer, so 0*t is rejected,   */
+/*  and tests each entry with a predicate which simplifies, so  */
+/*  sqrt(-4) is rejected where real numbers are required.       */
+/*                                                              */
+/*  The plain versions require real numbers and reject i.       */
+/*  The _c versions allow complex numbers.                      */
+/*  For a single number, use the numerical input with the       */
+/*  realnum option instead of a validator.                      */
+/*                                                              */
+/*  A validator takes one argument, so a validator which takes  */
+/*  a size or a list of variables is wrapped in the question    */
+/*  variables, e.g. validate_vecset3(ex) := validate_vecset(ex, 3); */
+/****************************************************************/
+
+/* Is x a number, possibly complex?  simp_complex_number_p((1+2*%i)/3) is false, so test the parts. */
+validate_la_complexp(x) := block([r],
+  r: errcatch(ev([realpart(x), imagpart(x)], simp)),
+  if emptyp(r) then return(false),
+  real_numberp(first(first(r))) and real_numberp(second(first(r))));
+
+/* Is every element of the list L a number of the kind mode: "real", "complex" or "rational"? */
+validate_la_entriesp(L, mode) := is(listofvars(L) = []) and
+  every(lambda([x],
+    if is(mode = "complex") then validate_la_complexp(x)
+    else if is(mode = "rational") then ratnump(ev(x, simp))
+    else real_numberp(x)), L);
+
+validate_la_entries_msg(mode) :=
+  if is(mode = "complex") then "Enter numbers only, with no letters or variables."
+  else if is(mode = "rational") then "Enter an integer or a fraction only: no letters, variables, square roots, decimals or i."
+  else "Enter real numbers only, with no letters, variables or i.";
+
+/* Is v a column vector c(...) with n entries? */
+validate_la_vectorp(v, n) := member(safe_op(v), ["c", "column_vector"]) and ev(is(length(args(v)) = n), simp);
+
+/* An example vector with n entries, starting at k: c(1,2,3). */
+validate_la_example_vector(n, k) := sconcat("c(", simplode(map(string, ev(makelist(j, j, k, k+n-1), simp)), ","), ")");
+
+/* A matrix of numbers. */
+validate_la_matrix(ex, mode) := block([],
+  if not(matrixp(ex)) then return("Your answer must be a matrix."),
+  if not(validate_la_entriesp(flatten(args(ex)), mode)) then return(
+    if is(mode = "complex") then "Enter a number in every entry of the matrix, with no letters or variables."
+    else if is(mode = "rational") then "Enter an integer or a fraction in every entry of the matrix: no letters, variables, square roots, decimals or i."
+    else "Enter a real number in every entry of the matrix, with no letters, variables or i."),
+  "");
+
+validate_nummat(ex) := validate_la_matrix(ex, "real");
+validate_nummat_c(ex) := validate_la_matrix(ex, "complex");
+validate_ratmat(ex) := validate_la_matrix(ex, "rational");
+
+/* A set, or a list, of numbers.  The empty set and the empty list are valid. */
+validate_la_numbers(ex, mode, isset) := block([],
+  if isset and not(setp(ex)) then return("Enter a set in curly brackets, for example {2, -3}, or {} if it is empty."),
+  if not(isset) and not(listp(ex)) then return("Enter a list in square brackets, for example [2, -3]."),
+  if not(validate_la_entriesp(listify(ex), mode)) then return(validate_la_entries_msg(mode)),
+  "");
+
+validate_numset(ex) := validate_la_numbers(ex, "real", true);
+validate_numset_c(ex) := validate_la_numbers(ex, "complex", true);
+validate_numlist(ex) := validate_la_numbers(ex, "real", false);
+validate_numlist_c(ex) := validate_la_numbers(ex, "complex", false);
+
+/* A set, or a list, of column vectors c(...), each with n entries.  The empty set and the empty list are valid. */
+validate_la_vectors(ex, n, mode, isset) := block([L, eg],
+  eg: sconcat(validate_la_example_vector(n, 1), ", ", validate_la_example_vector(n, n+1)),
+  if isset and not(setp(ex)) then return(sconcat("Enter a set of column vectors in curly brackets, for example {", eg, "}.")),
+  if not(isset) and not(listp(ex)) then return(sconcat("Enter a list of column vectors in square brackets, in order, for example [", eg, "].")),
+  L: listify(ex),
+  if not(every(lambda([v], validate_la_vectorp(v, n)), L)) then
+    return(sconcat("Write each vector as c(...) with ", n, if is(n = 1) then " entry" else " entries", ", for example ", validate_la_example_vector(n, 1), ".")),
+  if not(validate_la_entriesp(flatten(map(args, L)), mode)) then return(validate_la_entries_msg(mode)),
+  "");
+
+validate_vecset(ex, n) := validate_la_vectors(ex, n, "real", true);
+validate_vecset_c(ex, n) := validate_la_vectors(ex, n, "complex", true);
+validate_veclist(ex, n) := validate_la_vectors(ex, n, "real", false);
+validate_veclist_c(ex, n) := validate_la_vectors(ex, n, "complex", false);
+
+/* An expression in the variables vars only, e.g. a linear map entered as formulas in x1, x2, x3. */
+validate_la_vars(ex, vars, mode) := block([],
+  if not(every(lambda([v], member(v, vars)), listofvars(ex))) then
+    return(sconcat(if ev(is(length(vars) = 1), simp) then "Use only the variable " else "Use only the variables ", stack_disp_comma_separate(vars), ".")),
+  if is(mode = "real") and not(freeof(%i, ev(ex, simp))) then return("Use real coefficients only, with no i."),
+  "");
+
+validate_vars(ex, vars) := validate_la_vars(ex, vars, "real");
+validate_vars_c(ex, vars) := validate_la_vars(ex, vars, "complex");
+
+/* A polynomial in the variables vars. */
+validate_la_poly(ex, vars, mode) := block([ret],
+  ret: validate_la_vars(ex, vars, mode),
+  if not(is(ret = "")) then return(ret),
+  if not(polynomialp(ev(expand(ex), simp), vars)) then
+    return(sconcat("Enter a polynomial in ", stack_disp_comma_separate(vars), ".")),
+  "");
+
+validate_poly(ex, vars) := validate_la_poly(ex, vars, "real");
+validate_poly_c(ex, vars) := validate_la_poly(ex, vars, "complex");

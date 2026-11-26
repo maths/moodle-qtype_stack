@@ -39,3 +39,77 @@ s_test_case(validate_interval_syntax(ntuple(1,2)), "To give an open interval, us
 s_test_case(validate_interval_syntax(%union([1,2],ntuple(2,3))), "To give a closed interval, use <code>cc(1,2)</code>, not <code>[1,2]</code>. To give an open interval, use <code>oo(2,3)</code>, not <code>(2,3)</code>. ");
 s_test_case(validate_interval_syntax(%union([1,2],%union(oo(1,2),[2,3]))), "To give a closed interval, use <code>cc(1,2)</code>, not <code>[1,2]</code>. To give a closed interval, use <code>cc(2,3)</code>, not <code>[2,3]</code>. ");
 
+
+/* Validators for linear algebra. */
+s_test_case(validate_nummat(matrix([1],[-2],[3])), "");
+s_test_case(validate_nummat(matrix([1/2,sqrt(2)],[%pi,2-2])), "");
+s_test_case(validate_nummat(matrix([t],[t])), "Enter a real number in every entry of the matrix, with no letters, variables or i.");
+s_test_case(validate_nummat(matrix([%i],[%i])), "Enter a real number in every entry of the matrix, with no letters, variables or i.");
+s_test_case(validate_nummat(matrix([sqrt(-4)],[1])), "Enter a real number in every entry of the matrix, with no letters, variables or i.");
+s_test_case(validate_nummat(matrix([0*t],[1])), "Enter a real number in every entry of the matrix, with no letters, variables or i.");
+s_test_case(validate_nummat([1,2]), "Your answer must be a matrix.");
+s_test_case(validate_nummat_c(matrix([%i],[%i])), "");
+s_test_case(validate_nummat_c(matrix([(1+2*%i)/3],[-sqrt(6)*%i])), "");
+s_test_case(validate_nummat_c(matrix([t],[1])), "Enter a number in every entry of the matrix, with no letters or variables.");
+s_test_case(validate_ratmat(matrix([1/2,-3],[0,4])), "");
+s_test_case(validate_ratmat(matrix([sqrt(2),1])), "Enter an integer or a fraction in every entry of the matrix: no letters, variables, square roots, decimals or i.");
+s_test_case(validate_ratmat(matrix([0.5,1])), "Enter an integer or a fraction in every entry of the matrix: no letters, variables, square roots, decimals or i.");
+s_test_case(validate_ratmat(matrix([%i,1])), "Enter an integer or a fraction in every entry of the matrix: no letters, variables, square roots, decimals or i.");
+
+s_test_case(validate_numset({}), "");
+s_test_case(validate_numset({2,-3,1/2}), "");
+s_test_case(validate_numset({sqrt(2),%pi}), "");
+s_test_case(validate_numset([2,-3]), "Enter a set in curly brackets, for example {2, -3}, or {} if it is empty.");
+s_test_case(validate_numset({1,t}), "Enter real numbers only, with no letters, variables or i.");
+s_test_case(validate_numset({%i}), "Enter real numbers only, with no letters, variables or i.");
+s_test_case(validate_numset_c({%i,1+%i}), "");
+s_test_case(validate_numset_c({(1+2*%i)/3, sqrt(-4)}), "");
+s_test_case(validate_numset_c({"one"}), "Enter numbers only, with no letters or variables.");
+s_test_case(validate_numset_c({t}), "Enter numbers only, with no letters or variables.");
+s_test_case(validate_numlist([]), "");
+s_test_case(validate_numlist([5/2,sqrt(7),0]), "");
+s_test_case(validate_numlist({1,2}), "Enter a list in square brackets, for example [2, -3].");
+s_test_case(validate_numlist([1,[2]]), "Enter real numbers only, with no letters, variables or i.");
+s_test_case(validate_numlist([1,%i]), "Enter real numbers only, with no letters, variables or i.");
+s_test_case(validate_numlist_c([1,%i]), "");
+
+s_test_case(validate_vecset({c(1,2,3),c(4,5,6)}, 3), "");
+s_test_case(validate_vecset({}, 3), "");
+s_test_case(validate_vecset({column_vector(1,2,3)}, 3), "");
+s_test_case(validate_vecset({c(1,t,0)}, 3), "Enter real numbers only, with no letters, variables or i.");
+s_test_case(validate_vecset({c(1,%i,3)}, 3), "Enter real numbers only, with no letters, variables or i.");
+s_test_case(validate_vecset({c(1,2)}, 3), "Write each vector as c(...) with 3 entries, for example c(1,2,3).");
+s_test_case(validate_vecset([c(1,2,3)], 3), "Enter a set of column vectors in curly brackets, for example {c(1,2,3), c(4,5,6)}.");
+s_test_case(validate_vecset(c(1,2,3), 3), "Enter a set of column vectors in curly brackets, for example {c(1,2,3), c(4,5,6)}.");
+s_test_case(validate_vecset_c({c(1,%i)}, 2), "");
+s_test_case(validate_vecset_c({c(1,t)}, 2), "Enter numbers only, with no letters or variables.");
+s_test_case(validate_veclist([c(1,2,3),c(4,5,6)], 3), "");
+s_test_case(validate_veclist([], 3), "");
+s_test_case(validate_veclist([c(1/2,-3,0)], 3), "");
+s_test_case(validate_veclist([c(2-2,1,1)], 3), "");
+s_test_case(validate_veclist({c(1,2,3)}, 3), "Enter a list of column vectors in square brackets, in order, for example [c(1,2,3), c(4,5,6)].");
+s_test_case(validate_veclist([c(1,t,3)], 3), "Enter real numbers only, with no letters, variables or i.");
+s_test_case(validate_veclist([c(1,%i,3)], 3), "Enter real numbers only, with no letters, variables or i.");
+s_test_case(validate_veclist([c(sqrt(-4),0,0)], 3), "Enter real numbers only, with no letters, variables or i.");
+s_test_case(validate_veclist([c(0*t,1,1)], 3), "Enter real numbers only, with no letters, variables or i.");
+s_test_case(validate_veclist([c(1,2)], 3), "Write each vector as c(...) with 3 entries, for example c(1,2,3).");
+s_test_case(validate_veclist([[1,2,3]], 3), "Write each vector as c(...) with 3 entries, for example c(1,2,3).");
+s_test_case(validate_veclist(c(1,2,3), 3), "Enter a list of column vectors in square brackets, in order, for example [c(1,2,3), c(4,5,6)].");
+s_test_case(validate_veclist([c(1,2)], 1), "Write each vector as c(...) with 1 entry, for example c(1).");
+s_test_case(validate_veclist_c([c(1,%i,0)], 3), "");
+
+s_test_case(validate_vars(x1-2*x3, [x1,x2,x3]), "");
+s_test_case(validate_vars(3, [x1,x2,x3]), "");
+s_test_case(validate_vars(x1+t*x2, [x1,x2,x3]), "Use only the variables x1, x2, x3.");
+s_test_case(validate_vars(x_1, [x1,x2,x3]), "Use only the variables x1, x2, x3.");
+s_test_case(validate_vars(%i*x1, [x1,x2,x3]), "Use real coefficients only, with no i.");
+s_test_case(validate_vars(sqrt(-4)*x1, [x1,x2,x3]), "Use real coefficients only, with no i.");
+s_test_case(validate_vars_c(%i*x1, [x1,x2,x3]), "");
+s_test_case(validate_poly(x^2-3*x+2, [x]), "");
+s_test_case(validate_poly((x-1)*(x+2), [x]), "");
+s_test_case(validate_poly(x*y+1, [x,y]), "");
+s_test_case(validate_poly(1/x, [x]), "Enter a polynomial in x.");
+s_test_case(validate_poly(sqrt(x), [x]), "Enter a polynomial in x.");
+s_test_case(validate_poly(y, [x]), "Use only the variable x.");
+s_test_case(validate_poly(%i*x, [x]), "Use real coefficients only, with no i.");
+s_test_case(validate_poly_c(z^2+%i, [z]), "");

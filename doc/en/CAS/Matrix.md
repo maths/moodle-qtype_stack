@@ -47,7 +47,7 @@ This is achieved by having a question in which simplification is off, and we def
 
     A:matrix([1,2],[4,5]);
     B:matrix([1,-1],[1,2]);
-    C:zip_with_matrix(A,B);
+    C:zip_with_matrix("+",A,B);
     D:ev(C,simp);
 
 Notice the use of `zip_with_matrix` which is not a core Maxima function, but is defined by STACK.

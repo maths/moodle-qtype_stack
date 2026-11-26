@@ -21,10 +21,11 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2025042500</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[stack_linear_algebra_declare(true);
+      <text><![CDATA[stack_include_contrib("validators.mac");
+stack_linear_algebra_declare(true);
 stack_include_contrib("matrix.mac");
 stack_include_contrib("rand_matrix.mac");
 
@@ -85,7 +86,7 @@ v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)))
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>stu_Q</name>
@@ -103,7 +104,7 @@ v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)))
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <prt>
       <name>prt_QDQT</name>
@@ -232,6 +233,24 @@ v2: expand(scale_nicely(col(sol_Q,1)) + rand([1,-1])*scale_nicely(col(sol_Q,2)))
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
         <expectedanswernote>prt_QDQT-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Invalid: a symbolic entry, which validate_nummat rejects.</description>
+      <testinput>
+        <name>stu_D</name>
+        <value>sol_D</value>
+      </testinput>
+      <testinput>
+        <name>stu_Q</name>
+        <value>ev(t*sol_Q,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt_QDQT</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
   </question>

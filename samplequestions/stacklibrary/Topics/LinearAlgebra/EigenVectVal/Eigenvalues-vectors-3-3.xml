@@ -26,10 +26,11 @@ This gives
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2026080600</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
-      <text>/* Eigenvalues and Eigenvectors. */
+      <text>stack_include_contrib("validators.mac");
+/* Eigenvalues and Eigenvectors. */
 e1:rand([-1,-2]);
 ev1:[1,0,-1-rand(2)];
 e2:-3-rand(4);
@@ -80,7 +81,7 @@ cp:expand(determinant(LI-M));</text>
       <insertstars>1</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
+      <forbidwords>[[BASIC-MATRIX]]</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
@@ -98,7 +99,7 @@ cp:expand(determinant(LI-M));</text>
       <insertstars>1</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
+      <forbidwords>[[BASIC-MATRIX]]</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
@@ -116,7 +117,7 @@ cp:expand(determinant(LI-M));</text>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
+      <forbidwords>[[BASIC-MATRIX]]</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
@@ -141,7 +142,7 @@ cp:expand(determinant(LI-M));</text>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>sev2</name>
@@ -159,7 +160,7 @@ cp:expand(determinant(LI-M));</text>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>sev3</name>
@@ -177,7 +178,7 @@ cp:expand(determinant(LI-M));</text>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <prt>
       <name>ev1</name>
@@ -576,6 +577,58 @@ cp:expand(determinant(LI-M));</text>
         <expectedscore>0.2500000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
         <expectedanswernote>( prt1-1-F | prt1-5-T ]</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Invalid: a symbolic entry, which validate_nummat rejects.</description>
+      <testinput>
+        <name>l1</name>
+        <value>e1</value>
+      </testinput>
+      <testinput>
+        <name>l2</name>
+        <value>e2</value>
+      </testinput>
+      <testinput>
+        <name>l3</name>
+        <value>e3</value>
+      </testinput>
+      <testinput>
+        <name>sev1</name>
+        <value>ev(t*transpose(matrix(ev1)),simp)</value>
+      </testinput>
+      <testinput>
+        <name>sev2</name>
+        <value>transpose(matrix(ev2))</value>
+      </testinput>
+      <testinput>
+        <name>sev3</name>
+        <value>transpose(matrix(ev3))</value>
+      </testinput>
+      <expected>
+        <name>ev1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ev2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ev2-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ev3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ev3-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-5-T</expectedanswernote>
       </expected>
     </qtest>
   </question>

@@ -119,6 +119,40 @@ class stack_abstract_graph {
         );
     }
 
+    /**
+     * Build and lay out the graph of a PRT, as STACK does when a question is saved.
+     * The Moodle question type and the API both use this, so that they agree on the first node.
+     *
+     * @param array $nodes node name => [description, true next node, false next node], in the
+     *      order of the question. A next node of -1 means stop.
+     * @return stack_abstract_graph the laid out graph. Its node names are the PRT node names plus one.
+     */
+    public static function from_prt_nodes(array $nodes): stack_abstract_graph {
+        $graph = new stack_abstract_graph();
+        foreach ($nodes as $nodename => [$description, $truenextnode, $falsenextnode]) {
+            $left = ($truenextnode == -1) ? null : $truenextnode + 1;
+            $right = ($falsenextnode == -1) ? null : $falsenextnode + 1;
+            $graph->add_prt_node($nodename + 1, $description, $left, $right);
+        }
+        $graph->layout();
+        return $graph;
+    }
+
+    /**
+     * The name of the first node of a PRT built by from_prt_nodes(): its first root.
+     * A PRT should have exactly one root; with more than one, the first is used.
+     *
+     * @return int|null the PRT node name, or null if the graph has no root.
+     */
+    public function get_prt_first_node() {
+        $roots = $this->get_roots();
+        if (!$roots) {
+            return null;
+        }
+        reset($roots);
+        return key($roots) - 1;
+    }
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function add_prt_text($name, $casstatement, $quiet, $truenote, $falsenote) {
         if ($this->nodes[$name] instanceof stack_prt_graph_node) {

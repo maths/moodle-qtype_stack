@@ -27,11 +27,12 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2025042500</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[stack_linear_algebra_declare(true);
 stack_include_contrib("vectorspaces.mac");
+stack_include_contrib("validators.mac");
 
 ordergreat(x,y,z);
 nn: scale_nicely(rand_selection([-4,-3,-2,-1,1,2,3,4],3));
@@ -45,13 +46,7 @@ sol_basis: {
   apply(c,list_matrix_entries(v2))
 };
 
-validate_set_of_vecs(ex):= block(
-  if not(setp(ex)) then return("Your answer should be a set of column vectors")
-  else block(
-    set_ops: setify(map(safe_op,listify(ex))),
-    if ev(emptyp(setdifference(set_ops,{"c","r","matrix"})),simp) then return("") else return("Your answer should be a set of column vectors")
-  )
-);]]></text>
+validate_vecset3(ex) := validate_vecset(ex, 3);]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -94,7 +89,7 @@ validate_set_of_vecs(ex):= block(
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options>validator:validate_set_of_vecs,checkvars:3</options>
+      <options>validator:validate_vecset3,checkvars:3</options>
     </input>
     <prt>
       <name>prt_basis</name>

@@ -25,7 +25,7 @@ Hence, \[x=\frac{@Dx@}{@D@} = {@Dx/D@},\]
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2026080600</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
       <text>pos:rand(3)+1;
@@ -93,7 +93,7 @@ Hence, \[x=\frac{@Dx@}{@D@} = {@Dx/D@},\]
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
+      <forbidwords>[[BASIC-MATRIX]], solve</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
@@ -111,7 +111,7 @@ Hence, \[x=\frac{@Dx@}{@D@} = {@Dx/D@},\]
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
+      <forbidwords>[[BASIC-MATRIX]], solve</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
@@ -129,7 +129,7 @@ Hence, \[x=\frac{@Dx@}{@D@} = {@Dx/D@},\]
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
+      <forbidwords>[[BASIC-MATRIX]], solve</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>

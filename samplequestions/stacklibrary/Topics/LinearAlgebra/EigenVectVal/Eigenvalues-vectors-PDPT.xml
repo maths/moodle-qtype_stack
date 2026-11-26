@@ -25,10 +25,11 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2026080600</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
-      <text>lambda1: 0;
+      <text>stack_include_contrib("validators.mac");
+lambda1: 0;
 lambda2: 3;
 lambda3: -2;
 v1:[-1,-1,2];
@@ -88,7 +89,7 @@ B: U_P.(D^2012).U_PT</text>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
+      <forbidwords>[[BASIC-MATRIX]]</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
@@ -113,7 +114,7 @@ B: U_P.(D^2012).U_PT</text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>ans3</name>
@@ -124,7 +125,7 @@ B: U_P.(D^2012).U_PT</text>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
+      <forbidwords>[[BASIC-MATRIX]]</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
@@ -149,7 +150,7 @@ B: U_P.(D^2012).U_PT</text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>ans5</name>
@@ -160,7 +161,7 @@ B: U_P.(D^2012).U_PT</text>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
+      <forbidwords>[[BASIC-MATRIX]]</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
@@ -185,7 +186,7 @@ B: U_P.(D^2012).U_PT</text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>ans7</name>
@@ -203,7 +204,7 @@ B: U_P.(D^2012).U_PT</text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>ans8</name>
@@ -221,7 +222,7 @@ B: U_P.(D^2012).U_PT</text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <prt>
       <name>prt1</name>
@@ -558,6 +559,54 @@ B: U_P.(D^2012).U_PT</text>
         <expectedscore/>
         <expectedpenalty/>
         <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Invalid: a symbolic entry, which validate_nummat rejects.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>lambda1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(t*V1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>lambda2</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>V2</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>lambda3</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>V3</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>U_P</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>D</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>[ prt2-1-T | prt2-2-T ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

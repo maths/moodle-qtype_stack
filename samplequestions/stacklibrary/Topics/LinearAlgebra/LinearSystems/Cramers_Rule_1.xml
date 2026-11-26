@@ -25,7 +25,7 @@ and hence, \[y=\frac{D_{y}}{D}=\frac{@Dy@}{@D@} = {@Dy/D@}\]</p>]]></text>
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2026080600</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
       <text>Au:matrix([rand_with_step(-1,1,2),ev(rand(7)-3),ev(rand(7)-3)],[0,rand_with_step(-1,1,2),ev(rand(7)-3)],[0,0,rand_with_step(-1,1,2)]);
@@ -79,7 +79,7 @@ and hence, \[y=\frac{D_{y}}{D}=\frac{@Dy@}{@D@} = {@Dy/D@}\]</p>]]></text>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
+      <forbidwords>[[BASIC-MATRIX]], solve</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>

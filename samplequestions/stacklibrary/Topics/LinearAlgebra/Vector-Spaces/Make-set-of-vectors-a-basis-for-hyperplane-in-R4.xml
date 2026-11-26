@@ -23,10 +23,11 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2025042500</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[stack_linear_algebra_declare(true);
+      <text><![CDATA[stack_include_contrib("validators.mac");
+stack_linear_algebra_declare(true);
 stack_include_contrib("matrix.mac");
 stack_include_contrib("vectorspaces.mac");
 
@@ -101,7 +102,7 @@ disp_vecs: {transpose(bas[1]), transpose(bas[2]), sol_remove};]]></text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>stu_remove</name>
@@ -119,7 +120,7 @@ disp_vecs: {transpose(bas[1]), transpose(bas[2]), sol_remove};]]></text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <prt>
       <name>prt_add</name>
@@ -299,6 +300,30 @@ new_mat: mat_unblocker(matrix(new_vecs));</text>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty/>
         <expectedanswernote>prt_remove-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Invalid: a symbolic entry, which validate_nummat rejects.</description>
+      <testinput>
+        <name>stu_add</name>
+        <value>ev(t*sol_add,simp)</value>
+      </testinput>
+      <testinput>
+        <name>stu_remove</name>
+        <value>sol_remove</value>
+      </testinput>
+      <expected>
+        <name>prt_add</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_remove</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_remove-2-T</expectedanswernote>
       </expected>
     </qtest>
   </question>

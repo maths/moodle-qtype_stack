@@ -360,26 +360,16 @@ class qtype_stack extends question_type {
             // Find the root node of the PRT.
             // Otherwise, if an existing question is being edited, and this is an
             // existing PRT, base things on the existing question definition.
-            $graph = new stack_abstract_graph();
+            // The API builds the graph with the same function, so the two agree on the first node.
+            $prtnodes = [];
             foreach ($fromform->{$prtname . 'answertest'} as $nodename => $notused) {
-                $description   = $fromform->{$prtname . 'description'}[$nodename];
-                $truenextnode  = $fromform->{$prtname . 'truenextnode'}[$nodename];
-                $falsenextnode = $fromform->{$prtname . 'falsenextnode'}[$nodename];
-
-                if ($truenextnode == -1) {
-                    $left = null;
-                } else {
-                    $left = $truenextnode + 1;
-                }
-                if ($falsenextnode == -1) {
-                    $right = null;
-                } else {
-                    $right = $falsenextnode + 1;
-                }
-
-                $graph->add_prt_node($nodename + 1, $description, $left, $right);
+                $prtnodes[$nodename] = [
+                    $fromform->{$prtname . 'description'}[$nodename],
+                    $fromform->{$prtname . 'truenextnode'}[$nodename],
+                    $fromform->{$prtname . 'falsenextnode'}[$nodename],
+                ];
             }
-            $graph->layout();
+            $graph = stack_abstract_graph::from_prt_nodes($prtnodes);
             $roots = $graph->get_roots();
             if (
                     (empty($fromform->isbroken) && (count($roots) > 1 || $graph->get_broken_cycles()))
@@ -398,8 +388,7 @@ class qtype_stack extends question_type {
                 }
                 return $result;
             }
-            reset($roots);
-            $firstnode = key($roots) - 1;
+            $firstnode = $graph->get_prt_first_node();
 
             $prt->value             = $fromform->{$prtname . 'value'};
             $prt->autosimplify      = $fromform->{$prtname . 'autosimplify'};

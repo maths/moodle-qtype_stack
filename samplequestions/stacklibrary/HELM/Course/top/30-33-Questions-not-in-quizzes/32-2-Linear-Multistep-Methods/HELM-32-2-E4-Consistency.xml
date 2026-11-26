@@ -46,21 +46,21 @@ The scheme is therefore [[input:S_ZS]]. [[validation:S_ZS]] [[feedback:ZS]]]]></
     </stackversion>
     <questionvariables>
       <text><![CDATA[k: 2;
-alpha: [-3,2,1];
-beta: [17, 16, 7]/10;
-lside: sum(alpha[j+1]*'y['n+j], j, 0, k);
-rside: sum(beta[j+1]*'f['n+j], j, 0, k);
-rho: sum(alpha[j+1]*z^j, j, 0, k);
-sol: solve(rho, z);
+ta_alpha: [-3,2,1];
+ta_beta: [17, 16, 7]/10;
+lside: sum(ta_alpha[j+1]*'y['n+j], j, 0, k);
+rside: sum(ta_beta[j+1]*'f['n+j], j, 0, k);
+ta_rho: sum(ta_alpha[j+1]*z^j, j, 0, k);
+sol: solve(ta_rho, z);
 z1: ev(z, sol[1]);
 z2: ev(z, sol[2]);
 ZS_mcq: [
   [1, false, "zero stable"],
   [2, true, "not zero stable" ]
 ];
-c0: sum(alpha[j+1],j,0,k);
-c1: sum(j*alpha[j+1]-beta[j+1],j,0,k);
-c(p):=sum( (j^p)/p!*alpha[j+1]-(j^(p-1))/(p-1)!*beta[j+1],j,0,k);
+c0: sum(ta_alpha[j+1],j,0,k);
+c1: sum(j*ta_alpha[j+1]-ta_beta[j+1],j,0,k);
+c(p):=sum( (j^p)/p!*ta_alpha[j+1]-(j^(p-1))/(p-1)!*ta_beta[j+1],j,0,k);
 cp: matrix([c0, c1, c(2), c(3)]);
 o: 2;
 
@@ -130,7 +130,7 @@ stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_v
     <input>
       <name>S_rho</name>
       <type>algebraic</type>
-      <tans>rho</tans>
+      <tans>ta_rho</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>3</insertstars>
@@ -262,7 +262,7 @@ stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_v
         <description/>
         <answertest>AlgEquiv</answertest>
         <sans>S_rho</sans>
-        <tans>rho</tans>
+        <tans>ta_rho</tans>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
@@ -345,7 +345,7 @@ stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_v
         <name>2</name>
         <description/>
         <answertest>AlgEquiv</answertest>
-        <sans>ev(rho,z=S_sol[1])</sans>
+        <sans>ev(ta_rho,z=S_sol[1])</sans>
         <tans>0</tans>
         <testoptions/>
         <quiet>0</quiet>
@@ -363,14 +363,14 @@ stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_v
         <falsenextnode>3</falsenextnode>
         <falseanswernote>sol-3-F</falseanswernote>
         <falsefeedback format="html">
-          <text>\(\rho({@(S_sol[1])@})={@ev(rho,z=S_sol[1])@} is not zero.</text>
+          <text>\(\rho({@(S_sol[1])@})={@ev(ta_rho,z=S_sol[1])@} is not zero.</text>
         </falsefeedback>
       </node>
       <node>
         <name>3</name>
         <description/>
         <answertest>AlgEquiv</answertest>
-        <sans>ev(rho,z=S_sol[2])</sans>
+        <sans>ev(ta_rho,z=S_sol[2])</sans>
         <tans>0</tans>
         <testoptions/>
         <quiet>0</quiet>
@@ -388,7 +388,7 @@ stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_v
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>sol-4-F</falseanswernote>
         <falsefeedback format="html">
-          <text>\(\rho({@(S_sol[2])@})={@ev(rho,z=S_sol[2])@}\) is not zero.</text>
+          <text>\(\rho({@(S_sol[2])@})={@ev(ta_rho,z=S_sol[2])@}\) is not zero.</text>
         </falsefeedback>
       </node>
     </prt>
@@ -439,7 +439,7 @@ stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_v
       </testinput>
       <testinput>
         <name>S_rho</name>
-        <value>rho</value>
+        <value>ta_rho</value>
       </testinput>
       <testinput>
         <name>S_sol</name>

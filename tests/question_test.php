@@ -325,6 +325,28 @@ final class question_test extends qtype_stack_testcase {
         $this->assertStringNotContainsString('students are permitted to type', $warnings);
     }
 
+    public function test_validate_warnings_block_local_student_readable_variables(): void {
+
+        // A block local, with or without an initial value, is not visible to students.
+        $q = test_question_maker::make_question('stack', 'test0');
+        $q->questionvariables = "stack_reset_vars(true);\na:block([nu:2,mu],mu:nu+1,mu);\n" .
+            "f(x):=block([scalarmatrixp:false],x . x);";
+        $warnings = implode(' ', $q->validate_warnings());
+
+        $this->assertStringNotContainsString('students are permitted to type', $warnings);
+    }
+
+    public function test_validate_warnings_loop_student_readable_variables(): void {
+
+        // The control variable of a loop is local to the loop, so it is not visible to students.
+        $q = test_question_maker::make_question('stack', 'test0');
+        $q->questionvariables = "stack_reset_vars(true);\nss:0;\nfor i:1 thru 3 do ss:ss+i;\n" .
+            "for nu in [1,2] do ss:ss+nu;";
+        $warnings = implode(' ', $q->validate_warnings());
+
+        $this->assertStringNotContainsString('students are permitted to type', $warnings);
+    }
+
     public function test_question_addrow(): void {
 
         $q = test_question_maker::make_question('stack', 'addrow');

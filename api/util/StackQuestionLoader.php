@@ -27,6 +27,7 @@ use SimpleXMLElement;
 use Symfony\Component\Yaml\Yaml;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../question.php');
+require_once(__DIR__ . '/../../stack/graphlayout/graph.php');
 require_once(__DIR__ . '/../../stack/questiontest.php');
 require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
 
@@ -476,6 +477,11 @@ class StackQuestionLoader {
 
             $data->nodes = [];
             foreach ($prtdata->node as $node) {
+                if (array_key_exists((int) $node->name, $data->nodes)) {
+                    // Moodle's import refuses a PRT with repeated node names.
+                    throw new \stack_exception(\stack_string('multiplenodes',
+                        ['prt' => $data->name, 'node' => (string) $node->name]));
+                }
                 $newnode = new \stdClass();
 
                 $newnode->nodename = (string) $node->name;
@@ -529,6 +535,30 @@ class StackQuestionLoader {
 
                 $data->nodes[(int) $node->name] = $newnode;
             }
+
+            // Choose the first node as Moodle does when it imports and saves a question,
+            // using the same function, so that the API and Moodle run the same tree.
+            $prtnodes = [];
+            foreach ($data->nodes as $nodename => $newnode) {
+                foreach (['truenextnode' => 'True', 'falsenextnode' => 'False'] as $field => $type) {
+                    if ($newnode->$field != -1 && !array_key_exists((int) $newnode->$field, $data->nodes)) {
+                        // Moodle's import sets a missing next node to stop and marks the question broken.
+                        $newnode->$field = '-1';
+                        $question->isbroken = true;
+                    }
+                }
+                $prtnodes[$nodename] = [$newnode->description, $newnode->truenextnode, $newnode->falsenextnode];
+            }
+            $graph = \stack_abstract_graph::from_prt_nodes($prtnodes);
+            if ($graph->get_prt_first_node() === null) {
+                // Moodle's import refuses a PRT with no root.
+                throw new \stack_exception(\stack_string('noroots'));
+            }
+            if (count($graph->get_roots()) > 1 || $graph->get_broken_cycles()) {
+                // Moodle's import marks the question as broken.
+                $question->isbroken = true;
+            }
+            $data->firstnodename = (string) $graph->get_prt_first_node();
 
             $question->prts[(string) $prtdata->name] = new \stack_potentialresponse_tree_lite(
                 $data,

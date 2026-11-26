@@ -993,6 +993,10 @@ class MP_Identifier extends MP_Atom {
                         $i->arguments[0] instanceof MP_FunctionCall && $i->arguments[0]->name->value === 'local')) {
 
                         foreach ($i->arguments[0]->getChildren() as $v) {
+                            // A local may be given an initial value, as in block([x:1], ...).
+                            if ($v instanceof MP_Operation && $v->op === ':') {
+                                $v = $v->lhs;
+                            }
                             if ($v instanceof MP_Identifier && $v->value === $this->value) {
                                 return false;
                             }
@@ -1008,6 +1012,22 @@ class MP_Identifier extends MP_Atom {
                     $indices = stack_cas_security::get_feature($i->name->value, 'argumentmapstovariable');
                     if (array_search(array_search($prev, $i->arguments, true), $indices, true) !== false) {
                         return false;
+                    }
+                }
+            } else if ($i instanceof MP_Loop) {
+                // The control variable of a loop is local to that loop: for i:1 thru 3, for i from 1, for x in L.
+                foreach ($i->conf as $bit) {
+                    if ($bit instanceof MP_LoopBit && $bit->mode === 'for') {
+                        $v = $bit->param;
+                        if ($v instanceof MP_Statement) {
+                            $v = $v->statement;
+                        }
+                        if ($v instanceof MP_Operation && $v->op === ':') {
+                            $v = $v->lhs;
+                        }
+                        if ($v instanceof MP_Identifier && $v->value === $this->value) {
+                            return false;
+                        }
                     }
                 }
             } else if ($i instanceof MP_Operation && ($i->op === ':=' || $i->op

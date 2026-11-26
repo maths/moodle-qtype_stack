@@ -15,16 +15,16 @@
     <generalfeedback format="html">
       <text><![CDATA[<ol class="HELM_parts">
     <li>
-        <p>The characteristic equation of \(A\) is \(\det( A-\lambda I ) = {@(lmxchar:"|",a-lambda*ident(3))@} = 0\), i.e. \(0 = {@(lmxchar:saved_lmxchar, p)@} = {@factor(p)@}\) which gives \(\lambda={@eigenvalues[1][1]@}\), \(\lambda={@eigenvalues[1][2]@}\),
-            \(\lambda={@eigenvalues[1][3]@}\).
+        <p>The characteristic equation of \(A\) is \(\det( A-\lambda I ) = {@(lmxchar:"|",a-lambda*ident(3))@} = 0\), i.e. \(0 = {@(lmxchar:saved_lmxchar, p)@} = {@factor(p)@}\) which gives \(\lambda={@ta_evals[1][1]@}\), \(\lambda={@ta_evals[1][2]@}\),
+            \(\lambda={@ta_evals[1][3]@}\).
         </p>
     </li>
     <li>
-        <p>For \(\lambda={@eigenvalues[1][1]@}\) the associated eigenvectors satisfy \[{@a@}{@pcovect([x,y,z])@} = {@pcovect(eigenvalues[1][1]*[x,y,z])@}.\] The general solution is \(x={@eigenvectors[1,1]*alpha@}\), \(y={@eigenvectors[2,1]*alpha@}\) and \(z={@eigenvectors[3,1]*alpha@}\),
-            where \(\alpha\) is arbitrary. Thus an eigenvector is \(X={@alpha*col(eigenvectors,1)@}\), where \(\alpha\) is arbitrary, \(\alpha\neq0\).</p>
-        <p>For the repeated eigenvalue \(\lambda={@eigenvalues[1][3]@}\) we must solve \(AY = {@eigenvalues[1][3]@}Y\) for the eigenvector \(Y\): \[{@a@}{@pcovect([x,y,z])@} = {@pcovect(eigenvalues[1][3]*[x,y,z])@}.\] The general solution of this system is
-            \(x={@eigenvectors[1,2]*beta@}\), \(y={@eigenvectors[2,2]*beta@}\) and \(z={@eigenvectors[3,2]*beta@}\), where \(\beta\) is arbitrary, so the eigenvectors are of the form \(Y=\beta{@col(eigenvectors,2)@}\), where \(\beta\neq0\) is arbitrary.</p>
-        <p>\(X\) and \(Y\) are certainly linearly independent (as we would expect since they correspond to distinct eigenvalues). However, there is only one independent eigenvector of the form \(Y\) corresponding to the repeated eigenvalue \({@eigenvalues[1][3]@}\).
+        <p>For \(\lambda={@ta_evals[1][1]@}\) the associated eigenvectors satisfy \[{@a@}{@pcovect([x,y,z])@} = {@pcovect(ta_evals[1][1]*[x,y,z])@}.\] The general solution is \(x={@ta_evecs[1,1]*alpha@}\), \(y={@ta_evecs[2,1]*alpha@}\) and \(z={@ta_evecs[3,1]*alpha@}\),
+            where \(\alpha\) is arbitrary. Thus an eigenvector is \(X={@alpha*col(ta_evecs,1)@}\), where \(\alpha\) is arbitrary, \(\alpha\neq0\).</p>
+        <p>For the repeated eigenvalue \(\lambda={@ta_evals[1][3]@}\) we must solve \(AY = {@ta_evals[1][3]@}Y\) for the eigenvector \(Y\): \[{@a@}{@pcovect([x,y,z])@} = {@pcovect(ta_evals[1][3]*[x,y,z])@}.\] The general solution of this system is
+            \(x={@ta_evecs[1,2]*beta@}\), \(y={@ta_evecs[2,2]*beta@}\) and \(z={@ta_evecs[3,2]*beta@}\), where \(\beta\) is arbitrary, so the eigenvectors are of the form \(Y=\beta{@col(ta_evecs,2)@}\), where \(\beta\neq0\) is arbitrary.</p>
+        <p>\(X\) and \(Y\) are certainly linearly independent (as we would expect since they correspond to distinct eigenvalues). However, there is only one independent eigenvector of the form \(Y\) corresponding to the repeated eigenvalue \({@ta_evals[1][3]@}\).
         </p>
     </li>
     <li>
@@ -72,13 +72,13 @@ p: simplify(charpoly(a,lambda));
 p_factored: factor(p);
 
 /* eigenvalues */
-eigenvalues : matrix([ diagmat[1,1], diagmat[2,2], diagmat[3,3] ]);
+ta_evals : matrix([ diagmat[1,1], diagmat[2,2], diagmat[3,3] ]);
 
 
 
 /* eigenvectors model answer */
-eigenvectors : copy(slmat);
-eigenvectors[1,3]:0; eigenvectors[2,3]:0; eigenvectors[3,3]:0;
+ta_evecs : copy(slmat);
+ta_evecs[1,3]:0; ta_evecs[2,3]:0; ta_evecs[3,3]:0;
 
 /* diagonalisability MCQ */
 diagonalisable_ta: [["Yes", false], ["No", true]];
@@ -92,7 +92,7 @@ pcovect(l) := transpose(matrix(l));]]></text>
       <text/>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\(A = {@a@}, \qquad \lambda={@eigenvalues[1][1]@}\), \(\lambda={@eigenvalues[1][2]@}\), \(\lambda={@eigenvalues[1][3]@}, \qquad \text{eigenvectors} \; = {@eigenvectors@}   \)</text>
+      <text>\(A = {@a@}, \qquad \lambda={@ta_evals[1][1]@}\), \(\lambda={@ta_evals[1][2]@}\), \(\lambda={@ta_evals[1][3]@}, \qquad \text{eigenvectors} \; = {@ta_evecs@}   \)</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>
@@ -134,7 +134,7 @@ pcovect(l) := transpose(matrix(l));]]></text>
     <input>
       <name>anseigenvalues</name>
       <type>matrix</type>
-      <tans>eigenvalues</tans>
+      <tans>ta_evals</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -152,7 +152,7 @@ pcovect(l) := transpose(matrix(l));]]></text>
     <input>
       <name>anseigenvectors</name>
       <type>matrix</type>
-      <tans>eigenvectors</tans>
+      <tans>ta_evecs</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -208,9 +208,9 @@ pcovect(l) := transpose(matrix(l));]]></text>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text>/* how many times was the first eigenvalue listed in the student's answer? */
-first_multiplicity : lsum(if i=eigenvalues[1][1] then 1 else 0, i, anseigenvalues[1]);
+first_multiplicity : lsum(if i=ta_evals[1][1] then 1 else 0, i, anseigenvalues[1]);
 /* the same for the second eigenvalue */
-second_multiplicity : lsum(if i=eigenvalues[1][3] then 1 else 0, i, anseigenvalues[1]);</text>
+second_multiplicity : lsum(if i=ta_evals[1][3] then 1 else 0, i, anseigenvalues[1]);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -226,7 +226,7 @@ second_multiplicity : lsum(if i=eigenvalues[1][3] then 1 else 0, i, anseigenvalu
         <truenextnode>2</truenextnode>
         <trueanswernote>eigenvalues-1-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p>You didn't find \({@eigenvalues[1][1]@}\) as an eigenvalue of \(A\).</p>]]></text>
+          <text><![CDATA[<p>You didn't find \({@ta_evals[1][1]@}\) as an eigenvalue of \(A\).</p>]]></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.4000000</falsescore>
@@ -259,7 +259,7 @@ second_multiplicity : lsum(if i=eigenvalues[1][3] then 1 else 0, i, anseigenvalu
         <falsenextnode>2</falsenextnode>
         <falseanswernote>eigenvalues-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>✘ The multiplicity of the eigenvalue \({@eigenvalues[1][1]@}\) is \(1\) and not \({@first_multiplicity@}\).</p>]]></text>
+          <text><![CDATA[<p>✘ The multiplicity of the eigenvalue \({@ta_evals[1][1]@}\) is \(1\) and not \({@first_multiplicity@}\).</p>]]></text>
         </falsefeedback>
       </node>
       <node>
@@ -276,7 +276,7 @@ second_multiplicity : lsum(if i=eigenvalues[1][3] then 1 else 0, i, anseigenvalu
         <truenextnode>-1</truenextnode>
         <trueanswernote>eigenvalues-3-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p>You didn't find \({@eigenvalues[1][3]@}\) as an eigenvalue of \(A\).</p>]]></text>
+          <text><![CDATA[<p>You didn't find \({@ta_evals[1][3]@}\) as an eigenvalue of \(A\).</p>]]></text>
         </truefeedback>
         <falsescoremode>+</falsescoremode>
         <falsescore>0.4000000</falsescore>
@@ -309,7 +309,7 @@ second_multiplicity : lsum(if i=eigenvalues[1][3] then 1 else 0, i, anseigenvalu
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>eigenvalues-4-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>✘ The multiplicity of the eigenvalue \({@eigenvalues[1][3]@}\) is \(2\) and not \({@second_multiplicity@}\).</p>]]></text>
+          <text><![CDATA[<p>✘ The multiplicity of the eigenvalue \({@ta_evals[1][3]@}\) is \(2\) and not \({@second_multiplicity@}\).</p>]]></text>
         </falsefeedback>
       </node>
     </prt>
@@ -324,8 +324,8 @@ zz : zeromatrix(3,1);
 ans_vects : delete(zz, [ col(anseigenvectors,1), col(anseigenvectors,2), col(anseigenvectors,3) ] );
 
 /* which ones are eigenvectors for which eigenvalue? */
-first_eigvects : sublist(ans_vects, lambda([v], is(zz=((a-eigenvalues[1][1]*ident(3)) . v))));
-second_eigvects : sublist(ans_vects, lambda([v], is(zz=((a-eigenvalues[1][3]*ident(3)) . v))));
+first_eigvects : sublist(ans_vects, lambda([v], is(zz=((a-ta_evals[1][1]*ident(3)) . v))));
+second_eigvects : sublist(ans_vects, lambda([v], is(zz=((a-ta_evals[1][3]*ident(3)) . v))));
 not_eigvects : sublist(ans_vects, lambda([v],not(is(member(v,first_eigvects) or member(v,second_eigvects)))));
 
 /* are they linearly independent (if we have at least some non-zero vectors)? */
@@ -370,7 +370,7 @@ are_indep : is(length(ans_vects) > 0) and is(rank(anseigenvectors) = length(ans_
         <truenextnode>2</truenextnode>
         <trueanswernote>eigenvectors-2-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p>You are missing eigenvector(s) for the eigenvalue \({@eigenvalues[1][1]@}\).</p>]]></text>
+          <text><![CDATA[<p>You are missing eigenvector(s) for the eigenvalue \({@ta_evals[1][1]@}\).</p>]]></text>
         </truefeedback>
         <falsescoremode>+</falsescoremode>
         <falsescore>0.4000000</falsescore>
@@ -395,7 +395,7 @@ are_indep : is(length(ans_vects) > 0) and is(rank(anseigenvectors) = length(ans_
         <truenextnode>3</truenextnode>
         <trueanswernote>eigenvectors-3-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p>You are missing eigenvector(s) for the eigenvalue \({@eigenvalues[1][3]@}\).</p>]]></text>
+          <text><![CDATA[<p>You are missing eigenvector(s) for the eigenvalue \({@ta_evals[1][3]@}\).</p>]]></text>
         </truefeedback>
         <falsescoremode>+</falsescoremode>
         <falsescore>0.4000000</falsescore>
@@ -482,11 +482,11 @@ are_indep : is(length(ans_vects) > 0) and is(rank(anseigenvectors) = length(ans_
       </testinput>
       <testinput>
         <name>anseigenvalues</name>
-        <value>eigenvalues</value>
+        <value>ta_evals</value>
       </testinput>
       <testinput>
         <name>anseigenvectors</name>
-        <value>eigenvectors</value>
+        <value>ta_evecs</value>
       </testinput>
       <expected>
         <name>diagonalisability</name>
@@ -554,7 +554,7 @@ are_indep : is(length(ans_vects) > 0) and is(rank(anseigenvectors) = length(ans_
       </testinput>
       <testinput>
         <name>anseigenvectors</name>
-        <value>addcol(col(eigenvectors,1),zeromatrix(3,1),zeromatrix(3,1))</value>
+        <value>addcol(col(ta_evecs,1),zeromatrix(3,1),zeromatrix(3,1))</value>
       </testinput>
       <expected>
         <name>diagonalisability</name>

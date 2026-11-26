@@ -32,6 +32,48 @@ Another less elegant but highly functional strategy to any of those below is to 
 
 If `mats` is formatted appropriately, perhaps with `{#mats#}` in question text somewhere (or in the CASchat), this list can be copied and pasted into another question. Then you can select `A: rand(mats)`. This was very inefficient one time (and could have been achieved other ways without much difficulty), but is extremely efficient when deploying variants and doesn't require too much creativity. 
 
+### Draw, check, fall back
+
+The same idea also works inside the question variables, so that every seed is checked, not only the ones you deploy. Random constructions usually give a good matrix, but "usually" can be weaker than it looks. For example, take \(A = PDP^{-1}\) with `P: rand_integer_invertible(n,1)` and \(D\) diagonal with distinct non-zero integer eigenvalues from \(-3\) to \(4\). Over 200 draws, the share of matrices with every entry at most \(10\) in absolute value was 97.5% for \(2\times 2\), 77% for \(3\times 3\) and 48.5% for \(4\times 4\), and the largest entries seen were \(14\), \(42\) and \(71\). For \(2\times 2\) matrices, \(P\) was the identity in 8 draws out of 200, so \(A\) was already diagonal and there was nothing to do.
+
+The remedy has three steps:
+
+1. **Draw** a candidate in the usual way.
+2. **Check** it with a test that says what the question needs.
+3. **Repeat** a fixed number of times, and **fall back** to a choice you have checked yourself if no candidate passes.
+
+The number of attempts must be bounded: the question variables have to finish inside the CAS time limit, and an unbounded loop with a strict test may never stop. The following produces a \(3\times 3\) integer matrix with distinct eigenvalues and small entries.
+
+    stack_include_contrib("rand_matrix.mac");
+    d: rand_selection([-3,-2,-1,1,2,3], 3);
+    D: apply(diag_matrix, d);
+    /* What this question needs from P. */
+    nice(P) := block([A, e],
+      A: P . D . P^^-1,
+      e: list_matrix_entries(A),
+      is(lmax(map(abs, e)) <= 10)                            /* small entries */
+      and is(length(sublist(e, lambda([x], is(x = 0)))) <= 3) /* not nearly diagonal */
+      and is(A # P^^-1 . D . P)                               /* a wrong method gives a different matrix */
+    );
+    P: false;
+    for k: 1 thru 20 while is(P = false) do block([Q],
+      Q: rand_integer_invertible(3, 1),
+      if nice(Q) then P: Q
+    );
+    fallback: is(P = false);
+    if fallback then P: matrix([1,1,0],[0,1,1],[1,1,1]);
+    A: P . D . P^^-1;
+
+Over 200 seeds the first draw passed 154 times (77%), no seed needed more than five draws, and none used the fallback. The variants that would otherwise have been rejected by hand are simply never seen.
+
+Some advice on writing the test:
+
+- _Check the working, not only the answer._ Here the entries of \(A\) are what the student works with. If the intermediate steps matter, as in row reduction, test those too.
+- _Rule out accidents._ A random \(P\) can be the identity, \(A\) can have so many zeros that the problem falls apart, and two random eigenvalues can coincide. Decide which of these would spoil the question and test for them.
+- _Make sure misconceptions give different answers._ If the feedback recognises a common mistake, such as computing \(P^{-1}DP\) instead of \(PDP^{-1}\), the mistake must give a different answer from the correct method in every variant. Otherwise a student using the wrong method gets full marks, and the feedback cannot tell the two apart. The third condition in `nice` tests this.
+- _Check the fallback._ The fallback must pass the same test for every value the other random parts can take. Because the test is a function, you can run it in the sandbox on the fallback with every choice of `d`: here all 120 choices pass, and the largest entry is \(8\).
+- _Record the fallback in the question note_, for example with `{@fallback@}`, so that you can see which variants used it.
+
 ## Linear systems with given fundamental subspaces
 
 It is simple to construct a matrix with a given row space and column space. Let \(R\) be a matrix whose rows form a basis for the desired row space and let \(C\) be a matrix whose columns form a basis for the desired column space. Then \(A = CR\) will have the desired fundamental subspaces. This also allows us to create a matrix with whichever rank we like. Indeed, we can force certain rows or columns to be dependent on each other by forcing the relevant rows of \(C\) or columns of \(R\) to be linearly dependent. This can be useful when asking students to find bases for the row or column space of a matrix and we don't want them to just pick the first \(r\) rows or columns. 
@@ -137,8 +179,8 @@ The best option is to use a Jordan matrix for \(M\). In the simplest case, this 
     J: matrix([1,1,0,0],[0,1,0,0],[0,0,2,0],[0,0,0,-1]);
     A2: P . J . P^^-1;
 
-\[A_1 = \left[\begin{array}{rrrr} -1 & 0 & -3 & -1 \\ -2 & 1 & -3 & -1 \\ 3 &  0 & 5 & 1 \\ -4 & 0 & -6 & -1 \end{array}\right]\qquad
-  A_2 = \left[\begin{array}{rrrr}  0 & 1 & -3 & -2 \\ -2 & 1 & -3 & -1 \\ 2 & -1 & 5 & 2 \\ -3 & 1 & -6 & -2 \end{array}\right]\]
+\[A_1 = \left[\begin{array}{rrrr} 0 & 0 & -3 & -2 \\ -1 & 1 & -3 & -2 \\ 2 &  0 & 5 & 2 \\ -2 & 0 & -6 & -3 \end{array}\right]\qquad
+  A_2 = \left[\begin{array}{rrrr}  1 & 1 & -3 & -3 \\ -1 & 1 & -3 & -2 \\ 1 & -1 & 5 & 3 \\ -1 & 1 & -6 & -4 \end{array}\right]\]
 
 Diagonal matrices are easy to generate, perhaps using `rand_diag` for a truly random choice, or `diagmatrix_like` with a pre-defined list of eigenvalues. Non-diagonal Jordan matrices are harder to generate, but perhaps something like the following could be used. (Older versions of STACK require `matrix.mac` to be manually included for `setdiagmx`.)  
 
@@ -195,11 +237,11 @@ The following code will select minimal singular values for:
     mats: makelist(col(U,ii) . row(transpose(V),ii), ii, 1, r);
     ss: [];
     S: zeromatrix(m,n);
-    for mat in mats do block([mv,s],
-      mv: list_matrix_entries(mat), /*convert to list*/
+    for ii: 1 thru r do block([mv,s],
+      mv: list_matrix_entries(mats[ii]), /*convert to list*/
       s: abs((scale_nicely(mv) . mv) / (mv . mv)), /*determine scaling factor*/
       ss: append(ss, [s]),
-      S[ii,ii]: ss
+      S[ii,ii]: s
     );
     A: ss . mats;
     

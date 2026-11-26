@@ -111,7 +111,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
                             'title' => 'Question 1',
                             'description' => [['', 'Description 1']],
                             'license' => 'CC-BY',
-                            'origin' => 'Source 1',
+                            'origin' => ['Source 1', 'Source 1b'],
                             'subject' => ['Algebra', 'Calculus'],
                         ],
                     ],
@@ -123,7 +123,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
                             'title' => 'Question 2',
                             'description' => [['', 'Description 2']],
                             'license' => 'CC0',
-                            'origin' => 'Source 2',
+                            'origin' => ['Source 2'],
                             'subject' => 'Geometry',
                         ],
                     ],
@@ -143,9 +143,10 @@ final class questionlibrary_nrw_test extends advanced_testcase {
         $this->assertEquals('Question 1', $files->children[0]->label);
         $this->assertEquals('Description 1', $files->children[0]->description);
         $this->assertEquals('CC-BY', $files->children[0]->license);
-        $this->assertEquals('Source 1', $files->children[0]->source);
+        $this->assertEquals('Source 1, Source 1b', $files->children[0]->source);
         $this->assertEquals('Algebra, Calculus', $files->children[0]->subject);
         $this->assertEquals('atlas-1', $files->children[0]->path);
+        $this->assertEquals('Source 2', $files->children[1]->source);
         $this->assertEquals('Geometry', $files->children[1]->subject);
         $this->assertFalse(property_exists($files, 'error'));
         $this->assertEquals([], $flat);

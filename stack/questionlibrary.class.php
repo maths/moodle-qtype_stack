@@ -475,12 +475,14 @@ class stack_question_library {
             foreach ($data['results'] as $item) {
                 $qdata = $item['question']['data'] ?? [];
                 $subject = $qdata['subject'] ?? '';
+                // ATLAS stores the origin as a list of strings.
+                $origin = $qdata['origin'] ?? null;
                 $files->children[] = (object)[
                     'label' => $qdata['title'] ?? $item['question']['id'],
                     // Once we have format data use format_text($text, FORMAT_MARKDOWN).
                     'description' => $qdata['description'][0][1] ?? null,
                     'license' => $qdata['license'] ?? null,
-                    'source' => $qdata['origin'] ?? null,
+                    'source' => is_array($origin) ? implode(', ', $origin) : $origin,
                     'subject' => is_array($subject) ? implode(', ', $subject) : $subject,
                     'path' => $item['question']['id'],
                     'isdirectory' => 0,

@@ -47,7 +47,7 @@ This is achieved by having a question in which simplification is off, and we def
 
     A:matrix([1,2],[4,5]);
     B:matrix([1,-1],[1,2]);
-    C:zip_with_matrix(A,B);
+    C:zip_with_matrix("+",A,B);
     D:ev(C,simp);
 
 Notice the use of `zip_with_matrix` which is not a core Maxima function, but is defined by STACK.
@@ -100,7 +100,7 @@ Note, STACK only displays matrices with matching parentheses.  If you want somet
 \[ f(x) = \left\{ \begin{array}{cc} 1, & x<0 \\ 0, & x\geq 0 \end{array}\right.\]
 then you will have to display the matrix without parentheses and sort out the mismatching parentheses in the CASText at the level of display.
 
-For example, if we have the question variable `f:matrix([4*x+4, x<1],[-x^2-4*x-8, x>=1];` and the castext `\[ f(x) := \left\{ {@(lmxchar:"", f)@} \right. \]` 
+For example, if we have the question variable `f:matrix([4*x+4, x<1],[-x^2-4*x-8, x>=1]);` and the castext `\[ f(x) := \left\{ {@(lmxchar:"", f)@} \right. \]` 
 
 STACK generates \[ f(x) := \left\{ {\begin{array}{cc} 4\cdot x+4 & x < 1 \\ -x^2-4\cdot x-8 & x\geq 1 \end{array}} \right. \]
 

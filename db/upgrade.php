@@ -1068,6 +1068,11 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         // Stack savepoint reached.
         upgrade_plugin_savepoint(true, 2026080700, 'qtype', 'stack');
     }
+    if ($oldversion < 2026110400) {
+        // The external library capability is now available in course contexts.
+        upgrade_plugin_savepoint(true, 2026110400, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

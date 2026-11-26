@@ -134,8 +134,8 @@ class library_import extends \external_api {
             $basedir = $CFG->dirroot . '/question/type/stack/samplequestions/';
         }
         if ($external) {
-            // External libraries are controlled by the site-level capability.
-            require_capability('qtype/stack:useexternallibraries', \context_system::instance());
+            // External libraries are controlled by the course-level capability.
+            require_capability('qtype/stack:useexternallibraries', $thiscontext);
         }
         if (
             !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary") &&

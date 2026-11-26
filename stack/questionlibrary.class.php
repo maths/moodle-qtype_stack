@@ -457,8 +457,9 @@ class stack_question_library {
         $files->isdirectory = 1;
         $files->label = '.';
 
-        // Always use the git/trees API with recursive=1, then filter by subpath.
-        $apiurl = "{$apibase}&q={$details['search']}";
+        // The search term is user input: encode it, or spaces and characters
+        // such as & and # produce an invalid or truncated request URL.
+        $apiurl = "{$apibase}&q=" . rawurlencode($details['search']);
         curl_setopt($ch, CURLOPT_URL, $apiurl);
         $response = static::execute_curl_request($ch);
         $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);

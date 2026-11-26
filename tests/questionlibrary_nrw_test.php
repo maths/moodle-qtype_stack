@@ -42,6 +42,8 @@ class stack_question_library_nrw_testable extends \stack_question_library {
     private static array $mockresponses = [];
     /** @var array mocked CURLINFO_HTTP_CODE values */
     private static array $mockhttpcodes = [];
+    /** @var array URLs of the requests made through execute_curl_request */
+    public static array $requestedurls = [];
 
     /**
      * Prime mock values consumed by wrapped curl methods.
@@ -53,6 +55,7 @@ class stack_question_library_nrw_testable extends \stack_question_library {
     public static function set_mock_curl_responses(array $responses, array $httpcodes): void {
         self::$mockresponses = $responses;
         self::$mockhttpcodes = $httpcodes;
+        self::$requestedurls = [];
     }
 
     /**
@@ -65,6 +68,7 @@ class stack_question_library_nrw_testable extends \stack_question_library {
         if (!self::$mockresponses) {
             throw new \RuntimeException('Missing mocked curl_exec response.');
         }
+        self::$requestedurls[] = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
         return array_shift(self::$mockresponses);
     }
 
@@ -150,6 +154,21 @@ final class questionlibrary_nrw_test extends advanced_testcase {
         $this->assertEquals('Geometry', $files->children[1]->subject);
         $this->assertFalse(property_exists($files, 'error'));
         $this->assertEquals([], $flat);
+    }
+
+    public function test_list_nrw_search_encodes_search_term(): void {
+        stack_question_library_nrw_testable::set_mock_curl_responses([json_encode(['results' => []])], [200]);
+
+        stack_question_library_nrw_testable::list_nrw_search([
+            'search' => 'partielle Integration & Brüche #1',
+            'apikey' => 'secret',
+        ]);
+
+        $this->assertCount(1, stack_question_library_nrw_testable::$requestedurls);
+        $this->assertStringEndsWith(
+            '/questions/search?fields=id,data&q=partielle%20Integration%20%26%20Br%C3%BCche%20%231',
+            stack_question_library_nrw_testable::$requestedurls[0]
+        );
     }
 
     public function test_get_file_list_from_repo_routes_to_nrw_search(): void {

@@ -6,11 +6,8 @@ This document defines the essential technical requirements for STACK questions.
 It is written for AI coding agents and LLMs assisting human question authors.
 A project or authoring kit may add its own conventions on top of these.
 For an optional review of mathematical purpose, feedback and learner interaction,
-see [Question quality review](stack_question_review.md). For questions in which
-students type working or a proof, see also [Free-text inputs](stack_free_text.md);
-for drag-and-drop questions, [Drag-and-drop (Parsons) questions](stack_parsons.md).
-Agree the intended use with the author; technical test success alone does not establish 
-educational suitability.
+see [Question quality review](stack_question_review.md). Agree the intended use
+with the author; technical test success alone does not establish educational suitability.
 
 ### What a STACK question is made of
 
@@ -405,14 +402,6 @@ the operation being assessed.
 `matrix([?,?],[?,?])`. With `<syntaxattribute>` 1 it is a greyed placeholder
 that disappears when the student types; with 0 it is text the student edits.
 Keep a hint generic: never give the shape or values of the answer.
-
-**Free text.** A `freetext` input, where the student types working or a proof,
-follows its own rules. Read [Free-text inputs](stack_free_text.md)
-before using one.
-
-**Drag and drop.** A `parsons` input, linked to a `[[parsons]]` block, needs
-its own libraries, encoding and test functions. Read
-[Drag-and-drop (Parsons) questions](stack_parsons.md) before using one.
 
 **Test the validation.** For each input that relies on validation, add a test
 entering an invalid answer and expecting `NULL` (see "Test every question").

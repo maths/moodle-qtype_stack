@@ -370,14 +370,15 @@ class stack_question_library {
         $data = json_decode($response, true);
         if (isset($data['results'])) {
             foreach ($data['results'] as $item) {
+                $qdata = $item['question']['data'] ?? [];
+                $subject = $qdata['subject'] ?? '';
                 $files->children[] = (object)[
-                    'label' => $item['question']['data']['title'],
+                    'label' => $qdata['title'] ?? $item['question']['id'],
                     // Once we have format data use format_text($text, FORMAT_MARKDOWN).
-                    'description' => $item['question']['data']['description'][0][1] ?? null,
-                    'license' => $item['question']['data']['license'],
-                    'source' => $item['question']['data']['source'],
-                    'subject' => (is_array($item['question']['data']['subject'])) ?
-                        implode(', ', $item['question']['data']['subject']) : $item['question']['data']['subject'],
+                    'description' => $qdata['description'][0][1] ?? null,
+                    'license' => $qdata['license'] ?? null,
+                    'source' => $qdata['origin'] ?? null,
+                    'subject' => is_array($subject) ? implode(', ', $subject) : $subject,
                     'path' => $item['question']['id'],
                     'isdirectory' => 0,
                     'url' => '',

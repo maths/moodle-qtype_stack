@@ -553,7 +553,8 @@ simp_complex_number_p(ex):= block([keepfloat, trigexpand, logexpand],
     /* Using full ratsimp here makes this function unacceptably slow. */
     ex:errcatch(ev(ex, lg=logbasesimp, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2), simp)),
     if ex=[] then return(false),
-    ex:ev(float(ex[1]),simp),
+    /* complex_number_p needs the form a+b*%i, so (1+2*%i)/3 must be put into rectangular form. */
+    ex:ev(float(rectform(ex[1])),simp),
     if listofvars(ex)#[] then return(false),
     if floatnump(ex) then return(true),
     if complex_number_p(ex) then return(true) else return(false)

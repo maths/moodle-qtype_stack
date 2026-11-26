@@ -73,16 +73,10 @@ validate_interval_syntax(ex):= block(
 /*  variables, e.g. validate_vecset3(ex) := validate_vecset(ex, 3); */
 /****************************************************************/
 
-/* Is x a number, possibly complex?  simp_complex_number_p((1+2*%i)/3) is false, so test the parts. */
-validate_la_complexp(x) := block([r],
-  r: errcatch(ev([realpart(x), imagpart(x)], simp)),
-  if emptyp(r) then return(false),
-  real_numberp(first(first(r))) and real_numberp(second(first(r))));
-
 /* Is every element of the list L a number of the kind mode: "real", "complex" or "rational"? */
 validate_la_entriesp(L, mode) := is(listofvars(L) = []) and
   every(lambda([x],
-    if is(mode = "complex") then validate_la_complexp(x)
+    if is(mode = "complex") then simp_complex_number_p(x)
     else if is(mode = "rational") then ratnump(ev(x, simp))
     else real_numberp(x)), L);
 

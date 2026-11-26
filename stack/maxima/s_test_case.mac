@@ -29,10 +29,12 @@ s_test_case_eval_simp(ex1, ex2):= if(ev(is(ex1=ex2), simp)) then true else sconc
 s_test_case_eval_error(ex1, ex2):= (print("Expect an error message!"), if(ev(is(ex1=ex2))) then true else sconcat("Expect an error message!  Expected '", string(ex2), "' but got '", string(ex1), "'."));
 
 read_s_test_file(filename) := block([filedescr, stream, oneline, soneline, eof, cnt, s_failing],
-     /* Load the file to define any functions etc. it contains. */
-     load(filename),
      /* A list to hold test cases which fail. */
      s_failing:[],
+     /* Load the file to define any functions etc. it contains. */
+     /* Loading also runs the tests, so report an error rather than stopping all the files. */
+     if emptyp(errcatch(load(filename))) then
+         s_failing:[["load", sconcat("Error while loading the file: ", errormsgtostring())]],
      eof: false,
      filedescr:file_search(filename),
      stream: ?open(filedescr),
@@ -41,7 +43,9 @@ read_s_test_file(filename) := block([filedescr, stream, oneline, soneline, eof, 
          soneline: strim(" ", string(oneline)),
          if is(slength(soneline)>12) and is(substring(soneline, 1, 13)="\"s_test_case") then block([ex],
              ex:parse_string(oneline),
-             ex:ev(ex, s_test_case=s_test_case_eval, s_test_case_simp=s_test_case_eval_simp),
+             /* An error in one test is reported as a failure, so it does not stop the other tests. */
+             ex:errcatch(ev(ex, s_test_case=s_test_case_eval, s_test_case_simp=s_test_case_eval_simp)),
+             ex:if emptyp(ex) then sconcat("Error: ", errormsgtostring()) else first(ex),
              if stringp(ex) then s_failing:append(s_failing, [[oneline, ex]])
              ),
          eof: not(?stringp(oneline))
@@ -55,6 +59,9 @@ read_s_test_file(filename) := block([filedescr, stream, oneline, soneline, eof, 
 /* Automatically find files in the contrib directory.     */
 contrib_files:directory(sconcat(stacklocation, "/stack/maxima/contrib/*.mac"))$
 if emptyp(contrib_files) then print("WARNING: you need to redefine the stacklocation variable correctly to run the tests!");
+/* linearalgebra_contrib.mac is a copy of the core linear algebra functions for STACK before 4.9.0.   */
+/* All files are loaded into one session, so loading it would replace the current core definitions. */
+contrib_files:sublist(contrib_files, lambda([ex], ssearch("linearalgebra_contrib.mac", ex) = false))$
 
 local_files:["geometry.mac", "validator.mac", "linearalgebra_core_test.mac"]$
 local_files:map(lambda([ex], sconcat(stacklocation, "/stack/maxima/", ex)), local_files)$

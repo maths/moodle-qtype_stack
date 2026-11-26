@@ -52,7 +52,6 @@ file_search_lisp:append( [sconcat(stacktmplocation, "/###.{lisp}")] , file_searc
 
 :lisp (defvar $stack_mtell_quiet t)
 :lisp (defvar $tex_plain_atoms t)
-:lisp (defvar $%_ce_rem t)
 
 :lisp (declaim (notinline $op_usedp))
 :lisp (declaim (notinline $count_op))

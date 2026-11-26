@@ -421,3 +421,8 @@ block([s0:simp, s1], simp:true, ATEqualComAssRules(x+1, 1+x, [comAdd]), s1:simp,
 true$
 block([s0:simp, s1], simp:true, equals_commute_associate(x+1, 1+x), s1:simp, simp:s0, s1);
 true$
+
+all_listp(simp_complex_number_p,[3,sqrt(2),%i,1+%i,(1+2*%i)/3,2*(3-%i),(1+%i)^2,1/(1+%i),%e^%i,sqrt(-4)]);
+true$
+any_listp(simp_complex_number_p,[x,x+%i,[1,%i],matrix([1]),"one",undefinedfn(1),inf]);
+false$

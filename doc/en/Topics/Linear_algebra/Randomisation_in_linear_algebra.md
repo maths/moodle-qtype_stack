@@ -32,11 +32,21 @@ Another less elegant but highly functional strategy to any of those below is to 
 
 If `mats` is formatted appropriately, perhaps with `{#mats#}` in question text somewhere (or in the CASchat), this list can be copied and pasted into another question. Then you can select `A: rand(mats)`. This was very inefficient one time (and could have been achieved other ways without much difficulty), but is extremely efficient when deploying variants and doesn't require too much creativity. 
 
-### Draw, check, fall back
+### Check every random choice before you deploy
 
-The same idea also works inside the question variables, so that every seed is checked, not only the ones you deploy. Random constructions usually give a good matrix, but "usually" can be weaker than it looks. For example, take \(A = PDP^{-1}\) with `P: rand_integer_invertible(n,1)` and \(D\) diagonal with distinct non-zero integer eigenvalues from \(-3\) to \(4\). Over 200 draws, the share of matrices with every entry at most \(10\) in absolute value was 97.5% for \(2\times 2\), 77% for \(3\times 3\) and 48.5% for \(4\times 4\), and the largest entries seen were \(14\), \(42\) and \(71\). For \(2\times 2\) matrices, \(P\) was the identity in 8 draws out of 200, so \(A\) was already diagonal and there was nothing to do.
+Random constructions usually give a good matrix, but "usually" can be weaker than it looks. For example, take \(A = PDP^{-1}\) with `P: rand_integer_invertible(n,1)` and \(D\) diagonal with distinct non-zero integer eigenvalues from \(-3\) to \(4\). Over 200 draws, the share of matrices with every entry at most \(10\) in absolute value was 97.5% for \(2\times 2\), 77% for \(3\times 3\) and 48.5% for \(4\times 4\), and the largest entries seen were \(14\), \(42\) and \(71\). For \(2\times 2\) matrices, \(P\) was the identity in 8 draws out of 200, so \(A\) was already diagonal and there was nothing to do.
 
-The remedy has three steps:
+The best remedy is to choose the random values so that every choice is good, and to check every combination in the sandbox before you deploy. Build backwards from a short list of good cases, for example an invertible \(P\) with determinant \(1\) taken from a list, so that \(A\) always has integer entries:
+
+    P: rand([matrix([1,1,0],[0,1,1],[0,0,1]), matrix([1,0,0],[1,1,0],[0,1,1]), matrix([1,0,1],[0,1,0],[1,1,2])]);
+    d: rand_selection([-3,-2,-1,1,2,3], 3);
+    A: P . apply(diag_matrix, d) . P^^-1;
+
+Here there are \(3 \times 120 = 360\) combinations, few enough to check them all in the sandbox: every one gives distinct eigenvalues, and the largest entry of \(A\) is \(12\). If the good cases are hard to construct, generate and check them in advance, as in the brute-force example above, and pick from that list with `rand`.
+
+#### A last resort: draw, check, fall back
+
+Only when neither is practical, the check can be made inside the question variables, so that every seed is checked, not only the ones you deploy. Avoid this if you can: the loop runs every time a variant is generated, and it can make the question variables slow or time out. It has three steps:
 
 1. **Draw** a candidate in the usual way.
 2. **Check** it with a test that says what the question needs.

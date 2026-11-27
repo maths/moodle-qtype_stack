@@ -1,4 +1,4 @@
-# Free-text text formatting
+# Free-text: text formatting
 
 In questions that allow you to enter multiple lines of text and mathematics containing an extended solution to some problem, text can be formatted using *Markdown* commands.
 
@@ -40,4 +40,4 @@ Bullet lists nested within numbered list:
    `monospace`
 ```
 
-However, free-text input uses backticks for AsciiMath mathematical formatting, as summaried in the [Free-text AsciiMath](Free_text_AsciiMath_intro.md) section.
+However, free-text input uses backticks for AsciiMath mathematical formatting, as summaried in the [Free-text: mathematical input (introduction)](Free_text_AsciiMath_intro.md) section.

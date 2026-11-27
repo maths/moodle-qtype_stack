@@ -1,4 +1,4 @@
-# Free-text mathematical input: summary
+# Free-text: mathematical input (detailed)
 
 In questions that allow you to enter multiple lines of text and mathematics containing an extended solution to some problem, mathematics is entered using *AsciiMath* syntax between *backticks*, for example `` ` x^2 + 2x ` `` .  This section provides and extensive list of this syntax. The complete reference is available from [asciimath.org](https://asciimath.org/). 
 

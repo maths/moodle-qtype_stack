@@ -69,6 +69,11 @@ class stack_question_test_result {
     public $debuginfo = [];
 
     /**
+     * @var array prt name => array of short runtime error messages, each prefixed with where it happened.
+     */
+    public $prterrors = [];
+
+    /**
      * @var array Runtime errors from the question.
      */
     public $runtimeerrors = [];
@@ -111,6 +116,15 @@ class stack_question_test_result {
         $this->actualresults[$prtname] = $actualresult;
     }
 
+    /**
+     * Set the runtime errors generated when evaluating one of the PRTs.
+     * @param string $prtname the PRT name.
+     * @param string[] $errors short error messages, each prefixed with where it happened.
+     */
+    public function set_prt_errors($prtname, array $errors) {
+        $this->prterrors[$prtname] = $errors;
+    }
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_questionpenalty($penalty) {
         $this->questionpenalty = $penalty;
@@ -149,7 +163,7 @@ class stack_question_test_result {
      * Add description here.
      * @return array input name => object with fields ->mark, ->expectedmark,
      *      ->penalty, ->expectedpenalty, ->answernote, ->expectedanswernote,
-     *      ->feedback and ->testoutcome.
+     *      ->feedback, ->errors and ->testoutcome.
      */
     public function get_prt_states() {
         $states = [];
@@ -196,6 +210,7 @@ class stack_question_test_result {
                 $state->feedback = '';
                 $state->debuginfo = '';
             }
+            $state->errors = $this->prterrors[$prtname] ?? [];
 
             $state->testoutcome = true;
             $reason = [];
@@ -490,6 +505,7 @@ class stack_question_test_result {
             stack_string('answernote'),
             stack_string('expectedanswernote'),
             get_string('feedback', 'question'),
+            stack_string('errors'),
             stack_string('testsuitecolpassed'),
         ];
         $prtstable->attributes['class'] = 'generaltable stacktestsuite';
@@ -541,6 +557,7 @@ class stack_question_test_result {
                 $answernotedisplay,
                 s($state->expectedanswernote),
                 format_text($state->feedback),
+                implode(html_writer::empty_tag('br'), array_map('s', $state->errors)),
                 $passedcol,
             ];
             // TO-DO: reinstate debuginfo here.

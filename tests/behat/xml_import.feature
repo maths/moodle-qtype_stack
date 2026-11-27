@@ -90,3 +90,17 @@ Feature: Test importing STACK questions from Moodle XML files.
       | Has mimetype                 | text/xml       |
       | Contains text in xml element | [[input:ans]] |
     And I log out
+
+  @javascript @_file_upload
+  Scenario: import a STACK question whose PRT has a runtime error and see the error in the question test results
+    Given I am on the "Course 1" "core_question > course question import" page logged in as "teacher"
+    And I set the field "id_format_xml" to "1"
+    And I upload "question/type/stack/tests/behat/prt_runtime_error_question.xml" file to "Import" filemanager
+    And I press "id_submitbutton"
+    And I press "Continue"
+    When I choose "STACK question dashboard" action for "PRT runtime error" in the question bank
+    And I follow "Tests"
+    Then I should see "Test case 1"
+    # The Maxima error text varies between Maxima versions, so check the parts they share.
+    And I should see "prt1-1-T:" in the "prt1" "table_row"
+    And I should see "of list or matrix." in the "prt1" "table_row"

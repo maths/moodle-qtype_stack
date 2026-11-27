@@ -188,6 +188,54 @@ final class question_test_test extends qtype_stack_testcase {
         }
     }
 
+    /**
+     * Run one question test on the odd PRT of a test3 question created with the given overrides.
+     *
+     * @param array $overrides form data overrides for the test3 question.
+     * @return array the question and the result of the test.
+     */
+    private function run_odd_prt_test(array $overrides): array {
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $cat = $generator->create_question_category();
+        $questiondata = $generator->create_question('stack', 'test3', array_merge(['category' => $cat->id], $overrides));
+
+        $qtest = new stack_question_test('', ['ans1' => 'x^3']);
+        $qtest->add_expected_result(
+            'odd',
+            new stack_potentialresponse_tree_state(1, true, 1, 0, '', ['odd-1-T'])
+        );
+        $result = $qtest->test_question($questiondata->id, 1, context_system::instance());
+        return [\question_bank::load_question($questiondata->id), $result];
+    }
+
+    public function test_prt_runtime_errors_none(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [, $result] = $this->run_odd_prt_test([]);
+
+        $this->assertTrue($result->passed());
+        $this->assertSame([], $result->get_prt_states()['odd']->errors);
+    }
+
+    public function test_prt_runtime_errors_in_node_feedback(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        // The odd PRT takes its true branch (odd-1-T) for x^3, and this feedback fails in Maxima.
+        [$question, $result] = $this->run_odd_prt_test([
+            'oddtruefeedback' => [0 => ['text' => 'The second item is {@[1][2]@}.', 'format' => FORMAT_HTML]],
+        ]);
+
+        $this->assertFalse($result->passed());
+        $state = $result->get_prt_states()['odd'];
+        $this->assertNull($state->score);
+        $this->assertCount(1, $state->errors);
+        $this->assertStringStartsWith('odd-1-T: ', $state->errors[0]);
+        $this->assertStringContainsString('invalid index', $state->errors[0]);
+        $this->assertStringContainsString(s($state->errors[0]), $result->html_output($question));
+    }
+
     public function test_test_answer_note(): void {
         // This unit test runs comprehensive tests of the test_answer_note function.
         global $DB;

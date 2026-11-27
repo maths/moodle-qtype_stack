@@ -73,16 +73,10 @@ validate_interval_syntax(ex):= block(
 /*  variables, e.g. validate_vecset3(ex) := validate_vecset(ex, 3); */
 /****************************************************************/
 
-/* Is x a number, possibly complex?  simp_complex_number_p((1+2*%i)/3) is false, so test the parts. */
-validate_la_complexp(x) := block([r],
-  r: errcatch(ev([realpart(x), imagpart(x)], simp)),
-  if emptyp(r) then return(false),
-  real_numberp(first(first(r))) and real_numberp(second(first(r))));
-
 /* Is every element of the list L a number of the kind mode: "real", "complex" or "rational"? */
 validate_la_entriesp(L, mode) := is(listofvars(L) = []) and
   every(lambda([x],
-    if is(mode = "complex") then validate_la_complexp(x)
+    if is(mode = "complex") then simp_complex_number_p(x)
     else if is(mode = "rational") then ratnump(ev(x, simp))
     else real_numberp(x)), L);
 
@@ -91,8 +85,10 @@ validate_la_entries_msg(mode) :=
   else if is(mode = "rational") then "Enter an integer or a fraction only: no letters, variables, square roots, decimals or i."
   else "Enter real numbers only, with no letters, variables or i.";
 
-/* Is v a column vector c(...) with n entries? */
-validate_la_vectorp(v, n) := member(safe_op(v), ["c", "column_vector"]) and ev(is(length(args(v)) = n), simp);
+/* Is v a column vector with n entries: c(...), column_vector(...) or an n by 1 matrix? */
+validate_la_vectorp(v, n) :=
+  (member(safe_op(v), ["c", "column_vector"]) and ev(is(length(args(v)) = n), simp))
+  or (matrixp(v) and ev(is(matrix_size(v) = [n, 1]), simp));
 
 /* An example vector with n entries, starting at k: c(1,2,3). */
 validate_la_example_vector(n, k) := sconcat("c(", simplode(map(string, ev(makelist(j, j, k, k+n-1), simp)), ","), ")");
@@ -129,7 +125,7 @@ validate_la_vectors(ex, n, mode, isset) := block([L, eg],
   if not(isset) and not(listp(ex)) then return(sconcat("Enter a list of column vectors in square brackets, in order, for example [", eg, "].")),
   L: listify(ex),
   if not(every(lambda([v], validate_la_vectorp(v, n)), L)) then
-    return(sconcat("Write each vector as c(...) with ", n, if is(n = 1) then " entry" else " entries", ", for example ", validate_la_example_vector(n, 1), ".")),
+    return(sconcat("Write each vector as a column vector with ", n, if is(n = 1) then " entry" else " entries", ", for example ", validate_la_example_vector(n, 1), ".")),
   if not(validate_la_entriesp(flatten(map(args, L)), mode)) then return(validate_la_entries_msg(mode)),
   "");
 

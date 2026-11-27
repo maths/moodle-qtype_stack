@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Ordered basis upper triangular</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Let \[ A = {@AA@}. \]</p>
+<p>Find an ordered basis \((v_1, v_2, v_3)\) of \(\mathbb{R}^3\) with respect to which the matrix of \(A\) is upper triangular. That is, the matrix \(P\) with columns \(v_1, v_2, v_3\) is invertible and \(P^{-1}AP\) is upper triangular.</p>
+<p>Enter the basis as a list of column vectors in square brackets, in order, for example <code>[c(1,2,3), c(4,5,6), c(7,8,9)]</code>.</p>
+<div>[[input:ans1]] [[validation:ans1]]</div>
+<div>[[feedback:prt1]]</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>\(P^{-1}AP\) is upper triangular exactly when \(A v_1\) is a multiple of \(v_1\), \(A v_2\) lies in \(\operatorname{span}(v_1, v_2)\), and so on. So \(v_1\) must be an eigenvector of \(A\), and the order of the vectors matters.</p>
+<p>One answer is \({@ta1@}\): with \(P\) the matrix with these columns, \[ P^{-1}AP = {@UU@}. \] Reversing the order of these vectors gives a lower triangular matrix instead.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2026111900</text>
+    </stackversion>
+    <questionvariables>
+      <text>stack_include_contrib("validators.mac");
+stack_include_contrib("matrix.mac");
+validate_veclist3(ex) := validate_veclist(ex, 3);
+/* Build backwards: A = P.U.P^^-1 with U upper triangular, so the columns of P, in order, are an answer. */
+/* P has determinant 1, so A has integer entries; over every choice the largest entry of A is 10. */
+PP: rand([matrix([1,1,0],[0,1,1],[0,0,1]), matrix([1,0,0],[1,1,0],[0,1,1]), matrix([1,0,1],[0,1,0],[1,1,2])]);
+dd: rand_selection([-2,-1,1,2], 3);
+/* Non-zero entries above the diagonal, so that reversing the order never gives an upper-triangular matrix. */
+UU: matrix([dd[1], rand([-1,1]), rand([-1,1])], [0, dd[2], rand([-1,1])], [0, 0, dd[3]]);
+AA: PP . UU . PP^^-1;
+ta1: makelist(apply(c, list_matrix_entries(col(PP, k))), k, 1, 3);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[\(A = {@AA@}\), for example \({@ta1@}\)]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+     {"author":[{"firstName":"","lastName":"","institution":"","year":"2026"}],"language":["en"],"isPartOf":"STACK Library","license":"cc-sa-4.0","additional":{},"freeform":{}}
+    </metadata>
+    <variantsselectionseed/>
+    <prtcorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
+    </prtincorrect>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>40</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>validator:validate_veclist3</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* A list keeps the order; convert each c(...) to a list of entries. */
+sl: map(lambda([v], list_matrix_entries(vec_convert(v))), ans1);
+three: is(length(sl) = 3);
+QQ: if three then transpose(apply(matrix, sl)) else ident(3);
+inv: three and is(determinant(QQ) # 0);
+TT: if inv then ratsimp(QQ^^-1 . AA . QQ) else zeromatrix(3, 3);
+up: triup(TT);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>three</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>A basis of \(\mathbb{R}^3\) has exactly three vectors.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>inv</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your vectors are linearly dependent, so they are not a basis of \(\mathbb{R}^3\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>up</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your vectors are a basis, but with respect to it the matrix of \(A\) is \[{@TT@},\] which is not upper triangular. Check that your first vector is an eigenvector of \(A\), and that the order of the vectors is right.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1</deployedseed>
+    <deployedseed>2</deployedseed>
+    <deployedseed>3</deployedseed>
+    <deployedseed>4</deployedseed>
+    <deployedseed>5</deployedseed>
+    <deployedseed>6</deployedseed>
+    <deployedseed>7</deployedseed>
+    <deployedseed>8</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>The teacher's answer: the columns of P.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T | prt1-2-T | prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>A different correct answer: (2 v1, v1 + v2, v3 - 2 v2).</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(makelist(apply(c, list_matrix_entries(M)), M, [2*col(PP,1), col(PP,1) + col(PP,2), col(PP,3) - 2*col(PP,2)]), simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T | prt1-2-T | prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>The right vectors in the reverse order.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(reverse(ta1), simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T | prt1-2-T | prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Not a basis: a vector repeated.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>[ta1[1], ta1[1], ta1[2]]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T | prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description>Only two vectors.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>[ta1[1], ta1[2]]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>6</testcase>
+      <description>Invalid: a parameter in a vector, which validate_veclist rejects.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>[c(1,t,0), ta1[2], ta1[3]]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

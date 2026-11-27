@@ -46,10 +46,11 @@ One such example is \(A={@ta1A@}\). An example for \(B\) which satisfies the con
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2024111500</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
-      <text>ta1A:matrix([1,1],[2,2]);
+      <text>stack_include_contrib("validators.mac");
+ta1A:matrix([1,1],[2,2]);
 ta1B:matrix([2,2],[-2,-2]);
 ta2A:matrix([1,1],[-1,-1]);
 ta2B:matrix([1,1],[-1,-1]);
@@ -100,7 +101,7 @@ cvec:matrix([0],[0]);</text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>a1B</name>
@@ -118,7 +119,7 @@ cvec:matrix([0],[0]);</text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>a2A</name>
@@ -136,7 +137,7 @@ cvec:matrix([0],[0]);</text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>a2B</name>
@@ -154,7 +155,7 @@ cvec:matrix([0],[0]);</text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <input>
       <name>a3A</name>
@@ -747,6 +748,52 @@ if (a=ta3A and b=ta3B) then Mark:1 elseif notequal(rank(a.b),0) then Mark:0 else
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
         <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description>Invalid: a symbolic entry, which validate_nummat rejects.</description>
+      <testinput>
+        <name>a1A</name>
+        <value>ev(t*ta1A,simp)</value>
+      </testinput>
+      <testinput>
+        <name>a1B</name>
+        <value>ta1B</value>
+      </testinput>
+      <testinput>
+        <name>a2A</name>
+        <value>ta2A</value>
+      </testinput>
+      <testinput>
+        <name>a2B</name>
+        <value>ta2B</value>
+      </testinput>
+      <testinput>
+        <name>a3A</name>
+        <value>ta3A</value>
+      </testinput>
+      <testinput>
+        <name>a3B</name>
+        <value>ta3B</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
       </expected>
     </qtest>
   </question>

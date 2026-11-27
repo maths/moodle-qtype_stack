@@ -51,11 +51,12 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2025042500</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[stack_linear_algebra_declare(true);
 stack_include_contrib("vectorspaces.mac");
+stack_include_contrib("validators.mac");
 
 rv():= rand([-1,1])*rand([1,2,3,1/2,1/3,1/4,2/3,3/4]);
 AA_rref: rand([
@@ -76,13 +77,8 @@ sol_row: setify(map(lambda([ex],apply(c,scale_nicely(list_matrix_entries(ex)))),
 sol_col: setify(map(lambda([ex],apply(c,scale_nicely(list_matrix_entries(ex)))),args(columnspace(AA))));
 sol_null: setify(map(lambda([ex],apply(c,scale_nicely(list_matrix_entries(ex)))),args(nullspace(AA))));
 
-validate_set_of_vecs(ex):= block(
-  if not(setp(ex)) then return("Your answer should be a set of column vectors")
-  else block(
-    set_ops: setify(map(safe_op,listify(ex))),
-    if ev(emptyp(setdifference(set_ops,{"c","r","matrix"})),simp) then return("") else return("Your answer should be a set of column vectors")
-  )
-);]]></text>
+validate_vecset3(ex) := validate_vecset(ex, 3);
+validate_vecset4(ex) := validate_vecset(ex, 4);]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -142,7 +138,7 @@ validate_set_of_vecs(ex):= block(
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options>validator:validate_set_of_vecs,checkvars:3</options>
+      <options>validator:validate_vecset3,checkvars:3</options>
     </input>
     <input>
       <name>stu_null</name>
@@ -160,7 +156,7 @@ validate_set_of_vecs(ex):= block(
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options>validator:validate_set_of_vecs,checkvars:3</options>
+      <options>validator:validate_vecset4,checkvars:3</options>
     </input>
     <input>
       <name>stu_row</name>
@@ -178,7 +174,7 @@ validate_set_of_vecs(ex):= block(
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options>validator:validate_set_of_vecs,checkvars:3</options>
+      <options>validator:validate_vecset4,checkvars:3</options>
     </input>
     <prt>
       <name>prt_col</name>
@@ -527,7 +523,7 @@ check_row_vecs: member(r,get_ops(stu_row_l));</text>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description/>
+      <description>Row vectors are invalid: validate_vecset accepts only column vectors.</description>
       <testinput>
         <name>stu_col</name>
         <value>setify(map(lambda([ex],apply(r,args(ex))),args(sol_col)))</value>
@@ -542,21 +538,21 @@ check_row_vecs: member(r,get_ops(stu_row_l));</text>
       </testinput>
       <expected>
         <name>prt_col</name>
-        <expectedscore>0.0000000</expectedscore>
+        <expectedscore/>
         <expectedpenalty/>
-        <expectedanswernote>prt_col-1-F</expectedanswernote>
+        <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt_null</name>
-        <expectedscore>0.0000000</expectedscore>
+        <expectedscore/>
         <expectedpenalty/>
-        <expectedanswernote>prt_null-1-F</expectedanswernote>
+        <expectedanswernote>NULL</expectedanswernote>
       </expected>
       <expected>
         <name>prt_row</name>
-        <expectedscore>0.0000000</expectedscore>
+        <expectedscore/>
         <expectedpenalty/>
-        <expectedanswernote>prt_row-1-F</expectedanswernote>
+        <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
   </question>

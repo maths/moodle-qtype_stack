@@ -213,7 +213,7 @@ and use `validator:validate_vecset3` in the input.
 
 | Validator | Accepts |
 | --- | --- |
-| `validate_vecset(ex, n)`, `validate_vecset_c(ex, n)` | a set of column vectors `c(...)` with `n` entries, e.g. a basis: `{c(1,2,3), c(4,5,6)}`; `{}` is valid |
+| `validate_vecset(ex, n)`, `validate_vecset_c(ex, n)` | a set of column vectors with `n` entries, e.g. a basis: `{c(1,2,3), c(4,5,6)}`; `{}` is valid |
 | `validate_veclist(ex, n)`, `validate_veclist_c(ex, n)` | a list of column vectors, when the order matters: `[c(1,2,3), c(4,5,6)]`; `[]` is valid |
 | `validate_vars(ex, vars)`, `validate_vars_c(ex, vars)` | an expression using only the variables in the list `vars`, e.g. one component of a linear map |
 | `validate_poly(ex, vars)`, `validate_poly_c(ex, vars)` | a polynomial in the variables in the list `vars` |
@@ -223,7 +223,7 @@ Notes:
 1. The plain versions require real numbers: they reject `i`, and anything which simplifies to a non-real number such as `sqrt(-4)`.  The `_c` versions allow complex numbers.  Use the plain versions whenever the field is \(\mathbb{R}\): `listofvars(%i)` is `[]`, so checking for variables alone does not reject `i`.
 2. Validators run with `simp:false`.  These validators look for variables in the unsimplified answer, so `0*t` is rejected even though it simplifies to `0`.
 3. For a single number use the [numerical input](../Authoring/Inputs/Numerical_input.md) with the option `realnum` rather than a validator.
-4. A vector may be entered as `c(...)` or `column_vector(...)`.  To convert a set or list of vectors to a list of lists, for example for `lin_indp`, use `map(lambda([v], list_matrix_entries(vec_convert(v))), listify(ans1))`.  A set is put into canonical order, so do not rely on the order of its elements.
+4. A vector may be entered as `c(...)`, `column_vector(...)` or an \(n\times 1\) matrix such as `matrix([1],[2],[3])`; a row vector is invalid.  To convert a set or list of vectors to a list of lists, for example for `lin_indp`, use `map(lambda([v], list_matrix_entries(vec_convert(v))), listify(ans1))`.  A set is put into canonical order, so do not rely on the order of its elements.
 5. For variables with numerical subscripts, such as `x1`, also use the input option `consolidatesubscripts`, so that a student's `x_1` is accepted as `x1`.
 6. Add a question test with an invalid answer, e.g. `{c(1,t,0)}`, to check that the validator is in place.
 

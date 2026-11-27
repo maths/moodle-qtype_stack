@@ -324,6 +324,40 @@ final class caskeyval_test extends qtype_stack_testcase {
         $this->assertTrue(isset($usage['write']['V']));
     }
 
+    public function test_get_variable_usage_initialised_block_locals(): void {
+        // A block local may be given an initial value: block([x:1], ...).
+        // Such a local is not written globally, either where it is initialised or in the body.
+        $kv = new stack_cas_keyval("f(x):=block([bar:1,baz],bar:bar+x,baz:bar,baz);" .
+            "a:block([nu:2,mu:false],nu:nu+1,nu);" .
+            "block([d],e:1);");
+        $this->assertTrue($kv->get_valid());
+        $usage = $kv->get_variable_usage();
+        foreach (['bar', 'baz', 'nu', 'mu', 'd'] as $name) {
+            $this->assertFalse(isset($usage['write'][$name]), $name);
+        }
+        // The names assigned outside any local declaration are written globally.
+        foreach (['f', 'a', 'e'] as $name) {
+            $this->assertTrue(isset($usage['write'][$name]), $name);
+        }
+    }
+
+    public function test_get_variable_usage_loop_control_variables(): void {
+        // The control variable of a loop is local to the loop, in every form of for.
+        $kv = new stack_cas_keyval("s1:0;for i:1 thru 3 do s1:s1+i;" .
+            "for j from 1 thru 2 do s2:j;" .
+            "for x in [1,2] do s3:x;" .
+            "for m:1 thru 5 do m:m+1;" .
+            "thru 2 do k:1;");
+        $this->assertTrue($kv->get_valid());
+        $usage = $kv->get_variable_usage();
+        foreach (['i', 'j', 'x', 'm'] as $name) {
+            $this->assertFalse(isset($usage['write'][$name]), $name);
+        }
+        foreach (['s1', 's2', 's3', 'k'] as $name) {
+            $this->assertTrue(isset($usage['write'][$name]), $name);
+        }
+    }
+
     public function test_unclear_subs(): void {
 
         $tests = 'v:2;trig:[sin,cos][v];sub:[(sin(x))^2=1-(cos(x))^2,(cos(x))^2=1-(sin(x))^2][v];f:(trig(x))^n;'

@@ -15,7 +15,7 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2026101500</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
       <text>nia:rand(3)+2;
@@ -59,7 +59,7 @@
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords>determinant</forbidwords>
+      <forbidwords>[[BASIC-MATRIX]]</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>

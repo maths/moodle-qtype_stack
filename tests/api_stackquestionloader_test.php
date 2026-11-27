@@ -982,6 +982,56 @@ XML;
      * @param string $extra XML to insert inside the question element.
      * @return string
      */
+    /**
+     * A question with one PRT, prt1, whose nodes are given as [name, true next node, false next node].
+     */
+    private function get_prt_question_xml(array $nodes): string {
+        $prt = "    <prt>\n      <name>prt1</name>\n";
+        foreach ($nodes as [$name, $truenext, $falsenext]) {
+            $prt .= "      <node><name>{$name}</name><sans>ans1</sans><tans>ta1</tans>" .
+                "<truenextnode>{$truenext}</truenextnode><trueanswernote>prt1-{$name}-T</trueanswernote>" .
+                "<falsenextnode>{$falsenext}</falsenextnode><falseanswernote>prt1-{$name}-F</falseanswernote></node>\n";
+        }
+        $prt .= "    </prt>\n";
+        return $this->get_minimal_question_xml(
+            "    <questiontext><text>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</text></questiontext>\n" .
+            "    <stackversion><text>2026111900</text></stackversion>\n" .
+            "    <questionvariables><text>ta1:1;</text></questionvariables>\n" .
+            "    <input><name>ans1</name><type>algebraic</type><tans>ta1</tans></input>\n" . $prt);
+    }
+
+    public function test_question_loader_first_node_as_moodle(): void {
+        // Moodle starts a PRT at the node no other node points to, wherever it is listed.
+        $xml = $this->get_prt_question_xml([[0, -1, -1], [2, 0, -1], [1, 2, -1]]);
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+        $this->assertEquals('1', $question->prts['prt1']->get_first_node());
+        $this->assertFalse((bool) $question->isbroken);
+    }
+
+    public function test_question_loader_missing_next_node_as_moodle(): void {
+        // Moodle's import sets a missing next node to stop and marks the question broken.
+        $xml = $this->get_prt_question_xml([[0, 5, -1]]);
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+        $this->assertEquals('0', $question->prts['prt1']->get_first_node());
+        $this->assertTrue((bool) $question->isbroken);
+    }
+
+    public function test_question_loader_repeated_node_name_as_moodle(): void {
+        // Moodle's import refuses a PRT with repeated node names.
+        $xml = $this->get_prt_question_xml([[0, -1, -1], [0, -1, -1]]);
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('Multiple nodes have the name');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_two_roots_as_moodle(): void {
+        // With two roots Moodle marks the question broken and uses the first root.
+        $xml = $this->get_prt_question_xml([[1, -1, -1], [0, -1, -1]]);
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+        $this->assertEquals('1', $question->prts['prt1']->get_first_node());
+        $this->assertTrue((bool) $question->isbroken);
+    }
+
     private function get_minimal_question_xml(string $extra = ''): string {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" .
             "<quiz>\n" .

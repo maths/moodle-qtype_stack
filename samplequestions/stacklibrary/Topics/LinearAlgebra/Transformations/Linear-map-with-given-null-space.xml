@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Linear map with given null space</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Give an example of a linear map \(T:\mathbb{R}^2\to\mathbb{R}^2\) whose null space is spanned by the vector \({@nv@}\).</p>
+<p>Enter \(T(x_1,x_2)\) as one formula for each component, using the variables <code>x1</code> and <code>x2</code>.</p>
+<div>\(T(x_1,x_2) = \Big(\) [[input:ans1]] \(,\) [[input:ans2]] \(\Big)\)</div>
+<div>[[validation:ans1]] [[validation:ans2]]</div>
+<div>[[feedback:prt1]]</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The null space of \(T\) must contain \({@nv@}\), so \(T(1,{@av@}) = (0,0)\). It must also contain nothing else, so it is one-dimensional, and \(T\) has rank \(1\).</p>
+<p>A linear map \(T:\mathbb{R}^2\to\mathbb{R}^2\) has components \(a x_1 + b x_2\). Each component vanishes at \((1,{@av@})\) exactly when it is a multiple of \({@ta1@}\). So the answers are the maps \(T(x_1,x_2) = (p({@ta1@}),\, q({@ta1@}))\) with \(p\) and \(q\) not both zero, for example \(T(x_1,x_2) = ({@ta1@}, {@ta2@})\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2026111900</text>
+    </stackversion>
+    <questionvariables>
+      <text>stack_include_contrib("validators.mac");
+/* A validator takes one argument, so supply the variables here. */
+validate_x2(ex) := validate_vars(ex, [x1, x2]);
+X: [x1, x2];
+/* The null space is spanned by nv = (1, av). */
+av: rand_with_prohib(-3, 3, [0]);
+nv: matrix([1], [av]);
+/* The simplest answer: both components multiples of av*x1 - x2. */
+ta1: av*x1 - x2;
+ta2: 0;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[\(\ker T = \operatorname{span}\left({@nv@}\right)\), for example \(T(x_1,x_2) = ({@ta1@}, {@ta2@})\)]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+     {"author":[{"firstName":"","lastName":"","institution":"","year":"2026"}],"language":["en"],"isPartOf":"STACK Library","license":"cc-sa-4.0","additional":{},"freeform":{}}
+    </metadata>
+    <variantsselectionseed/>
+    <prtcorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
+    </prtincorrect>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>validator:validate_x2, consolidatesubscripts</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>validator:validate_x2, consolidatesubscripts</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>F: [ans1, ans2];
+/* Linear: constant partial derivatives, and T(0) = 0. */
+lin: is(listofvars(jacobian(F, X)) = []) and is(expand(subst(map(lambda([v], v = 0), X), F)) = [0, 0]);
+/* coefmatrix ignores constant and non-linear terms, so use it only once lin is true. */
+MB: if lin then coefmatrix(F, X) else zeromatrix(2, 2);
+ker: is(MB . nv = zeromatrix(2, 1));
+rk: is(rank(MB) = 1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>lin</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your map is not linear: each component of a linear map is of the form \(a x_1 + b x_2\), with no constant term and no products or powers of the variables.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ker</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your map does not send \({@nv@}\) to zero: \(T(1,{@av@}) = {@transpose(MB . nv)@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>rk</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your map sends \({@nv@}\) to zero, but it is the zero map, so its null space is the whole of \(\mathbb{R}^2\).</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1</deployedseed>
+    <deployedseed>2</deployedseed>
+    <deployedseed>3</deployedseed>
+    <deployedseed>5</deployedseed>
+    <deployedseed>6</deployedseed>
+    <deployedseed>7</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>The teacher's answer.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T | prt1-2-T | prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>A different correct answer, with both components non-zero.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(2*ta1, simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(-3*ta1, simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T | prt1-2-T | prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Not linear: a constant term.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1 + 1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Linear, but the null space is only {0}.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>x1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>x2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T | prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description>The zero map: its null space is too big.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>0</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>0</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T | prt1-2-T | prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>6</testcase>
+      <description>Invalid: a parameter t, which validate_vars rejects.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>t*ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>7</testcase>
+      <description>Subscripts typed with an underscore are accepted (consolidatesubscripts).</description>
+      <testinput>
+        <name>ans1</name>
+        <value>subst([x1 = x_1, x2 = x_2], ta1)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T | prt1-2-T | prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

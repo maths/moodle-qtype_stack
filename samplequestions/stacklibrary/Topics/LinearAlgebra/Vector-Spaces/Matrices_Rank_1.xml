@@ -15,7 +15,7 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2026101500</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
       <text>r1:matrix([1,rand_with_step(-9,9,1),rand_with_step(-9,9,1)],[rand_with_step(-9,9,1),rand_with_step(-9,9,1),rand_with_step(-9,9,1)],[rand_with_step(-9,9,1),rand_with_step(-9,9,1),rand_with_step(-9,9,1)]);
@@ -56,7 +56,7 @@
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords>rank</forbidwords>
+      <forbidwords>[[BASIC-MATRIX]]</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>

@@ -17,7 +17,7 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2026101500</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
       <text>avar:rand_with_step(2,6,1); 
@@ -62,7 +62,7 @@ wronganswer:avar*y+cvar*z = avar+3*avar+cvar*bvar;</text>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords>determinant, invert</forbidwords>
+      <forbidwords>[[BASIC-MATRIX]]</forbidwords>
       <allowwords/>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>

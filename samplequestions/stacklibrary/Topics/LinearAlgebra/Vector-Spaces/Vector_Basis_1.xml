@@ -15,10 +15,11 @@
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2026101500</text>
+      <text>2026111900</text>
     </stackversion>
     <questionvariables>
-      <text>am1:matrix([rand_with_step(-1,1,2),0,0,0,0],[0,rand_with_step(-1,1,2),0,0,0],[0,0,rand_with_step(-1,1,2),0,0],[0,0,0,rand_with_step(-1,1,2),0],[0,0,0,0,rand_with_step(-1,1,2)]);
+      <text>stack_include_contrib("validators.mac");
+am1:matrix([rand_with_step(-1,1,2),0,0,0,0],[0,rand_with_step(-1,1,2),0,0,0],[0,0,rand_with_step(-1,1,2),0,0],[0,0,0,rand_with_step(-1,1,2),0],[0,0,0,0,rand_with_step(-1,1,2)]);
  A: for i:1 thru 4 do for j: i+1 thru 5 do am1[i,j]:ev(rand_with_step(-5,5,1));
   rankn:rand(2)+2;
   am2:zeromatrix(5,4);
@@ -81,7 +82,7 @@
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options/>
+      <options>validator:validate_nummat</options>
     </input>
     <prt>
       <name>Result</name>
@@ -241,6 +242,20 @@
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
         <expectedanswernote>Result-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Invalid: a symbolic entry, which validate_nummat rejects.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(t*usualanswer,simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
   </question>

@@ -1197,6 +1197,11 @@
             "description":"Practical strategies for randomising linear algebra questions, including linear systems, matrix factorisations and eigenvalues."
             },
             {
+            "file":"Grading_by_property.md",
+            "title":"Grading linear algebra answers by property - STACK Documentation",
+            "description":"How to grade linear algebra answers with more than one correct form, such as eigenvectors, bases, linear maps and factorisations, by testing their properties."
+            },
+            {
             "file":"Matrix_factorisation.md",
             "title":"Matrix factorisation functions - STACK Documentation",
             "description":"Reference documentation for contributed library for matrix factorisation functions."

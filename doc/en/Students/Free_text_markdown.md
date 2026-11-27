@@ -1,4 +1,4 @@
-# Free-text text formatting
+# Free-text: text formatting
 
 In questions that allow you to enter multiple lines of text and mathematics containing an extended solution to some problem, text can be formatted using *Markdown* commands.
 

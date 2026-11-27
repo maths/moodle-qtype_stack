@@ -20,22 +20,25 @@ Short answer questions will provide one or more boxes in which you should enter 
 
 ![A typical short answer box into which answers are entered](../../content/short-answer-box.png)
 
-Some questions may require you to enter a number as an answer, such as $7$, $1.4$, $3/4$, $\sqrt{3}$ or $2\pi$.
+Some questions may require you to enter a number as an answer, such as \(7\), \(1.4\), \(3/4\), \(\sqrt{3}\) or \(2\pi\).
 
 Note that square roots are entered by typing `sqrt`, so to enter 
-$\sqrt{3}$ you should type `sqrt(3)`. 
-Similarly, $\pi$ is entered by typing `pi`, and since multiplication is represented by `*`, then $2\pi$ can be entered by typing `2*pi`. (Often the question will be configured such that typing `2pi` will also work.)
+\(\sqrt{3}\)  you should type `sqrt(3)`. 
+Similarly, \(\pi\) is entered by typing `pi`, and since multiplication is represented by `*`, then \(2\pi\) can be entered by typing `2*pi`. (Often the question will be configured such that typing `2pi` will also work.)
 
-Other questions may require you to enter algebraic answers, such as $$\displaystyle \frac{x^2}{2+x} + 3\sin(4x) + e^{5x}.$$
+Other questions may require you to enter algebraic answers, such as 
+
+\[ \frac{x^2}{2+x} + 3\sin(4x) + e^{5x}. \] 
+
 This can be entered into the system by typing
 
 `x^2/(2+x) + 3*sin(4*x) + exp(5*x)`
 
-Notice that powers are given using `^` and the syntax for exponentiation is `exp`. The denominator of the fraction in the first term has been enclosed within brackets, to ensure the whole of $2+x$ is within the denominator.
+Notice that powers are given using `^` and the syntax for exponentiation is `exp`. The denominator of the fraction in the first term has been enclosed within brackets, to ensure the whole of \(2+x\) is within the denominator.
 
 In this example, the multiplication signs (`*`) have been included. Although many questions will accept answers without them, it is always best to enter them.
 
-This syntax for answering short-answer questions is the syntax of the Maxima computer algebra system. The are more details on this syntax in the [Short answer input](Answer_input.md) section. 
+This syntax for answering short-answer questions is the syntax of the Maxima computer algebra system. The are more details on this syntax in the [Answer input (short-answer questions)](Answer_input.md) section. 
 
 ### Free-text input
 
@@ -43,13 +46,13 @@ Some questions may allow you to enter multiple lines of text and mathematics con
 
 ![A typical free text answer box showing a typed solution on the left, and a formatted version on the right](../../content/free-text-answerbox.png)
 
-In these questions, text can be formatted using *Markdown* syntax. There are more details on this in the [Free-text Markdown](Free_text_markdown.md) section. 
+In these questions, text can be formatted using *Markdown* syntax. There are more details on this in the [Free-text: text formatting](Free_text_markdown.md) section. 
 
-Mathematics is entered between *backticks*, for example `` ` x^2 + 2x ` `` .  If there is text on the same line as the mathematics, or on the lines immediately above or below it, then the mathematics will be displayed inline, otherwise it will be shown as displayed mathematics. The syntax used within the backticks is called AsciiMath, which is an easy-to-write syntax for mathematics. There are more details on this syntax in the [Free-text AsciiMath](Free_text_AsciiMath_intro.md) section. 
+Mathematics is entered between *backticks*, for example `` ` x^2 + 2x ` `` .  If there is text on the same line as the mathematics, or on the lines immediately above or below it, then the mathematics will be displayed inline, otherwise it will be shown as displayed mathematics. The syntax used within the backticks is called AsciiMath, which is an easy-to-write syntax for mathematics. There are more details on this syntax in the [Free-text: mathematical input (introduction)](Free_text_AsciiMath_intro.md) section. 
 
 If you know LaTeX, you can also enter LaTeX syntax, for example ` \( x^2 + 2 x \) ` for inline mathematics or ` \[ sin(x)/{x+2} \]`for displayed mathematics .
 
-Finally, some (but not all!) questions of this type will permit you to use an internal calculator. This allows you to calculate the value of expressions, to save you having to use a separate physical device. For example, entering `{@ cos(pi) @}` will display the result, which is -1. (Note that angles are assumed to be in radians.) Decimal answers may be displayed to a large number of decimal places. To round an answer, for example to 3 decimal places, use `{@ round(cos(2), 3) @}`.
+Finally, some (but not all!) questions of this type will permit you to use an internal calculator. This allows you to calculate the value of expressions, to save you having to use a separate physical device. For example, entering `{@ cos(pi) @}` will display the result, which is \(-1\). (Note that angles are assumed to be in radians.) Decimal answers may be displayed to a large number of decimal places. To round an answer, for example to 3 decimal places, use `{@ round(cos(2), 3) @}`.
 
 ## Checking your answer
 
@@ -60,11 +63,11 @@ Once you have entered your answer, most questions will display the parts of your
 **It is important that you check this to make sure you have entered what you intended.** 
 For example, it is easily to accidentally enter
 
-`x^2/2+x` which gives $\displaystyle \frac{x^2}{2} + x$
+`x^2/2+x` which gives \(\displaystyle \frac{x^2}{2} + x\)
 
 when you meant to enter
 
-`x^2/(2+x)` which gives $\displaystyle \frac{x^2}{2 + x}$.
+`x^2/(2+x)` which gives \(\displaystyle \frac{x^2}{2 + x}\).
 
 If you have accidentally not entered the answer you intended, you can change it by updating what you have typed within the answer box.
 

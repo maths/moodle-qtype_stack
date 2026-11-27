@@ -75,7 +75,9 @@ is done with `simp:false`.  If you want the student to enter repeated roots you 
     length(ans1)
 
 being equivalent to the correct number using `EqualComAss` to avoid simplification.  
-Note, that if you "simplify" `ans1` you are likely to lose answers as sets automatically lose duplicates.
+
+!!! warning
+    If you "simplify" `ans1` you are likely to lose answers as sets automatically lose duplicates.
 
 Alternatively, you may want to simplify the student's answer to make sure they have the right number of *different* solutions.  This is a separate test.
 

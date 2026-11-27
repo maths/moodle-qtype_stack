@@ -9,6 +9,8 @@ We use the [GitHub issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 Issues with [GitHub milestone 4.16.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.16.0).
 
+1. The copy of the docs inside Moodle now displays [admonitions](Documentation.md) (`!!! warning` and so on) as styled boxes, as the docs site does, rather than as code.
+
 ## Better testing
 
 ### Add in a new keyvals field "test variables"

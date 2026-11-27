@@ -6,7 +6,8 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 Released November 2026.
 
-Note, this release only supports Moodle 4.4 and later. We are aware of CI failures on Moodle 4.3 and earlier.
+!!! warning
+    This release only supports Moodle 4.4 and later. We are aware of CI failures on Moodle 4.3 and earlier.
 
 This release includes `AGENTS.md` and an `agents/stack_essentials.md` file to support LLM authoring tools.
 
@@ -52,7 +53,8 @@ This release contains some useful bug fixes, and improvements.
 2. Add in syntax highlighting and line numbering to question and feedback variables via the ace editor. Contributed by Hieu Vu and team on behalf of The Open University (UK).
 3. Add [XML Compare](../STACK_question_admin/Authoring_workflow.md#comparing-question-versions) feature to the STACK dashboard.
 
-__Note to colleagues upgrading__ Since 4.12.0 we now require the plugin [import as new version](https://github.com/maths/moodle-qbank_importasversion/).
+!!! warning "Note to colleagues upgrading"
+    Since 4.12.0 we now require the plugin [import as new version](https://github.com/maths/moodle-qbank_importasversion/).
 
 
 ## Version 4.13.0 (2026062900)
@@ -63,7 +65,8 @@ __Changes and new features.__
 
 This release has a major new feature: ["free-text" input](../Specialist_tools/Free_text_input/index.md) to allow students to input typed free-text proof.
 
-**NOTE** [STACK issue #1777](https://github.com/maths/moodle-qtype_stack/issues/1777) means that importing free-text questions can break the display of the worked solution.  To work around this issue, (1) import the question, (2) edit the question without making changes, (3) save the question, (4) test the worked solution is correctly displayed.  We will resolve this issue.
+!!! warning "Known issue: importing free-text questions"
+    [STACK issue #1777](https://github.com/maths/moodle-qtype_stack/issues/1777) means that importing free-text questions can break the display of the worked solution.  To work around this issue, (1) import the question, (2) edit the question without making changes, (3) save the question, (4) test the worked solution is correctly displayed.  We will resolve this issue.
 
 Issues with [GitHub milestone 4.13.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.13.0) include
 

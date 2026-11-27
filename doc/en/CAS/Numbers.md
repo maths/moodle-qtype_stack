@@ -58,7 +58,8 @@ For its internal representation, Maxima always truncates trailing zeros from a f
 
 Display of numbers in STACK is controlled with LaTeX, and the underlying LISP provides flexible ways to represent numbers.
 
-Note, that apart from the units input, all other input types truncate the display of unnecessary trailing zeros in floating point numbers, losing information about significant figures.  So, when the student's answer is a floating point number, trailing zeros will not be displayed.  If you want to specifically test for significant figures, use the [units input type](../Topics/Units.md), with the teacher's answer having no units.  The units input type should display the same number of significant figures as typed in by the student.
+!!! warning "Trailing zeros are not displayed"
+    Apart from the units input, all other input types truncate the display of unnecessary trailing zeros in floating point numbers, losing information about significant figures.  So, when the student's answer is a floating point number, trailing zeros will not be displayed.  If you want to specifically test for significant figures, use the [units input type](../Topics/Units.md), with the teacher's answer having no units.  The units input type should display the same number of significant figures as typed in by the student.
 
 ## Display of numbers with LaTeX ##
 
@@ -105,7 +106,8 @@ You can also force all integers to be displayed as floating point decimals or in
 
 There are many other options within the LISP format command. Please note with the rhetoric and Roman numerals that the numbers will be in LaTeX mathematics environments.
 
-Note that the `@` symbol is currently not parsed correctly inside strings within CASText.  That is to say, you cannot currently type `{@(stackintfmt:"~@r",4)@}` into CASText.  This is a known bug.  To avoid this problem, define a variable in the question variables (e.g. `roman:"~@r";`) and use the variable name in the CASText (e.g. `{@(stackintfmt:roman,4)@}`).
+!!! warning "Known bug: `@` inside strings in CASText"
+    The `@` symbol is currently not parsed correctly inside strings within CASText.  That is to say, you cannot currently type `{@(stackintfmt:"~@r",4)@}` into CASText.  This is a known bug.  To avoid this problem, define a variable in the question variables (e.g. `roman:"~@r";`) and use the variable name in the CASText (e.g. `{@(stackintfmt:roman,4)@}`).
 
 Maxima has a separate system for controlling the number of decimal digits used in calculations and when printing the _value_ of computed results.  Trailing zeros will not be printed with the value.  This is controlled by Maxima's `fpprec` and `fpprintprec` variables.  The default for STACK is
 
@@ -161,7 +163,8 @@ The following commands generate displayed forms of numbers.  These will not be m
 | `anyfloatex(ex)`            | Decides if any floats are in the expression.
 | `scientific_notationp(ex)` | Determines if \(ex\) is written in the form \(a10^n\) where \(a\) is an integer or float, and \(n\) is an integer.
 
-Please note that these predicate functions need to be used with `simp:false`.  Some answer tests, including the default algebraic equivalence (`ATAlgEquiv`) always simplify their arguments.  Instead use a non-simplifying answer test such as `EqualComAss`.
+!!! warning "Use these predicates with `simp:false`"
+    These predicate functions need to be used with `simp:false`.  Some answer tests, including the default algebraic equivalence (`ATAlgEquiv`) always simplify their arguments.  Instead use a non-simplifying answer test such as `EqualComAss`.
 
 ### Decimal places
 

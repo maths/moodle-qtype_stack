@@ -257,7 +257,8 @@ Old versions of the parsons block (before 2024072500) used `stackjson_stringify`
 `parsons_answer`, and `proof_parsons_interpret` in place of `parsons_decode`, and used the `String` input type. Legacy versions of questions are still 
 supported and should function as previously, so long as the `String` input type is used. 
 
-It is strongly recommended to update questions to use the new functions. These will hash the keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
+!!! warning "Update legacy Parsons questions"
+    It is strongly recommended to update questions to use the new functions. These will hash the keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
 
 Upgrading Parsons questions:
 

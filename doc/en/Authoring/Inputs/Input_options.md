@@ -62,7 +62,8 @@ Normally a _blank_, i.e. empty, answer has a special status and is not considere
 * Matrix inputs will return the correct size matrix filled with `null` atoms, e.g. `matrix([null,null],[null,null])`.
 * Checkbox inputs will return `[]` to make sure the answer is always a list (to avoid a type-mismatch).
 
-We strongly recommend (with many years of experience) that teachers do not use this option without very careful thought!
+!!! warning "Use `allowempty` only with very careful thought"
+    We strongly recommend (with many years of experience) that teachers do not use this option without very careful thought!
 
 For example, if you don't want to give away how many answers you expect, then ask the student to provide a _set_ of answers.  Another option is to use the "TextArea" input type.  Each line of the TextArea is validated separately, and the resulting mathematical expression is a list.  The student is therefore free to choose how many expressions to type in, as the circumstances require, without a pre-defined number of input boxes.  By design, it is better to use these methods than trying to combine separate inputs, some of which are empty, in the PRT later.
 

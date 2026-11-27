@@ -27,7 +27,8 @@ It is also possible a student will do something which is just plain odd, e.g. \(
 
 ### Factorisation of integers ###
 
-If you would like to ask a student to factor an integer, then do not use the `FacForm` answer test.  The `FacForm` answer test is designed to use with polynomials.
+!!! warning "`FacForm` is for polynomials"
+    If you would like to ask a student to factor an integer, then do not use the `FacForm` answer test.  The `FacForm` answer test is designed to use with polynomials.
 
 Instead, switch off simplification and define
 
@@ -35,7 +36,8 @@ Instead, switch off simplification and define
 
 and use `EqualComAss` as the answer test.
 
-Note however that EqualComAss does not think that `2^2*3` and `2*2*3` are the same!
+!!! note
+    However, `EqualComAss` does not think that `2^2*3` and `2*2*3` are the same!
 
 ### PartFrac: partial fractions ###
 

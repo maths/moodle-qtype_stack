@@ -160,4 +160,68 @@ final class docslib_test extends qtype_stack_testcase {
             );
         }
     }
+
+    public function test_stack_docs_admonitions(): void {
+
+        // A page without admonitions is unchanged.
+        $md = "Text.\n\n    Code, with !!! inside.\n\nMore text.";
+        $this->assertEquals($md, stack_docs_admonitions($md));
+
+        $md = "Before.\n\n!!! warning \"Take care\"\n    Body `x`.\n\nAfter.";
+        $ex = "Before.\n\n\n" .
+            '<div class="stack-docs-admonition admonition admonition-warning alert alert-warning" markdown="1">' . "\n" .
+            '<p class="admonition-title" markdown="span"><strong>Take care</strong></p>' . "\n\n" .
+            "Body `x`.\n\n</div>\n\n\nAfter.";
+        $this->assertEquals($ex, stack_docs_admonitions($md));
+
+        // Without a title the type is the title, and an empty title gives none.
+        $this->assertStringContainsString(
+            '<strong>Note</strong>',
+            stack_docs_admonitions("!!! note\n    Body.")
+        );
+        $this->assertStringNotContainsString(
+            'admonition-title',
+            stack_docs_admonitions("!!! note \"\"\n    Body.")
+        );
+
+        // Collapsible blocks, closed and open.
+        $this->assertStringContainsString(
+            '<details class="stack-docs-admonition admonition admonition-note alert alert-info" markdown="1">',
+            stack_docs_admonitions("??? note\n    Hidden.")
+        );
+        $this->assertStringContainsString(
+            '<details class="stack-docs-admonition admonition admonition-tip alert alert-success" open markdown="1">',
+            stack_docs_admonitions("???+ tip\n    Shown.")
+        );
+
+        // An unknown type gets a neutral alert.
+        $this->assertStringContainsString(
+            'admonition-example alert alert-secondary',
+            stack_docs_admonitions("!!! example\n    Body.")
+        );
+
+        // An example of the syntax inside a fenced code block is not converted.
+        $md = "```\n!!! warning\n    Not an admonition.\n```";
+        $this->assertEquals($md, stack_docs_admonitions($md));
+    }
+
+    public function test_stack_docs_render_markdown_with_admonition(): void {
+
+        $md = "Before.\n\n!!! warning \"Take `care`\"\n    Body with *emphasis*.\n\n" .
+            "    * One\n    * Two\n\n" .
+            "    !!! note\n        Nested.\n\nAfter.";
+        $html = stack_docs_render_markdown($md);
+
+        $this->assertStringNotContainsString('!!!', $html);
+        $this->assertStringNotContainsString('<pre>', $html);
+        $this->assertStringContainsString(
+            '<div class="stack-docs-admonition admonition admonition-warning alert alert-warning">',
+            $html
+        );
+        $this->assertStringContainsString('<strong>Take <code>care</code></strong>', $html);
+        $this->assertStringContainsString('<p>Body with <em>emphasis</em>.</p>', $html);
+        $this->assertStringContainsString('<li>Two</li>', $html);
+        $this->assertStringContainsString('admonition-note alert alert-info', $html);
+        $this->assertStringContainsString('<p>After.</p>', $html);
+    }
 }

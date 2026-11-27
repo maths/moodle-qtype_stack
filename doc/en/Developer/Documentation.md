@@ -32,7 +32,8 @@ The main documentation is arranged as follows.
 
 * The [markdown](http://daringfireball.net/projects/markdown/) project external site.
 
-**Warning:** markdown uses whitespace and formatting to give meaning.  The number of spaces at the beginning and the ends of lines convey specific meaning in markdown.  An example is the way code blocks are included, which is useful for including fragments of Maxima code.
+!!! warning "Whitespace matters"
+    Markdown uses whitespace and formatting to give meaning.  The number of spaces at the beginning and the ends of lines convey specific meaning in markdown.  An example is the way code blocks are included, which is useful for including fragments of Maxima code.
 
 ## STACK's markdown documentation system
 
@@ -244,7 +245,7 @@ feature      | !
 
 ### Admonitions (tips, notes and warnings)
 
-The online docs support admonitions: boxes for a tip, a note or a warning.  Leave a blank line before the block, and indent its body by four spaces.
+The docs support admonitions: boxes for a tip, a note or a warning.  Leave a blank line before the block, and indent its body by four spaces.
 
     !!! tip
         Adaptive mode is the most useful behaviour for testing questions.
@@ -257,9 +258,9 @@ Use `???` in place of `!!!` for a block which starts collapsed, and `???+` for o
     ??? note "Worked solution"
         This text is hidden until the reader opens it.
 
-The common types are `note`, `tip`, `info`, `warning` and `danger`.
+The common types are `note`, `tip`, `info`, `warning` and `danger`.  Leave out the title to use the type as the title, or give an empty title `""` for none.
 
-**Note:** admonitions are rendered only on [docs.stack-assessment.org](https://docs.stack-assessment.org).  The copy of the docs inside Moodle shows the `!!! tip` line as plain text, with the body as a code block, so the content must still make sense when read that way.
+Admonitions are rendered on [docs.stack-assessment.org](https://docs.stack-assessment.org) by mkdocs, and in the copy of the docs inside Moodle by `stack_docs_admonitions()` in `doc/docslib.php`, which turns each one into a Bootstrap alert: `note` and `info` are blue, `tip` green, `warning` amber and `danger` red.  Any other type is grey in Moodle.  The Moodle copy ignores mkdocs layout options after the type, such as `inline`.
 
 # See also
 * [MarkDown](http://daringfireball.net/projects/markdown/)

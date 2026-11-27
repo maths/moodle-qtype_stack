@@ -122,7 +122,8 @@ strings in the question variables, then use the `castext()` command in Maxima.
 
 This is a comma-separated list of text strings which are forbidden in a student's answer.  If one of these strings is present then the student's attempt will be considered invalid, and no penalties will be given. This is an unsophisticated string match.
 
-Note, any question variable names used in the question variables are automatically forbidden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).  If you want to allow question variables, you must explicitly use the allowed words field, see below.
+!!! note
+    Any question variable names used in the question variables are automatically forbidden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).  If you want to allow question variables, you must explicitly use the allowed words field, see below.
 
 When a question asks for something which Maxima can do in one command, forbid that function.  For example, forbid `diff` when asking for a derivative, `int` and `integrate` for an integral, `factor` for a factorisation, `expand` for an expansion, and `solve` when asking for solutions of an equation.  Forbid only what is being assessed: a question which asks for a derivative and then evaluates it forbids `diff`, not the evaluation.
 

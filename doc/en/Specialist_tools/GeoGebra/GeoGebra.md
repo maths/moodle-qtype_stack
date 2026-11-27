@@ -12,11 +12,11 @@ This document assumes you have worked through the following sections of the Auth
 * [Authoring quick start 2](../../AbInitio/Authoring_quick_start_2.md): Question variables.
 * [Authoring quick start 3](../../AbInitio/Authoring_quick_start_3.md): Improving feedback.
 
-__We strongly recommend you do not use an HTML-aware editor when editing STACK questions containing GeoGebra.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following:
+!!! warning "No HTML-aware editor!"
+    __We strongly recommend you do not use an HTML-aware editor when editing STACK questions containing GeoGebra.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following: `User Dashboard > Preferences > Editor preferences > Manage editors`.
 
-    User Dashboard > Preferences > Editor preferences > Manage editors
-
-__A note on licences:__ Please note that the [GeoGebra licence](https://www.geogebra.org/license) does not match the [STACK licence](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).  Users of STACK remain entirely responsible for complying with licences for materials, and media embedded inside STACK questions.
+!!! note "Licences"
+    The [GeoGebra licence](https://www.geogebra.org/license) does not match the [STACK licence](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).  Users of STACK remain entirely responsible for complying with licences for materials, and media embedded inside STACK questions.
 
 ## Question design
 

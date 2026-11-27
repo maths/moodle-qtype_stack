@@ -4,7 +4,8 @@ This page documents use of JSXGraph to display visuals. This is a somewhat advan
 
 STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/).
 
-Note, we strongly recommend you do not use an HTML-aware editor when using JSXGraph questions.  Instead turn off the editor within Moodle and edit the raw HTML.
+!!! warning "No HTML-aware editor!"
+    We strongly recommend you do not use an HTML-aware editor when using JSXGraph questions.  Instead turn off the editor within Moodle and edit the raw HTML.
 
     Site administration > Plugins > Text editors > Manage editors
 

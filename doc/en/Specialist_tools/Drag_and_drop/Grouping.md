@@ -168,7 +168,8 @@ A question note is required due to the random permutation of `steps`. We use:
 3. Set the option _Student must verify_ to "no".
 4. Set the option _Show the validation_ to "no".
 
-Steps 3 and 4 are strongly recommended, otherwise the student will see unhelpful code representing the underlying state of their answer.
+!!! warning
+    Steps 3 and 4 are strongly recommended, otherwise the student will see unhelpful code representing the underlying state of their answer.
 
 ### Potential response tree: prt1
 

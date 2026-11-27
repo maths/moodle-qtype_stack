@@ -137,7 +137,8 @@ If the rendering fails, check the developer console of your browser for any erro
 
 # Troubleshooting an install/upgrade
 
-When you upgrade, the STACK plugin will try to automatically recreate the optimised Maxima image.  Occasionally this will not work and you will need to troubleshoot why.
+!!! note
+    When you upgrade, the STACK plugin will try to automatically recreate the optimised Maxima image.  Occasionally this will not work and you will need to troubleshoot why.
 
 ### 1. GOAL: maxima works on the server
 

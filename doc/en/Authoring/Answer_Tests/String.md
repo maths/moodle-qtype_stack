@@ -2,7 +2,8 @@
 
 On rare occasions string matching is useful.
 
-Note that rather than using a string match a useful feature is the [Damerau-Levenshtein distance](../../Topics/Levenshtein_distance.md).
+!!! tip "Consider the Damerau-Levenshtein distance"
+    Rather than using a string match, a useful feature is the [Damerau-Levenshtein distance](../../Topics/Levenshtein_distance.md).
 
 If the argument to these tests is _not_ a Maxima string then (1) whitespace is stripped off and (2) the expression is turned into a string.  The conversion to a Maxima string happens inside PHP: if you use `ATString` in the sandbox without a string argument, the Maxima function will throw an error.
 

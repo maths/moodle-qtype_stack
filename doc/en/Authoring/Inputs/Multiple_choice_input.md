@@ -42,7 +42,8 @@ For example
 
 At least one of the choices must be considered `correct`.  However, the `true` and `false` values are only used to construct the "teacher's correct answer".   You must still use a [potential response tree](../../Authoring/Potential_response_trees.md) to assess the student's answer as normal.
 
-Note the `value` expression must be constructed with noun functions where a noun alternative exists.  E.g. use `%union()` (the noun form) not `union()`.  STACK has to match up what the student selects, and this is an expression they might well type into an algebraic input.  In this situation functions in students' expressions are turned to noun forms.  Hence the teacher must also use noun forms in setting up the MCQ input options.
+!!! warning "Use noun forms in `value`"
+    The `value` expression must be constructed with noun functions where a noun alternative exists.  E.g. use `%union()` (the noun form) not `union()`.  STACK has to match up what the student selects, and this is an expression they might well type into an algebraic input.  In this situation functions in students' expressions are turned to noun forms.  Hence the teacher must also use noun forms in setting up the MCQ input options.
 
 STACK provides some helper functions
 
@@ -74,7 +75,8 @@ If you need "none of these" you must include this as an explicit option, and not
 
 ## Model answer: nouns ##
 
-If one of the responses is \(x=1 \text{ or } x=2\) then use `nounor` which is commutative and associative.  Do not use `or` which always simplifies its arguments.  In this example `x=1 or x=2` evaluates to `false`.
+!!! warning "Use `nounor`, not `or`"
+    If one of the responses is \(x=1 \text{ or } x=2\) then use `nounor` which is commutative and associative.  Do not use `or` which always simplifies its arguments.  In this example `x=1 or x=2` evaluates to `false`.
 
 Functions `diff` and `int` will evaluate, so you don't have displayed calculus operations.  If one of the responses is a _displayed_ derivative or integral then construct your answer with Maxima's inert forms `'diff` and `'int`.
 

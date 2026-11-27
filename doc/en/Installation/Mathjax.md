@@ -64,8 +64,9 @@ Please note the following.
 
 ### What about dollar mathematics delimiters? ###  {#delimiters}
 
-Please note that we strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments such as `$...$` and `$$...$$` for inline and displayed mathematics respectively.  As of STACK 4.0 use of dollars is officially unsupported.
-The reasons are (1) they do not match, which makes parsing more difficult, and (2) many courses use [currency](../Authoring/CASText.md#currency) which needs this symbol and protecting it is always problematic.
+!!! warning "Dollar delimiters are unsupported"
+    We strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments such as `$...$` and `$$...$$` for inline and displayed mathematics respectively.  As of STACK 4.0 use of dollars is officially unsupported.
+    The reasons are (1) they do not match, which makes parsing more difficult, and (2) many courses use [currency](../Authoring/CASText.md#currency) which needs this symbol and protecting it is always problematic.
 
 If you have extensive existing materials using these delimiters then we have scripts which will automatically convert them for you.  All fields within existing questions can be converted with the automatic scripts available from
 

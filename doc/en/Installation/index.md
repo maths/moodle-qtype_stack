@@ -6,7 +6,8 @@ We appreciate some people prefer hosted services as an alternative to running th
 
 STACK is designed to be used on a Linux-based server.  For testing and local question development we recommend using VirtualBox.
 
-Direct connection to Maxima on Windows is not supported.  On Windows please set up a server with [goemaxima](https://github.com/mathinstitut/goemaxima) (installed via Docker) and connect your server to Maxima that way.  Note, you _must_ match the version of goemaxima to the same version of the STACK plugin.  (This is not suitable for development, where you want to change Maxima code.)
+!!! warning "Windows"
+    Direct connection to Maxima on Windows is not supported.  On Windows please set up a server with [goemaxima](https://github.com/mathinstitut/goemaxima) (installed via Docker) and connect your server to Maxima that way.  Note, you _must_ match the version of goemaxima to the same version of the STACK plugin.  (This is not suitable for development, where you want to change Maxima code.)
 
 ## 0. Set up PHP with mbstring
 
@@ -53,11 +54,10 @@ To check your version of Maxima, run `maxima --version`.  If Moodle is set up us
 
 Alternatively, Maxima can also be run on a separate server via [GoeMaxima](https://github.com/mathinstitut/goemaxima) or [MaximaPool](https://github.com/maths/stack_util_maximapool).
 
-Please note:
-
-* STACK has been tested on Maxima 5.49.0 and 5.48.0, and earlier versions.
-* As of April 2026, the distributed version of Maxima 5.47.0, e.g. bundled with Debian, is missing the Grobner package which is essential.  You will need to compile Maxima from source. 
-* Maxima 5.40.0 changed the way subscripts were displayed.  We are no longer testing against versions before 5.40.0, so there may be inconsistencies with display of subscripts with other versions.
+!!! warning "Maxima versions"
+    * STACK has been tested on Maxima 5.49.0 and 5.48.0, and earlier versions.
+    * As of April 2026, the distributed version of Maxima 5.47.0, e.g. bundled with Debian, is missing the Grobner package which is essential.  You will need to compile Maxima from source.
+    * Maxima 5.40.0 changed the way subscripts were displayed.  We are no longer testing against versions before 5.40.0, so there may be inconsistencies with display of subscripts with other versions.
 
 Old notes:
 

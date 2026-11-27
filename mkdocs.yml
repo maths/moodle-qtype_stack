@@ -19,6 +19,8 @@ extra_css:
 markdown_extensions:
     - mdx_math
     - extra
+    - admonition
+    - pymdownx.details
 plugins:
     - search
     - exclude:

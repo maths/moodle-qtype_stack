@@ -52,7 +52,7 @@ You can also edit the theme directly. Any file in the `site_overrides` folder wi
 
 Before adding major style changes to the online docs, you are encouraged to test your changes locally. For this, you will need to install MkDocs and all the required extensions.
 
-1. [Install MkDocs](https://www.mkdocs.org/), including its requirements.
+1. [Install MkDocs](https://www.mkdocs.org/), including its requirements. Use version 1.x: `pip install "mkdocs<2"`.
 2. Install Material with `pip install mkdocs-material`
 3. Install the markdown extension with `pip install https://github.com/mitya57/python-markdown-math/archive/master.zip`
 4. Install the exclude plugin with `pip install mkdocs-exclude`

@@ -242,6 +242,25 @@ Tables       | are also
 an extremely | useful
 feature      | !
 
+### Admonitions (tips, notes and warnings)
+
+The online docs support admonitions: boxes for a tip, a note or a warning.  Leave a blank line before the block, and indent its body by four spaces.
+
+    !!! tip
+        Adaptive mode is the most useful behaviour for testing questions.
+
+    !!! warning "A custom title"
+        The text in quotes replaces the default title.
+
+Use `???` in place of `!!!` for a block which starts collapsed, and `???+` for one which can be collapsed but starts open.
+
+    ??? note "Worked solution"
+        This text is hidden until the reader opens it.
+
+The common types are `note`, `tip`, `info`, `warning` and `danger`.
+
+**Note:** admonitions are rendered only on [docs.stack-assessment.org](https://docs.stack-assessment.org).  The copy of the docs inside Moodle shows the `!!! tip` line as plain text, with the body as a code block, so the content must still make sense when read that way.
+
 # See also
 * [MarkDown](http://daringfireball.net/projects/markdown/)
 * [PHP Markdown Extra](http://michelf.com/projects/php-markdown/extra/)

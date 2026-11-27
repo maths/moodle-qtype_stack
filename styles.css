@@ -1760,3 +1760,115 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .que.stack .matrixtable td.stack-matrix-column-separator + td {
     padding-left: 0.4em;
 }
+
+/* Admonitions in the copy of the docs inside Moodle (see stack_docs_admonitions in doc/docslib.php). */
+.alert.stack-docs-admonition {
+    --stack-adm-color: #448aff;
+    --stack-adm-icon: "\f303";
+    margin: 1.5rem 0;
+    padding: 0 1rem 0.75rem;
+    color: inherit;
+    background-color: color-mix(in srgb, var(--stack-adm-color) 6%, transparent);
+    border: 1px solid color-mix(in srgb, var(--stack-adm-color) 35%, transparent);
+    border-left: 0.3rem solid var(--stack-adm-color);
+    border-radius: 0.25rem;
+    box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.12);
+}
+/* Ordinary links, not Moodle's bold alert links. */
+.alert.stack-docs-admonition a:not(.btn) {
+    color: var(--bs-link-color);
+    font-weight: inherit;
+}
+.stack-docs-admonition > .admonition-title,
+.stack-docs-admonition > summary {
+    margin: 0 -1rem 0.75rem;
+    padding: 0.5rem 1rem;
+    background-color: color-mix(in srgb, var(--stack-adm-color) 15%, transparent);
+}
+.stack-docs-admonition > summary {
+    cursor: pointer;
+}
+.stack-docs-admonition > .admonition-title::before,
+.stack-docs-admonition > summary::before {
+    content: var(--stack-adm-icon);
+    font: var(--fa-font-solid);
+    color: var(--stack-adm-color);
+    margin-right: 0.5rem;
+}
+/* No title: keep the body clear of the top edge. */
+.stack-docs-admonition > :first-child:not(.admonition-title):not(summary) {
+    margin-top: 0.75rem;
+}
+.stack-docs-admonition > :last-child {
+    margin-bottom: 0;
+}
+details.stack-docs-admonition:not([open]) {
+    padding-bottom: 0;
+}
+details.stack-docs-admonition:not([open]) > summary {
+    margin-bottom: 0;
+}
+.stack-docs-admonition.admonition-info,
+.stack-docs-admonition.admonition-todo {
+    --stack-adm-color: #00b8d4;
+    --stack-adm-icon: "\f05a";
+}
+.stack-docs-admonition.admonition-abstract {
+    --stack-adm-color: #00b0ff;
+    --stack-adm-icon: "\f46d";
+}
+.stack-docs-admonition.admonition-tip,
+.stack-docs-admonition.admonition-hint {
+    --stack-adm-color: #00bfa5;
+    --stack-adm-icon: "\f0eb";
+}
+.stack-docs-admonition.admonition-success {
+    --stack-adm-color: #00c853;
+    --stack-adm-icon: "\f00c";
+}
+.stack-docs-admonition.admonition-question {
+    --stack-adm-color: #64dd17;
+    --stack-adm-icon: "\f059";
+}
+.stack-docs-admonition.admonition-warning,
+.stack-docs-admonition.admonition-caution,
+.stack-docs-admonition.admonition-attention {
+    --stack-adm-color: #ff9100;
+    --stack-adm-icon: "\f071";
+}
+.stack-docs-admonition.admonition-failure {
+    --stack-adm-color: #ff5252;
+    --stack-adm-icon: "\f00d";
+}
+.stack-docs-admonition.admonition-danger,
+.stack-docs-admonition.admonition-error {
+    --stack-adm-color: #ff1744;
+    --stack-adm-icon: "\f0e7";
+}
+.stack-docs-admonition.admonition-bug {
+    --stack-adm-color: #f50057;
+    --stack-adm-icon: "\f188";
+}
+.stack-docs-admonition.admonition-example {
+    --stack-adm-color: #7c4dff;
+    --stack-adm-icon: "\f0c3";
+}
+.stack-docs-admonition.admonition-quote {
+    --stack-adm-color: #9e9e9e;
+    --stack-adm-icon: "\f10d";
+}
+
+/* Code in the copy of the docs inside Moodle (doc/doc.php): grey boxes, as on the docs site. */
+#page-question-type-stack-doc-doc pre {
+    padding: 0.75rem 1rem;
+    color: var(--bs-body-color);
+    background-color: var(--bs-tertiary-bg, #f8f9fa);
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    border-radius: 0.25rem;
+}
+#page-question-type-stack-doc-doc :not(pre) > code {
+    padding: 0.1em 0.3em;
+    color: var(--bs-body-color);
+    background-color: var(--bs-secondary-bg, #e9ecef);
+    border-radius: 0.2rem;
+}

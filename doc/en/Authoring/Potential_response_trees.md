@@ -53,7 +53,8 @@ This field is given a default value automatically and is used for [reporting](..
 
 This field may not be empty and for each node in a tree the string must be unique.
 
-Do not use `;`, `|` characters in your answer note.  These characters are used to split the response summary in the reporting scripts.
+!!! warning "No `;` or `|` in answer notes"
+    Do not use `;`, `|` characters in your answer note.  These characters are used to split the response summary in the reporting scripts.
 
 ## Scores and penalties ##
 

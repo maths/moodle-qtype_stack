@@ -7,7 +7,10 @@ Both these filters find text enclosed between `{@...@}` tags on a single line an
     [[filter type="calculation" /]]
     [[filter type="cas" /]]
 
-Note, the order of filters is important, and it is essential that the calculation or cas filter is applied before any markdown filter you are using.  That way the results of any calculation are inserted into text which is then processed by the markdown filter.  The _results_ of the calculation can then be captured by the `lastexpr` and `lastblock` extractors (see below).  Hence, you will typically need to use
+!!! warning "The order of filters matters"
+    The order of filters is important, and it is essential that the calculation or cas filter is applied before any markdown filter you are using.  That way the results of any calculation are inserted into text which is then processed by the markdown filter.  The _results_ of the calculation can then be captured by the `lastexpr` and `lastblock` extractors (see below).
+
+Hence, you will typically need to use
 
 ```
 [[ascii input="ans1"]]

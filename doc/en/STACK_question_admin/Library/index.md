@@ -50,7 +50,8 @@ When they are imported, STACK chooses the current system default.
 
 Additional libraries of STACK questions can be installed on your Moodle server. Once STACK is installed, there will be a `stack/sitelibrary` directory within the Moodle data directory. STACK will interpret each top-level subdirectory of `stack/sitelibrary` as a separate library and allow you to switch between them (and the STACK question library) using a dropdown on the library page displaying subdirectory names. Ask your server administrator to copy a library you wish to use into a suitably named subdirectory in `stack/sitelibrary`. After any update to an installed library, the Moodle MUC cache will need to be cleared.
 
-Note, questions in `stack/sitelibrary` will be available to any teacher on this Moodle site to import.
+!!! note
+    Questions in `stack/sitelibrary` will be available to any teacher on this Moodle site to import.
 
 # Moodle courses released with STACK #
 

@@ -28,9 +28,8 @@ Teachers *always* need to use `nounand` and `nounor` in CAS expressions when the
 For example, when defining the "teacher's answer" they should use the noun forms as appropriate.
 Teachers often need to use Boolean logic, and so need to consciously separate the difference between these operators and concepts.
 
-Note, the answer tests do *not* convert noun forms to the Maxima forms.
-Otherwise both `x=1 or x=2` and `x=1 or x=3` would be evaluated to `false` and a teacher could not tell that they are different!
-To replace all `nounand` (etc.) operators with the Maxima equivalent, use `noun_logic_remove(ex)`.
+!!! warning "Answer tests do not convert noun forms"
+    The answer tests do *not* convert noun forms to the Maxima forms.  Otherwise both `x=1 or x=2` and `x=1 or x=3` would be evaluated to `false` and a teacher could not tell that they are different!  To replace all `nounand` (etc.) operators with the Maxima equivalent, use `noun_logic_remove(ex)`.
 
 ## Operators and notes
 

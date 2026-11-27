@@ -17,7 +17,8 @@ Many of the Greek letters already have a meaning in Maxima.
 * `lambda`: Defines and returns a lambda expression, i.e. an unnamed function.
 * `psi`: The derivative of 'log (gamma (<x>))' of order '<n>+1', which has a strange syntax `psi[n](x)`.  It is also defined in the tensor package.
 
-Note that by default, `psi` requires arguments and any attempt to use this variable name without arguments will result in an error.  For this reason we delete this function in STACK, and `psi` becomes an unnamed variable.
+!!! note
+    By default, `psi` requires arguments and any attempt to use this variable name without arguments will result in an error.  For this reason we delete this function in STACK, and `psi` becomes an unnamed variable.
 
 
 The following are given a specific value by STACK.

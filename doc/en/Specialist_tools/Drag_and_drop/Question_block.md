@@ -160,7 +160,8 @@ This also fixes a randomisation bug that occurred when numerical keys are used (
 
 E.g. in test-case construction use `parsons_answer([ta, proof_steps])` where `ta` is a list of tags and `proof_steps` is the proof steps array.
 
-Legacy versions of questions are still supported and should function as previously. However it is strongly recommended to update questions to use the new functions.  You will be prompted to upgrade by the bulk test.
+!!! note
+    Legacy versions of questions are still supported and should function as previously. However it is strongly recommended to update questions to use the new functions.  You will be prompted to upgrade by the bulk test.
 
 ## Obtaining attempt histories
 

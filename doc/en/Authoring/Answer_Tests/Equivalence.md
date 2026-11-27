@@ -103,7 +103,8 @@ Algebraic equivalence evaluates as much as possible, to try to establish equival
 
 Even with this answer test `noundiff(y,x)` and `noundiff(y(x),x)` are different!
 
-Note, that logic nouns such as `nounand` are still evaluated by this test!  Sorry, but logical noun functions are dealt with internally in a very different way than Maxima noun functions such as `'diff(y,x)` and the parallel `noundiff`.  Use a different test, such as `EqualComAss`.
+!!! warning
+    Logic nouns such as `nounand` are still evaluated by this test!  Sorry, but logical noun functions are dealt with internally in a very different way than Maxima noun functions such as `'diff(y,x)` and the parallel `noundiff`.  Use a different test, such as `EqualComAss`.
 
 It was the need to selectively evaluate some nouns but not others that led to the development of the [rule-based answer tests](Rule_based.md) to deal with the need for these options in a coherent way.
 
@@ -117,7 +118,8 @@ There is no explicit simplification here (unlike AlgEquiv).
 This test always assumes [simplification](../../CAS/Simplification.md) is off, i.e. `simp:false`, regardless of any question settings.  If this is too strict, use `ev(ex,simp)` in the arguments to simplify them explicitly first.
 When simplification is off this test effectively tests whether the parse trees are identical.
 
-Please note, the behaviour of this test relies on the internal representation of expressions by Maxima, rather than an explicit mathematical property such as "equivalence".  Explicit properties should be tested in preference to using this test!
+!!! warning
+    The behaviour of this test relies on the internal representation of expressions by Maxima, rather than an explicit mathematical property such as "equivalence".  Explicit properties should be tested in preference to using this test!
 
 ### SubstEquiv ###
 

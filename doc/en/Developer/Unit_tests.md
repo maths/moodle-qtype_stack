@@ -146,7 +146,8 @@ To run this set up the [STACK-maxima-sandbox](../CAS/STACK-Maxima_sandbox.md) an
 
 The output from these tests is written to `.ERR` files in `\moodle\question\type\stack\stack\maxima\`.
     
-Please note that currently, with simplification false, there are a number of false negative results.  That is tests appear to fail, but do not.  This is because rtest is not designed to run with simp:false, and so does not correctly decide whether things are really the "same" or "different".
+!!! note "False negatives with `simp:false`"
+    Currently, with simplification false, there are a number of false negative results.  That is tests appear to fail, but do not.  This is because rtest is not designed to run with simp:false, and so does not correctly decide whether things are really the "same" or "different".
 
 # Timing the code
 

@@ -10,11 +10,10 @@ This document assumes you have worked through the following sections of the Auth
 * [Authoring quick start 2](../../AbInitio/Authoring_quick_start_2.md): Question variables.
 * [Authoring quick start 3](../../AbInitio/Authoring_quick_start_3.md): Improving feedback.
 
-__We strongly recommend you do not use an HTML-aware editor when editing STACK questions containing JSXGraph.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following:
+!!! warning "No HTML-aware editor!"
+    __We strongly recommend you do not use an HTML-aware editor when editing STACK questions containing JSXGraph.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following: `User Dashboard > Preferences > Editor preferences > Manage editors`.
 
-    User Dashboard > Preferences > Editor preferences > Manage editors
-
-_Plain text_ is a safe choice for an editor, even if it lacks a lot of convenience features. Editing a JSXGraph question in other editors can break the question, especially if it contains `<`, `>` and `&` characters.
+    _Plain text_ is a safe choice for an editor, even if it lacks a lot of convenience features. Editing a JSXGraph question in other editors can break the question, especially if it contains `<`, `>` and `&` characters.
 
 ## Drawing a basic JSXGraph plot
 

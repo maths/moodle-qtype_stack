@@ -71,7 +71,8 @@ STACK provides a function `treestop` to stop traversing the tree, and use the La
 </figure>
 </p>
 
-Note, because of the HTML generated, and the LaTeX inside the tree HTML, you cannot embed these trees inside displayed LaTeX using `\[ ... \]`.  The only way to display a tree is using `{@disptree(....)@}` as an isolated mathematical expression.
+!!! note
+    Because of the HTML generated, and the LaTeX inside the tree HTML, you cannot embed these trees inside displayed LaTeX using `\[ ... \]`.  The only way to display a tree is using `{@disptree(....)@}` as an isolated mathematical expression.
 
 ## Examples
 

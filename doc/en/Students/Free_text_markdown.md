@@ -34,10 +34,5 @@ Bullet lists nested within numbered list:
      - broccoli
 ```
 
-**Warning** If you are familiar with Markdown, you may be used to using backticks to produce a  monospace font:
-
-```
-   `monospace`
-```
-
-However, free-text input uses backticks for AsciiMath mathematical formatting, as summaried in the [Free-text: mathematical input (introduction)](Free_text_AsciiMath_intro.md) section.
+!!! warning "Backticks are for mathematics"
+    If you are familiar with Markdown, you may be used to using backticks to produce a monospace font, as in `` `monospace` ``.  However, free-text input uses backticks for AsciiMath mathematical formatting, as summarised in the [Free-text AsciiMath](Free_text_AsciiMath_intro.md) section.

@@ -55,7 +55,8 @@ The function returns a promise that will resolve to the id of the sandbox side i
 
 The second and third arguments of this function are optional. By default the second one is false and updates are only received on `change`-events, if one wants to react immediately as the student is typing set this to true. By default the third one is `false`, i.e., the search for an input with the given `name` is not limited to the question containing this sandbox, if this question does not have an input of that name then the first matching input on the page will be returned, thus allowing interaction between questions, set this to `true` if you want to ensure that only the containing question can be the source of the input. Should no input match the name an error will become very visible (assuming execution in non hidden sandbox).
 
-Note that matrix inputs are not supported and behaviour for more complicated inputs may be interesting. For example, MCQ inputs are mapped to a basic text-input and checkboxes may prove to be difficult to deal with.
+!!! note
+    Matrix inputs are not supported and behaviour for more complicated inputs may be interesting. For example, MCQ inputs are mapped to a basic text-input and checkboxes may prove to be difficult to deal with.
 
 #### `stack_js.register_external_button_listener(id, callback)`
 

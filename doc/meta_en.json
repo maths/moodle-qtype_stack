@@ -1082,11 +1082,6 @@
         "description":"Answers to frequently asked questions aimed at students using STACK."
         },
         {
-        "file":"Free_text.md",
-        "title":"Students' Free text input - STACK Documentation",
-        "description":"Information for students on typing free text, including mathematics, as an answer in STACK."
-        },
-        {
         "file":"Free_text_markdown.md",
         "title":"Free-text Text Formatting for Students - STACK Documentation",
         "description":"How students format text with Markdown when typing an extended solution in a free-text answer box."

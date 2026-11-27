@@ -1,10 +1,10 @@
 # Free-text mathematical input
 
-In questions that allow you to enter multiple lines of text and mathematics containing an extended solution to some problem, mathematics is entered using *AsciiMath* syntax between *backticks*, for example `` ` x^2 + 2x ` `` .  This section provides an introduction to this syntax. A more complete summary of AsciiMath syntax is in the [Free-text AsciiMath summary](Free-text-AsciiMath-summary.md) section online, and the complete reference is available from [asciimath.org](https://asciimath.org/). 
+In questions that allow you to enter multiple lines of text and mathematics containing an extended solution to some problem, mathematics is entered using *AsciiMath* syntax between *backticks*, for example `` ` x^2 + 2x ` `` .  This section provides an introduction to this syntax. A more complete summary of AsciiMath syntax is in the [Free-text AsciiMath summary](Free_text_AsciiMath_summary.md) section online, and the complete reference is available from [asciimath.org](https://asciimath.org/). 
 
 **Note** This only applies to questions where  two panels are shown (as below), with one (on the left) for entering your solution and one (on the right) where your answer is displayed properly formatted.
 
-![A typical free text answer box showing a typed solution on the left, and a formatted version on the right](images/free-text-answerbox.png)
+![A typical free text answer box showing a typed solution on the left, and a formatted version on the right](../../content/free-text-answerbox.png)
 
 AsciiMath is an easy-to-write markup language for mathematics.  Most AsciiMath symbols attempt to mimic in text what they look like when displayed, for example the text `oo` represents  \(\infty\), so the input
 

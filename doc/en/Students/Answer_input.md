@@ -3,9 +3,9 @@
 In STACK you often need to enter an answer which is a number or an algebraic expression.
 For short-answer questions, which provide one or more boxes for you to enter your answer(s) (such as that shown below) you should type in your answers using the same syntax as that used in the Maxima symbolic mathematics system. This syntax is broadly similar to the syntax used for mathematical formulae in graphical calculators; general programming languages such as Java, C and Basic; and in spreadsheet programs. You will find it useful to master it.
 
-(If you are entering a free-form text answer, in which a complete solution is entered within a box on the left, and your answer is displayed formatted on the right, the you should follow the advice in [Free-text Markdown](Free-text-markdown.md) and [Free-text AsciiMath](Free-text-AsciiMath-intro.md) rather than this. )
+(If you are entering a free-form text answer, in which a complete solution is entered within a box on the left, and your answer is displayed formatted on the right, the you should follow the advice in [Free-text Markdown](Free_text_markdown.md) and [Free-text AsciiMath](Free_text_AsciiMath_intro.md) rather than this. )
 
-![A typical short answer box into which answers are entered](images/short-answer-box.png)
+![A typical short answer box into which answers are entered](../../content/short-answer-box.png)
 
 For example, to enter \( e^{-t}\sin(3t)\) you need to type in
 

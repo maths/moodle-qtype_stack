@@ -18,7 +18,7 @@ There are two main styles of question you may be asked to answer: short answer q
 
 Short answer questions will provide one or more boxes in which you should enter your answer(s). A typical box is shown below.
 
-![A typical short answer box into which answers are entered](images/short-answer-box.png)
+![A typical short answer box into which answers are entered](../../content/short-answer-box.png)
 
 Some questions may require you to enter a number as an answer, such as $7$, $1.4$, $3/4$, $\sqrt{3}$ or $2\pi$.
 
@@ -35,17 +35,17 @@ Notice that powers are given using `^` and the syntax for exponentiation is `exp
 
 In this example, the multiplication signs (`*`) have been included. Although many questions will accept answers without them, it is always best to enter them.
 
-This syntax for answering short-answer questions is the syntax of the Maxima computer algebra system. The are more details on this syntax in the [Short answer input](Answer_input_(short).md) section. 
+This syntax for answering short-answer questions is the syntax of the Maxima computer algebra system. The are more details on this syntax in the [Short answer input](Answer_input.md) section. 
 
 ### Free-text input
 
 Some questions may allow you to enter multiple lines of text and mathematics containing an extended solution to some problem. These questions display two panels, as shown below, one (on the left) for entering your solution and one (on the right) where your answer is displayed properly formatted. Usually, only certain lines of your solution will be marked automatically, the individual question will state what is required. Your teacher may, however, review the complete answer.
 
-![A typical free text answer box showing a typed solution on the left, and a formatted version on the right](images/free-text-answerbox.png)
+![A typical free text answer box showing a typed solution on the left, and a formatted version on the right](../../content/free-text-answerbox.png)
 
-In these questions, text can be formatted using *Markdown* syntax. There are more details on this in the [Free-text Markdown](Free-text-markdown.md) section. 
+In these questions, text can be formatted using *Markdown* syntax. There are more details on this in the [Free-text Markdown](Free_text_markdown.md) section. 
 
-Mathematics is entered between *backticks*, for example `` ` x^2 + 2x ` `` .  If there is text on the same line as the mathematics, or on the lines immediately above or below it, then the mathematics will be displayed inline, otherwise it will be shown as displayed mathematics. The syntax used within the backticks is called AsciiMath, which is an easy-to-write syntax for mathematics. There are more details on this syntax in the [Free-text AsciiMath](Free-text-AsciiMath-intro.md) section. 
+Mathematics is entered between *backticks*, for example `` ` x^2 + 2x ` `` .  If there is text on the same line as the mathematics, or on the lines immediately above or below it, then the mathematics will be displayed inline, otherwise it will be shown as displayed mathematics. The syntax used within the backticks is called AsciiMath, which is an easy-to-write syntax for mathematics. There are more details on this syntax in the [Free-text AsciiMath](Free_text_AsciiMath_intro.md) section. 
 
 If you know LaTeX, you can also enter LaTeX syntax, for example ` \( x^2 + 2 x \) ` for inline mathematics or ` \[ sin(x)/{x+2} \]`for displayed mathematics .
 
@@ -55,7 +55,7 @@ Finally, some (but not all!) questions of this type will permit you to use an in
 
 Once you have entered your answer, most questions will display the parts of your answer that will be automatically marked in the correct mathematical format. An example is shown below.
 
-![An example answer box containing a typed student answer, and showing a mathematical rendering of the answer and a list of the variables detected wihtin the student answer.](images/student-guide-answer-validation.png)
+![An example answer box containing a typed student answer, and showing a mathematical rendering of the answer and a list of the variables detected wihtin the student answer.](../../content/student-guide-answer-validation.png)
 
 **It is important that you check this to make sure you have entered what you intended.** 
 For example, it is easily to accidentally enter
@@ -70,11 +70,11 @@ If you have accidentally not entered the answer you intended, you can change it 
 
 Some questions will restrict the type of answer you can enter, to help you answer the question in the way that is intended. For example, questions that require an exact answer may prevent you from entering a decimal number (sometimes known as a floating-point number.) If you attempt to enter a decimal number, a warning is shown, as illustrated below.
 
-![An answer box containing a decimal number, and feedback indicating that decimal numbers are not permitted for this answer.](images/student-guide-invalid-float.png)
+![An answer box containing a decimal number, and feedback indicating that decimal numbers are not permitted for this answer.](../../content/student-guide-invalid-float.png)
 
 Similar warnings are also shown if your answer does not contain matching brackets.
 
-![An answer box containing a mathematical expression with a missing closing right bracket, and feedback highlighting this fact.](images/student-guide-missmatched-brackets.png)
+![An answer box containing a mathematical expression with a missing closing right bracket, and feedback highlighting this fact.](../../content/student-guide-missmatched-brackets.png)
 
 If you do see such a warning, you can again update your answer in the answer box to correct it.
 

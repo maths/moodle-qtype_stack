@@ -21,7 +21,8 @@ Minimal usage of this block is as follows:
 ```
 Note that that box will not follow any style rules the surrounding VLE might have. Also note that the contents of the box might not be as accessible as things outside the box.
 
-**You may not place an `[[iframe]]` inside an `[[iframe]]`.** Well you may but it won't work. This applies to all members of the family, so no `[[jsxgraph]]` or `[[adapt]]` inside each other or other `[[iframes]]`.
+!!! warning "No `[[iframe]]` inside an `[[iframe]]`"
+    Well you may, but it won't work. This applies to all members of the family, so no `[[jsxgraph]]` or `[[adapt]]` inside each other or other `[[iframes]]`.
 
 ## Style block ##
 

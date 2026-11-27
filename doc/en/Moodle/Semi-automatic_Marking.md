@@ -34,7 +34,8 @@ When you are manually grading you can see both the student's attempt, and the "R
 
 The `Raw Score` reports the total weighted mark of those PRTs which actually evaluated (i.e. with valid inputs).  The total weighted mark is given in terms of the question default mark, set in the question itself.  In this example, the question is out of two.  The student got partial credit.  It is then up to the teacher to record a final mark taking account of any automatic partial grade, and their academic judgement of the manually graded input(s).
 
-Note, questions which "Requires grading" really do need human input (manually graded).  Even though in this example some partial credit is awarded automatically, this is not automatically recorded in the gradebook.
+!!! warning
+    Questions which "Requires grading" really do need human input (manually graded).  Even though in this example some partial credit is awarded automatically, this is not automatically recorded in the gradebook.
 
 An example manually graded question is given in
 

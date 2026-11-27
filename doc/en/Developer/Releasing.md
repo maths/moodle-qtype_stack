@@ -1,6 +1,7 @@
 # Releasing new STACK versions
 
-Note, these notes are designed for developers releasing a new version through the Moodle plugin database.  They are probably not useful for anyone else.
+!!! note
+    These notes are designed for developers releasing a new version through the Moodle plugin database.  They are probably not useful for anyone else.
 
 Release needs to be done for the whole "set".  Do we increment the numbers of all components, e.g. behaviours, or just the qtype_stack?
 

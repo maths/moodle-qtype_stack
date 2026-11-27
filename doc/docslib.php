@@ -156,6 +156,9 @@ function stack_docs_page($links, $file) {
  */
 function stack_docs_render_markdown($page, $preprocess = true) {
 
+    // Admonitions first, so that their bodies are processed exactly as any other text.
+    $page = stack_docs_admonitions($page);
+
     if ($preprocess) {
         // Don't process the auto-generated answer test output.
         $page = stack_maths::pre_process_docs_page($page);
@@ -168,6 +171,89 @@ function stack_docs_render_markdown($page, $preprocess = true) {
     // The 'filter' => true is to ensure we activate the mathjax filter once the markdown has changed to html.
     $page = format_text($page, FORMAT_HTML, ['filter' => true, 'noclean' => true]);
     return $page;
+}
+
+/**
+ * Convert mkdocs admonitions into HTML which Markdown Extra will process.
+ *
+ * The docs site (mkdocs) supports admonitions: a line such as `!!! warning "Title"`
+ * followed by a body indented by four spaces.  `???` gives a block which starts
+ * collapsed, and `???+` one which starts open.  Markdown Extra does not know this
+ * syntax, so the copy of the docs inside Moodle would show the body as code.  Here
+ * each admonition becomes a Bootstrap alert with `markdown="1"`, so its body is
+ * still Markdown.  As in mkdocs, a missing title gives the type as the title, and
+ * an empty title `""` gives no title.  Fenced code blocks are left alone.
+ *
+ * @param string $page content in Markdown format.
+ * @return string the same content, with admonitions replaced by HTML.
+ */
+function stack_docs_admonitions($page) {
+    $alerts = [
+        'note' => 'alert-info', 'info' => 'alert-info', 'abstract' => 'alert-info', 'question' => 'alert-info',
+        'tip' => 'alert-success', 'success' => 'alert-success', 'hint' => 'alert-success',
+        'warning' => 'alert-warning', 'caution' => 'alert-warning', 'attention' => 'alert-warning',
+        'danger' => 'alert-danger', 'error' => 'alert-danger', 'failure' => 'alert-danger', 'bug' => 'alert-danger',
+    ];
+    $header = '~^(!!!|\?\?\?\+?)[ \t]+([A-Za-z][\w-]*)((?:[ \t]+[A-Za-z][\w-]*)*)(?:[ \t]+"([^"]*)")?[ \t]*$~';
+
+    $lines = explode("\n", str_replace("\r\n", "\n", $page));
+    $out = [];
+    $fence = '';
+    $n = count($lines);
+    for ($i = 0; $i < $n; $i++) {
+        $line = $lines[$i];
+        // Track fenced code blocks, so that an example of the syntax inside one is not converted.
+        if (preg_match('/^[ \t]*(`{3,}|~{3,})/', $line, $m)) {
+            if ($fence === '') {
+                $fence = $m[1];
+            } else if (strpos($m[1], $fence) === 0) {
+                $fence = '';
+            }
+        }
+        if ($fence !== '' || !preg_match($header, $line, $m)) {
+            $out[] = $line;
+            continue;
+        }
+
+        // The body is every following line which is blank or indented, less any trailing blank lines.
+        $body = [];
+        while ($i + 1 < $n && preg_match('~^(?:[ \t]*$|    |\t)~', $lines[$i + 1])) {
+            $body[] = preg_replace('~^(?:    |\t)~', '', $lines[++$i]);
+        }
+        while ($body && trim(end($body)) === '') {
+            array_pop($body);
+            $i--;
+        }
+        // Admonitions may be nested.
+        $body = stack_docs_admonitions(implode("\n", $body));
+
+        // The type is not used as a bare class name: Moodle styles some, e.g. `.warning` is bold.
+        // Any further classes after the type (mkdocs layout options such as `inline`) are ignored.
+        $type = strtolower($m[2]);
+        $classes = 'stack-docs-admonition admonition admonition-' . $type . ' alert ' . ($alerts[$type] ?? 'alert-secondary');
+        $title = isset($m[4]) ? $m[4] : ucfirst($type);
+
+        $out[] = '';
+        if ($m[1] === '!!!') {
+            $out[] = '<div class="' . $classes . '" markdown="1">';
+            if ($title !== '') {
+                $out[] = '<p class="admonition-title" markdown="span"><strong>' . $title . '</strong></p>';
+            }
+            $closing = '</div>';
+        } else {
+            $open = ($m[1] === '???+') ? ' open' : '';
+            $title = ($title === '') ? ucfirst($type) : $title;
+            $out[] = '<details class="' . $classes . '"' . $open . ' markdown="1">';
+            $out[] = '<summary markdown="span"><strong>' . $title . '</strong></summary>';
+            $closing = '</details>';
+        }
+        $out[] = '';
+        $out[] = $body;
+        $out[] = '';
+        $out[] = $closing;
+        $out[] = '';
+    }
+    return implode("\n", $out);
 }
 
 /**

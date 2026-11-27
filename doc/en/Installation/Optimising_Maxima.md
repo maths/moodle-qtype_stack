@@ -20,7 +20,8 @@ It is relatively easy for students to inadvertently generate an answer which tak
 
     timeout --kill-after=6s 6s maxima
 
-It is important that the timeout time is *longer* than the CAS connection timeout.  That way, PHP gives up first and degrades gracefully.  The OS then kills the process later.  If you choose the timeout to be the same or less, PHP may not have gathered enough data to degrade gracefully.  
+!!! warning "The timeout must be longer than the CAS connection timeout"
+    It is important that the timeout time is *longer* than the CAS connection timeout.  That way, PHP gives up first and degrades gracefully.  The OS then kills the process later.  If you choose the timeout to be the same or less, PHP may not have gathered enough data to degrade gracefully.
 
 The above can be used with either a direct Maxima connection, or with the image created as described below.
 

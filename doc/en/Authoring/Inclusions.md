@@ -4,7 +4,8 @@ STACK provides a mechanism for sharing code between questions.  For example, you
 
 There is a tension between (i) reusing libraries of functions between questions and (ii) the self-contained material principle present in [the future proof guidelines](../STACK_question_admin/Future_proof.md).  This is an advanced topic. 
 
-Technical note: Currently, inclusions within inclusions are not supported, due to loop detection and security validation reasons.
+!!! note "Nested inclusions are not supported"
+    Currently, inclusions within inclusions are not supported, due to loop detection and security validation reasons.
 
 ## Inclusions life-cycle
 
@@ -46,7 +47,8 @@ The included material must follow all the rules of normal STACK keyvals.
 4. Code is loaded when you save the question, not when a student uses the question.  Hence code is cached in the question.  Updates to an external library will therefore not affect existing questions.  That cache will not invalidate unless you (a) update the STACK plugin (which clears all cached/compiled questions), (b) save the question (which again downloads the code).
 5. Include the library of every contributed function you call, wherever you call it: in the question variables, the feedback variables and test cases.  Without the inclusion the call does not cause an error: it remains unevaluated, and answer tests or test cases fail without saying why.
 
-Note that we do not do "tree-shaking" at this point to remove unnecessary code.  If you include a massive library of functions that you do not use the question will still have to load those functions into the CAS and that may take some time.  If you have libraries, used in many questions, please consider contributing these to the core of STACK.
+!!! note
+    We do not do "tree-shaking" at this point to remove unnecessary code.  If you include a massive library of functions that you do not use the question will still have to load those functions into the CAS and that may take some time.  If you have libraries, used in many questions, please consider contributing these to the core of STACK.
 
 To include external CAS code call the `stack_include()` - function with a string argument.  The argument must be a raw string, containing the URL of the code.  You cannot reference a variable containing such a string. For example,
 

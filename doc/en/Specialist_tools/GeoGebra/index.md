@@ -6,7 +6,8 @@ STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.o
 
 To help with assessment, STACK provides a number of [geometry related Maxima functions](../../CAS/Geometry.md).
 
-Please note that significant computation and calculation can be done within GeoGebra itself.  In many cases it might be much better to establish mathematical properties within the GeoGebra applet, and link the _results_ to STACK inputs.  These results could be the distance between relevant objects, or boolean results.
+!!! tip "Let GeoGebra do the computation"
+    Significant computation and calculation can be done within GeoGebra itself.  In many cases it might be much better to establish mathematical properties within the GeoGebra applet, and link the _results_ to STACK inputs.  These results could be the distance between relevant objects, or boolean results.
 
 A current restriction of the STACK design is that you cannot have a variable name in question variables which also matches the name of an input.
 For example, you cannot randomly generate the initial position of a point \(A\) with the "set" instruction, and also link this GeoGebra object to the input `input:A` with a "watch" instruction.

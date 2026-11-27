@@ -56,7 +56,8 @@ This collection of special variables is called "context variables".
 
 STACK has a special constant `%_stack_preamble_end`.  Any variables _before_ this constant will be included within the context variables.  This enables you to define functions, e.g. to use with `texput`.  
 
-Note that students are not permitted to use any variable name defined by the teacher in the question variables.  This includes both the context variables, and the regular remaining question variables.  It is not possible to define variables which a student can then use.  Students _can_ use function names defined in the preamble, e.g. you can put `vec(ex):=stackvector(ex);` into the preamble.
+!!! warning "Students cannot use the teacher's variable names"
+    Students are not permitted to use any variable name defined by the teacher in the question variables.  This includes both the context variables, and the regular remaining question variables.  It is not possible to define variables which a student can then use.  Students _can_ use function names defined in the preamble, e.g. you can put `vec(ex):=stackvector(ex);` into the preamble.
 
 For example, `assume(a>0)` will enable you to accept \(a\sqrt{5}=\sqrt{5a^2}\) using the `AlgEquiv` answer test.  Normally \(\sqrt{a^2}=|a|\neq a\).
 
@@ -108,7 +109,8 @@ Before each answer test is applied the following list of variables is assembled 
 
 The values of the evaluated feedback variables can be used as expressions in the answer tests and in the feedback.
 
-Note, you cannot redefine the value of an input as a key in the feedback variables.  e.g. you cannot have something like `ans1:ans1+1`. You must use a new variable name.  When an answer test is evaluated, if the SA or TA field is exactly the name of an input then the raw student's value is used, and not the value from the feedback variables. This is because some of the answer tests require exactly what is typed (e.g. trailing zeros) and not the value through the CAS.  To avoid this problem authors must use new variable names to distinguish between the actual input typed by the student and any calculated value.
+!!! warning "Do not redefine an input in the feedback variables"
+    You cannot redefine the value of an input as a key in the feedback variables.  e.g. you cannot have something like `ans1:ans1+1`. You must use a new variable name.  When an answer test is evaluated, if the SA or TA field is exactly the name of an input then the raw student's value is used, and not the value from the feedback variables. This is because some of the answer tests require exactly what is typed (e.g. trailing zeros) and not the value through the CAS.  To avoid this problem authors must use new variable names to distinguish between the actual input typed by the student and any calculated value.
 
 ## Creating variable names ##
 

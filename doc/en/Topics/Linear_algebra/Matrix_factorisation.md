@@ -35,7 +35,8 @@ The Maxima library `linearalgebra.mac` provides many useful functions, including
 
     [P, L, U]: get_lu_factors(lu_factor(matrix([1,2,3],[2,4,6],[3,6,9])))
 
-Be careful with this function. The above example (at time of writing) generates an incorrect `U` matrix (with 9 in row 2, column 3) such that `P . L . U` is no longer equal to the original matrix. 
+!!! warning "Be careful with this function"
+    The above example (at time of writing) generates an incorrect `U` matrix (with 9 in row 2, column 3) such that `P . L . U` is no longer equal to the original matrix.
 
 For other basic row and column operations, Maxima provides several useful functions, and STACK's core provides more. See the documentation on [core linear algebra functions](Linear_algebra_core.md) for more information. The contributed library [`matrix.mac`](Matrix_library.md) provides even more functions. 
 

@@ -168,7 +168,8 @@ It is common to want to share validators between questions.  It would also be ve
 
 Note the URL `https://raw.githubusercontent.com/` is used to include the raw content of this file.
 
-Including external content always poses a minor additional security risk.  In this case (1) the content is included and then subject to the same checks as if you had typed it yourself, and (2) the developers will take the same care in accepting contributions to the master branch as they do with the existing code base.
+!!! note "Security"
+    Including external content always poses a minor additional security risk.  In this case (1) the content is included and then subject to the same checks as if you had typed it yourself, and (2) the developers will take the same care in accepting contributions to the master branch as they do with the existing code base.
 
 ### Example: forbid underscores in an input
 

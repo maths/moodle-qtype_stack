@@ -50,7 +50,8 @@ If you want to assert that one variable depends on the other, you can use `depen
  
 This example generates two equations in \(x\), \(y\), \(z\) and \(t\), assigns each variable a role as either a dependent variable, independent variable, or a variable being held constant (also independent, but behaving differently in this context), differentiates both equations implicitly with respect to the independent variable, and then solves the equations simultaneously for the desired derivative. The original question had values assigned to \(a\), \(b\), \(c\) and \(d\), but it is interesting to declare them constant here. 
 
-Note that these questions can be a bit volatile, as Maxima simply cannot establish equality when various substitutions are made. It may be prudent to make rearrangement difficult, and/or tell students to not substitute values in their answer. 
+!!! warning
+    These questions can be a bit volatile, as Maxima simply cannot establish equality when various substitutions are made. It may be prudent to make rearrangement difficult, and/or tell students to not substitute values in their answer.
 
 # Using vectors
 

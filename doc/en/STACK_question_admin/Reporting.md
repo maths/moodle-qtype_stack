@@ -66,7 +66,8 @@ The report splits this information into the following, text-based, reports.
 * Raw inputs and PRT answer notes by variant.
 * Raw data.
 
-Note, the question summary is stored in a database and will not be updated if you subsequently edit the question.  If you wish to improve your question you will need to do a quiz "regrade" to update the basic question use report.
+!!! note
+    The question summary is stored in a database and will not be updated if you subsequently edit the question.  If you wish to improve your question you will need to do a quiz "regrade" to update the basic question use report.
 
 ## Download JSON data
 

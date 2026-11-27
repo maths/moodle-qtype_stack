@@ -32,7 +32,8 @@ The main documentation is arranged as follows.
 
 * The [markdown](http://daringfireball.net/projects/markdown/) project external site.
 
-**Warning:** markdown uses whitespace and formatting to give meaning.  The number of spaces at the beginning and the ends of lines convey specific meaning in markdown.  An example is the way code blocks are included, which is useful for including fragments of Maxima code.
+!!! warning "Whitespace matters"
+    Markdown uses whitespace and formatting to give meaning.  The number of spaces at the beginning and the ends of lines convey specific meaning in markdown.  An example is the way code blocks are included, which is useful for including fragments of Maxima code.
 
 ## STACK's markdown documentation system
 
@@ -241,6 +242,25 @@ Tables       | are also
 ------------ | --------
 an extremely | useful
 feature      | !
+
+### Admonitions (tips, notes and warnings)
+
+The docs support admonitions: boxes for a tip, a note or a warning.  Leave a blank line before the block, and indent its body by four spaces.
+
+    !!! tip
+        Adaptive mode is the most useful behaviour for testing questions.
+
+    !!! warning "A custom title"
+        The text in quotes replaces the default title.
+
+Use `???` in place of `!!!` for a block which starts collapsed, and `???+` for one which can be collapsed but starts open.
+
+    ??? note "Worked solution"
+        This text is hidden until the reader opens it.
+
+The common types are `note`, `tip`, `info`, `warning` and `danger`.  Leave out the title to use the type as the title, or give an empty title `""` for none.
+
+Admonitions are rendered on [docs.stack-assessment.org](https://docs.stack-assessment.org) by mkdocs, and in the copy of the docs inside Moodle by `stack_docs_admonitions()` in `doc/docslib.php`, which turns each one into a Bootstrap alert: `note` and `info` are blue, `tip` green, `warning` amber and `danger` red.  Any other type is grey in Moodle.  The Moodle copy ignores mkdocs layout options after the type, such as `inline`.
 
 # See also
 * [MarkDown](http://daringfireball.net/projects/markdown/)

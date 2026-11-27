@@ -12,6 +12,12 @@
     padding: 10px;
 }
 
+/* Adjust font size inside admonition-blocks */
+.md-typeset .admonition,
+.md-typeset details {
+  font-size: 16px; 
+} 
+
 /* Responsive layout - makes the three columns stack on top of each other instead of next to each other when close. */
 @media screen and (max-width: 605px) {
     .footerColumn {

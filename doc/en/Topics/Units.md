@@ -12,7 +12,8 @@ In Maxima there are a number of separate packages which enable a user to manipul
 2. `load(units);` the code is in `...\share\physics\units.mac`
 3. `load(ezunits);` the code is in `...\share\ezunits\ezunits.mac`
 
-**WE DO NOT USE THESE PACKAGES** as they are too slow to load and have a variety of side effects.  Instead we have a lightweight package of our own.
+!!! note "STACK does not use Maxima's units packages"
+    We do not use these packages, as they are too slow to load and have a variety of side effects.  Instead we have a lightweight package of our own.
 
 By default in Maxima, letters such as `k` are unbound variables.  If you would like to give these prefix values \(10^3\) so that `km` literally means `10^3*m` then you will need to add the following to the question variables field.
 
@@ -61,7 +62,8 @@ The goal of this input is to validate against the pattern `number * units`.
 
 There are surprisingly few ambiguities in the units set up, but there will be some that the developers have missed (correctly dealing with ambiguous input is by definition an impossible problem!).  Please contact us with suggestions for improvements.
 
-Note, the input does not currently support a situation where you want to accept as valid a purely numerical quantity and then use the PRT to deduct marks for failing to use units, rather than rejecting it as invalid.
+!!! note
+    The input does not currently support a situation where you want to accept as valid a purely numerical quantity and then use the PRT to deduct marks for failing to use units, rather than rejecting it as invalid.
 
 ### Extra Options ###
 
@@ -163,7 +165,8 @@ try to split the expression into units and numbers, and then return the units an
 
 The reason for having `NULLNUM` is so that we can tell the difference between `m/s` and `1m/s`.  If you want to use the value in an answer test and don't care about the difference (or want `NULLNUM=1`) then use `ev(stack_units_nums(ex), NULLNUM=1)`.
 
-The function `stack_units_split` is deprecated.  DO NOT USE.
+!!! warning "Deprecated"
+    The function `stack_units_split` is deprecated.  Do not use it.
 
 ## Fine-tuning the display ##
 

@@ -91,9 +91,9 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
 
     public function test_simple_dropdown(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,true],[2+y,false]]', null,   );
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" '
                 . 'class="select' . self::$moodleclass . ' menustack1__ans1" name="stack1__ans1">'
                 . '<option value="">(Clear my choice)</option><option value="1"><code>1+x</code></option>'
@@ -111,9 +111,9 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
 
     public function test_no_correct_answer(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,false],[2,false]]', null, []);
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
                   'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
                   'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
@@ -155,10 +155,10 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
 
     public function test_duplicate_values(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', null, []);
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
                   'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
                   'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
@@ -178,10 +178,10 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
 
     public function test_duplicate_values_ok(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', null, []);
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" '
                 . 'class="select' . self::$moodleclass . ' menustack1__ans1" name="stack1__ans1">'
                 . '<option value="">(Clear my choice)</option><option value="1"><code>1</code></option>'

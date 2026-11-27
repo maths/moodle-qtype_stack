@@ -41,7 +41,7 @@ foreach ($files->children as $file) {
         $questions[] = $question;
     }
 }
-// @codingStandardsIgnoreStart
+// phpcs:disable
 ?>
 <html>
   <head>

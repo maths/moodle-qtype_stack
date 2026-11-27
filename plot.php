@@ -22,10 +22,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// @codingStandardsIgnoreStart
+// phpcs:disable
 // ISS1211 - Removed login requirement for App compatibility.
 require_once(__DIR__ . '/../../../config.php');
-// @codingStandardsIgnoreEnd
+// phpcs:enable
 
 require_once($CFG->libdir . '/filelib.php');
 

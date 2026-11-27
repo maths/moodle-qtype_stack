@@ -22,6 +22,7 @@ use stack_input;
 use stack_input_factory;
 use stack_input_state;
 use stack_options;
+
 use function stack_utils\get_config;
 
 defined('MOODLE_INTERNAL') || die();

@@ -115,10 +115,10 @@ class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
             }
             return true;
         };
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         return $ast;
     }
 }

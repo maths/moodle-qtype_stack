@@ -23,6 +23,7 @@
  */
 
 namespace qtype_stack;
+
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/question/type/stack/stack/bulktester.class.php');

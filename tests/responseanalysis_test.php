@@ -15,6 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace qtype_stack;
+
 use qtype_stack_testcase;
 use stack_question_report;
 use test_question_maker;

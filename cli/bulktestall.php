@@ -25,7 +25,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 define('CLI_SCRIPT', true);
 
 require(__DIR__ . '/../../../../config.php');
@@ -59,9 +58,9 @@ if ($options['remote']) {
     if (!$DB = moodle_database::get_driver_instance($CFG->dbtype, $CFG->dblibrary)) {
         throw new dml_exception('dbdriverproblem', "Unknown driver $CFG->dblibrary/$CFG->dbtype");
     }
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     //$DB->connect('live.database.host.name', 'read_only_user', 'pa55w0rd', 'live_database_name', 'mdl_', $CFG->dboptions);
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 }
 
 $context = context_system::instance();

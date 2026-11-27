@@ -226,14 +226,14 @@ $settings->add(new admin_setting_configcheckbox(
     0
 ));
 
-// @codingStandardsIgnoreStart
+// phpcs:disable
 // ILIAS: will need to replicate this cache.
 // The Moodle cache API is quite simple, so to replicate it we need only implement
 //   $cache = cache::make('qtype_stack', 'parsercache');
 //   $ast = $cache->get($cachekey); // Returns null/false or something if key not present.
 //   $cache->set($cachekey, $ast);
 // Or, it is already possible to disable this, because there is a config variable that can be set to 0 to disable.
-// @codingStandardsIgnoreEnd
+// phpcs:enable
 $settings->add(new admin_setting_configtext(
     'qtype_stack/parsercacheinputlength',
     get_string('settingparsercacheinputlength', 'qtype_stack'),

@@ -47,9 +47,9 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $cached = $this->get_cached_result($command);
         if ($cached->result) {
             $this->debug->log('Maxima command', $command);
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
             $this->debug->log('Unpacked result found in the DB cache', print_r($cached->result, true));
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
             if (!stack_connection_helper::check_stackmaxima_version($cached->result)) {
                 stack_connection_helper::warn_about_version_mismatch($this->debug);
                 $this->delete_cached_result($cached->key);
@@ -76,9 +76,9 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $cached = $this->get_cached_result($command);
         if ($cached->result) {
             $this->debug->log('Maxima command', $command);
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
             $this->debug->log('Unpacked result found in the DB cache', print_r($cached->result, true));
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
             if (!$this->check_json_stackmaxima_version($cached->result)) {
                 stack_connection_helper::warn_about_version_mismatch($this->debug);
                 $this->delete_cached_result($cached->key);
@@ -94,9 +94,9 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         if (!stack_connection_helper::did_cas_timeout($parsed)) {
             $this->add_to_cache($command, $parsed, $cached->key);
         }
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $this->debug->log('Parsed result as', print_r($parsed, true));
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         return $parsed;
     }

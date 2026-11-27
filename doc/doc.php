@@ -24,9 +24,9 @@
  */
 
 // The docs should be public and not require a login, so we ignore the fact we load config here without a login check.
-// @codingStandardsIgnoreStart
+// phpcs:disable
 require_once(__DIR__ . '/../../../../config.php');
-// @codingStandardsIgnoreEnd
+// phpcs:enable
 require_once(__DIR__ . '/docslib.php');
 
 /*

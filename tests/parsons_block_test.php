@@ -34,6 +34,7 @@ use stack_maths;
 use stack_options;
 use stack_secure_loader;
 use stack_multilang;
+
 use function stack_ast_container_silent\is_int;
 
 defined('MOODLE_INTERNAL') || die();

@@ -43,10 +43,8 @@ require_once(__DIR__ . '/fixtures/maximacorrectiveparser.class.php');
 final class maxima_corrective_parser_test extends qtype_stack_testcase {
     /**
      * Add description
-     * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider maxima_corrective_parser_test_data::get_raw_test_data
-     * @codingStandardsIgnoreEnd
      */
     public function test_maxima_corrective_parser(): void {
 

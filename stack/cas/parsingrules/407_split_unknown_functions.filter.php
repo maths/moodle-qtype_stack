@@ -47,10 +47,10 @@ class stack_ast_filter_407_split_unknown_functions implements stack_cas_astfilte
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         return $ast;
     }

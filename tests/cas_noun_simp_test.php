@@ -31,6 +31,7 @@ use stack_cas_security;
 use stack_cas_session2;
 use stack_numbers_test_data;
 use stack_options;
+
 use function stack_utils\get_config;
 
 defined('MOODLE_INTERNAL') || die();
@@ -69,10 +70,8 @@ final class cas_noun_simp_test extends qtype_stack_testcase {
 
     /**
      * Run numerous, compact, tests of the noun_simp.mac CAS functions.
-     * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_noun_simp_test_data::get_raw_test_data
-     * @codingStandardsIgnoreEnd
      */
     public function test_noun_simp(): void {
 

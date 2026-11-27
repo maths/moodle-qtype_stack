@@ -152,12 +152,12 @@ abstract class stack_cas_castext2_block {
      * of a block.
      */
     // We ignore code standard here because this function hooks into CTP_classes.php which are auto-generated.
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     public function callbackRecurse($function) {
         for ($i = 0; $i < count($this->children); $i++) {
             $function($this->children[$i]);
             $this->children[$i]->callbackRecurse($function);
         }
     }
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 }

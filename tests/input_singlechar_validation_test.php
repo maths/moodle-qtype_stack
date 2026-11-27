@@ -22,7 +22,6 @@ use stack_input;
 use stack_input_factory;
 use stack_options;
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/test_base.php');

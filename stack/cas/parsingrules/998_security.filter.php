@@ -268,9 +268,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             && count($outter->arguments) === 1
                             && $outter->arguments[0] instanceof MP_List
                     ) {
-                        // @codingStandardsIgnoreStart
+                        // phpcs:disable
                         // Something like rand(["-","+"]) or rand(["cos","sin"]) applied to something.
-                        // @codingStandardsIgnoreEnd
+                        // phpcs:enable
                         foreach ($outter->arguments[0]->items as $name) {
                             // Name can be whatever the iteration will react to unsuitable things on the later loops.
                             $virtualfunction = new MP_FunctionCall($name, $node->arguments);

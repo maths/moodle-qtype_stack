@@ -23,8 +23,10 @@
  */
 
 namespace api\util;
+
 use SimpleXMLElement;
 use Symfony\Component\Yaml\Yaml;
+
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../question.php');
 require_once(__DIR__ . '/../../stack/questiontest.php');

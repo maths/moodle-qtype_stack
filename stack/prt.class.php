@@ -220,9 +220,9 @@ class stack_potentialresponse_tree_lite {
             }
             return true;
         };
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($clean) !== true) {}
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         return $ast->toString(['pretty' => true, 'checkinggroup' => true]);
     }
@@ -856,7 +856,8 @@ class stack_potentialresponse_tree_lite {
                     null && property_exists($this->question, 'id') ? $this->question->id : null,
                 ]
             );
-            if (substr($body, -1) !== '(') { // Depends on whether the score math was done.
+            if (substr($body, -1) !== '(') {
+                // Depends on whether the score math was done.
                 $body .= ',';
             }
             // The feedback will be rendered using the simplify setting of the PRT.

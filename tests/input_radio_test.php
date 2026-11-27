@@ -76,9 +76,9 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
 
     public function test_simple_radio(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('radio', 'ans1', '[[1+x,true],[2+y,false]]', null, []);
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
                 'id="stack1__ans1_" data-stack-input-type="radio" /><label for="stack1__ans1_">' .
                 '(Clear my choice)</label></div><div class="option">' .
@@ -106,10 +106,10 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
 
     public function test_simple_casstring_radio(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('radio', 'ans1', '[[1+x,true],[2+y,false]]', null,
                 ['options' => 'casstring']);
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $expected = '<div class="answer">'
             . '<div class="option"><input type="radio" name="stack1__ans1" value="" '
             . 'id="stack1__ans1_" data-stack-input-type="radio" />'
@@ -136,9 +136,9 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
 
     public function test_no_correct_answer(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('radio', 'ans1', '[[1,false],[2,false]]', null, []);
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
               'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
               'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
@@ -180,10 +180,10 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
 
     public function test_duplicate_values(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('radio', 'ans1', '[[1,true],[2,false]]', null, []);
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
                   'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
                   'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
@@ -203,10 +203,10 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
 
     public function test_duplicate_values_ok(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('radio', 'ans1', '[[1,true],[2,false]]', null, []);
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
                 'id="stack1__ans1_" data-stack-input-type="radio" /><label for="stack1__ans1_">(Clear my choice)</label></div><div class="option">' .
                 '<br /></div><div class="option">' .
@@ -395,14 +395,14 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
 
     public function test_question_level_options(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $options = new stack_options();
         $options->set_option('simplify', false);
         $options->set_option('multiplicationsign', 'space');
 
         $el = stack_input_factory::make('radio', 'ans1', '[[1+2,true],[2*x,false]]', $options, []);
         $el->adapt_to_model_answer('[[1+2,true],[2*x,false]]');
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
                 'id="stack1__ans1_" data-stack-input-type="radio" /><label for="stack1__ans1_">(Clear my choice)</label></div><div class="option">' .
                 '<br /></div><div class="option"><input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" data-stack-input-type="radio" />' .
@@ -417,12 +417,12 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
 
     public function test_radio_plots(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('radio', 'ans1',
                 '[[1,true,plot(x,[x,-2,2],[y,-3,3])],[2,false,plot(x^2,[x,-2,2],[y,-3,3])],'
                 . '[3,false,plot(x^3,[x,-2,2],[y,-3,3])]]',
                 null, []);
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $render = $el->render(new stack_input_state(
             stack_input::SCORE,
             ['2'],

@@ -963,7 +963,7 @@ class stack_inputvalidation_test_data {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function run_test($test) {
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
 
         // Note: What we would really like to do is the following.
         // $el = stack_input_factory::make('algebraic', 'sans1', 'x');
@@ -972,7 +972,7 @@ class stack_inputvalidation_test_data {
         // $cs = $el->validate_student_response($test->rawstring);
         // However, we want to pull apart the bits to expose where the various errors occur.
 
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         // We need to duplicate certain insert stars logic from input base.
         $filterstoapply = [];

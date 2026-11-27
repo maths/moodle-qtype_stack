@@ -32,6 +32,7 @@ use stack_cas_security;
 use stack_cas_session2;
 use stack_numbers_test_data;
 use stack_options;
+
 use function stack_utils\get_config;
 
 defined('MOODLE_INTERNAL') || die();
@@ -1055,12 +1056,12 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('3^(3/2)', $s1[0]->get_value());
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         // Warning to developers.   The behaviour of rat is not stable accross versions of Maxima.
         // In Maxima 5.25.1: rat(sqrt(27)) gives sqrt(3)^3.
         // In Maxima 5.36.1: rat(sqrt(27)) gives (3^(1/2)^3).
         // In Maxima 5.37.1: rat(sqrt(27)) gives sqrt(3)^3.
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $maximaversion = $s1[2]->get_value();
         if ($maximaversion == '36.1') {
             // Developers should add other versions of Maxima here as needed.
@@ -1452,7 +1453,7 @@ final class cassession2_test extends qtype_stack_testcase {
 
     public function test_dispdp(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
 
         // Tests in the following form.
         // 0. Input string.
@@ -1462,7 +1463,7 @@ final class cassession2_test extends qtype_stack_testcase {
         // 4. Value form after rounding.
         // E.g. dispdp(3.14159,2) -> displaydp(3.14,2).
 
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         $tests = [
             ['3.14159', '2', '3.14', '3{,}14', '3.14', 'displaydp(3.14,2)'],
@@ -1598,7 +1599,7 @@ final class cassession2_test extends qtype_stack_testcase {
 
     public function test_dispsf(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
 
         // Tests in the following form.
         // 0. Input string.
@@ -1607,7 +1608,7 @@ final class cassession2_test extends qtype_stack_testcase {
         // 3. Value form after rounding.
         // E.g. dispsf(3.14159,2) -> displaydp(3.1,1).
 
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         $tests = [
             ['3.14159', '2', '3.1', 'displaydp(3.1,1)'],
@@ -1707,7 +1708,7 @@ final class cassession2_test extends qtype_stack_testcase {
 
     public function test_sf(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
 
         // Tests in the following form.
         // 0. Input string.
@@ -1716,7 +1717,7 @@ final class cassession2_test extends qtype_stack_testcase {
         // 3. Latex displayed form, contiental comma.
         // E.g. significantfigures(3.14159,2) -> 3.1.
 
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         $tests = [
             ['lg(19)', '4', '1.279', '1{,}279'],
@@ -1765,7 +1766,7 @@ final class cassession2_test extends qtype_stack_testcase {
 
     public function test_scientific_notation(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
 
         // Tests in the following form.
         // 0. Input string.
@@ -1779,7 +1780,7 @@ final class cassession2_test extends qtype_stack_testcase {
         // 7. Optional: what happens to the dispvalue form with simp:true.
         // 8. Optional: what happens to the value form with simp:true.
 
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         $tests = [
             ['2.998e8', '2', '3.00 \times 10^{8}', '3{,}00 \times 10^{8}', '3.00E8', 'displaysci(3,2,8)'],
@@ -1905,7 +1906,7 @@ final class cassession2_test extends qtype_stack_testcase {
                 '1e50', '', '1.0\cdot 10^{50}', '1{,}0\cdot 10^{50}', '1.0*10^50', '1.0*10^50',
                 '1.0E+50', '1.0E+50', '1.0E+50', null,
             ],
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
 
             // In some versions of Maxima this comes out as -\frac{1.0}{10^8} with simp:true.
             // Adding in compile(scientific_notation)$ after the function definition cures this,
@@ -1914,7 +1915,7 @@ final class cassession2_test extends qtype_stack_testcase {
             // Pass: 36.1, 31.3, 38.1, 39.0, 41.0.
             // Fail: 37.0, 37.1, 37.2, 37.3.
 
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
             [
                 '-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1{,}0\cdot 10^ {- 8 }', '-(1.0*10^-8)', '-1.0*10^-8',
                 '-1.0E-8', '-1.0E-8', '-1.0E-8', null,

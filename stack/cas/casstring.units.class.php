@@ -113,10 +113,10 @@ class stack_cas_casstring_units {
         ['VA', 'VA', 'VA', 'volt-ampere'],
         ['eV', '1.602176634E-19*J', 'eV', 'electronvolt'],
         ['Ci', 'Ci', 'Ci', 'curie'],
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         // Celsius conflicts with Coulomb.
         // Add in 'C', 'C', '{}^{o}C', 'Celsius'.
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
     ];
 
     /**

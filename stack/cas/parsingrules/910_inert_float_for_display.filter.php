@@ -85,10 +85,10 @@ class stack_ast_filter_910_inert_float_for_display implements stack_cas_astfilte
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($floats) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         return $ast;
     }
 }

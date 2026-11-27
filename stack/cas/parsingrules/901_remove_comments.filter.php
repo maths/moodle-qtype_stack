@@ -46,10 +46,10 @@ class stack_ast_filter_901_remove_comments implements stack_cas_astfilter {
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         return $ast;
     }

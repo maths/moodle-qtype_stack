@@ -44,10 +44,10 @@ final class mathsoutputmathjax_test extends qtype_stack_testcase {
             stack_string('ATSingleFrac_part')
         );
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
                 stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).'));
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         $this->assertEquals('What is \(x^2\)?', stack_maths::process_display_castext('What is \(x^2\)?'));
 

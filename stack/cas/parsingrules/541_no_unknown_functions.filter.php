@@ -56,10 +56,10 @@ class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_e
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process, false) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         if ($hasany) {
             if (array_search('unknownFunction', $answernotes) === false) {
                 $answernotes[] = 'unknownFunction';

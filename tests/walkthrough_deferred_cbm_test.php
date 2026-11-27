@@ -24,7 +24,6 @@ use stack_input_factory;
 use stack_potentialresponse_tree_lite;
 use stdClass;
 
-
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -352,10 +351,10 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         // Create a stack question - we use test0, then replace the input with
         // a dropdown, to get a question that does not require validation.
         $q = \test_question_maker::make_question('stack', 'test0');
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $q->inputs['ans1'] = stack_input_factory::make(
                 'dropdown', 'ans1', '[[1+x,false],[2+x,true]]');
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         $prt = new stdClass();
         $prt->name              = 'firsttree';

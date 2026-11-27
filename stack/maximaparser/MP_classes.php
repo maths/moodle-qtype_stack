@@ -59,7 +59,7 @@ require_once(__DIR__ . '/lexer.base.class.php');
 require_once(__DIR__ . '/../cas/cassecurity.class.php');
 require_once(__DIR__ . '/../cas/parsingrules/996_call_modification.filter.php');
 
-// @codingStandardsIgnoreStart
+// phpcs:disable
 // We ignore coding in this file, because the library is used outside Moodle.
 class MP_Node implements JsonSerializable {
     public $parentnode  = null;
@@ -2429,7 +2429,7 @@ function opBind($op) {
     }
     // This one is not done with STACK.
 
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     /*
     if ($op->op == '-') {
     $op->op='+';
@@ -2440,9 +2440,9 @@ function opBind($op) {
     $op->rhs->parentnode = $op;
     }
      */
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     $op->lhs = opBind($op->lhs);
     $op->rhs = opBind($op->rhs);
     if ($op->lhs instanceof MP_Operation && (opLBind($op->op) > opRBind($op->lhs->op))) {
@@ -2522,4 +2522,4 @@ function mergePosition($posa, $posb) {
 
     return $r;
 }
-// @codingStandardsIgnoreEnd
+// phpcs:enable

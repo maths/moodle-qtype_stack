@@ -15,6 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace qtype_stack\check;
+
 defined('MOODLE_INTERNAL') || die();
 
 use core\check\check;

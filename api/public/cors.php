@@ -27,7 +27,7 @@
 // to set the correct CORS headers for the few scripts in this directory that need them.
 
 // We cannot have moodle internal in this script.
-// @codingStandardsIgnoreStart
+// phpcs:disable
 require_once('../config.php');
 $scriptname = urldecode($_GET['name']);
 if (isset($_GET['question'])) {
@@ -85,4 +85,4 @@ if (file_exists('../../corsscripts/' . $scriptname) || $scriptname === 'styles.c
     die("No such script here.");
 }
 
-// @codingStandardsIgnoreEnd
+// phpcs:enable

@@ -20,6 +20,7 @@
  * @copyright 2026 Oleksandr Kulkov
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 // A standalone CLI script that loads Moodle's PHPUnit bootstrap itself, not through config.php.
 // phpcs:ignore moodle.Files.MoodleInternal.MoodleInternalGlobalState
 if (PHP_SAPI !== 'cli' || $argc !== 3) {

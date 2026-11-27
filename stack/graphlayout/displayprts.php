@@ -99,14 +99,14 @@ foreach ($frequency as $key => $count) {
         $tree->layout();
         echo stack_abstract_graph_svg_renderer::render($tree, 'real' . $i++);
     } catch (Exception $e) {
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         print_object($tree);
         foreach ($trees as $name => $tree) {
             if (json_encode($tree) == $key) {
                 print_object($name);
             }
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
     }
 }
 

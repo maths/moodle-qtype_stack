@@ -24,7 +24,7 @@
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_api_test_data {
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static array $questiondata = [
         'empty' =>
@@ -2264,7 +2264,7 @@ class stack_api_test_data {
           </question>
         </quiz>',
     ];
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static array $answers = [

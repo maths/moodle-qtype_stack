@@ -23,6 +23,7 @@
  */
 
 namespace api\controller;
+
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../dtos/StackTestResponse.php');
 require_once(__DIR__ . '/../util/StackQuestionLoader.php');

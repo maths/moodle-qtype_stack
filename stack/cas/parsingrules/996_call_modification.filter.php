@@ -213,9 +213,9 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                     return false;
                 }
                 if ($node->name instanceof MP_Atom && ($node->name->value === 'apply' || isset($mapfuns[$node->name->value]))) {
-                    // @codingStandardsIgnoreStart
+                    // phpcs:disable
                     // In the case of a pattern apply(foo,...) => (%_C(foo),%_C(apply),apply(foo,...)).
-                    // @codingStandardsIgnoreEnd
+                    // phpcs:enable
                     $check = new MP_FunctionCall(new MP_Identifier(self::IDCHECK), [$node->arguments[0]]);
                     if (isset($node->parentnode->items) && $node->parentnode->items[1]->toString() !== $check->toString()) {
                         $node->parentnode->items = array_merge(
@@ -249,9 +249,9 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                 } while ($process($item) !== true || $item->callbackRecurse($process) !== true);
             }
         } else {
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
             while (!$ast->callbackRecurse($process)) { }
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
         }
 
         return $ast;

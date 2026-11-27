@@ -41,10 +41,10 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $float = true;
 
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     // Accepts 0.123*10^45 or 123*10^45.
     // Will not accept 0.123e4*10^5 as that is mixed usage.
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $power = true;
 

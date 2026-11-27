@@ -61,9 +61,9 @@ class stack_ast_filter_545_wrong_decimal_separator_validation implements stack_c
             }
             return true;
         };
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $ast->callbackRecurse($process, true);
         return $ast;
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
     }
 }

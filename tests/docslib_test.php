@@ -105,12 +105,12 @@ final class docslib_test extends qtype_stack_testcase {
             stack_docs_render_markdown('Test')
         );
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
                 stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).'));
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
             stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).'));
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         $md = "Text with maths: \\(x^3\\)\n\n    And how to type it in: \\(x^3\\)\n\nShould work!";
         $ex = "<p>Text with maths: \\(x^3\\)</p>\n\n" .
@@ -167,11 +167,11 @@ final class docslib_test extends qtype_stack_testcase {
         $md = "Text.\n\n    Code, with !!! inside.\n\nMore text.";
         $this->assertEquals($md, stack_docs_admonitions($md));
 
-        $md = "Before.\n\n!!! warning \"Take care\"\n    Body `x`.\n\nAfter.";
+        $md = "Before.\n\n!!! warning \"Take care\"\n    Body *x*.\n\nAfter.";
         $ex = "Before.\n\n\n" .
             '<div class="stack-docs-admonition admonition admonition-warning alert alert-warning" markdown="1">' . "\n" .
             '<p class="admonition-title" markdown="span"><strong>Take care</strong></p>' . "\n\n" .
-            "Body `x`.\n\n</div>\n\n\nAfter.";
+            "Body *x*.\n\n</div>\n\n\nAfter.";
         $this->assertEquals($ex, stack_docs_admonitions($md));
 
         // Without a title the type is the title, and an empty title gives none.
@@ -201,13 +201,13 @@ final class docslib_test extends qtype_stack_testcase {
         );
 
         // An example of the syntax inside a fenced code block is not converted.
-        $md = "```\n!!! warning\n    Not an admonition.\n```";
+        $md = "~~~\n!!! warning\n    Not an admonition.\n~~~";
         $this->assertEquals($md, stack_docs_admonitions($md));
     }
 
     public function test_stack_docs_render_markdown_with_admonition(): void {
 
-        $md = "Before.\n\n!!! warning \"Take `care`\"\n    Body with *emphasis*.\n\n" .
+        $md = "Before.\n\n!!! warning \"Take *care*\"\n    Body with *emphasis*.\n\n" .
             "    * One\n    * Two\n\n" .
             "    !!! note\n        Nested.\n\nAfter.";
         $html = stack_docs_render_markdown($md);
@@ -218,7 +218,7 @@ final class docslib_test extends qtype_stack_testcase {
             '<div class="stack-docs-admonition admonition admonition-warning alert alert-warning">',
             $html
         );
-        $this->assertStringContainsString('<strong>Take <code>care</code></strong>', $html);
+        $this->assertStringContainsString('<strong>Take <em>care</em></strong>', $html);
         $this->assertStringContainsString('<p>Body with <em>emphasis</em>.</p>', $html);
         $this->assertStringContainsString('<li>Two</li>', $html);
         $this->assertStringContainsString('admonition-note alert alert-info', $html);

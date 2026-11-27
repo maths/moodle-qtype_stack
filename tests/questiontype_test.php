@@ -34,6 +34,7 @@ use question_possible_response;
 use question_check_specified_fields_expectation;
 use context_system;
 use stdClass;
+
 use function stack_utils\get_config;
 
 defined('MOODLE_INTERNAL') || die();

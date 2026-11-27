@@ -132,7 +132,6 @@ final class restore_logic_test extends \advanced_testcase {
      * generator, so that locallib.php is not already loaded by other code.
      *
      * @runInSeparateProcess
-     * @preserveGlobalState disabled
      */
     public function test_fix_prt_roots_without_question_type_loaded(): void {
         global $DB;

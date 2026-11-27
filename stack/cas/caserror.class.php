@@ -256,7 +256,8 @@ class stack_cas_error {
             } else if (
                 isset($ctx['input']) && isset($ctx['field'])
                 && $ctx['field'] === 'validation'
-            ) { // This is a special field-name.
+            ) {
+                // This is a special field-name.
                 return stack_string('errorininputvalidation');
             } else if (isset($ctx['input'])) {
                 return stack_string('errorininitialisingquestion');

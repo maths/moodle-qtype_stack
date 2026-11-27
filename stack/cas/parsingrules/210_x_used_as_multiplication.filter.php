@@ -36,7 +36,7 @@ class stack_ast_filter_210_x_used_as_multiplication implements stack_cas_astfilt
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $process = function ($node) use (&$answernotes, &$errors) {
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
             // The kind of patterns we want are x*(10^? * ?), x*10^?, x*(10^? / ?).
             // ([Op: *] ([Id] x), ([Op: *] ([Op: ^] ([Int] 10)
 
@@ -48,7 +48,7 @@ class stack_ast_filter_210_x_used_as_multiplication implements stack_cas_astfilt
 
             // 523.2 x 10^2m/s
             // ([Root] ([Op: *] ([Float] 523.2), ([Op: *] ([Id] x), ([Op: *] ([Op: ^] ([Int] 10), ([Int] 2)), ([Op: /] ([Id] m), ([Id] s))))))
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
 
             if (
                 $node instanceof MP_Operation &&

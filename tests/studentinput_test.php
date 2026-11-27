@@ -40,10 +40,8 @@ require_once(__DIR__ . '/fixtures/inputfixtures.class.php');
 final class studentinput_test extends qtype_stack_testcase {
     /**
      * Add description
-     * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data
-     * @codingStandardsIgnoreEnd
      */
     public function test_studentinput(): void {
 
@@ -57,10 +55,8 @@ final class studentinput_test extends qtype_stack_testcase {
 
     /**
      * Add description
-     * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_old
-     * @codingStandardsIgnoreEnd
      */
     public function test_studentinput_old(): void {
 
@@ -75,10 +71,8 @@ final class studentinput_test extends qtype_stack_testcase {
 
     /**
      * Add description
-     * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_5_48_0
-     * @codingStandardsIgnoreEnd
      */
     public function test_studentinput_5_48_0(): void {
 
@@ -93,10 +87,8 @@ final class studentinput_test extends qtype_stack_testcase {
 
     /**
      * Add description
-     * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_units
-     * @codingStandardsIgnoreEnd
      */
     public function test_studentinput_units(): void {
 
@@ -110,10 +102,8 @@ final class studentinput_test extends qtype_stack_testcase {
 
     /**
      * Add description
-     * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_decimals
-     * @codingStandardsIgnoreEnd
      */
     public function test_studentinput_decimals_british(): void {
 
@@ -127,10 +117,8 @@ final class studentinput_test extends qtype_stack_testcase {
 
     /**
      * Add description
-     * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_decimals
-     * @codingStandardsIgnoreEnd
      */
     public function test_studentinput_decimals_continental(): void {
 

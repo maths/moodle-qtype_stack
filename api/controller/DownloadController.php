@@ -23,6 +23,7 @@
  */
 
 namespace api\controller;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../stack/cas/castext2/castext2_evaluatable.class.php');

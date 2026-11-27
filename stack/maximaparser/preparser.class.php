@@ -83,10 +83,10 @@ class stack_maxima_student_preparser {
         // Check for invalid chars at this point as they may prove to be difficult to
         // handle latter, also strings are safe already.
         $allowedcharsregex = '~[^' . preg_quote(
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
             // We do really want a backtick here.
             '0123456789,./\%#&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:;=><|: -', '~'
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
         ) . ']~u';
 
         $matches = [];

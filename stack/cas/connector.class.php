@@ -57,9 +57,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     /** @var string replacement strings in relation to $wwwroothasunderscores. */
     protected $wwwrootfixupreplace;
 
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     /* @see stack_cas_connection::compute() */
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compute($command) {
 
@@ -75,9 +75,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $this->debug->log('CAS result', $rawresult);
 
         $unpackedresult = $this->unpack_raw_result($rawresult);
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $this->debug->log('Unpacked result as', print_r($unpackedresult, true));
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         if (!stack_connection_helper::check_stackmaxima_version($unpackedresult)) {
             stack_connection_helper::warn_about_version_mismatch($this->debug);
@@ -125,16 +125,16 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         if ($parsed === null) {
             $parsed = [];
         }
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $this->debug->log('Parsed result as', print_r($parsed, true));
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         return $parsed;
     }
 
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     /* @see stack_cas_connection::get_debuginfo() */
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_debuginfo() {
         return $this->debug->get_log();

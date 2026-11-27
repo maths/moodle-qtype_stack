@@ -47,10 +47,10 @@ class stack_ast_filter_504_insert_tuples_for_groups implements stack_cas_astfilt
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($insettuples) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         return $ast;
     }
 }

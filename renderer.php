@@ -33,10 +33,10 @@ require_once(__DIR__ . '/vle_specific.php');
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-// @codingStandardsIgnoreStart
+// phpcs:disable
 // There's a matching class name in the API.
 class qtype_stack_renderer extends qtype_renderer {
-// @codingStandardsIgnoreEnd
+// phpcs:enable
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {

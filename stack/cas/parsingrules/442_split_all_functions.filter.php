@@ -45,10 +45,10 @@ class stack_ast_filter_442_split_all_functions implements stack_cas_astfilter_ex
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         return $ast;
     }
 

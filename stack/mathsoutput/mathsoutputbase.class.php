@@ -45,12 +45,12 @@ abstract class stack_maths_output {
 
         // Protect \ characters inside markdown `...`, and code and text areas,
         // because we don't want maths renderered there.
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $docs = preg_replace_callback('~(`)(.*?)(`)~s',
             function ($match) {
                 return $match[1] . str_replace('\\', '&#92;', $match[2]) . $match[3];
             }, $docs);
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $docs = preg_replace_callback(
             '~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
             function ($match) {

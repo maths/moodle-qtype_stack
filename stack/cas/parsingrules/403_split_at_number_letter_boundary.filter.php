@@ -77,10 +77,10 @@ class stack_ast_filter_403_split_at_number_letter_boundary implements stack_cas_
             }
             return true;
         };
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process, true) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         return $ast;
     }
 }

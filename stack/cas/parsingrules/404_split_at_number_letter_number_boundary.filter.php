@@ -92,10 +92,10 @@ class stack_ast_filter_404_split_at_number_letter_number_boundary implements sta
             }
             return true;
         };
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process, true) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         return $ast;
     }
 }

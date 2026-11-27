@@ -444,7 +444,7 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
     }
 
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
 
     // Goal:  Have maxima generate a string which will work in the moodle
     // translation system. For example, the student has been asked to integrate
@@ -474,7 +474,7 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
     //
     // This needs to be converted into something which can be translated by Moodle.
     // This is the role of stack_maxima_translate in locallib.php.
-    // @codingStandardsIgnoreEND
+    // phpcs:enable
     public function test_stack_maxima_translate_int(): void {
 
         $at = $this->stack_answertest_general_cas_builder('x^6', 'x^6/6', 'Int', 'x');
@@ -548,24 +548,28 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
 
     public function test_stack_maxima_int_feedback_1(): void {
 
-        $at = $this->stack_answertest_general_cas_builder('((5*%e^7*x-%e^7)*%e^(5*x))',
-                '((5*%e^7*x-%e^7)*%e^(5*x))/25+c', 'Int', 'x');
+        $at = $this->stack_answertest_general_cas_builder(
+            '((5*%e^7*x-%e^7)*%e^(5*x))',
+            '((5*%e^7*x-%e^7)*%e^(5*x))/25+c',
+            'Int',
+            'x'
+        );
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
         if ($this->adapt_to_new_maxima('5.48.0')) {
             $fbt = 'The derivative of your answer should be equal to the expression that you were ' .
                 'asked to integrate, that was: ' .
-                '\[\frac{e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)}{5}+\frac{e^{5\cdot x+7}}{5}\] '.
-                'In fact, the derivative of your answer, with respect to \(x\) is: '.
-                '\[5\cdot e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)+5\cdot e^{5\cdot x+7}\] '.
+                '\[\frac{e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)}{5}+\frac{e^{5\cdot x+7}}{5}\] ' .
+                'In fact, the derivative of your answer, with respect to \(x\) is: ' .
+                '\[5\cdot e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)+5\cdot e^{5\cdot x+7}\] ' .
                 'so you must have done something wrong!';
         } else {
             $fbt = 'The derivative of your answer should be equal to the expression that you were ' .
                 'asked to integrate, that was: ' .
-                '\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}}{5}\] '.
-                'In fact, the derivative of your answer, with respect to \(x\) is: '.
-                '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
+                '\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}}{5}\] ' .
+                'In fact, the derivative of your answer, with respect to \(x\) is: ' .
+                '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] ' .
                 'so you must have done something wrong!';
         }
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
@@ -573,8 +577,12 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
 
     public function test_stack_maxima_int_feedback_2(): void {
 
-        $at = $this->stack_answertest_general_cas_builder('((5*%e^7*x-%e^7)*%e^(5*x))',
-                '((5*%e^7*x-%e^7)*%e^(5*x))/25+c', 'Int', '[x,x*%e^(5*x+7)]');
+        $at = $this->stack_answertest_general_cas_builder(
+            '((5*%e^7*x-%e^7)*%e^(5*x))',
+            '((5*%e^7*x-%e^7)*%e^(5*x))/25+c',
+            'Int',
+            '[x,x*%e^(5*x+7)]'
+        );
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
@@ -582,7 +590,7 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
             $fbt = 'The derivative of your answer should be equal to the expression that you ' .
                 'were asked to integrate, that was: \[x\cdot e^{5\cdot x+7}\] ' .
                 'In fact, the derivative of your answer, with respect to \(x\) is: ' .
-                '\[5\cdot e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)+5\cdot e^{5\cdot x+7}\] '.
+                '\[5\cdot e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)+5\cdot e^{5\cdot x+7}\] ' .
                 'so you must have done something wrong!';
         } else {
             $fbt = 'The derivative of your answer should be equal to the expression that you ' .
@@ -596,8 +604,12 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
 
     public function test_stack_maxima_int_feedback_3(): void {
 
-        $at = $this->stack_answertest_general_cas_builder('e^-(4*pi*x)/(4*pi)',
-            'int(exp(-4*pi*x),x)', 'Int', '[x,NOCONST]');
+        $at = $this->stack_answertest_general_cas_builder(
+            'e^-(4*pi*x)/(4*pi)',
+            'int(exp(-4*pi*x),x)',
+            'Int',
+            '[x,NOCONST]'
+        );
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
@@ -641,47 +653,61 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
 
     public function test_equiv_true(): void {
 
-        $at = $this->stack_answertest_general_cas_builder('[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]', '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]',
-                'Equiv', 'null');
+        $at = $this->stack_answertest_general_cas_builder(
+            '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]',
+            '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]',
+            'Equiv',
+            'null'
+        );
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
         $this->assertEquals('ATEquiv:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', $at->get_at_answernote());
-        $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
+        $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& ' .
             '\cr \color{green}{\Leftrightarrow}&x=1\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
     public function test_equiv_false(): void {
 
-        $at = $this->stack_answertest_general_cas_builder('[x^2-1=0,(x-1)*(x+1)=0,x=i or x=-1]', '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]',
-                'Equiv', 'null');
+        $at = $this->stack_answertest_general_cas_builder(
+            '[x^2-1=0,(x-1)*(x+1)=0,x=i or x=-1]',
+            '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]',
+            'Equiv',
+            'null'
+        );
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATEquiv:(EMPTYCHAR,EQUIVCHAR,QMCHAR)', $at->get_at_answernote());
-        $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0&'.
+        $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0&' .
             ' \cr \color{red}{?}&x=\mathrm{i}\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
     public function test_equiv_comment(): void {
 
-        $at = $this->stack_answertest_general_cas_builder('[x^2-1=0,(x-1)*(x+1)=0,"Could be",x=i or x=-1]',
-                '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]', 'Equiv', 'null');
+        $at = $this->stack_answertest_general_cas_builder(
+            '[x^2-1=0,(x-1)*(x+1)=0,"Could be",x=i or x=-1]',
+            '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]',
+            'Equiv',
+            'null'
+        );
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATEquiv:(EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR)', $at->get_at_answernote());
-        $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
+        $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& ' .
             '\cr &\text{Could be}& \cr &x=\mathrm{i}\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
     public function test_is_true_for_equal_expressions(): void {
 
-        $at = new stack_ans_test_controller('NumDecPlaces',
-                stack_ast_container::make_from_teacher_source('1.01'),
-                stack_ast_container::make_from_teacher_source('1.01'),
-                stack_ast_container::make_from_teacher_source('2'),
-                null);
+        $at = new stack_ans_test_controller(
+            'NumDecPlaces',
+            stack_ast_container::make_from_teacher_source('1.01'),
+            stack_ast_container::make_from_teacher_source('1.01'),
+            stack_ast_container::make_from_teacher_source('2'),
+            null
+        );
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
         $this->assertTrue(stack_ans_test_controller::required_atoptions('NumDecPlaces'));
@@ -689,22 +715,26 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
 
     public function test_is_false_for_unequal_expressions(): void {
 
-        $at = new stack_ans_test_controller('NumDecPlaces',
+        $at = new stack_ans_test_controller(
+            'NumDecPlaces',
             stack_ast_container::make_from_teacher_source('2'),
             stack_ast_container::make_from_teacher_source('1'),
             stack_ast_container::make_from_teacher_source('4'),
-            null);
+            null
+        );
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_expressions_2(): void {
 
-        $at = new stack_ans_test_controller('NumDecPlaces',
+        $at = new stack_ans_test_controller(
+            'NumDecPlaces',
             stack_ast_container::make_from_teacher_source('2.000'),
             stack_ast_container::make_from_teacher_source('1'),
             stack_ast_container::make_from_teacher_source('3'),
-            null);
+            null
+        );
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATNumDecPlaces_Correct. ATNumDecPlaces_Not_equiv.', $at->get_at_answernote());
@@ -712,9 +742,11 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
 
     public function test_is_true_for_equal_strings(): void {
 
-        $at = new stack_ans_test_controller('String',
+        $at = new stack_ans_test_controller(
+            'String',
             stack_ast_container::make_from_teacher_source('"hello"'),
-            stack_ast_container::make_from_teacher_source('"hello"'));
+            stack_ast_container::make_from_teacher_source('"hello"')
+        );
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
         $this->assertEquals('', $at->get_at_answernote());
@@ -722,60 +754,72 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
 
     public function test_is_false_for_unequal_strings(): void {
 
-        $at = new stack_ans_test_controller('String',
-                stack_ast_container::make_from_teacher_source('"hello"'),
-                stack_ast_container::make_from_teacher_source('"heloo"'),
-                null);
+        $at = new stack_ans_test_controller(
+            'String',
+            stack_ast_container::make_from_teacher_source('"hello"'),
+            stack_ast_container::make_from_teacher_source('"heloo"'),
+            null
+        );
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_false_for_strings_with_different_case(): void {
 
-        $at = new stack_ans_test_controller('String',
-                stack_ast_container::make_from_teacher_source('"Hello"'),
-                stack_ast_container::make_from_teacher_source('"hello"'),
-                null);
+        $at = new stack_ans_test_controller(
+            'String',
+            stack_ast_container::make_from_teacher_source('"Hello"'),
+            stack_ast_container::make_from_teacher_source('"hello"'),
+            null
+        );
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_true_for_equal_strings_sloppy(): void {
 
-        $at = new stack_ans_test_controller('StringSloppy',
-                stack_ast_container::make_from_teacher_source('"hello"'),
-                stack_ast_container::make_from_teacher_source('"hello"'),
-                null);
+        $at = new stack_ans_test_controller(
+            'StringSloppy',
+            stack_ast_container::make_from_teacher_source('"hello"'),
+            stack_ast_container::make_from_teacher_source('"hello"'),
+            null
+        );
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_strings_sloppy(): void {
 
-        $at = new stack_ans_test_controller('StringSloppy',
-                stack_ast_container::make_from_teacher_source('"hello"'),
-                stack_ast_container::make_from_teacher_source('"heloo"'),
-                null);
+        $at = new stack_ans_test_controller(
+            'StringSloppy',
+            stack_ast_container::make_from_teacher_source('"hello"'),
+            stack_ast_container::make_from_teacher_source('"heloo"'),
+            null
+        );
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_true_for_strings_with_different_case_sloppy(): void {
 
-        $at = new stack_ans_test_controller('StringSloppy',
-                stack_ast_container::make_from_teacher_source('"Hello"'),
-                stack_ast_container::make_from_teacher_source('"hello"'),
-                null);
+        $at = new stack_ans_test_controller(
+            'StringSloppy',
+            stack_ast_container::make_from_teacher_source('"Hello"'),
+            stack_ast_container::make_from_teacher_source('"hello"'),
+            null
+        );
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
     public function test_is_true_for_nearly_equal_strings_sloppy(): void {
 
-        $at = new stack_ans_test_controller('StringSloppy',
-                stack_ast_container::make_from_teacher_source('"hel lo"'),
-                stack_ast_container::make_from_teacher_source('"Hello"'),
-                null);
+        $at = new stack_ans_test_controller(
+            'StringSloppy',
+            stack_ast_container::make_from_teacher_source('"hel lo"'),
+            stack_ast_container::make_from_teacher_source('"Hello"'),
+            null
+        );
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }

@@ -49,10 +49,8 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 final class subscript_test extends qtype_stack_testcase {
     /**
      * Add description
-     * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
      * @dataProvider stack_subscripts_test_data::get_raw_test_data
-     * @codingStandardsIgnoreEnd
      */
     public function test_subscripts(): void {
 

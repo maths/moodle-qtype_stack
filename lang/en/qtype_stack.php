@@ -21,6 +21,7 @@
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 // phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder
 // phpcs:disable moodle.Files.LangFilesOrdering.UnexpectedComment
 $string['pluginname']        = 'STACK';

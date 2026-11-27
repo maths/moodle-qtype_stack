@@ -360,7 +360,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function start_attempt(question_attempt_step $step, $variant) {
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         // Work out the right seed to use.
         if (!is_null($this->seed)) {
             // This empty if statement is a hack, but if seed has already been set, then use that.
@@ -377,7 +377,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // This question uses completely free randomisation.
             $this->seed = $variant;
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $step->set_qt_var('_seed', $this->seed);
 
         $this->initialise_question_from_seed();
@@ -1477,7 +1477,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $session->add_statement(new stack_secure_loader($key . ':' . $value, 'i/' .
                 array_search($key, array_keys($this->inputs)) . '/s'));
             $is .= ',[' . stack_utils::php_string_to_maxima_string($key) . ',';
-            if (strpos($value, 'ev(') === 0) { // Unpack the value if we have simp...
+            if (strpos($value, 'ev(') === 0) {
+                // Unpack the value if we have simp...
                 $is .= stack_utils::php_string_to_maxima_string(mb_substr($value, 3, -6)) . ']';
             } else {
                 $is .= stack_utils::php_string_to_maxima_string($value) . ']';

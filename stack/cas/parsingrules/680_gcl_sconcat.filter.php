@@ -52,10 +52,10 @@ class stack_ast_filter_680_gcl_sconcat implements stack_cas_astfilter {
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($simplode) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         return $ast;
     }
 }

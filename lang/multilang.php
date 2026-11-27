@@ -140,9 +140,9 @@ class stack_multilang {
                 }
                 return true;
             };
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
             while ($parsed->callbackRecurse($search) !== true) {}
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
             return $parsed->toString();
         }
         return $text;

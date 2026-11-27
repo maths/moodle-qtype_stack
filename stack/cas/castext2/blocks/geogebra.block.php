@@ -224,9 +224,9 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                     );
                     if ($setfixed) {
                         // Assuming point must not be interactable by the user.
-                        // @codingStandardsIgnoreStart
+                        // phpcs:disable
                         // appletObject.evalCommand('POINTNAME= Point({XCOORD,YCOORD})
-                        // @codingStandardsIgnoreEnd
+                        // phpcs:enable
                         // Removing __fixed (7 characters).
                         $setcode->arguments[] = new MP_String(
                             "\n appletObject.evalCommand('" .
@@ -236,9 +236,9 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                         $setcode->arguments[] = new MP_String(',');
                         $setcode->arguments[] = $ycoord;
                         $setcode->arguments[] = new MP_String("})');\n");
-                        // @codingStandardsIgnoreStart
+                        // phpcs:disable
                         // appletObject.evalCommand('G= Point({{#fx#},4})');
-                        // @codingStandardsIgnoreEnd
+                        // phpcs:enable
                     } else if ($setpreserve) {
                         // Assuming point definition should be preserved while setting object:
                         // ATTENTION GGB Applet language must be English for this to work!
@@ -255,9 +255,9 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                         $setnovalue = true;
                     } else {
                         // Assuming point is interactable by the user.
-                        // @codingStandardsIgnoreStart
+                        // phpcs:disable
                         // appletObject.evalCommand('POINTNAME=(XCOORD,YCOORD)')
-                        // @codingStandardsIgnoreEnd
+                        // phpcs:enable
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('" .
                             $geogebraname .
                             ' = (');

@@ -25,6 +25,7 @@
 namespace api\controller;
 
 use stdClass;
+
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../util/StackIframeHolder.php');
 require_once(__DIR__ . '/../dtos/StackRenderResponse.php');

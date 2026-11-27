@@ -83,7 +83,8 @@ class castext2_default_processor implements castext2_processor {
             $block = new stack_cas_castext2_special_root([]);
         } else if ($blocktype === '%strans') {
             $block = new stack_cas_castext2_special_stack_translate([]);
-        } else if ($blocktype === '%cs') { // An alias for shorter content.
+        } else if ($blocktype === '%cs') {
+            // An alias for shorter content.
             $block = new stack_cas_castext2_commonstring([]);
         } else if ($blocktype === 'ioblock') {
             $block = new stack_cas_castext2_special_ioblock([]);
@@ -91,7 +92,8 @@ class castext2_default_processor implements castext2_processor {
             $block = new stack_cas_castext2_special_stack_maxima_latex_tidy([]);
         } else if ($blocktype === '%pfs') {
             $block = new stack_cas_castext2_special_rewrite_pluginfile_urls([]);
-        } else if ($blocktype === 'p h') { // The space here ensures that this block is not possible to use by the author.
+        } else if ($blocktype === 'p h') {
+            // The space here ensures that this block is not possible to use by the author.
             $block = new stack_cas_castext2_special_placeholder([]);
         } else {
             $block = castext2_block_factory::make($blocktype);

@@ -50,10 +50,10 @@ class stack_ast_filter_001_fix_call_of_a_group_or_function implements stack_cas_
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         return $ast;
     }
 }

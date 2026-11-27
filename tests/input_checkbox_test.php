@@ -76,9 +76,9 @@ final class input_checkbox_test extends qtype_stack_testcase {
 
     public function test_simple_checkbox(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+y,false]]', null, array());
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
                 'id="stack1__ans1_1" data-stack-input-type="checkbox" /><label for="stack1__ans1_1">' .
                 '<span class="filter_mathjaxloader_equation">' .
@@ -102,10 +102,10 @@ final class input_checkbox_test extends qtype_stack_testcase {
 
     public function test_simple_casstring_checkbox(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+y,false]]',
                 null, array('options' => 'casstring'));
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $expected = '<div class="answer"><div class="option">'
                 . '<input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" data-stack-input-type="checkbox" />'
                 . '<label for="stack1__ans1_1"><code>1+x</code></label></div><div class="option">'
@@ -146,10 +146,10 @@ final class input_checkbox_test extends qtype_stack_testcase {
 
     public function test_duplicate_values(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
                   'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
                   'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
@@ -169,10 +169,10 @@ final class input_checkbox_test extends qtype_stack_testcase {
 
     public function test_duplicate_values_ok(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $expected = '<div class="answer"><div class="option">' .
                 '<input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" ' .
                 'data-stack-input-type="checkbox" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .

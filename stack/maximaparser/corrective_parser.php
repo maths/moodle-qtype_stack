@@ -119,10 +119,10 @@ class maxima_corrective_parser {
         // Check for invalid chars at this point as they may prove to be difficult to
         // handle latter, also strings are safe already.
         $allowedcharsregex = '~[^' . preg_quote(
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
             // We do really want a backtick here.
             '0123456789,./\%#&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:;=><|: -', '~'
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
         ) . ']~u';
 
         $matches = [];
@@ -263,29 +263,29 @@ class maxima_corrective_parser {
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($processmarkers) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         return $ast;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function handle_parse_error($exception, $string, &$errors, &$answernote, $decimals) {
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         // We also disallow backticks.
         static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>%';
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         /**
          * @var all the characters permitted in responses.
          * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
          */
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         static $allowedchars =
         '0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=#><|: -';
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         $foundchar = $exception->found;
         // Changes in PHP 8.1 mean we can't use functions like ctype_alpha on null.

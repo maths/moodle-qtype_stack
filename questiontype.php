@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/questionlib.php');
@@ -2651,7 +2650,7 @@ class qtype_stack extends question_type {
             return $errors;
         }
 
-        // Validate any [[facts:...]] tags.
+        // Validate any facts tags in the text.
         $unrecognisedtags = stack_fact_sheets::get_unrecognised_tags($value);
         if ($unrecognisedtags) {
             $errors[$fieldname][] = stack_string(

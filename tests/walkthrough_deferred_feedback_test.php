@@ -25,7 +25,6 @@ use stack_potentialresponse_tree;
 use question_state;
 use question_pattern_expectation;
 
-
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -403,10 +402,10 @@ final class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_t
         // Create a stack question - we use test0, then replace the input with
         // a dropdown, to get a question that does not require validation.
         $q = \test_question_maker::make_question('stack', 'test0');
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $q->inputs['ans1'] = stack_input_factory::make(
                 'dropdown', 'ans1', '[[1,false],[2,true]]');
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 

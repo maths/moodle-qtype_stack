@@ -203,7 +203,8 @@ function stack_docs_admonitions($page) {
     for ($i = 0; $i < $n; $i++) {
         $line = $lines[$i];
         // Track fenced code blocks, so that an example of the syntax inside one is not converted.
-        if (preg_match('/^[ \t]*(`{3,}|~{3,})/', $line, $m)) {
+        // Note \x60 is a backtick, written this way because Moodle's code checker warns about backticks in strings.
+        if (preg_match('/^[ \t]*(\x60{3,}|~{3,})/', $line, $m)) {
             if ($fence === '') {
                 $fence = $m[1];
             } else if (strpos($m[1], $fence) === 0) {

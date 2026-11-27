@@ -358,9 +358,9 @@ class maxima_parser_utils {
                 }
                 return true;
             };
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
             while ($root->callbackRecurse($include) !== true) {}
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
 
             // TO-DO: wrap those errors into something more readable.
             if (count($errors) > 0) {

@@ -49,10 +49,10 @@ class stack_ast_filter_005_i_is_never_a_function implements stack_cas_astfilter 
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         return $ast;
     }
 }

@@ -83,10 +83,10 @@ class stack_ast_filter_402_split_prefix_from_common_function_name implements sta
             }
             return true;
         };
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process, true) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         return $ast;
     }
 }

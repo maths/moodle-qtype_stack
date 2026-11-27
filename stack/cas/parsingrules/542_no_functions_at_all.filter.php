@@ -50,10 +50,10 @@ class stack_ast_filter_542_no_functions_at_all implements stack_cas_astfilter_ex
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process, false) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         if ($hasany) {
             if (array_search('noFunction', $answernotes) === false) {
                 $answernotes[] = 'noFunction';

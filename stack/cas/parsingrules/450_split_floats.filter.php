@@ -104,10 +104,10 @@ class stack_ast_filter_450_split_floats implements stack_cas_astfilter_exclusion
             }
             return true;
         };
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while ($ast->callbackRecurse($process) !== true) {
         }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         return $ast;
     }
 

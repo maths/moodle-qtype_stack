@@ -41,7 +41,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
         $selectednames = stack_cas_security::get_all_with_feature('trigfun');
 
         $process = function ($node) use (&$errors, &$answernotes, $selectednames) {
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
 
             // Note we are not just looking for 'sin^' we want the context.
             //
@@ -70,7 +70,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
             //       --- MP_Group !
             //        -  MP_Identifier x!
 
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
 
             if (
                 $node instanceof MP_Operation &&
@@ -116,7 +116,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                     return true;
                 }
             }
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
 
             // The other case has an identifier as the power and that leads to
             // parsing as a valid function call:
@@ -130,7 +130,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
             //     -    MP_Identifier y
             //       -  MP_Identifier x
             //
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
             if (
                 $node instanceof MP_Operation &&
                 $node->op === '^' &&

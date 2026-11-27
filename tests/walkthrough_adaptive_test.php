@@ -435,7 +435,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_no_hint_visible_expectation()
         );
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
 
         /*
          * This is something we should change in a future version, not in v4.3.
@@ -454,7 +454,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_does_not_contain_stray_placeholders();
         */
 
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         // Now use the correct answer.
         $ta = $q->get_correct_response();
@@ -1536,7 +1536,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
 
     public function test_test3_complex_scenario(): void {
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         /**
          * Here are the sequence of responses we are going to test. When
          * a particular PRT generates a grades, that is shown in brackets as
@@ -1559,7 +1559,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
          *
          * Hopefully this summary makes the following easier to understand.
          */
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3_penalty0_1');
@@ -3647,10 +3647,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             '\\color{red}{?}&\\left\{\\begin{array}{l}x=-1\\cr x=-2\\cr \\end{array}\\right.& \\cr \\end{array} \]';
         $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2",
                  'ans1_val' => "[x^2-3*x+2=0,(x-2)*(x-1)=0,x=-1 and x=-2]",'-submit' => 1));
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.2);
@@ -3674,10 +3674,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
                 '\\color{green}{\\Leftrightarrow}&x=1\\,{\\text{ or }}\\, x=2& \\cr \\end{array} \\]';
         $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2",
                  'ans1_val' => "[x^2-3*x+2=0,(x-2)*(x-1)=0,x=1 or x=2]",'-submit' => 1));
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(0.8);
         $this->check_prt_score('firsttree', 1, 0);

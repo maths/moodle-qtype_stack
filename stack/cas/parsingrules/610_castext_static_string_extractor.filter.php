@@ -88,9 +88,9 @@ class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         $ast->callbackRecurse($process);
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         return $ast;
     }

@@ -121,9 +121,9 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
             return true;
         };
 
-        // @codingStandardsIgnoreStart
+        // phpcs:disable
         while (!$ast->callbackRecurse($process)) { }
-        // @codingStandardsIgnoreEnd
+        // phpcs:enable
 
         return $ast;
     }

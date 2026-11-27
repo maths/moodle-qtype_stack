@@ -23,7 +23,6 @@ use stack_input_factory;
 use stack_input_state;
 use stack_options;
 
-
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;

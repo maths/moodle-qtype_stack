@@ -21,6 +21,7 @@
  * @copyright 2026 Oleksandr Kulkov
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 namespace qtype_stack;
 
 defined('MOODLE_INTERNAL') || die();

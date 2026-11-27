@@ -253,9 +253,9 @@ class stack_matrix_input extends stack_input {
         } else if ($this->valuetype === 'row_vector' && in_array($operator, ['row_vector', 'r'])) {
             $tc[0] = $this->modinput_tokenizer(substr($t, strlen($operator) + 1, -1));
         } else if ('matrix(' == substr($t, 0, 7)) {
-            // @codingStandardsIgnoreStart
+            // phpcs:disable
             // E.g. array("[a,b]","[c,d]").
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable
             $rows = $this->modinput_tokenizer(substr($t, 7, -1));
             for ($i = 0; $i < count($rows); $i++) {
                 $row = $this->modinput_tokenizer(substr(trim($rows[$i]), 1, -1));

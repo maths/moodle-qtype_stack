@@ -1,0 +1,41 @@
+<!-- Pandoc Header for STACK Student Guide 
+	    PDF created from doc markdown files
+     Tim Lowe
+     November 2026 
+ -->
+
+
+<!-- YAML specification of document header for pandoc PDF -->
+<!-- (could attempt via -M title=".." pandoc option, but ignores the formatting) -->
+
+<!-- Redefine \href to remove the ".md" extension from the markdown files.
+      Then add \baseurl if the location does not start with http                -->
+<!--  Configure a month-year date format for the edition reference              -->
+
+--- 
+title: "\\textbf{STACK Student Guide} 
+\\vspace*{-2.5\\baselineskip}
+"
+
+header-includes: |
+  \usepackage{hyperref}
+  \usepackage{xstring}
+ 
+  \let\origHREF\href
+
+  \newcommand{\baseurl}{https://docs.stack-assessment.org/en/Students/}
+  \newcommand{\urlstring}{}
+  \newcommand{\baseurlstring}{}
+  \renewcommand{\href}[2]{\StrSubstitute{#1}{.md}{}[\urlstring]\IfBeginWith{\urlstring}{http}{\renewcommand{\baseurlstring}{#1}}{\renewcommand{\baseurlstring}{\baseurl\urlstring}}\origHREF{\baseurlstring}{#2}}
+
+  \usepackage{datetime}
+  \newdateformat{monthyear}{\monthname[\THEMONTH] \THEYEAR}
+
+include-before: |
+  \begin{center}
+   (\monthyear\today\ edition)
+   \par\mbox{}\par
+
+    \includegraphics[width=4cm]{../../content/logo_large.png}
+  \end{center}
+---

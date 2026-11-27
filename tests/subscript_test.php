@@ -36,6 +36,9 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
+// The data providers for these tests are in another class, which this check cannot see.
+// phpcs:disable moodle.PHPUnit.TestCaseProvider.dataProviderSyntaxMethodNotFound
+
 /**
  * Add in all the tests from subscriptsfixtures.php into the unit testing framework.
  * These are exposed to users as documentation and google-ci should also run all the tests.

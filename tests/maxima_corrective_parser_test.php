@@ -35,6 +35,9 @@ require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/maximacorrectiveparser.class.php');
 
+// The data providers for these tests are in another class, which this check cannot see.
+// phpcs:disable moodle.PHPUnit.TestCaseProvider.dataProviderSyntaxMethodNotFound
+
 /**
  * Add description here.
  * @group qtype_stack

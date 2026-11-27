@@ -27,6 +27,9 @@ require_once(__DIR__ . '/../stack/options.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/inputfixtures.class.php');
 
+// The data providers for these tests are in another class, which this check cannot see.
+// phpcs:disable moodle.PHPUnit.TestCaseProvider.dataProviderSyntaxMethodNotFound
+
 /**
  * Add in all the tests from studentinputs.php into the unit testing framework.
  * These are exposed to users as documentation and google-ci should also run all the tests.

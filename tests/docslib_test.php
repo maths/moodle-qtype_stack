@@ -80,8 +80,13 @@ final class docslib_test extends qtype_stack_testcase {
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Students/' .
                     'Equivalence_reasoning.md">Equivalence reasoning</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Students/FAQ.md">FAQ</a></li>' .
-                '<li><a href="https://www.example.com/moodle/question/type/stack/doc.php/Students/Free_text.md">' .
-                'Free text</a></li></ul>'),
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Students/Free_text.md">Free text</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Students/Free_text_AsciiMath_intro.md">' .
+                    'Free text AsciiMath intro</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Students/Free_text_AsciiMath_summary.md">' .
+                    'Free text AsciiMath summary</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Students/Free_text_markdown.md">' .
+                    'Free text markdown</a></li></ul>'),
             stack_docs_index(
                 $CFG->dirroot . '/question/type/stack/doc/en/Students',
                 $CFG->wwwroot . '/question/type/stack/doc.php/Students'

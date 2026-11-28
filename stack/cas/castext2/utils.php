@@ -125,6 +125,187 @@ class castext2_parser_utils {
         return $tags;
     }
 
+    /**
+     * Blocks whose contents are not HTML, so their contents are not checked by html_tag_problems().
+     * Mostly JavaScript, JSON or LaTeX, where "<" is common, and Markdown or Moodle auto-format
+     * (markdownformat, moodleformat, and demarkdown, demoodle into which they are converted), where
+     * "<" may start an autolink.  The {@...@}, {#...#} and [[comment]] nodes (latex, raw, comment)
+     * have no children in the parser, but are listed here for clarity.  [[htmlformat]] is HTML, and
+     * is checked.
+     */
+    const HTML_OPAQUE_BLOCKS = [
+        'ascii', 'comment', 'demarkdown', 'demoodle', 'escape', 'geogebra', 'javascript', 'jsstring',
+        'jsxgraph', 'latex', 'markdownformat', 'moodleformat', 'parsons', 'raw', 'script', 'style',
+        'textdownload',
+    ];
+
+    /** HTML elements which have no end tag. */
+    const HTML_VOID_ELEMENTS = [
+        'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta',
+        'param', 'source', 'track', 'wbr',
+    ];
+
+    /** HTML elements whose end tag may be left out.  They are not checked at all. */
+    const HTML_OPTIONAL_END_ELEMENTS = [
+        'body', 'caption', 'colgroup', 'dd', 'dt', 'head', 'html', 'li', 'optgroup', 'option',
+        'p', 'rb', 'rp', 'rt', 'rtc', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr',
+    ];
+
+    /**
+     * A minimal check that the HTML tags in a castext are balanced: each opening tag has its
+     * closing tag, in the right order.  This is a lint, not a validator.  STACK's own syntax is
+     * taken out first, using the castext parser: [[blocks]] are dropped but their contents kept,
+     * {@...@}, {#...#}, [[input:...]] and similar are dropped, as are the contents of the blocks in
+     * HTML_OPAQUE_BLOCKS, which include [[markdownformat]] and [[moodleformat]].  Then HTML comments, <script>, <style> and <textarea> elements, and
+     * LaTeX in \(...\), \[...\] and $$...$$ are dropped.  Void elements and elements whose end tag
+     * is optional (such as <p>, <li> and <td>) are ignored, because leaving out their end tag is
+     * valid HTML.  Tags written <x/> (as in SVG and MathML) count as closed.
+     *
+     * The branches of an [[if]] block are alternatives: each is checked from the state before the
+     * block, and the branches must leave the same tags open.  So a tag opened in every branch and
+     * closed once after the block is fine.  An [[if]] without [[else]] has an empty else branch.
+     *
+     * @param string $castext the raw castext, as the author wrote it.
+     * @return array of problems, each [type, tag, othertag], in the order they occur.
+     *      type is 'unclosed', 'unopened', 'misnested' or 'branches'; othertag is only set for
+     *      'misnested'; tag is null for 'branches'.
+     */
+    public static function html_tag_problems(string $castext): array {
+        if (trim($castext) === '' || strpos($castext, '<') === false) {
+            return [];
+        }
+        try {
+            $ast = self::parse($castext);
+        } catch (Throwable $e) {
+            // Castext which does not parse is reported elsewhere.
+            return [];
+        }
+        $html = self::html_skeleton($ast);
+
+        // Drop what is not markup.  The patterns are deliberately simple.
+        $html = preg_replace('/<!--.*?(-->|$)/s', ' ', $html);
+        $html = preg_replace('/<!\[CDATA\[.*?(\]\]>|$)/s', ' ', $html);
+        $html = preg_replace('/<(script|style|textarea)\b[^>]*>.*?(<\/\1\s*>|$)/is', ' ', $html);
+        $html = preg_replace('/\\\\\(.*?(\\\\\)|$)|\\\\\[.*?(\\\\\]|$)|\$\$.*?(\$\$|$)/s', ' ', $html);
+
+        // Tokens: the [[if]] markers from html_skeleton(), and tags.  In a tag, a quoted attribute
+        // value may contain ">".  A tag never spans an [[if]] marker.
+        $tokenpattern = '/[\x01\x02\x03]|<(\/?)([a-zA-Z][a-zA-Z0-9:-]*)' .
+            '((?:[^>"\'\x01-\x03]|"[^"\x01-\x03]*"|\'[^\'\x01-\x03]*\')*)>/';
+        preg_match_all($tokenpattern, $html, $tokens, PREG_SET_ORDER);
+
+        $problems = [];
+        // The tags open now, outermost first.
+        $open = [];
+        // Tags closed early by a misnested closing tag: their own closing tag, later, is not reported again.
+        $closedearly = [];
+        // One frame for each [[if]] block we are inside: the state before it, and the state at the end of each branch.
+        $frames = [];
+        foreach ($tokens as $token) {
+            if ($token[0] === "\x01") {
+                $frames[] = ['start' => [$open, $closedearly], 'ends' => []];
+                continue;
+            }
+            if ($token[0] === "\x02" || $token[0] === "\x03") {
+                if ($frames === []) {
+                    // The markers were broken, e.g. by LaTeX around a block.  Ignore them.
+                    continue;
+                }
+                $frame = array_pop($frames);
+                $frame['ends'][] = [$open, $closedearly];
+                if ($token[0] === "\x02") {
+                    [$open, $closedearly] = $frame['start'];
+                    $frames[] = $frame;
+                    continue;
+                }
+                [$open, $closedearly] = $frame['ends'][0];
+                foreach ($frame['ends'] as $end) {
+                    if ($end[0] !== $open) {
+                        $problems[] = ['branches', null, null];
+                        break;
+                    }
+                }
+                continue;
+            }
+            $name = strtolower($token[2]);
+            if (in_array($name, self::HTML_VOID_ELEMENTS) || in_array($name, self::HTML_OPTIONAL_END_ELEMENTS)) {
+                continue;
+            }
+            if ($token[1] === '') {
+                if (substr(rtrim($token[3]), -1) !== '/') {
+                    $open[] = $name;
+                }
+                continue;
+            }
+            // A closing tag.
+            $i = array_search($name, array_reverse($open, true), true);
+            if ($i === false) {
+                if (!empty($closedearly[$name])) {
+                    $closedearly[$name]--;
+                } else {
+                    $problems[] = ['unopened', $name, null];
+                }
+                continue;
+            }
+            // Close $name, reporting any tag opened inside it which is still open.
+            for ($j = count($open) - 1; $j > $i; $j--) {
+                $problems[] = ['misnested', $name, $open[$j]];
+                $closedearly[$open[$j]] = ($closedearly[$open[$j]] ?? 0) + 1;
+            }
+            $open = array_slice($open, 0, $i);
+        }
+        foreach ($open as $name) {
+            $problems[] = ['unclosed', $name, null];
+        }
+        return $problems;
+    }
+
+    /**
+     * The text of a castext AST with STACK's own syntax taken out, for html_tag_problems().
+     * Each [[if]] block is marked: "\x01" where it starts, "\x02" between its branches and "\x03"
+     * where it ends.
+     * @param CTP_Node $node
+     * @return string
+     */
+    private static function html_skeleton(CTP_Node $node): string {
+        if ($node instanceof CTP_Raw) {
+            return $node->value;
+        }
+        if ($node instanceof CTP_Block && in_array($node->name, self::HTML_OPAQUE_BLOCKS)) {
+            return ' ';
+        }
+        if (!($node instanceof CTP_Root) && !($node instanceof CTP_Block)) {
+            // Input, validation and feedback tags, and anything else which is not text.
+            return ' ';
+        }
+        $children = $node->getChildren();
+        if (!($node instanceof CTP_Block) || $node->name !== 'if') {
+            $text = '';
+            foreach ($children as $child) {
+                $text .= self::html_skeleton($child);
+            }
+            return $text;
+        }
+        // An [[if]] block.  With [[elif]] or [[else]], the parser gives the length of each branch.
+        $lengths = $node->parameters[' branch lengths'] ?? [count($children)];
+        $tests = $node->parameters['test'] ?? null;
+        $haselse = is_array($tests) && count($lengths) > count($tests);
+        $branches = [];
+        $k = 0;
+        foreach ($lengths as $length) {
+            $text = '';
+            foreach (array_slice($children, $k, $length) as $child) {
+                $text .= self::html_skeleton($child);
+            }
+            $branches[] = $text;
+            $k += $length;
+        }
+        if (!$haselse) {
+            $branches[] = '';
+        }
+        return "\x01" . implode("\x02", $branches) . "\x03";
+    }
+
     // Postprocesses the result from CAS. For those that have not yet fully
     // parsed the response. Does not use the full maximaparser infrastructure
     // as the result is just an list of strings... well should be for all simple

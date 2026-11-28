@@ -623,6 +623,64 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Castext whose HTML tags match, and STACK syntax which must not be read as HTML.
+     * @covers \castext2_parser_utils::html_tag_problems
+     */
+    public function test_html_tag_problems_none(): void {
+        $ok = [
+            '',
+            'No HTML at all.',
+            '<p>Hello <b>bold</b> and <i>italic</i>.</p><ul><li>one<li>two</ul>',
+            // End tags which HTML allows to be left out, and void elements.
+            '<table><tr><td>1<td>2<tr><td>3</table><p>a<p>b<br><hr><img src="x.png" alt="x">',
+            // LaTeX and CAS injections may contain "<".
+            '<p>\(a<b\), \[x<y\], $$u<v$$, {@a<b@} and {#x<y#}.</p>',
+            // STACK blocks, inputs and feedback tags.
+            '[[if test="a"]]<b>A</b>[[else]]<i>B</i>[[/if]] [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]',
+            '[[todo tags="draft"]]<em>Fix</em> me[[/todo]]',
+            // Blocks whose contents are not HTML.
+            '[[jsxgraph]]var a = 1<b;[[/jsxgraph]][[comment]]<div>[[/comment]]<span>x</span>',
+            // Markdown and Moodle auto-format, where "<" may start an autolink.
+            '<div>[[markdownformat]]See <https://example.com> and <b>[[/markdownformat]]</div>',
+            '[[moodleformat]]<i>unclosed in Moodle auto-format[[/moodleformat]]',
+            // HTML comments, SVG and attributes containing ">".
+            '<!-- <div> --><svg><path d="M0 0"/><circle r="1"></circle></svg>',
+            '<a href="x>y" title=\'a>b\'>link</a><DIV>x</div>',
+            // A tag opened in each branch of an [[if]] and closed once after it.
+            '[[if test="a"]]<ol>[[elif test="b"]]<ol class="x">[[else]]<ol>[[/if]]<li>x</ol>',
+            // A tag opened before an [[if]] and closed in each branch.
+            '<div>[[if test="a"]]x</div>[[else]]y</div>[[/if]]',
+        ];
+        foreach ($ok as $castext) {
+            $this->assertEquals([], castext2_parser_utils::html_tag_problems($castext), $castext);
+        }
+    }
+
+    /**
+     * Castext whose HTML tags do not match.
+     * @covers \castext2_parser_utils::html_tag_problems
+     */
+    public function test_html_tag_problems_found(): void {
+        $cases = [
+            '<div>Text <b>bold' => [['unclosed', 'div', null], ['unclosed', 'b', null]],
+            'Text</span> more' => [['unopened', 'span', null]],
+            // The stray </i> is not reported a second time.
+            '<b><i>x</b></i>' => [['misnested', 'b', 'i']],
+            '<ol><li>x</lo>' => [['unopened', 'lo', null], ['unclosed', 'ol', null]],
+            // Without [[else]], the branch which is not taken is empty.
+            '[[if test="a"]]<b>[[/if]]x</b>' => [['branches', null, null]],
+            '[[if test="a"]]<ol>[[else]]<ul>[[/if]]<li>x</ol>' => [['branches', null, null]],
+            // Inside a block whose contents are HTML.
+            '[[todo]]<em>Fix me[[/todo]]' => [['unclosed', 'em', null]],
+            // [[htmlformat]] contents are HTML, and are checked.
+            '[[htmlformat]]<em>Fix me[[/htmlformat]]' => [['unclosed', 'em', null]],
+        ];
+        foreach ($cases as $castext => $expected) {
+            $this->assertEquals($expected, castext2_parser_utils::html_tag_problems($castext), $castext);
+        }
+    }
+
+    /**
      * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      */

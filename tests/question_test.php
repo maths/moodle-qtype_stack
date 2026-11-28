@@ -325,6 +325,79 @@ final class question_test extends qtype_stack_testcase {
         $this->assertStringNotContainsString('students are permitted to type', $warnings);
     }
 
+    public function test_validate_warnings_html_tags(): void {
+
+        $q = test_question_maker::make_question('stack', 'test0');
+        $q->questiontext = '<div>What is {@a@}? <b>Answer:</b> [[input:ans1]] [[validation:ans1]]';
+        $expected = stack_string_error(
+            'htmltagproblems',
+            ['field' => stack_string('questiontext'), 'problems' => stack_string('htmltagunclosed', 'div')]
+        );
+
+        $this->assertContains($expected, $q->validate_warnings());
+    }
+
+    public function test_validate_warnings_html_tags_prt_feedback(): void {
+
+        $q = test_question_maker::make_question('stack', 'test0');
+        $nodes = $q->prts['firsttree']->get_nodes();
+        $node = reset($nodes);
+        $node->truefeedback = '<b><i>Well done</b></i>';
+        $node->truefeedbackformat = FORMAT_HTML;
+        $warnings = implode(' ', $q->validate_warnings());
+
+        $this->assertStringContainsString(stack_string('htmltagmisnested', ['open' => 'i', 'close' => 'b']), $warnings);
+    }
+
+    public function test_validate_warnings_html_tags_none(): void {
+
+        $q = test_question_maker::make_question('stack', 'test0');
+        $q->questiontext = '<p>What is \(a<b\)? [[if test="true"]]<ol>[[else]]<ol>[[/if]]<li>[[input:ans1]]</ol> ' .
+            '[[validation:ans1]]';
+        $warnings = implode(' ', $q->validate_warnings());
+
+        $this->assertStringNotContainsString('may not match', $warnings);
+    }
+
+    public function test_validate_warnings_html_tags_no_format(): void {
+
+        // A field with no format is treated as HTML, and checked.
+        $q = test_question_maker::make_question('stack', 'test0');
+        $q->questiontext = '<div>What is {@a@}? [[input:ans1]] [[validation:ans1]]';
+        $q->questiontextformat = null;
+        $nodes = $q->prts['firsttree']->get_nodes();
+        $node = reset($nodes);
+        $node->truefeedback = '<b><i>Well done</b></i>';
+        $node->truefeedbackformat = null;
+        $warnings = $q->validate_warnings();
+
+        $this->assertContains(stack_string_error(
+            'htmltagproblems',
+            ['field' => stack_string('questiontext'), 'problems' => stack_string('htmltagunclosed', 'div')]
+        ), $warnings);
+        $this->assertStringContainsString(
+            stack_string('htmltagmisnested', ['open' => 'i', 'close' => 'b']),
+            implode(' ', $warnings)
+        );
+    }
+
+    public function test_validate_warnings_html_tags_not_html(): void {
+
+        // Only fields in HTML format are checked: not Moodle auto-format, plain text or Markdown.
+        foreach ([FORMAT_MOODLE, FORMAT_PLAIN, FORMAT_MARKDOWN] as $format) {
+            $q = test_question_maker::make_question('stack', 'test0');
+            $q->questiontext = '<div>What is {@a@}? [[input:ans1]] [[validation:ans1]]';
+            $q->questiontextformat = $format;
+            $nodes = $q->prts['firsttree']->get_nodes();
+            $node = reset($nodes);
+            $node->truefeedback = '<b><i>Well done</b></i>';
+            $node->truefeedbackformat = $format;
+            $warnings = implode(' ', $q->validate_warnings());
+
+            $this->assertStringNotContainsString('may not match', $warnings, 'Format ' . $format);
+        }
+    }
+
     public function test_question_addrow(): void {
 
         $q = test_question_maker::make_question('stack', 'addrow');

@@ -502,6 +502,11 @@ $string['languageproblemsextra']   = 'The field {$a->field} has the following la
 
 $string['alttextmissing']    = 'One or more images appears to have a missing or empty \'alt\' tag in "{$a->field}" ({$a->num}).';
 $string['todowarning']       = 'You have un-resolved todo blocks in "{$a->field}".';
+$string['htmltagproblems']   = 'The HTML tags in {$a->field} may not match: {$a->problems}. (STACK blocks, CAS expressions and LaTeX are not part of this check.)';
+$string['htmltagunclosed']   = '&lt;{$a}&gt; is not closed';
+$string['htmltagunopened']   = '&lt;/{$a}&gt; has no matching opening tag';
+$string['htmltagmisnested']  = '&lt;{$a->open}&gt; is still open at &lt;/{$a->close}&gt;';
+$string['htmltagbranches']   = 'the branches of an [[if]] block leave different tags open';
 $string['studentreadablevariables'] = 'The question variables assign to {$a->names}, which students are permitted to type. A student who types one of these names will see the value you give it. If this was unintended then rename these variables.';
 
 // Admin settings.

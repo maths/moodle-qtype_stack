@@ -2060,6 +2060,41 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
+        // 3a. Check the HTML tags are balanced, in fields written in HTML.
+        // A minimal lint of the raw castext: see castext2_parser_utils::html_tag_problems().
+        $tocheck = [];
+        $fields = ['questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription'];
+        foreach ($fields as $field) {
+            if ((int) ($this->{$field . 'format'} ?? FORMAT_HTML) === FORMAT_HTML) {
+                $tocheck[stack_string($field)] = $this->$field ?? '';
+            }
+        }
+        foreach ($this->prts as $prt) {
+            foreach ($prt->get_nodes() as $node) {
+                foreach (['true', 'false'] as $branch) {
+                    $text = $node->{$branch . 'feedback'} ?? '';
+                    $format = (int) ($node->{$branch . 'feedbackformat'} ?? FORMAT_HTML);
+                    if (trim($text) === '' || $format !== FORMAT_HTML) {
+                        continue;
+                    }
+                    $label = $node->{$branch . 'answernote'} ?? '';
+                    if (trim($label) === '' || array_key_exists($label, $tocheck)) {
+                        $label = $prt->get_name() . '-' . $node->nodename . '-' . strtoupper($branch[0]);
+                    }
+                    $tocheck[$label] = $text;
+                }
+            }
+        }
+        foreach ($tocheck as $field => $text) {
+            $problems = castext2_parser_utils::html_tag_problems($text);
+            if ($problems !== []) {
+                $warnings[] = stack_string_error(
+                    'htmltagproblems',
+                    ['field' => $field, 'problems' => $this->html_tag_problem_summary($problems)]
+                );
+            }
+        }
+
         if ($this->isbroken) {
             $warnings[] = stack_string_error('questionbroken');
         }
@@ -2176,6 +2211,35 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         return $warnings;
     }
+
+    /**
+     * Describe the problems castext2_parser_utils::html_tag_problems() found, for a warning.
+     * Repeated problems are given once, and at most five are listed.
+     * @param array $problems as returned by castext2_parser_utils::html_tag_problems().
+     * @return string
+     */
+    private function html_tag_problem_summary(array $problems): string {
+        $descriptions = [];
+        foreach ($problems as [$type, $tag, $other]) {
+            switch ($type) {
+                case 'misnested':
+                    $descriptions[] = stack_string('htmltagmisnested', ['open' => $other, 'close' => $tag]);
+                    break;
+                case 'branches':
+                    $descriptions[] = stack_string('htmltagbranches');
+                    break;
+                default:
+                    $descriptions[] = stack_string('htmltag' . $type, $tag);
+            }
+        }
+        $descriptions = array_values(array_unique($descriptions));
+        $summary = implode('; ', array_slice($descriptions, 0, 5));
+        if (count($descriptions) > 5) {
+            $summary .= '; ...';
+        }
+        return $summary;
+    }
+
     /**
      * Cache management.
      *

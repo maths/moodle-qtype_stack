@@ -13,6 +13,17 @@ to specify the remote database.  Then run the command line script (perhaps using
 
     php bulktestall.php --remote
 
+Other options (see `php bulktestall.php --help`):
+
+* `--json` prints a report on every question as JSON instead of the summary for people: its name, its Moodle id (or, for the library, its file), and the details of any import errors, upgrade errors, validation warnings, `[[todo]]` blocks and failing tests.
+* `--library-php` tests the STACK question library (`samplequestions/stacklibrary`) instead of the questions on the site.  Each file is imported as a temporary question, checked by the PHP validation and the upgrade checks, and deleted again.
+* `--library` does the same, and also runs all the question tests on all deployed seeds of each question.
+* `--path=dir` limits `--library` or `--library-php` to the files below `dir` in the library.
+* `--dir=folder` tests the Moodle XML files in any folder, instead of the STACK question library, with `--library` or `--library-php`.  The folder must be readable by the web server's PHP, so on a Docker install it must be inside the container.
+* `--exitcode` makes the script exit with status 1 if anything failed, for use in scripts.  Without it the exit status is 0.
+
+In the JSON each question has a `key`, unique within the run: its Moodle id, or for a file its path within the folder, followed by `#2` and so on when one file holds several questions.  Each seed lists every test case run (`testcases`), passed or not, with the inputs entered and, for each PRT, the actual and expected score, penalty and answer note.
+
 # Running question tests for questions on other sites (web)
 
 When you upgrade to a new version of STACK, it would be reassuring to know beforehand

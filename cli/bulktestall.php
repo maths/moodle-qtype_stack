@@ -19,6 +19,9 @@
  * questions in all contexts in the Moodle site. This is intended for regression
  * testing, before you release a new version of STACK to your site.
  *
+ * With --library or --library-php it tests the STACK question library instead,
+ * importing each file in turn as a temporary question.
+ *
  * @package    qtype_stack
  * @subpackage cli
  * @copyright  2019 The University of Edinburgh
@@ -37,8 +40,14 @@ require_once(__DIR__ . '/../stack/bulktester.class.php');
 $start = microtime(true);
 
 // Get cli options.
-[$options, $unrecognized] = cli_get_params(['help' => false, 'id' => false, 'remote' => false,
-    'addtags' => false], ['h' => 'help']);
+[$options, $unrecognized] = cli_get_params(
+    [
+        'help' => false, 'id' => false, 'remote' => false, 'addtags' => false,
+        'library' => false, 'library-php' => false, 'path' => false, 'dir' => false, 'json' => false,
+        'exitcode' => false,
+    ],
+    ['h' => 'help']
+);
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -51,8 +60,25 @@ This script runs all the quesion tests for all deployed versions of all
 questions in all contexts in the Moodle site. This is intended for regression
 testing, before you release a new version of STACK to your site.\n
 Use with --id=n to start generation from question id is n.\n
-Use with --addtags to add [[todo]] tags to questions needing attention.\n";
+Use with --addtags to add [[todo]] tags to questions needing attention.\n
+Use with --library-php to test the STACK question library (samplequestions/stacklibrary)
+instead: each file is imported as a temporary question, which is checked by the PHP
+validation and the upgrade checks, then deleted.\n
+Use with --library to do the same, and also run all the question tests on all
+deployed seeds of each question that passes those checks.\n
+Use with --dir=folder to test the question files in folder (any folder of Moodle XML files)
+instead of the STACK question library.\n
+Use with --path=dir to test only the library files below dir (relative to the library).\n
+Use with --json to print the report on every question as JSON, instead of the summary.\n
+Use with --exitcode to exit with status 1 if anything failed (by default the exit status is 0).\n";
     exit(0);
+}
+$librarymode = $options['library'] || $options['library-php'];
+if ($librarymode && ($options['id'] || $options['addtags'] || $options['remote'])) {
+    cli_error('--library and --library-php cannot be used with --id, --addtags or --remote.');
+}
+if (($options['path'] || $options['dir']) && !$librarymode) {
+    cli_error('--path and --dir need --library or --library-php.');
 }
 if ($options['remote']) {
     if (!$DB = moodle_database::get_driver_instance($CFG->dbtype, $CFG->dblibrary)) {
@@ -63,85 +89,101 @@ if ($options['remote']) {
     // phpcs:enable
 }
 
-$context = context_system::instance();
+$outputmode = $options['json'] ? 'json' : 'cli';
 // Create the helper class.
 $bulktester = new stack_bulk_tester();
+$formatter = new stack_bulk_tester_formatter($outputmode);
 $allpassed = true;
-$allfailing = [];
 
-// Run the tests.
-$testno = 0;
-$contexts = $bulktester->get_stack_questions_by_context();
+if ($librarymode) {
+    // Importing questions needs a user who may create them.
+    \core\session\manager::set_user(get_admin());
+    if ($options['dir']) {
+        // Relative to the folder this script was run from.
+        $librarydir = realpath((string) $options['dir']);
+        if ($librarydir === false || !is_dir($librarydir)) {
+            cli_error('--dir is not a folder: ' . $options['dir']);
+        }
+    } else {
+        $librarydir = $CFG->dirroot . '/question/type/stack/samplequestions/stacklibrary';
+    }
+    $librarydir = stack_utils::convert_slash_paths($librarydir);
+    $subpath = $options['path'] ? (string) $options['path'] : '';
+    if ($outputmode == 'cli') {
+        echo "\n\n# " . stack_string('bulktestlibrarytitle', $librarydir . ($subpath ? '/' . $subpath : ''));
+    }
+    try {
+        [$allpassed, $failing] = $bulktester->run_all_tests_for_library(
+            $librarydir,
+            $subpath,
+            $outputmode,
+            (bool) $options['library']
+        );
+    } catch (coding_exception $e) {
+        cli_error($e->getMessage());
+    }
+    if ($outputmode == 'cli') {
+        $formatter->print_cli_result($allpassed, $failing);
+    }
+} else {
+    // Run the tests.
+    $contexts = $bulktester->get_stack_questions_by_context();
 
-// Take only the contexts from the one containing the question id.
-$partialcontext = false;
-if ($options['id']) {
-    $usecontexts = [];
-    $found = false;
+    // Take only the contexts from the one containing the question id.
+    $partialcontext = false;
+    if ($options['id']) {
+        $usecontexts = [];
+        $found = false;
+        foreach ($contexts as $contextid => $numstackquestions) {
+            $testcontext = context::instance_by_id($contextid);
+
+            $categories = qbank_managecategories\helper::question_category_options([$testcontext]);
+            $categories = reset($categories);
+            foreach ($categories as $key => $category) {
+                [$categoryid] = explode(',', $key);
+                $questions = $bulktester->stack_questions_in_category($categoryid);
+                if (array_key_exists($options['id'], $questions)) {
+                    $found = true;
+                    $partialcontext = $contextid;
+                }
+            }
+            if ($found) {
+                $usecontexts[$contextid] = $numstackquestions;
+            }
+        }
+        $contexts = $usecontexts;
+    }
+
     foreach ($contexts as $contextid => $numstackquestions) {
         $testcontext = context::instance_by_id($contextid);
 
-        $categories = qbank_managecategories\helper::question_category_options([$testcontext]);
-        $categories = reset($categories);
-        foreach ($categories as $key => $category) {
-            [$categoryid] = explode(',', $key);
-            $questions = $bulktester->stack_questions_in_category($categoryid);
-            if (array_key_exists($options['id'], $questions)) {
-                $found = true;
-                $partialcontext = $contextid;
-            }
+        if ($outputmode == 'cli') {
+            echo "\n\n# " . $contextid . ": " . stack_string('bulktesttitle', $testcontext->get_context_name());
         }
-        if ($found) {
-            $usecontexts[$contextid] = $numstackquestions;
+
+        [$passed, $failing] = $bulktester->run_all_tests_for_context(
+            $testcontext,
+            null,
+            $outputmode,
+            ($partialcontext === $contextid) ? (int) $options['id'] : false,
+            false,
+            (bool) $options['addtags'],
+            false
+        );
+
+        $allpassed = $allpassed && $passed;
+        if ($outputmode == 'cli') {
+            $formatter->print_cli_result($passed, $failing);
         }
     }
-    $contexts = $usecontexts;
 }
 
-foreach ($contexts as $contextid => $numstackquestions) {
-    $testcontext = context::instance_by_id($contextid);
+$took = (microtime(true) - $start);
+$rtook = round($took, 5);
 
-    echo "\n\n# " . $contextid . ": " . stack_string('bulktesttitle', $testcontext->get_context_name());
-
-    if ($partialcontext === $contextid) {
-        [$passed, $failing] = $bulktester->run_all_tests_for_context(
-            $testcontext,
-            null,
-            'cli',
-            (int) $options['id'],
-            false,
-            (bool) $options['addtags'],
-            false
-        );
-    } else {
-        [$passed, $failing] = $bulktester->run_all_tests_for_context(
-            $testcontext,
-            null,
-            'cli',
-            false,
-            false,
-            (bool) $options['addtags'],
-            false
-        );
-    }
-
-    $allpassed = $allpassed && $passed;
-
-    echo "\n";
-    if ($passed) {
-        echo "** " . stack_string('stackInstall_testsuite_pass');
-    } else {
-        echo "** " . stack_string('stackInstall_testsuite_fail');
-    }
-    echo "\n";
-
-    echo "\n";
-    foreach ($failing as $key => $arrvals) {
-        if ($arrvals !== []) {
-            echo "\n* " . stack_string('stackInstall_testsuite_' . $key) . "\n";
-            echo implode("\n", $arrvals);
-        }
-    }
+if ($outputmode == 'json') {
+    echo stack_bulk_tester_formatter::to_json($allpassed, $bulktester->get_reports(), $rtook) . "\n";
+    exit(($options['exitcode'] && !$allpassed) ? 1 : 0);
 }
 
 echo "\n\n";
@@ -153,10 +195,7 @@ if ($allpassed) {
 }
 echo "\n";
 
-$took = (microtime(true) - $start);
-$rtook = round($took, 5);
-
 echo "Time taken: " . $rtook;
 echo "\n\n";
 
-exit(0);
+exit(($options['exitcode'] && !$allpassed) ? 1 : 0);

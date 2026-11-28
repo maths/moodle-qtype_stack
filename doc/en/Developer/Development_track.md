@@ -10,6 +10,8 @@ We use the [GitHub issue tracker](https://github.com/maths/moodle-qtype_stack/is
 Issues with [GitHub milestone 4.16.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.16.0).
 
 1. The copy of the docs inside Moodle now displays [admonitions](Documentation.md) (`!!! warning` and so on) as styled boxes, as the docs site does, rather than as code.
+2. The command line bulk tester can now test the STACK question library, as a check before a release.  `php cli/bulktestall.php --library-php` imports each file in `samplequestions/stacklibrary` as a temporary question, runs the PHP validation and the upgrade checks, and deletes the question again.  `--library` also runs all the question tests on all deployed seeds, and `--path=dir` tests only part of the library.  The results are those you would get by importing the whole library into a question bank and bulk testing it.
+3. The bulk tester now makes a report on each question first, and formats it for people second.  The report gives the question's name, its Moodle id (or its file in the library), and the details of any import errors, upgrade errors, validation warnings, `[[todo]]` blocks and failing tests.  `php cli/bulktestall.php --json` prints these reports as JSON, for scripts to read, with a unique `key` for each question and the full details of every test case.  `--dir=folder` tests a folder of question files other than the library, for tools that check questions before they reach a site, and `--exitcode` makes failures give a non-zero exit status.  The web and command line output is unchanged.
 
 ## Better testing
 

@@ -28,6 +28,7 @@ Unless you want to discuss something confidential with the developers, please do
   - Execute `php cli/answertests_docs.php` to update the static docs about answertests.
   - Execute `doc/maintenance.php` to search for broken links etc.
 * Run `php cli/stacklibrarycheck.php` to check filenames in the stacklibrary do not have special characters, particularly `'` (which breaks the .zip download in the plugin directory!)
+* Bulk test the question library: see "Bulk test the question library" below.
 * Run `php cli/unicode_data_process.php` to update unicode mappings.
 * Run `php cli/ast_test_generator.php` to confirm if auto-generated tests have not changed.
 * Run `php cli/stack_maxima_compiler.php` to process `stack/maximasrc` and generate `stack/maxima/maximasrccompiled.mac`, the test version, and the documentation.
@@ -47,6 +48,22 @@ Unless you want to discuss something confidential with the developers, please do
 * If needed re-build the minified JavaScript (e.g. `npx grunt --root=question/type/stack`).
 * Check version of JSXGraph.
 * Ensure that `db/upgrade.php` has no additions that are dated older than the last release but were not present in the last release.
+
+### Bulk test the question library
+
+Every question in the STACK question library (`samplequestions/stacklibrary`) should import, pass the PHP validation and the upgrade checks, and pass its question tests, on the code being released.  Check this on a development Moodle site running the release candidate, with a working CAS, after compiling the Maxima code (above).
+
+    php cli/bulktestall.php --library-php
+    php cli/bulktestall.php --library
+
+* `--library-php` imports each file as a temporary question, runs the PHP validation and the upgrade checks, and deletes the question again.  It does not use the question tests, so it is quick: run it first and fix what it finds.
+* `--library` does the same, and then runs all the question tests on all deployed seeds of each question.  This is slow on the whole library.
+* `--path=dir` tests only the files below `dir` in the library, e.g. `--path=Topics/Calculus`, to re-check a part after fixing it.
+* `--json` prints a report on every question as JSON instead.  Save it from the last release and from this one, and compare them, to see which questions have changed.
+
+The results are those you would get by importing the whole library into a question bank and running the bulk tester on it, but nothing is left behind: the temporary questions and their category are deleted.  (On Moodle 5.0 and later, the first run creates the site's default question bank if it does not exist yet.)
+
+The summary at the end lists files which failed to import, questions which failed on upgrade, validation warnings, failing tests, and questions with no tests, no general feedback, or random variants but no deployed seeds.  Fix the questions in the library, or STACK, before the release.  Missing tests or feedback are not failures, but are worth fixing in time.
 
 ### Check API
 
